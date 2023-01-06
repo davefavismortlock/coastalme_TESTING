@@ -31,204 +31,236 @@
 #include "cell_layer.h"
 #include "raster_grid.h"
 
-
 class CGeomCell
 {
-   friend class CSimulation;
+    friend class CSimulation;
 
 private:
-   bool
-      m_bInContiguousSea,                    // Is a sea cell, contiguous with other sea cells
-      m_bIsInActiveZone,
-      m_bCoastline,
-      m_bEstimated,
-      m_bShadowBoundary,
-      m_bPossibleCoastStartCell;
+    bool
+        m_bInContiguousSea, // Is a sea cell, contiguous with other sea cells
+        m_bInContiguousFlood,
+        m_bIsInActiveZone,
+        m_bCoastline,
+        m_bFloodLine,
+        m_bEstimated,
+        m_bWaveFlood,
+        m_bCheckCell,
+        m_bCheckFloodCell,
+        m_bShadowBoundary,
+        m_bPossibleCoastStartCell,
+        m_bPossibleFloodStartCell,
+        m_bFloodBySetupSurge,
+        m_bFloodBySetupSurgeRunup;
 
-   int
-      m_nBoundingBoxEdge,
-      m_nPolygonID,
-      m_nCoastlineNormal,
-      m_nShadowZoneNumber,
-      m_nDownDriftZoneNumber;
+    int
+        m_nBoundingBoxEdge,
+        m_nPolygonID,
+        m_nCoastlineNormal,
+        m_nShadowZoneNumber,
+        m_nDownDriftZoneNumber;
 
-   double
-      m_dLocalConsSlope,                     // As used in erosion calcs (really just for display purposes)
-      m_dBasementElevation,                  // Elevation of basement surface (m)
-      m_dSeaDepth,                           // Depth of still water (m), is zero if not inundated
-      m_dTotSeaDepth,                        // Total depth of still water (m) since beginning of simulation (used to calc average)
-      m_dWaveHeight,                         // Wave height
-      m_dTotWaveHeight,                      // Total wave height (m) (used to calc average)
-      m_dWaveAngle,                          // Wave orientation
-      m_dWavePeriod,                         // Wave period (s)
-      m_dTotWaveAngle,                       // Total wave orientation  (used to calc average)
-      m_dDeepWaterWaveHeight,                // Wave height if this is a deep water cell
-      m_dDeepWaterWaveAngle,                 // Wave orientation if this is a deep water cell
-      m_dDeepWaterWavePeriod,		            // Wave period if this is a deep water cell
-      m_dBeachProtectionFactor,              // Only meaningful if in zone of platform erosion. 0 is fully protected, 1 = no protection
-      m_dSuspendedSediment,                  // Suspended sediment as depth equivalent (m)
-      m_dTotSuspendedSediment,               // Total depth of suspended sediment (m) since simulation start (used to calc average)
-      m_dPotentialPlatformErosion,           // Depth of sediment on the shore platform that could be eroded this timestep, if no supply-limitation
-      m_dTotPotentialPlatformErosion,        // Total depth of sediment eroded from the shore platform, if no supply-limitation
-      m_dActualPlatformErosion,              // Depth of sediment actually eroded from the shore platform this timestep
-      m_dTotActualPlatformErosion,           // Total depth of sediment actually eroded from the shore platform
-      m_dCliffCollapse,                      // Depth of sediment removed via cliff collapse this timestep
-      m_dTotCliffCollapse,                   // Total depth of sediment removed via cliff collapse
-      m_dCliffCollapseDeposition,            // Depth of sediment deposited as a result of cliff collapse this timestep
-      m_dTotCliffCollapseDeposition,         // Total depth of sediment deposited as a result of cliff collapse
-      m_dPotentialBeachErosion,              // Depth of unconsolidated beach sediment that could be eroded this timestep, if no supply-limitation
-      m_dTotPotentialBeachErosion,           // Total depth of unconsolidated beach sediment eroded, if no supply-limitation
-      m_dActualBeachErosion,                 // Depth of unconsolidated beach sediment actually eroded this timestep
-      m_dTotActualBeachErosion,              // Total depth of unconsolidated beach sediment actually eroded
-      m_dBeachDeposition,                    // Depth of unconsolidated beach sediment deposited this timestep
-      m_dTotBeachDeposition,                 // Total depth of unconsolidated beach sediment deposited
-      m_dUnconsD50,                          // d50 of unconsolidated sediment on top layer with unconsolidated sediment depth > 0
-      m_dInterventionHeight;                 // Height of intervention structure
+    double
+        m_dLocalConsSlope,              // As used in erosion calcs (really just for display purposes)
+        m_dBasementElevation,           // Elevation of basement surface (m)
+        m_dSeaDepth,                    // Depth of still water (m), is zero if not inundated
+        m_dTotSeaDepth,                 // Total depth of still water (m) since beginning of simulation (used to calc average)
+        m_dWaveHeight,                  // Wave height
+        m_dTotWaveHeight,               // Total wave height (m) (used to calc average)
+        m_dWaveAngle,                   // Wave orientation
+        m_dWavePeriod,                  // Wave period (s)
+        m_dTotWaveAngle,                // Total wave orientation  (used to calc average)
+        m_dDeepWaterWaveHeight,         // Wave height if this is a deep water cell
+        m_dDeepWaterWaveAngle,          // Wave orientation if this is a deep water cell
+        m_dDeepWaterWavePeriod,         // Wave period if this is a deep water cell
+        m_dBeachProtectionFactor,       // Only meaningful if in zone of platform erosion. 0 is fully protected, 1 = no protection
+        m_dSuspendedSediment,           // Suspended sediment as depth equivalent (m)
+        m_dTotSuspendedSediment,        // Total depth of suspended sediment (m) since simulation start (used to calc average)
+        m_dPotentialPlatformErosion,    // Depth of sediment on the shore platform that could be eroded this timestep, if no supply-limitation
+        m_dTotPotentialPlatformErosion, // Total depth of sediment eroded from the shore platform, if no supply-limitation
+        m_dActualPlatformErosion,       // Depth of sediment actually eroded from the shore platform this timestep
+        m_dTotActualPlatformErosion,    // Total depth of sediment actually eroded from the shore platform
+        m_dCliffCollapse,               // Depth of sediment removed via cliff collapse this timestep
+        m_dTotCliffCollapse,            // Total depth of sediment removed via cliff collapse
+        m_dCliffCollapseDeposition,     // Depth of sediment deposited as a result of cliff collapse this timestep
+        m_dTotCliffCollapseDeposition,  // Total depth of sediment deposited as a result of cliff collapse
+        m_dPotentialBeachErosion,       // Depth of unconsolidated beach sediment that could be eroded this timestep, if no supply-limitation
+        m_dTotPotentialBeachErosion,    // Total depth of unconsolidated beach sediment eroded, if no supply-limitation
+        m_dActualBeachErosion,          // Depth of unconsolidated beach sediment actually eroded this timestep
+        m_dTotActualBeachErosion,       // Total depth of unconsolidated beach sediment actually eroded
+        m_dBeachDeposition,             // Depth of unconsolidated beach sediment deposited this timestep
+        m_dTotBeachDeposition,          // Total depth of unconsolidated beach sediment deposited
+        m_dUnconsD50,                   // d50 of unconsolidated sediment on top layer with unconsolidated sediment depth > 0
+        m_dInterventionHeight;          // Height of intervention structure
 
-   // This cell's landform data
-   CRWCellLandform m_Landform;
+    // This cell's landform data
+    CRWCellLandform m_Landform;
 
-   // Initialize these as empty vectors
-   vector<CRWCellLayer> m_VLayerAboveBasement;  // Number of layers NOT including the basement. Layer 0 is the lowest
-   vector<double> m_VdAllHorizonTopElev;        // Number of layer-top elevations (inc. that of the basement, which is m_VdAllHorizonTopElev[0]); size 1 greater than size of m_VLayerAboveBasement
+    // Initialize these as empty vectors
+    vector<CRWCellLayer> m_VLayerAboveBasement; // Number of layers NOT including the basement. Layer 0 is the lowest
+    vector<double> m_VdAllHorizonTopElev;       // Number of layer-top elevations (inc. that of the basement, which is m_VdAllHorizonTopElev[0]); size 1 greater than size of m_VLayerAboveBasement
 
 public:
-   static CGeomRasterGrid* m_pGrid;
+    static CGeomRasterGrid *m_pGrid;
 
-   CGeomCell();
-   ~CGeomCell(void);
+    CGeomCell();
+    ~CGeomCell(void);
 
-   void SetInContiguousSea(void);
-   bool bIsInContiguousSea(void) const;
+    void SetInContiguousSea(void);
+    bool bIsInContiguousSea(void) const;
 
-   void SetActualBeachErosionEstimated(void);
-   bool bGetActualBeachErosionEstimated(void) const;
+    void SetInContiguousFlood(void);
+    void UnSetInContiguousFlood(void);
+    void SetFloodBySetupSurge(void);
+    bool bIsFloodBySetupSurge(void) const;
+    void SetFloodBySetupSurgeRunup(void);
+    bool bIsFloodBySetupSurgeRunup(void) const;
+    bool bIsInContiguousFlood(void) const;
 
-   void SetInActiveZone(bool const);
-   bool bIsInActiveZone(void) const;
-   bool bPotentialPlatformErosion(void) const;
-//    bool bActualPlatformErosion(void) const;
-   void SetAsCoastline(bool const);
-   bool bIsCoastline(void) const;
+    void SetActualBeachErosionEstimated(void);
+    bool bGetActualBeachErosionEstimated(void) const;
 
-   void SetProfile(int const);
-   int nGetProfile(void) const;
-   bool bIsProfile(void) const;
+    void SetInActiveZone(bool const);
+    bool bIsInActiveZone(void) const;
+    bool bPotentialPlatformErosion(void) const;
+    //    bool bActualPlatformErosion(void) const;
+    void SetAsCoastline(bool const);
+    bool bIsCoastline(void) const;
+    void SetAsFloodLine(bool const);
+    bool bIsFloodLine(void) const;
 
-   void SetShadowZoneBoundary(void);
-   bool bIsShadowZoneBoundary(void) const;
+    void SetProfile(int const);
+    int nGetProfile(void) const;
+    bool bIsProfile(void) const;
 
-   void SetBoundingBoxEdge(int const);
-   int nGetBoundingBoxEdge(void) const;
-   bool bIsBoundingBoxEdge(void) const;
+    void SetShadowZoneBoundary(void);
+    bool bIsShadowZoneBoundary(void) const;
 
-   void SetPossibleCoastStartCell(void);
-   bool bIsPossibleCoastStartCell(void) const;
+    void SetBoundingBoxEdge(int const);
+    int nGetBoundingBoxEdge(void) const;
+    bool bIsBoundingBoxEdge(void) const;
 
-   void SetPolygonID(int const);
-   int nGetPolygonID(void) const;
+    void SetPossibleCoastStartCell(void);
+    bool bIsPossibleCoastStartCell(void) const;
 
-   CRWCellLandform* pGetLandform(void);
+    void SetPossibleFloodStartCell(void);
+    bool bIsPossibleFloodStartCell(void) const;
 
-   void SetLocalConsSlope(double const);
-   double dGetLocalConsSlope(void) const;
+    void SetPolygonID(int const);
+    int nGetPolygonID(void) const;
 
-   void SetBasementElev(double const);
-   double dGetBasementElev(void) const;
-   bool bBasementElevIsMissingValue(void) const;
+    CRWCellLandform *pGetLandform(void);
 
-   double dGetVolEquivSedTopElev(void) const;
-   double dGetSedimentTopElev(void) const;
-   double dGetSedimentPlusInterventionTopElev(void) const;
-   double dGetOverallTopElev(void) const;
+    void SetWaveFlood(void);
+    bool bIsWaveFlood(void) const;
 
-   bool bIsInundated(void) const;
-   bool bIsSeaIncBeach(void) const;
-   void SetSeaDepth(void);
-   double dGetSeaDepth(void) const;
-   void InitCell(void);
-   double dGetTotSeaDepth(void) const;
+    void SetCheckCell(void);
+    bool bIsCellCheck(void) const;
 
-   void SetWaveHeight(double const);
-   double dGetWaveHeight(void) const;
-   double dGetTotWaveHeight(void) const;
-   void SetWaveAngle(double const);
-   double dGetWaveAngle(void) const;
-   double dGetTotWaveAngle(void) const;
+    void SetCheckFloodCell(void);
+    void UnSetCheckFloodCell(void);
+    bool bIsCellFloodCheck(void) const;
 
-   void SetCellDeepWaterWaveHeight(double const);
-   double dGetCellDeepWaterWaveHeight(void) const;
-   void SetCellDeepWaterWaveAngle(double const);
-   double dGetCellDeepWaterWaveAngle(void) const;
-   void SetCellDeepWaterWavePeriod(double const);
-   double dGetCellDeepWaterWavePeriod(void) const;
+    void SetLocalConsSlope(double const);
+    double dGetLocalConsSlope(void) const;
 
-   void SetWaveValuesToDeepWaterWaveValues(void);
+    void SetBasementElev(double const);
+    double dGetBasementElev(void) const;
+    bool bBasementElevIsMissingValue(void) const;
 
-   void SetBeachProtectionFactor(double const);
-   double dGetBeachProtectionFactor(void) const;
+    double dGetVolEquivSedTopElev(void) const;
+    double dGetSedimentTopElev(void) const;
+    double dGetSedimentPlusInterventionTopElev(void) const;
+    double dGetOverallTopElev(void) const;
 
-   void SetSuspendedSediment(double const);
-   double dGetSuspendedSediment(void) const;
-   double dGetTotSuspendedSediment(void) const;
+    bool bIsInundated(void) const;
+    double dGetIterSWL(void) const;
+    double dGetIterTotWaterLevel(void) const;
+    bool bIsSeaIncBeach(void) const;
+    void SetSeaDepth(void);
+    double dGetSeaDepth(void) const;
+    void InitCell(void);
+    double dGetTotSeaDepth(void) const;
 
-   int nGetTopNonZeroLayerAboveBasement(void) const;
-   int nGetTopLayerAboveBasement(void) const;
+    void SetWaveHeight(double const);
+    double dGetWaveHeight(void) const;
+    double dGetTotWaveHeight(void) const;
+    void SetWaveAngle(double const);
+    double dGetWaveAngle(void) const;
+    double dGetTotWaveAngle(void) const;
 
-   double dGetConsSedTopForLayerAboveBasement(int const) const;
-   CRWCellLayer* pGetLayerAboveBasement(int const);
-   void AppendLayers(int const);
-   void CalcAllLayerElevsAndD50(void);
-   int nGetLayerAtElev(double const) const;
-   double dCalcLayerElev(const int);
-   double dGetTotConsThickness(void) const;
-   double dGetTotUnconsThickness(void) const;
-   double dGetTotAllSedThickness(void) const;
+    void SetCellDeepWaterWaveHeight(double const);
+    double dGetCellDeepWaterWaveHeight(void) const;
+    void SetCellDeepWaterWaveAngle(double const);
+    double dGetCellDeepWaterWaveAngle(void) const;
+    void SetCellDeepWaterWavePeriod(double const);
+    double dGetCellDeepWaterWavePeriod(void) const;
 
-   void SetPotentialPlatformErosion(double const);
-   double dGetPotentialPlatformErosion(void) const;
-   double dGetTotPotentialPlatformErosion(void) const;
+    void SetWaveValuesToDeepWaterWaveValues(void);
 
-   void SetActualPlatformErosion(double const);
-   double dGetActualPlatformErosion(void) const;
-   double dGetTotActualPlatformErosion(void) const;
+    void SetBeachProtectionFactor(double const);
+    double dGetBeachProtectionFactor(void) const;
 
-   void IncrCliffCollapse(double const);
-   double dGetCliffCollapse(void) const;
-   double dGetTotCliffCollapse(void) const;
+    void SetSuspendedSediment(double const);
+    double dGetSuspendedSediment(void) const;
+    double dGetTotSuspendedSediment(void) const;
 
-   void IncrCliffCollapseDeposition(double const);
-   double dGetCliffCollapseDeposition(void) const;
-   double dGetTotCliffCollapseDeposition(void) const;
+    int nGetTopNonZeroLayerAboveBasement(void) const;
+    int nGetTopLayerAboveBasement(void) const;
 
-   void SetPotentialBeachErosion(double const);
-   double dGetPotentialBeachErosion(void) const;
-   double dGetTotPotentialBeachErosion(void) const;
-   void SetActualBeachErosion(double const);
-   double dGetActualBeachErosion(void) const;
-   double dGetTotActualBeachErosion(void) const;
-//    bool bActualBeachErosionThisIter(void) const;
+    double dGetConsSedTopForLayerAboveBasement(int const) const;
+    CRWCellLayer *pGetLayerAboveBasement(int const);
+    void AppendLayers(int const);
+    void CalcAllLayerElevsAndD50(void);
+    int nGetLayerAtElev(double const) const;
+    double dCalcLayerElev(const int);
+    double dGetTotConsThickness(void) const;
+    double dGetTotUnconsThickness(void) const;
+    double dGetTotAllSedThickness(void) const;
 
-   void IncrBeachDeposition(double const);
-   double dGetBeachDeposition(void) const;
-   double dGetTotBeachDeposition(void) const;
-//    bool bBeachDepositionThisIter(void) const;
+    void SetPotentialPlatformErosion(double const);
+    double dGetPotentialPlatformErosion(void) const;
+    double dGetTotPotentialPlatformErosion(void) const;
 
-   bool bBeachErosionOrDepositionThisIter(void) const;
+    void SetActualPlatformErosion(double const);
+    double dGetActualPlatformErosion(void) const;
+    double dGetTotActualPlatformErosion(void) const;
 
-   double dGetUnconsD50(void) const;
+    void IncrCliffCollapse(double const);
+    double dGetCliffCollapse(void) const;
+    double dGetTotCliffCollapse(void) const;
 
-   void SetInterventionClass(int const);
-   int nGetInterventionClass(void) const;
-   void SetInterventionHeight(double const);
-   double dGetInterventionHeight(void) const;
-   double dGetInterventionTopElev(void) const;
+    void IncrCliffCollapseDeposition(double const);
+    double dGetCliffCollapseDeposition(void) const;
+    double dGetTotCliffCollapseDeposition(void) const;
 
-   void SetShadowZoneNumber(int const);
-   int nGetShadowZoneNumber(void) const;
-   bool bIsinThisShadowZone(int const) const;
-   bool bIsinAnyShadowZone(void) const;
-   void SetDownDriftZoneNumber(int const);
-   int nGetDownDriftZoneNumber(void) const;
+    void SetPotentialBeachErosion(double const);
+    double dGetPotentialBeachErosion(void) const;
+    double dGetTotPotentialBeachErosion(void) const;
+    void SetActualBeachErosion(double const);
+    double dGetActualBeachErosion(void) const;
+    double dGetTotActualBeachErosion(void) const;
+    //    bool bActualBeachErosionThisIter(void) const;
+
+    void IncrBeachDeposition(double const);
+    double dGetBeachDeposition(void) const;
+    double dGetTotBeachDeposition(void) const;
+    //    bool bBeachDepositionThisIter(void) const;
+
+    bool bBeachErosionOrDepositionThisIter(void) const;
+
+    double dGetUnconsD50(void) const;
+
+    void SetInterventionClass(int const);
+    int nGetInterventionClass(void) const;
+    void SetInterventionHeight(double const);
+    double dGetInterventionHeight(void) const;
+    double dGetInterventionTopElev(void) const;
+
+    void SetShadowZoneNumber(int const);
+    int nGetShadowZoneNumber(void) const;
+    bool bIsinThisShadowZone(int const) const;
+    bool bIsinAnyShadowZone(void) const;
+    void SetDownDriftZoneNumber(int const);
+    int nGetDownDriftZoneNumber(void) const;
 };
 #endif // CELL_H

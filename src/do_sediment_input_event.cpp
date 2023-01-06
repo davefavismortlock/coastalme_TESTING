@@ -27,15 +27,14 @@ using std::cout;
 using std::endl;
 
 #include <algorithm>
-using std::find;
 using std::begin;
 using std::end;
+using std::find;
 
 #include "cme.h"
 #include "cell.h"
 #include "coast.h"
 #include "sediment_input_event.h"
-
 
 /*===============================================================================================================================
 
@@ -62,7 +61,6 @@ int CSimulation::nCheckForSedimentInputEvent(void)
    return RTN_OK;
 }
 
-
 /*===============================================================================================================================
 
  Do a sediment input event
@@ -73,19 +71,20 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
    // Get values for the sediment input event
    int nLocID = m_pVSedInputEvent[nEvent]->nGetLocationID();
    double
-      dFineSedVol = m_pVSedInputEvent[nEvent]->dGetFineSedVol(),
-      dSandSedVol = m_pVSedInputEvent[nEvent]->dGetSandSedVol(),
-      dCoarseSedVol = m_pVSedInputEvent[nEvent]->dGetCoarseSedVol(),
-      dLen = m_pVSedInputEvent[nEvent]->dGetLen(),
-      dWidth = m_pVSedInputEvent[nEvent]->dGetWidth();
+       dFineSedVol = m_pVSedInputEvent[nEvent]->dGetFineSedVol(),
+       dSandSedVol = m_pVSedInputEvent[nEvent]->dGetSandSedVol(),
+       dCoarseSedVol = m_pVSedInputEvent[nEvent]->dGetCoarseSedVol(),
+       dLen = m_pVSedInputEvent[nEvent]->dGetLen(),
+       dWidth = m_pVSedInputEvent[nEvent]->dGetWidth();
+      //  dThick = m_pVSedInputEvent[nEvent]->dGetThick();
 
    if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
    {
       // The sediment input event is at a user-specified location, or in a block at the nearest point on a coast to a user-specified location. So get the location from values read from the shapefile
       int
-         nEvents = static_cast<int>(m_VnSedimentInputLocationID.size()),
-         nPointGridX = -1,
-         nPointGridY = -1;
+          nEvents = static_cast<int>(m_VnSedimentInputLocationID.size()),
+          nPointGridX = -1,
+          nPointGridY = -1;
 
       for (int n = 0; n < nEvents; n++)
       {
@@ -135,113 +134,122 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
          CGeom2DIPoint PtiCoastPoint = PtiFindClosestCoastPoint(nPointGridX, nPointGridY);
 
          int
-            nCoastX = PtiCoastPoint.nGetX(),
-            nCoastY = PtiCoastPoint.nGetY();
+             nCoastX = PtiCoastPoint.nGetX(),
+             nCoastY = PtiCoastPoint.nGetY();
 
          LogStream << "Closest coast point is at [" << nCoastX << "][" << nCoastY << "] = {" << dGridXToExtCRSX(nCoastX) << ", " << dGridYToExtCRSY(nCoastY) << "}, along-coast width of sediment block = " << dWidth << " m, coast-normal length of sediment block = " << dLen << " m" << endl;
 
          int
-            nCoast = m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLandform()->nGetCoast(),
-            nCoastPoint = m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLandform()->nGetPointOnCoast(),
-            nHalfWidth = nRound(dWidth / m_dCellSide),
-            nLength = nRound(dLen / m_dCellSide),
-            nCoastLen = m_VCoast[nCoast].nGetCoastlineSize(),
-            nCoastXBefore = nCoastX,
-            nCoastYBefore = nCoastY,
-            nCoastXAfter = nCoastX,
-            nCoastYAfter = nCoastY;
+             nCoast = m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLandform()->nGetCoast(),
+             nCoastPoint = m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLandform()->nGetPointOnCoast(),
+             nHalfWidth = nRound(dWidth / m_dCellSide),
+             nLength = nRound(dLen / m_dCellSide),
+             nCoastLen = m_VCoast[nCoast].nGetCoastlineSize(),
+             nCoastXBefore = nCoastX,
+             nCoastYBefore = nCoastY,
+             nCoastXAfter = nCoastX,
+             nCoastYAfter = nCoastY;
 
          if (nCoastPoint > 0)
          {
-            nCoastXBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint-1)->nGetX();
-            nCoastYBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint-1)->nGetY();
+            nCoastXBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint - 1)->nGetX();
+            nCoastYBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint - 1)->nGetY();
          }
 
-         if (nCoastPoint < nCoastLen-1)
+         if (nCoastPoint < nCoastLen - 1)
          {
-            nCoastXAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint+1)->nGetX();
-            nCoastYAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint+1)->nGetY();
+            nCoastXAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint + 1)->nGetX();
+            nCoastYAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPoint + 1)->nGetY();
          }
 
          int
-            nCoastHand = m_VCoast[nCoast].nGetSeaHandedness(),
-            nPerpHand = LEFT_HANDED;
+             nCoastHand = m_VCoast[nCoast].nGetSeaHandedness(),
+             nPerpHand = LEFT_HANDED;
 
          if (nCoastHand == LEFT_HANDED)
             nPerpHand = RIGHT_HANDED;
 
          vector<int> VnCentrePointsXOffset, VnCentrePointsYOffset;
          vector<CGeom2DIPoint> VPoints;
-         for (int m = 0; m < nHalfWidth; m++)
+
+         // if size of plume is smaller than a cell size, choose the current coast point
+         if (nHalfWidth == 0)
          {
-            if (m == 0)
+            VPoints.push_back(PtiCoastPoint);
+         }
+         else
+         {
+            for (int m = 0; m < nHalfWidth; m++)
             {
-               VPoints.push_back(CGeom2DIPoint(nCoastX, nCoastY));
-               for (int n = 1; n < nLength; n++)
+               if (m == 0)
                {
-                  CGeom2DIPoint PtiTmp = PtiGetPerpendicular(nCoastXBefore, nCoastYBefore, nCoastXAfter, nCoastYAfter, n, nPerpHand);
-
-                  if (bIsWithinValidGrid(&PtiTmp))
+                  VPoints.push_back(CGeom2DIPoint(nCoastX, nCoastY));
+                  for (int n = 1; n < nLength; n++)
                   {
-                     VPoints.push_back(PtiTmp);
+                     CGeom2DIPoint PtiTmp = PtiGetPerpendicular(nCoastXBefore, nCoastYBefore, nCoastXAfter, nCoastYAfter, n, nPerpHand);
 
-                     VnCentrePointsXOffset.push_back(PtiTmp.nGetX() - nCoastX);
-                     VnCentrePointsYOffset.push_back(PtiTmp.nGetY() - nCoastY);
-                  }
-               }
-            }
-            else
-            {
-               int
-                  nCoastPointInBlockBefore = nCoastPoint - m,
-                  nCoastPointInBlockAfter = nCoastPoint + m;
-
-               if (nCoastPointInBlockBefore >= 0)
-               {
-                  int
-                     nCoastXInBlockBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockBefore)->nGetX(),
-                     nCoastYInBlockBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockBefore)->nGetY();
-
-                  if (bIsWithinValidGrid(nCoastXInBlockBefore, nCoastYInBlockBefore))
-                  {
-                     VPoints.push_back(CGeom2DIPoint(nCoastXInBlockBefore, nCoastYInBlockBefore));
-
-                     for (unsigned int n = 0; n < VnCentrePointsXOffset.size(); n++)
+                     if (bIsWithinValidGrid(&PtiTmp))
                      {
-                        int
-                           nXTmp = nCoastXInBlockBefore + VnCentrePointsXOffset[n],
-                           nYTmp = nCoastYInBlockBefore + VnCentrePointsYOffset[n];
+                        VPoints.push_back(PtiTmp);
 
-                        if (bIsWithinValidGrid(nXTmp, nYTmp))
-                           VPoints.push_back(CGeom2DIPoint(nXTmp, nYTmp));
+                        VnCentrePointsXOffset.push_back(PtiTmp.nGetX() - nCoastX);
+                        VnCentrePointsYOffset.push_back(PtiTmp.nGetY() - nCoastY);
                      }
                   }
                }
-
-               if (nCoastPointInBlockAfter < nCoastLen)
+               else
                {
                   int
-                     nCoastXInBlockAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockAfter)->nGetX(),
-                     nCoastYInBlockAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockAfter)->nGetY();
+                      nCoastPointInBlockBefore = nCoastPoint - m,
+                      nCoastPointInBlockAfter = nCoastPoint + m;
 
-                  if (bIsWithinValidGrid(nCoastXInBlockAfter, nCoastYInBlockAfter))
+                  if (nCoastPointInBlockBefore >= 0)
                   {
-                     VPoints.push_back(CGeom2DIPoint(nCoastXInBlockAfter, nCoastYInBlockAfter));
+                     int
+                         nCoastXInBlockBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockBefore)->nGetX(),
+                         nCoastYInBlockBefore = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockBefore)->nGetY();
 
-                     for (unsigned int n = 0; n < VnCentrePointsXOffset.size(); n++)
+                     if (bIsWithinValidGrid(nCoastXInBlockBefore, nCoastYInBlockBefore))
                      {
-                        int
-                           nXTmp = nCoastXInBlockAfter + VnCentrePointsXOffset[n],
-                           nYTmp = nCoastYInBlockAfter + VnCentrePointsYOffset[n];
+                        VPoints.push_back(CGeom2DIPoint(nCoastXInBlockBefore, nCoastYInBlockBefore));
 
-                        if (bIsWithinValidGrid(nXTmp, nYTmp))
+                        for (unsigned int n = 0; n < VnCentrePointsXOffset.size(); n++)
                         {
-                           CGeom2DIPoint PtiTmp(nXTmp, nYTmp);
+                           int
+                               nXTmp = nCoastXInBlockBefore + VnCentrePointsXOffset[n],
+                               nYTmp = nCoastYInBlockBefore + VnCentrePointsYOffset[n];
 
-                           // Is this cell already in the array?
-                           if (find(begin(VPoints), end(VPoints), PtiTmp) == end(VPoints))
-                              // No it isn't
-                              VPoints.push_back(PtiTmp);
+                           if (bIsWithinValidGrid(nXTmp, nYTmp))
+                              VPoints.push_back(CGeom2DIPoint(nXTmp, nYTmp));
+                        }
+                     }
+                  }
+
+                  if (nCoastPointInBlockAfter < nCoastLen)
+                  {
+                     int
+                         nCoastXInBlockAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockAfter)->nGetX(),
+                         nCoastYInBlockAfter = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nCoastPointInBlockAfter)->nGetY();
+
+                     if (bIsWithinValidGrid(nCoastXInBlockAfter, nCoastYInBlockAfter))
+                     {
+                        VPoints.push_back(CGeom2DIPoint(nCoastXInBlockAfter, nCoastYInBlockAfter));
+
+                        for (unsigned int n = 0; n < VnCentrePointsXOffset.size(); n++)
+                        {
+                           int
+                               nXTmp = nCoastXInBlockAfter + VnCentrePointsXOffset[n],
+                               nYTmp = nCoastYInBlockAfter + VnCentrePointsYOffset[n];
+
+                           if (bIsWithinValidGrid(nXTmp, nYTmp))
+                           {
+                              CGeom2DIPoint PtiTmp(nXTmp, nYTmp);
+
+                              // Is this cell already in the array?
+                              if (find(begin(VPoints), end(VPoints), PtiTmp) == end(VPoints))
+                                 // No it isn't
+                                 VPoints.push_back(PtiTmp);
+                           }
                         }
                      }
                   }
@@ -249,40 +257,40 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
             }
          }
 
-// // DEBUG CODE ===============================================
-//       LogStream << endl;
-//       unsigned int m = 0;
-//       for (unsigned int n = 0; n < VPoints.size(); n++)
-//       {
-//          LogStream << "[" << VPoints[n].nGetX() << ", " << VPoints[n].nGetY() << "] ";
-//          m++;
-//          if (m == VnCentrePointsXOffset.size() + 1)
-//          {
-//             LogStream << endl;
-//             m = 0;
-//          }
-//       }
-//       LogStream << endl;
-// // DEBUG CODE ===============================================
+         // // DEBUG CODE ===============================================
+         //       LogStream << endl;
+         //       unsigned int m = 0;
+         //       for (unsigned int n = 0; n < VPoints.size(); n++)
+         //       {
+         //          LogStream << "[" << VPoints[n].nGetX() << ", " << VPoints[n].nGetY() << "] ";
+         //          m++;
+         //          if (m == VnCentrePointsXOffset.size() + 1)
+         //          {
+         //             LogStream << endl;
+         //             m = 0;
+         //          }
+         //       }
+         //       LogStream << endl;
+         // // DEBUG CODE ===============================================
 
          // OK we now know which cells are part of the sediment block, and so will receive sediment input. Next calculate the volume per cell
          double
-            dFineDepth = dFineSedVol / m_dCellArea,
-            dSandDepth = dSandSedVol / m_dCellArea,
-            dCoarseDepth = dCoarseSedVol / m_dCellArea;
+             dFineDepth = dFineSedVol / m_dCellArea,
+             dSandDepth = dSandSedVol / m_dCellArea,
+             dCoarseDepth = dCoarseSedVol / m_dCellArea;
 
          LogStream << "Total depth of fine sediment added = " << dFineDepth << " m, total depth of sand sediment added = " << dSandDepth << " m, total depth of coarse sediment added = " << dCoarseDepth << " m" << endl;
 
          size_t nArea = VPoints.size();
          double
-            dArea = static_cast<double>(nArea),
-            dFineDepthPerCell = dFineDepth / dArea,
-            dSandDepthPerCell = dSandDepth / dArea,
-            dCoarseDepthPerCell = dCoarseDepth / dArea;
+             dArea = static_cast<double>(nArea),
+             dFineDepthPerCell = dFineDepth / dArea,
+             dSandDepthPerCell = dSandDepth / dArea,
+             dCoarseDepthPerCell = dCoarseDepth / dArea;
 
          // OK, so finally: put some sediment onto each cell in the sediment block
          int nTopLayer = m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].nGetTopLayerAboveBasement();
-         for (unsigned int n = 0; n < VPoints.size(); n++)
+         for (unsigned int n = 0; n < nArea; n++)
          {
             // Add to this cell's unconsolidated sediment
             m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepthPerCell);
@@ -322,36 +330,36 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
 
       // Now go along the line, joining each pair of points by a straight line
       int
-         nCoastX = -1,
-         nCoastY = -1;
+          nCoastX = -1,
+          nCoastY = -1;
 
-      for (unsigned int n = 0; n < VnLineGridX.size()-1; n++)
+      for (unsigned int n = 0; n < VnLineGridX.size() - 1; n++)
       {
          int
-            nXStart = VnLineGridX[n],
-            nXEnd = VnLineGridX[n+1],
-            nYStart = VnLineGridY[n],
-            nYEnd = VnLineGridY[n+1];
+             nXStart = VnLineGridX[n],
+             nXEnd = VnLineGridX[n + 1],
+             nYStart = VnLineGridY[n],
+             nYEnd = VnLineGridY[n + 1];
 
          // Interpolate between pairs of points using a simple DDA line algorithm, see http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm) Note that Bresenham's algorithm gave occasional gaps
          double
-            dXInc = nXEnd - nXStart,
-            dYInc = nYEnd - nYStart,
-            dLength = tMax(tAbs(dXInc), tAbs(dYInc));
+             dXInc = nXEnd - nXStart,
+             dYInc = nYEnd - nYStart,
+             dLength = tMax(tAbs(dXInc), tAbs(dYInc));
 
          dXInc /= dLength;
          dYInc /= dLength;
 
          double
-            dX = nXStart,
-            dY = nYStart;
+             dX = nXStart,
+             dY = nYStart;
 
          // Process each interpolated point
          for (int m = 0; m <= nRound(dLength); m++)
          {
             int
-               nX = static_cast<int>(dX),
-               nY = static_cast<int>(dY);
+                nX = static_cast<int>(dX),
+                nY = static_cast<int>(dY);
 
             // Have we hit a coastline cell?
             if (bIsWithinValidGrid(nX, nY) && m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
@@ -362,10 +370,10 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
             }
 
             // Two diagonal(ish) raster lines can cross each other without any intersection, so must also test an adjacent cell for intersection (does not matter which adjacent cell)
-            if (bIsWithinValidGrid(nX, nY+1) && m_pRasterGrid->m_Cell[nX][nY+1].bIsCoastline())
+            if (bIsWithinValidGrid(nX, nY + 1) && m_pRasterGrid->m_Cell[nX][nY + 1].bIsCoastline())
             {
                nCoastX = nX;
-               nCoastY = nY+1;
+               nCoastY = nY + 1;
                break;
             }
 
@@ -383,7 +391,8 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
       if (nCoastX == -1)
       {
          // Nope
-         LogStream << endl << "No intersection found" << endl;
+         LogStream << endl
+                   << "No intersection found" << endl;
          return RTN_ERR_SEDIMENT_INPUT_EVENT;
       }
 

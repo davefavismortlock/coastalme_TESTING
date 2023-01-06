@@ -2,7 +2,7 @@
 ;
 ; Data file for CoastalME
 ;
-; Copyright (C) 2021 David Favis-Mortlock and Andres Payo
+; Copyright (C) 2022 David Favis-Mortlock and Andres Payo
 ;
 ;==============================================================================================================================================================
 ;
@@ -21,7 +21,7 @@
 ;
 ; Run information ---------------------------------------------------------------------------------------------------------------------------------------------
 Main output/log file names                                          [omit path and extension]: jsme
-Content of log file                                       [1 = least detail, 3 = most detail]: 1
+Content of log file                                       [1 = least detail, 3 = most detail]: 2
 
 Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 00-00-00 01/01/1999
 Duration of simulation                                           [hours, days, months, years]: 9 hours                  ; *** LAST 3 days
@@ -30,6 +30,8 @@ Save times (after simulation start)                             [hours, days, mo
 
 Random number seed(s)                                                                        : 280764
 
+Max save digits for GIS output file names                                               [> 1]: 3
+Save digits for GIS output sequential or iteration number?    [s = sequential, i = iteration]: s
 GIS raster files to output                                                    [see codes.txt]: all
 GIS raster output format                                            [blank=same as DEM input]: gtiff                    ; gdal-config --formats for others
    If needed, also output GIS raster world file?                                        [y/n]: y
@@ -47,7 +49,6 @@ Grid edge(s) to omit when searching for coastline                               
 Profile slope running-mean smoothing window size                  [0=none, or positive & odd]: 0                        ; was 11 33
 Max local slope (m/m)                                                                        : 1.18
 Maximum elevation of beach above SWL (m)	                                     [must be >= 0]: 0
-
 
 ; Initial raster GIS layers -----------------------------------------------------------------------------------------------------------------------------------
 Number of layers                                                                             : 1
@@ -109,10 +110,6 @@ Transport parameter                                                   [only for 
 
 Berm height i.e. height above SWL of start of depositional Dean profile (m)                  : 0.5
 
-Sediment input location                                             [point or line shapefile]:
-Sediment input type        [required if have shapefile, P = Point, C = coast block, L = line]:
-Sediment input details file                                      [required if have shapefile]:
-
 ; Cliff collapse data -----------------------------------------------------------------------------------------------------------------------------------------
 Simulate cliff collapse?                                                                     : y
 Cliff erodibility (m^(9/4)s^(3/2))                                                           : 8e6
@@ -122,6 +119,18 @@ Scale parameter A for cliff deposition (m^(1/3))                                
 Approximate planview width of cliff deposition talus (m)                                     : 5
 Planview length of cliff deposition talus (m)                                                : 50        ; was 30 15
 Height of landward talus end, as fraction of cliff elevation                                 : 0
+
+; Input events ---------------------------------------------------------------------------------------------------------
+Flood input?                                                                                 : n
+Flood coastline to output                                                                    : 
+Run-up equation                                                                              :
+Characteristic locations of flood                                                            : 
+Flood input location                                                                         : 
+
+Sediment input?                                                                              : n
+Sediment input location                                             [point or line shapefile]:
+Sediment input type        [required if have shapefile, P = Point, C = coast block, L = line]:
+Sediment input details file                                      [required if have shapefile]:
 
 ; Other data --------------------------------------------------------------------------------------------------------------------------------------------------
 Gravitational acceleration (m2/s)                                                            : 9.81

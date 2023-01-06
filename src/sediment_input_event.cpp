@@ -28,8 +28,8 @@
 #include "sediment_input_event.h"
 
 
-//! Constructor with 7 parameters
-CSedInputEvent::CSedInputEvent(int const nIDIn, unsigned long const ulTimeStepIn, double const dFineIn, double const dSandIn, double const dCoarseIn, double const dLenIn, double const dWidthIn) :
+//! Constructor with 8 parameters
+CSedInputEvent::CSedInputEvent(int const nIDIn, unsigned long const ulTimeStepIn, double const dFineIn, double const dSandIn, double const dCoarseIn, double const dLenIn, double const dWidthIn): //, double const dThickIn):
    m_nLocationID(nIDIn),
    m_ulEventTimeStep(ulTimeStepIn),
    m_dFineSedVol(dFineIn),
@@ -37,6 +37,7 @@ CSedInputEvent::CSedInputEvent(int const nIDIn, unsigned long const ulTimeStepIn
    m_dCoarseSedVol(dCoarseIn),
    m_dLen(dLenIn),
    m_dWidth(dWidthIn)
+   // m_dThick(dThickIn)
 {
 }
 
@@ -78,4 +79,9 @@ double CSedInputEvent::dGetWidth(void)
 {
    return m_dWidth;
 }
+
+// double CSedInputEvent::dGetThick(void)
+// {
+//    return m_dThick;
+// }
 

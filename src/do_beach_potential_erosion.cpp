@@ -144,6 +144,11 @@ void CSimulation::DoAllPotentialBeachErosion(void)
 
             // Determine dThetaBr, the angle between the coastline-normal orientation and the breaking wave orientation (the direction FROM which the waves move). This tells us whether the sediment movement is up-coast (-ve) or down-coast (+ve)
             double dThetaBr = dNormalOrientation - dAvgBreakingWaveAngle;
+            // Change the value to the range 0 - 90 MCB
+            if (dThetaBr > 270)
+               dThetaBr = dAvgBreakingWaveAngle + 360.0 - dNormalOrientation;
+            else if (dThetaBr < -270)
+               dThetaBr = dNormalOrientation + 360.0 - dAvgBreakingWaveAngle;
 
             bool bDownCoast = true;
             if (dThetaBr < 0)
@@ -156,7 +161,7 @@ void CSimulation::DoAllPotentialBeachErosion(void)
             dThetaBr = tAbs(dThetaBr);
 
             // Safety check: not sure why we need this, but get occasional big values
-            dThetaBr = tMin(dThetaBr, 90.0);
+            // dThetaBr = tMin(dThetaBr, 90.0);
 
             // Calculate the immersed weight of sediment transport
             double dImmersedWeightTransport = 0;
@@ -169,7 +174,7 @@ void CSimulation::DoAllPotentialBeachErosion(void)
 
                where Kls is a transport coefficient which varies between 0.4 to 0.79
                */
-               dImmersedWeightTransport = m_dKLS * pow(dAvgBreakingWaveHeight, 2.5) * sin((PI / 180) * 2 * dThetaBr);
+               dImmersedWeightTransport = m_dKLS / (16 * pow(m_dBreakingWaveHeightDepthRatio, 0.5)) * m_dSeaWaterDensity * pow(m_dG, 1.5) * pow(dAvgBreakingWaveHeight, 2.5) * sin((PI / 180) * 2 * dThetaBr);
             }
             else if (m_nBeachErosionDepositionEquation == UNCONS_SEDIMENT_EQUATION_KAMPHUIS)
             {
@@ -191,8 +196,10 @@ void CSimulation::DoAllPotentialBeachErosion(void)
 
                   double dD50 = pPolygon->dGetAvgUnconsD50();
                   if (dD50 > 0)
-                     // Note that we use a calibration constant here (m_dKamphuis)
+                  // Note that we use a calibration constant here (m_dKamphuis)
+                  {
                      dImmersedWeightTransport = m_dKamphuis * 2.33 * pow(dAvgDeepWaterWavePeriod, 1.5) * pow(dBeachSlope, 0.75) * pow(dD50, -0.25) * pow(dAvgBreakingWaveHeight, 2) * pow(sin((PI / 180) * 2 * dThetaBr), 0.6);
+                  }
                }
             }
 

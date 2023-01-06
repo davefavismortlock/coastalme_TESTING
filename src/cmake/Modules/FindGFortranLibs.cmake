@@ -108,7 +108,7 @@ if (CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
    # There are lots of other build options for gcc & gfortran. For now, the
    # options implemented above should cover a lot of common use cases.
 
-   # Clean up be deleting the output string from "gfortran -v"
+   # Clean up by deleting the output string from "gfortran -v"
    unset(GFORTRAN_VERBOSE_STR)
 
    # Find paths for libgfortran, libquadmath, libgomp

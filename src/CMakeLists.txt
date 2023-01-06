@@ -6,7 +6,6 @@
 # Set CMake required version
 cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
 
-
 #########################################################################################
 # Detect the build environment
 if (UNIX)
@@ -34,23 +33,21 @@ endif ()
 
 message ("")
 
-
 #########################################################################################
-# Set up project-specific defaults
+# First set up project-specific defaults
 project (CME)
 
-set (CMAKE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")       # Assume that we are in the src folder
+set (CMAKE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")           # Assume that we are in the src folder
 set (CMAKE_INSTALL_DIR "${CMAKE_SOURCE_DIR}/..")
 
-# set (CMAKE_SOURCE_DIR "$ENV{HOME}/coast/CoastalME/src")     # May be changed by the user
-# set (CMAKE_INSTALL_DIR "$ENV{HOME}/coast/CoastalME")        # May be changed by the user
+# set (CMAKE_SOURCE_DIR "$ENV{HOME}/coast/CoastalME/src")      # May be changed by the user
+# set (CMAKE_INSTALL_DIR "$ENV{HOME}/coast/CoastalME")         # May be changed by the user
 
 file (GLOB CME_SOURCE_FILES *.cpp)
 set (CME_EXECUTABLE cme)
 
 # Set the path for CoastalME's own cmake modules
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-
 
 #########################################################################################
 # Detect the compiler and set compiler-specific flags etc.
@@ -60,7 +57,7 @@ message ("Checking compiler")
 enable_language (CXX)
 
 # We need c++11, first set the c++11 flag (note that later on we check the compiler for c++11 capability)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Set the CoastalME CPU flag TODO Need to change this for different CPU architectures
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCPU -Dx86")
@@ -98,7 +95,7 @@ if (CMAKE_COMPILER_IS_GNUCC)
 
    # Finally set some gcc-specific linker flags
    set (CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--no-undefined")
-endif()
+endif ()
 
 if (MSVC)
    message ("Compiler is Visual Studio")
@@ -107,11 +104,10 @@ endif ()
 
 message ("")
 
-
 #########################################################################################
 # If not specified, assume a Debug build
 if (NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE_LC debug)
+   set (CMAKE_BUILD_TYPE_LC debug)
 endif ()
 
 # Sort out compiler flags for various build types
@@ -195,7 +191,6 @@ if (GDAL_CONFIG)
 else ()
    message (FATAL_ERROR "${GDAL_CONFIG} not found, cannot determine GDAL version. Check your GDAL installation")
 endif ()
-
 
 #########################################################################################
 # CoastalME also requires the CShore library. This can be linked statically or dynamically (i.e. shared). If not specified, assume a shared library
@@ -364,7 +359,6 @@ else ()
    set (CMAKE_INSTALL_RPATH "$ORIGIN/${CSHORELIB_REL_PATH}:$$ORIGIN/${CSHORELIB_REL_PATH}:${CSHORELIB_ABS_PATH}:/usr/local/lib")
 endif ()
 
-
 #########################################################################################
 # The important bits
 include_directories (SYSTEM ${CMAKE_INCLUDE_PATH})
@@ -378,9 +372,7 @@ install (TARGETS ${CME_EXECUTABLE} RUNTIME DESTINATION ${CMAKE_INSTALL_DIR})
 set_property (TARGET ${CME_EXECUTABLE} PROPERTY CXX_STANDARD 11)
 set_property (TARGET ${CME_EXECUTABLE} PROPERTY CXX_STANDARD_REQUIRED ON)
 
-
 #########################################################################################
-
 
 #########################################################################################
 # Tell the user what we have found
@@ -397,7 +389,6 @@ message (STATUS "LIBS=${LIBS}")
 # message (STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
 # message (STATUS "CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
 message (STATUS "CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
-
 
 #########################################################################################
 # Some extra messages

@@ -21,7 +21,7 @@
    Where land runs out and nothing’s sound.\n
    Nothing lasts long on Shingle Street.\n
    \n
-   By Blake Morrison (2018). See <a href="http://www.randomhouse.co.uk/editions/shingle-street/9780701188771" target="_blank">http://www.randomhouse.co.uk/editions/shingle-street/9780701188771</a>\n
+   By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771" target="_blank">https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771</a>\n
 
  * \section install_sec Installation
 
@@ -139,6 +139,22 @@ double const CLOCK_T_RANGE = static_cast<double>(ULONG_MAX);
 #endif
 #endif
 
+// TODO: Check
+// #if defined(WIN32)
+// #define STRCASECMP(a, b) (_stricmp(a, b))
+// #define STRNCASECMP(a, b, n) (_strnicmp(a, b, n))
+// #else
+// /** Alias for strcasecmp() */
+// #define STRCASECMP(a, b) (strcasecmp(a, b))
+// /** Alias for strncasecmp() */
+// #define STRNCASECMP(a, b, n) (strncasecmp(a, b, n))
+// //#  endif
+// /** Alias for strncasecmp() == 0 */
+// #define EQUALN(a, b, n) (STRNCASECMP(a, b, n) == 0)
+// /** Alias for strcasecmp() == 0 */
+// #define EQUAL(a, b) (STRCASECMP(a, b) == 0)
+// #endif
+
 //===================================================== hard-wired constants ====================================================
 char const PATH_SEPARATOR = '/'; // Works for Windows too!
 char const SPACE = ' ';
@@ -151,31 +167,31 @@ char const SLASH = '/';
 char const TILDE = '~';
 
 // TESTING options
-bool const USE_DEEP_WATER_FOR_SHADOW_LINE = true;       // Use deep water wave orientation in determining shadow line orientation?
-bool const CREATE_SHADOW_ZONE_IF_HITS_GRID_EDGE = true; // If shadow line tracing hits grid edge, create shadow zone?
-bool const SAVE_CSHORE_OUTPUT = true;                   // #ifdef CSHORE_FILE_INOUT || CSHORE_BOTH, append all CShore output files to a whole-run master
+bool const USE_DEEP_WATER_FOR_SHADOW_LINE = true;              // Use deep water wave orientation in determining shadow line orientation?
+bool const CREATE_SHADOW_ZONE_IF_HITS_GRID_EDGE = true;        // If shadow line tracing hits grid edge, create shadow zone?
+bool const SAVE_CSHORE_OUTPUT = true;                          // #ifdef CSHORE_FILE_INOUT || CSHORE_BOTH, append all CShore output files to a whole-run master
 
 // TODO Make this a user input
 bool const ACCEPT_SHORT_PROFILES = true;
 
-int const BUF_SIZE = 2048;     // Max length (inc. terminating NULL) of any C-type string
-int const MAX_SAVE_DIGITS = 3; // Maximum number of digits for GIS save number
+int const BUF_SIZE = 2048;                                     // Max length (inc. terminating NULL) of any C-type string
 int const CLOCK_CHECK_ITERATION = 5000;
-int const SAVGOL_POLYNOMIAL_MAX_ORDER = 6;   // Maximum order of Savitsky-Golay smoothing polynomial
-int const COAST_LENGTH_MAX = 10;             // For safety check when tracing coast
-int const COAST_LENGTH_MIN_X_PROF_SPACE = 2; // Ignore very short coasts less than this x profile spacing
-int const MAX_NUM_SHADOW_ZONES = 10;         // Consider at most this number of shadow zones
-int const GRID_MARGIN = 10;                  // Ignore this many along-coast grid-edge points re. shadow zone calcs
-int const MIN_PROFILE_SPACING = 20;          // In cells: profile creation does not work well if profiles are too closely spaced
-int const CAPE_POINT_MIN_SPACING = 10;       // In cells: for shadow zone stuff, cape points must not be closer than this
-int const FLOOD_FILL_START_OFFSET = 2;       // In cells: flood fill starts this distance inside polygon
+int const SAVGOL_POLYNOMIAL_MAX_ORDER = 6;                     // Maximum order of Savitsky-Golay smoothing polynomial
+int const COAST_LENGTH_MAX = 10;                               // For safety check when tracing coast
+int const COAST_LENGTH_MIN_X_PROF_SPACE = 20;                  // Modified from 2 to 100. Ignore very short coasts less than this x profile spacing
+int const MAX_NUM_SHADOW_ZONES = 10;                           // Consider at most this number of shadow zones
+int const GRID_MARGIN = 10;                                    // Ignore this many along-coast grid-edge points re. shadow zone calcs
+int const MIN_PROFILE_SPACING = 20;                            // In cells: profile creation does not work well if profiles are too closely spaced
+int const CAPE_POINT_MIN_SPACING = 10;                         // In cells: for shadow zone stuff, cape points must not be closer than this
+int const FLOOD_FILL_START_OFFSET = 2;                         // In cells: flood fill starts this distance inside polygon
 int const SHADOW_LINE_MIN_SINCE_HIT_SEA = 5;
-int const MAX_LEN_SHADOW_LINE_TO_IGNORE = 200;                // In cells: if can't find flood fill start point, continue if short shadow line
-int const MIN_PAR_PROFILE_SIZE = 3;                           // In cells: min size for uncons sed parallel profile
-int const MAX_NUM_PREV_ORIENTATION_VALUES = 10;               // Max length of deque used in tracing shadow boundary
-int const MIN_INLAND_OFFSET_FOR_BEACH_EROSION_ESTIMATION = 5; // Used in estimation of beach erosion
+int const MAX_LEN_SHADOW_LINE_TO_IGNORE = 200;                 // In cells: if can't find flood fill start point, continue if short shadow line
+int const MIN_PAR_PROFILE_SIZE = 3;                            // In cells: min size for uncons sed parallel profile
+int const MAX_NUM_PREV_ORIENTATION_VALUES = 10;                // Max length of deque used in tracing shadow boundary
+int const MIN_INLAND_OFFSET_FOR_BEACH_EROSION_ESTIMATION = 5;  // Used in estimation of beach erosion
 
 // Log file detail level
+int const NO_LOG_FILE = 0;
 int const LOG_FILE_LEAST_DETAIL = 1;
 int const LOG_FILE_MIDDLE_DETAIL = 2;
 int const LOG_FILE_MOST_DETAIL = 3;
@@ -279,7 +295,10 @@ int const DEEP_WATER_WAVE_STATIONS_POINT_GEOMETRY = VEC_GEOMETRY_POINT;
 int const SEDIMENT_INPUT_EVENT_LOCATION_VEC = 2;
 int const SEDIMENT_INPUT_EVENT_LOCATION_MAX_LAYER = 1;
 int const SEDIMENT_INPUT_EVENT_LOCATION_POINT_GEOMETRY = VEC_GEOMETRY_POINT;
+int const FLOOD_LOCATION_POINT_GEOMETRY = VEC_GEOMETRY_POINT;
 int const SEDIMENT_INPUT_EVENT_LOCATION_LINE_GEOMETRY = VEC_GEOMETRY_LINE;
+int const FLOOD_LOCATION_VEC = 3;
+int const FLOOD_LOCATION_MAX_LAYER = 1;
 
 // GIS raster output codes
 int const RASTER_PLOT_ACTIVE_ZONE = 1;
@@ -334,6 +353,9 @@ int const RASTER_PLOT_WAVE_HEIGHT = 49;
 int const RASTER_PLOT_WAVE_ORIENTATION = 50;
 int const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK = 51;
 int const RASTER_PLOT_SEDIMENT_INPUT = 52;
+int const RASTER_PLOT_SETUP_SURGE_FLOOD_MASK = 53;
+int const RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK = 54;
+int const RASTER_PLOT_WAVE_FLOOD_LINE = 55;
 
 // GIS vector output codes
 int const VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT = 1;
@@ -353,6 +375,11 @@ int const VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT = 14;
 int const VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE = 15;
 int const VECTOR_PLOT_WAVE_SETUP = 16;
 int const VECTOR_PLOT_STORM_SURGE = 17;
+int const VECTOR_PLOT_RUN_UP = 18;
+int const VECTOR_PLOT_FLOOD_LINE = 19;
+// int const VECTOR_PLOT_FLOOD_SWL_SETUP_LINE = 19;
+// int const VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE = 20;
+// int const VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE = 21;
 
 // Return codes
 int const RTN_OK = 0;
@@ -421,6 +448,8 @@ int const RTN_ERR_READING_DEEP_WATER_WAVE_DATA = 62;
 int const RTN_ERR_BOUNDING_BOX = 63;
 int const RTN_ERR_READING_SEDIMENT_INPUT_EVENT = 64;
 int const RTN_ERR_SEDIMENT_INPUT_EVENT = 65;
+int const RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION = 66;
+int const RTN_ERR_FLOOD_LOCATION = 67;
 
 // Elevation and 'slice' codes
 int const ELEV_IN_BASEMENT = -1;
@@ -466,7 +495,7 @@ double const DEAN_POWER = 2.0 / 3.0;                 // Dean profile exponent
 double const CSHORE_FRICTION_FACTOR = 0.015; // Friction factor for CShore model
 double const CSHORE_SURGE_LEVEL = 0.0;       // Not used, but in the future we might include surge in the calculations
 
-double const TOLERANCE = 1e-4;                // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
+double const TOLERANCE = 1e-7;                // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
 double const SEDIMENT_ELEV_TOLERANCE = 1e-10; // Differences in depth-equivalent sediment amount (m) less than this are ignored
 double const STRAIGHT_COAST_MAX_DETAILED_CURVATURE = -5;
 double const STRAIGHT_COAST_MAX_SMOOTH_CURVATURE = -1;
@@ -475,11 +504,11 @@ double const MAX_LAND_LENGTH_OF_SHADOW_ZONE_LINE = 5; // Used in shadow line tra
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "CoastalME 0.9.9 TESTING: 4 October 2021";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME)\nVersion 1.0.0 (06 Jan 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
-string const COPYRIGHT = "(C) 2021 Andres Payo and David Favis-Mortlock";
+string const COPYRIGHT = "(C) 2022 Andres Payo and David Favis-Mortlock";
 string const LINE = "-------------------------------------------------------------------------------";
 string const DISCLAIMER1 = "This program is distributed in the hope that it will be useful, but WITHOUT ANY";
 string const DISCLAIMER2 = "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A";
@@ -489,7 +518,7 @@ string const DISCLAIMER5 = "program; if not, contact the Free Software Foundatio
 string const DISCLAIMER6 = "Cambridge, MA 02139, USA.";
 
 string const ABOUT = "simulates the long-term behaviour of a coast. This initial version considers only simple soft cliff cross-shore effects";
-string const THANKS = "Many thanks to:\n\tJim W. Hall\n\tMartin D. Hurst\n\tMike J.A. Walkden\n\tIan Townend\n\tMark Dickson\n\tMatthew Ives\n\tRobert J. Nicholls";
+string const THANKS = "Many thanks to:\n\tManuel Cobos Budia\n\tMark Dickson\n\tJim W. Hall\n\tMartin D. Hurst\n\tMatthew Ives\n\tRobert J. Nicholls\n\tIan Townend\n\tMike J.A. Walkden";
 string const GDALDRIVERS = "GDAL drivers";
 
 string const USAGE = "Usage: cme [OPTION]...";
@@ -518,6 +547,7 @@ string const READING_CONS_COARSE_SEDIMENT_FILE = "    - Consolidated coarse sedi
 string const READING_VECTOR_FILES = "  - Reading vector GIS files";
 string const READING_DEEP_WATER_WAVE_FILE = "    - Deep water wave values: ";
 string const READING_SED_INPUT_EVENT_FILE = "    - Sediment input event values: ";
+string const READING_FLOOD_LOCATION = "    - Characteristic locations for flood: ";
 string const READING_SCAPE_SHAPE_FUNCTION_FILE = "  - Reading SCAPE shape function file";
 string const READING_TIDE_DATA_FILE = "  - Reading tide data file: ";
 string const ALLOCATE_MEMORY = "  - Allocating memory for raster grid";
@@ -575,6 +605,7 @@ string const DEEP_WATER_WAVE_STATION_ID = "id";
 // string const   DEEP_WATER_WAVE_STATIONS_ANGLE                              = "ANGLE";
 // string const   DEEP_WATER_WAVE_STATIONS_PERIOD                             = "PERIOD";
 string const SEDIMENT_INPUT_EVENT_LOCATION_ID = "id";
+string const FLOOD_LOCATION_ID = "id";
 
 // GIS raster output user codes
 string const RASTER_ALL_OUTPUT_CODE = "all";
@@ -684,6 +715,12 @@ string const RASTER_POLYGON_GAIN_OR_LOSS_CODE = "polygon_gain_or_loss";
 string const RASTER_POLYGON_GAIN_OR_LOSS_NAME = "polygon_gain_or_loss";
 string const RASTER_SEDIMENT_INPUT_EVENT_CODE = "sediment_input_total";
 string const RASTER_SEDIMENT_INPUT_EVENT_NAME = "sediment_input_total";
+string const RASTER_SETUP_SURGE_FLOOD_MASK_CODE = "flood_ss_mask";
+string const RASTER_SETUP_SURGE_FLOOD_MASK_NAME = "flood_ss_mask";
+string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_CODE = "flood_ssr_mask";
+string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_NAME = "flood_ssr_mask";
+string const RASTER_WAVE_FLOOD_LINE_CODE = "rflood";
+string const RASTER_WAVE_FLOOD_LINE_NAME = "rflood";
 
 // GIS raster output titles
 string const RASTER_PLOT_ACTIVE_ZONE_TITLE = "Active zone";
@@ -738,9 +775,13 @@ string const RASTER_PLOT_WAVE_HEIGHT_TITLE = "Wave height";
 string const RASTER_PLOT_WAVE_ORIENTATION_TITLE = "Wave orientation";
 string const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK_TITLE = "Potential (unconstrained) shore platform erosion binary mask";
 string const RASTER_PLOT_SEDIMENT_INPUT_EVENT_TITLE = "Sediment input event(s) since last GIS save";
+string const RASTER_PLOT_SETUP_SURGE_FLOOD_MASK_TITLE = "Mask of setup-surge flood";
+string const RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK_TITLE = "Mask of setup-surge-runup flood";
+string const RASTER_PLOT_WAVE_FLOOD_LINE_TITLE = "Wave flood line";
 
 // GIS vector output user codes
 string const VECTOR_ALL_OUTPUT_CODE = "all";
+string const VECTOR_ALL_FLOOD_OUTPUT_CODE = "all";
 string const VECTOR_COAST_CODE = "coast";
 string const VECTOR_COAST_NAME = "coast";
 string const VECTOR_NORMALS_CODE = "normals";
@@ -777,6 +818,16 @@ string const VECTOR_WAVE_SETUP_CODE = "wave_setup";
 string const VECTOR_WAVE_SETUP_NAME = "wave_setup";
 string const VECTOR_STORM_SURGE_CODE = "storm_surge";
 string const VECTOR_STORM_SURGE_NAME = "storm_surge";
+string const VECTOR_RUN_UP_CODE = "run_up";
+string const VECTOR_RUN_UP_NAME = "run_up";
+string const VECTOR_FLOOD_LINE_CODE = "flood_line";
+string const VECTOR_FLOOD_LINE_NAME = "flood_line";
+string const VECTOR_FLOOD_SWL_SETUP_LINE_CODE = "setup";
+string const VECTOR_FLOOD_SWL_SETUP_LINE_NAME = "setup";
+string const VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_CODE = "setup_surge";
+string const VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME = "setup_surge";
+string const VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_CODE = "setup_surge_runup";
+string const VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME = "setup_surge_runup";
 
 // GIS vector output titles
 string const VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT_TITLE = "Average wave orientation and height";
@@ -796,6 +847,11 @@ string const VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT_TITLE = "Wave orientation and hei
 string const VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE_TITLE = "Wave energy since collapse";
 string const VECTOR_PLOT_WAVE_SETUP_TITLE = "Wave setup";
 string const VECTOR_PLOT_STORM_SURGE_TITLE = "Storm surge";
+string const VECTOR_PLOT_RUN_UP_TITLE = "Run up";
+string const VECTOR_PLOT_FLOOD_LINE_TITLE = "Flood ";
+string const VECTOR_PLOT_FLOOD_SWL_SETUP_LINE_TITLE = "SWL-Setup line";
+string const VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE_TITLE = "SWL-Setup-Surge line";
+string const VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_TITLE = "SWL-Setup-Surge-Runup line";
 
 // Time series codes
 string const TIME_SERIES_SEA_AREA_NAME = "sea_area";
@@ -827,6 +883,12 @@ string const TIME_SERIES_BEACH_CHANGE_NET_CODE = "beach_change_net";
 
 string const TIME_SERIES_SUSPENDED_SEDIMENT_NAME = "suspended_sediment";
 string const TIME_SERIES_SUSPENDED_SEDIMENT_CODE = "suspended";
+
+string const TIME_SERIES_FLOOD_SETUP_SURGE_NAME = "flood_setup_surge";
+string const TIME_SERIES_FLOOD_SETUP_SURGE_CODE = "flood_setup_surge";
+
+string const TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_NAME = "flood_setup_surge_runup";
+string const TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_CODE = "flood_setup_surge_runup";
 
 // CShore codes
 string const WAVEENERGYFLUX = "wave_energy_flux";

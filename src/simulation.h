@@ -50,7 +50,7 @@ using std::pair;
 
 int const
     NRNG = 2,
-    SAVEMAX = 10000;
+    SAVEMAX = 100000;
 
 class CGeomRasterGrid; // Forward declarations
 class CRWCoast;
@@ -145,6 +145,8 @@ private:
         m_bBeachDepositionTSSave,
         m_bBeachSedimentChangeNetTSSave,
         m_bSuspSedTSSave,
+        m_bFloodSetupSurgeTSSave,
+        m_bFloodSetupSurgeRunupTSSave,
         m_bSaveGISThisIter,
         m_bOutputProfileData,
         m_bOutputParallelProfileData,
@@ -170,8 +172,19 @@ private:
         m_bSedimentInputAlongLine,
         m_bSedimentInputEventSave,
         m_bSedimentInputThisIter,
+        m_bDoFlood,
         m_bWaveSetupSave,
-        m_bStormSurgeSave;
+        m_bStormSurgeSave,
+        m_bRunUpSave,
+        m_bSetupSurgeFloodMaskSave,
+        m_bSetupSurgeRunupFloodMaskSave,
+        m_bRasterWaveFloodLineSave,
+        m_bVectorWaveFloodLineSave,
+        m_bFloodLocation,
+        m_bFloodSWLSetupLine,
+        m_bFloodSWLSetupSurgeLine,
+        m_bFloodSWLSetupSurgeRunupLine,
+        m_bGISSaveDigitsSequential;
 
     char **m_papszGDALRasterOptions;
     char **m_papszGDALVectorOptions;
@@ -187,6 +200,7 @@ private:
         m_nCoastNormalAvgSpacing,  // In cells
         m_nCoastCurvatureInterval, // A length, measured in coastline points
         m_nNaturalCapeNormals,
+        m_nGISMaxSaveDigits,
         m_nGISSave,
         m_nUSave,
         m_nThisSave,
@@ -211,7 +225,8 @@ private:
         m_nSimStartMonth,
         m_nSimStartYear,
         m_nDeepWaterWaveDataNTimeSteps,
-        m_nLogFileDetail;
+        m_nLogFileDetail,
+        m_nRunUpEquation;
 
     GDALDataType
         m_GDALWriteIntDataType,
@@ -229,7 +244,7 @@ private:
         m_ulThisIterNumSeaCells,
         m_ulThisIterNumCoastCells,
         m_ulThisIterNumPotentialPlatformErosionCells,
-        m_ulThisIterNumActualPlatformErosionCells,
+        m_ulThisIterNumActualPlatformErosionCells,        
         m_ulThisIterNumPotentialBeachErosionCells,
         m_ulThisIterNumActualBeachErosionCells,
         m_ulThisIterNumBeachDepositionCells,
@@ -263,6 +278,10 @@ private:
         m_dFinalSWL,
         m_dDeltaSWLPerTimestep,
         m_dThisIterSWL,
+        m_dThisIterDiffTotWaterLevel,
+        m_dThisIterDiffWaveSetupWaterLevel,
+        m_dThisIterDiffWaveSetupSurgeWaterLevel,
+        m_dThisIterDiffWaveSetupSurgeRunupWaterLevel,
         m_dAccumulatedSeaLevelChange,
         m_dMinSWL,
         m_dMaxSWL,
@@ -319,8 +338,11 @@ private:
         m_dThisIterCliffTalusCoarseErosion,
         m_dThisIterSandSedLostCliffCollapse,
         m_dThisIterCoarseSedLostCliffCollapse,
-        m_dThisIterMassBalanceErosionError,
-        m_dThisIterMassBalanceDepositionError,
+        m_dThisIterErosionFineDiff,
+        m_dThisIterErosionSandDiff,
+        m_dThisIterErosionCoarseDiff,
+        m_dThisIterDepositionSandDiff,
+        m_dThisIterDepositionCoarseDiff,
         m_dDepthOverDBMax, // Used in erosion potential look-up function
         m_dTotPotentialPlatformErosionOnProfiles,
         m_dTotPotentialPlatformErosionBetweenProfiles,
@@ -375,8 +397,11 @@ private:
         m_ldGTotSandBeachDeposition,
         m_ldGTotCoarseBeachDeposition,
         m_ldGTotSuspendedSediment,
-        m_ldGTotMassBalanceErosionError,
-        m_ldGTotMassBalanceDepositionError,
+        m_ldGTotErosionFineDiff,
+        m_ldGTotErosionSandDiff,
+        m_ldGTotErosionCoarseDiff,
+        m_ldGTotSandDepositionDiff,
+        m_ldGTotCoarseDepositionDiff,
         m_ldGTotFineSedimentInput,
         m_ldGTotSandSedimentInput,
         m_ldGTotCoarseSedimentInput;
@@ -429,6 +454,9 @@ private:
         m_strOGRSedInputDriverCode, // Sediment input event locations (vector)
         m_strOGRSedInputGeometry,
         m_strOGRSedInputDataType,
+        m_strOGRFloodDriverCode, // Flood input locations (point or vector)
+        m_strOGRFloodGeometry,
+        m_strOGRFloodDataType,
         m_strGDALRasterOutputDriverLongname,
         m_strGDALRasterOutputDriverExtension,
         m_strOGRVectorOutputExtension,
@@ -437,7 +465,11 @@ private:
         m_strDeepWaterWaveStationsShapefile,
         m_strDeepWaterWavesTimeSeriesFile,
         m_strSedimentInputEventShapefile,
-        m_strSedimentInputEventTimeSeriesFile;
+        m_strSedimentInputEventTimeSeriesFile,
+        // m_strLevel,
+        m_strFloodLocationShapefile;
+
+    int m_nLevel;
 
     struct RandState
     {
@@ -459,7 +491,9 @@ private:
         BeachErosionTSStream,
         BeachDepositionTSStream,
         BeachSedimentChangeNetTSStream,
-        SedLoadTSStream;
+        SedLoadTSStream,
+        FloodSetupSurgeTSStream,
+        FloodSetupSurgeRunupTSStream;
 
     vector<bool>
         m_bConsChangedThisIter,
@@ -469,6 +503,7 @@ private:
         m_VnProfileToSave,
         m_VnDeepWaterWaveStationID,  // ID for deep water wave station, this corresponds with the ID in the wave time series file
         m_VnSedimentInputLocationID, // ID for sediment input location, this corresponds with the ID in the sediment input time series file
+        m_VnFloodLocationID,         // ID for flood location
         m_VnSavGolIndexCoast;        // Savitzky-Golay shift index for the coastline vector(s)
 
     vector<unsigned long>
@@ -491,7 +526,9 @@ private:
         m_VdTSDeepWaterWaveStationAngle,        // Time series of wave orientation at deep water wave station
         m_VdTSDeepWaterWaveStationPeriod,       // Time series of wave period at deep water wave station
         m_VdSedimentInputLocationX,             // X co-ordinate (grid CRS) for sediment input event
-        m_VdSedimentInputLocationY;             // X co-ordinate (grid CRS) for sediment input event
+        m_VdSedimentInputLocationY,             // X co-ordinate (grid CRS) for sediment input event
+        m_VdFloodLocationX,                     // X co-ordinate (grid CRS) for total water level flooding
+        m_VdFloodLocationY;                     // X co-ordinate (grid CRS) for total water level flooding
 
     vector<string>
         m_VstrInitialFineUnconsSedimentFile,
@@ -530,6 +567,9 @@ private:
 
     // The coastline objects
     vector<CRWCoast> m_VCoast;
+    // vector<CRWCoast> m_VFloodWaveSetup;
+    vector<CRWCoast> m_VFloodWaveSetupSurge;
+    vector<CRWCoast> m_VFloodWaveSetupSurgeRunup;
 
     // Pointers to coast polygon objects
     vector<CGeomCoastPolygon *> m_pVCoastPolygon;
@@ -539,6 +579,9 @@ private:
 
     // And the grid edge that each edge cell belongs to
     vector<int> m_VEdgeCellEdge;
+
+    // And the location to compute the total water level for flooding
+    vector<int> m_VCellFloodLocation;
 
     // Sediment input events
     vector<CSedInputEvent *> m_pVSedInputEvent;
@@ -583,6 +626,7 @@ private:
     int nCalcExternalForcing(void);
     int nInitGridAndCalcStillWaterLevel(void);
     int nLocateSeaAndCoasts(void);
+    int nLocateFloodAndCoasts(void);
     static int nLocateAllEstuaries(void);
     int nAssignAllCoastalLandforms(void);
     int nAssignNonCoastlineLandforms(void);
@@ -595,9 +639,13 @@ private:
 
     // Lower-level simulation routines
     void FindAllSeaCells(void);
+    int FindAllInundatedCells(void);
     void FloodFillSea(int const, int const);
+    void FloodFillLand(int const, int const); // Recursive Scanline 8-Way Floodfill Algorithm (floodFillScanline)
     int nTraceCoastLine(unsigned int const, int const, int const, vector<bool> *, vector<CGeom2DIPoint> const *);
     int nTraceAllCoasts(void);
+    int nTraceFloodCoastLine(unsigned int const, int const, int const, vector<bool> *, vector<CGeom2DIPoint> const *);
+    int nTraceAllFloodCoasts(void);
     void DoCoastCurvature(int const, int const);
     int nCreateAllProfilesAndCheckForIntersection(void);
     int nCreateAllProfiles(void);
@@ -632,7 +680,7 @@ private:
     int nGetThisProfileElevationVectorsForCShore(int const, int const, int const, vector<double> *, vector<double> *, vector<double> *);
     int nCreateCShoreInfile(int const, int const, int const, int const, int const, int const, int const, int const, int const, int const, int const, int const, int const, double const, double const, double const, double const, double const, double const, double const, double const, vector<double> const *, vector<double> const *, vector<double> const *);
     int nReadCShoreOutput(int const, string const *, int const, int const, vector<double> const *, vector<double> *);
-    static void InterpolateCShoreOutput(vector<double> const *, int const, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> *, vector<double> *, vector<double> *, vector<double> *, vector<double> *);
+    static void InterpolateCShoreOutput(vector<double> const *, int const, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> *, vector<double> *, vector<double> *, vector<double> *);
     static void CShoreHermiteSmoothing(int const, vector<double> const *, vector<double> const *, vector<double> const *, vector<double> *);
     static double dCalcWaveAngleToCoastNormal(double const, double const, int const);
     void CalcCoastTangents(int const);
@@ -731,6 +779,7 @@ private:
     void AnnounceReadInitialCoarseConsSedGIS(int const) const;
     void AnnounceReadDeepWaterWaveValuesGIS(void) const;
     void AnnounceReadSedimentEventInputValuesGIS(void) const;
+    void AnnounceReadFloodLocationGIS(void) const;
     void AnnounceReadTideData(void) const;
     static void AnnounceReadSCAPEShapeFunctionFile(void);
     static void AnnounceAllocateMemory(void);
@@ -759,7 +808,7 @@ private:
     void CalcProcessStats(void);
     void CalcSavitzkyGolayCoeffs(void);
     CGeomLine LSmoothCoastSavitzkyGolay(CGeomLine *, int const, int const) const;
-    CGeomLine LSmoothCoastRunningMean(CGeomLine *, int const, int const) const;
+    CGeomLine LSmoothCoastRunningMean(CGeomLine *) const;
     vector<double> dVSmoothProfileSlope(vector<double> *);
     //    vector<double> dVCalCGeomProfileSlope(vector<CGeom2DPoint>*, vector<double>*);
     vector<double> dVSmoothProfileSavitzkyGolay(vector<double> *, vector<double> *);
@@ -813,6 +862,9 @@ public:
 
     //! Returns this timestep's still water level
     double dGetThisIterSWL(void) const;
+
+    //! Returns this timestep's total water level
+    double dGetThisIterTotWaterLevel(void) const;
 
     //! Returns the vertical tolerance for beach cells to be included in smoothing
     double dGetMaxBeachElevAboveSWL(void) const;

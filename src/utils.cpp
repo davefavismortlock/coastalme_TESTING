@@ -25,38 +25,38 @@
 #include <assert.h>
 
 #ifdef _WIN32
-   #include <windows.h>             // Needed for CalcProcessStats()
-   #include <psapi.h>               // TODO Not available sometimes?
-   #include <io.h>                  // For isatty()
+#include <windows.h> // Needed for CalcProcessStats()
+#include <psapi.h>   // TODO Not available sometimes?
+#include <io.h>      // For isatty()
 #elif defined __GNUG__
-   #include <sys/resource.h>        // Needed for CalcProcessStats()
-   #include <unistd.h>              // For isatty()
+#include <sys/resource.h> // Needed for CalcProcessStats()
+#include <unistd.h>       // For isatty()
 #endif
 
 #include <cmath>
 using std::floor;
 
 #include <ctime>
-using std::time;
-using std::localtime;
 using std::clock;
 using std::clock_t;
 using std::difftime;
+using std::localtime;
+using std::time;
 
 #include <iostream>
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 using std::ios;
-using std::showpos;
 using std::noshowpos;
+using std::showpos;
 
 #include <iomanip>
-using std::setiosflags;
+using std::put_time;
 using std::resetiosflags;
+using std::setiosflags;
 using std::setprecision;
 using std::setw;
-using std::put_time;
 
 #include <string>
 using std::to_string;
@@ -65,8 +65,8 @@ using std::to_string;
 using std::stringstream;
 
 #include <algorithm>
-using std::transform;
 using std::all_of;
+using std::transform;
 
 #include <numeric>
 using std::accumulate;
@@ -77,13 +77,12 @@ using std::inner_product;
 #include "cme.h"
 #include "simulation.h"
 
-
 /*==============================================================================================================================
 
  Handles command-line parameters
 
 ==============================================================================================================================*/
-int CSimulation::nHandleCommandLineParams(int nArg, char* pcArgv[])
+int CSimulation::nHandleCommandLineParams(int nArg, char *pcArgv[])
 {
    for (int i = 1; i < nArg; i++)
    {
@@ -99,9 +98,10 @@ int CSimulation::nHandleCommandLineParams(int nArg, char* pcArgv[])
       if (strArg.find("--gdal") != string::npos)
       {
          // User wants to know what GDAL raster drivers are available
-         cout << GDALDRIVERS << endl << endl;
+         cout << GDALDRIVERS << endl
+              << endl;
 
-         for (int j = 0; j < GDALGetDriverCount(); j++ )
+         for (int j = 0; j < GDALGetDriverCount(); j++)
          {
             GDALDriverH hDriver = GDALGetDriver(j);
 
@@ -142,7 +142,6 @@ int CSimulation::nHandleCommandLineParams(int nArg, char* pcArgv[])
    return RTN_OK;
 }
 
-
 /*==============================================================================================================================
 
  Tells the user that we have started the simulation
@@ -150,9 +149,9 @@ int CSimulation::nHandleCommandLineParams(int nArg, char* pcArgv[])
 ==============================================================================================================================*/
 void CSimulation::AnnounceStart(void)
 {
-   cout << endl << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << endl;
+   cout << endl
+        << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -172,20 +171,19 @@ void CSimulation::StartClock(void)
    {
       // All OK, so get the time in m_dClkLast (this is needed to check for clock rollover on long runs)
       m_dClkLast = static_cast<double>(clock());
-      m_dClkLast -= CLOCK_T_MIN;       // necessary if clock_t is signed to make m_dClkLast unsigned
+      m_dClkLast -= CLOCK_T_MIN; // necessary if clock_t is signed to make m_dClkLast unsigned
    }
 
    // And now get the actual time we started
    m_tSysStartTime = time(nullptr);
 }
 
-
 /*==============================================================================================================================
 
  Finds the folder (directory) in which the CoastalME executable is located
 
 ==============================================================================================================================*/
-bool CSimulation::bFindExeDir(char* pcArg)
+bool CSimulation::bFindExeDir(char *pcArg)
 {
    string strTmp;
    char szBuf[BUF_SIZE] = "";
@@ -197,7 +195,7 @@ bool CSimulation::bFindExeDir(char* pcArg)
       // It failed, so try another approach
       strTmp = pcArg;
 #else
-//   char* pResult = getcwd(szBuf, BUF_SIZE);          // Used to use this, but what if cwd is not the same as the CoastalME dir?
+   //   char* pResult = getcwd(szBuf, BUF_SIZE);          // Used to use this, but what if cwd is not the same as the CoastalME dir?
 
    if (-1 != readlink("/proc/self/exe", szBuf, BUF_SIZE))
       strTmp = szBuf;
@@ -212,11 +210,10 @@ bool CSimulation::bFindExeDir(char* pcArg)
 
    // It's OK, so trim off the executable's name
    int nPos = static_cast<int>(strTmp.find_last_of(PATH_SEPARATOR));
-   m_strCMEDir = strTmp.substr(0, nPos+1);            // Note that this must be terminated with a backslash
+   m_strCMEDir = strTmp.substr(0, nPos + 1); // Note that this must be terminated with a backslash
 
    return true;
 }
-
 
 /*==============================================================================================================================
 
@@ -225,7 +222,8 @@ bool CSimulation::bFindExeDir(char* pcArg)
 ==============================================================================================================================*/
 void CSimulation::AnnounceLicence(void)
 {
-   cout << COPYRIGHT << endl << endl;
+   cout << COPYRIGHT << endl
+        << endl;
    cout << LINE << endl;
    cout << DISCLAIMER1 << endl;
    cout << DISCLAIMER2 << endl;
@@ -233,19 +231,19 @@ void CSimulation::AnnounceLicence(void)
    cout << DISCLAIMER4 << endl;
    cout << DISCLAIMER5 << endl;
    cout << DISCLAIMER6 << endl;
-   cout << LINE << endl << endl;
+   cout << LINE << endl
+        << endl;
 
    cout << START_NOTICE << strGetComputerName() << " at " << put_time(localtime(&m_tSysStartTime), "%T on %A %d %B %Y") << endl;
    cout << INITIALIZING_NOTICE << endl;
 }
-
 
 /*==============================================================================================================================
 
  Given a string containing time units, this returns the appropriate multiplier
 
 ==============================================================================================================================*/
-double CSimulation::dGetTimeMultiplier(string const* strIn)
+double CSimulation::dGetTimeMultiplier(string const *strIn)
 {
    // First decide what the time units are
    int nTimeUnits = nDoTimeUnits(strIn);
@@ -253,37 +251,36 @@ double CSimulation::dGetTimeMultiplier(string const* strIn)
    // Then return the correct multiplier, since m_dTimeStep is in hours
    switch (nTimeUnits)
    {
-      case TIME_UNKNOWN:
-         return TIME_UNKNOWN;
-         break;
+   case TIME_UNKNOWN:
+      return TIME_UNKNOWN;
+      break;
 
-      case TIME_HOURS:
-         return 1;                     // Multiplier for hours
-         break;
+   case TIME_HOURS:
+      return 1; // Multiplier for hours
+      break;
 
-      case TIME_DAYS:
-         return 24;                    // Multiplier for days -> hours
-         break;
+   case TIME_DAYS:
+      return 24; // Multiplier for days -> hours
+      break;
 
-      case TIME_MONTHS:
-         return 24 * 30.416667;        // Multiplier for months -> hours (assume 30 + 5/12 day months, no leap years)
-         break;
+   case TIME_MONTHS:
+      return 24 * 30.416667; // Multiplier for months -> hours (assume 30 + 5/12 day months, no leap years)
+      break;
 
-      case TIME_YEARS:
-         return 24 * 365.25;           // Multiplier for years -> hours
-         break;
+   case TIME_YEARS:
+      return 24 * 365.25; // Multiplier for years -> hours
+      break;
    }
 
    return 0;
 }
-
 
 /*==============================================================================================================================
 
  Given a string containing time units, this sets up the appropriate multiplier and display units for the simulation
 
 ==============================================================================================================================*/
-int CSimulation::nDoSimulationTimeMultiplier(string const* strIn)
+int CSimulation::nDoSimulationTimeMultiplier(string const *strIn)
 {
    // First decide what the time units are
    int nTimeUnits = nDoTimeUnits(strIn);
@@ -291,41 +288,40 @@ int CSimulation::nDoSimulationTimeMultiplier(string const* strIn)
    // Next set up the correct multiplier, since m_dTimeStep is in hours
    switch (nTimeUnits)
    {
-      case TIME_UNKNOWN:
-         return RTN_ERR_TIMEUNITS;
-         break;
+   case TIME_UNKNOWN:
+      return RTN_ERR_TIMEUNITS;
+      break;
 
-      case TIME_HOURS:
-         m_dDurationUnitsMult = 1;                     // Multiplier for hours
-         m_strDurationUnits = "hours";
-         break;
+   case TIME_HOURS:
+      m_dDurationUnitsMult = 1; // Multiplier for hours
+      m_strDurationUnits = "hours";
+      break;
 
-      case TIME_DAYS:
-         m_dDurationUnitsMult = 24;                    // Multiplier for days -> hours
-         m_strDurationUnits = "days";
-         break;
+   case TIME_DAYS:
+      m_dDurationUnitsMult = 24; // Multiplier for days -> hours
+      m_strDurationUnits = "days";
+      break;
 
-      case TIME_MONTHS:
-         m_dDurationUnitsMult = 24 * 30.416667;        // Multiplier for months -> hours (assume 30 + 5/12 day months, no leap years)
-         m_strDurationUnits = "months";
-         break;
+   case TIME_MONTHS:
+      m_dDurationUnitsMult = 24 * 30.416667; // Multiplier for months -> hours (assume 30 + 5/12 day months, no leap years)
+      m_strDurationUnits = "months";
+      break;
 
-      case TIME_YEARS:
-         m_dDurationUnitsMult = 24 * 365.25;           // Multiplier for years -> hours
-         m_strDurationUnits = "years";
-         break;
+   case TIME_YEARS:
+      m_dDurationUnitsMult = 24 * 365.25; // Multiplier for years -> hours
+      m_strDurationUnits = "years";
+      break;
    }
 
    return RTN_OK;
 }
-
 
 /*==============================================================================================================================
 
  This finds time units in a string
 
 ==============================================================================================================================*/
-int CSimulation::nDoTimeUnits(string const* strIn)
+int CSimulation::nDoTimeUnits(string const *strIn)
 {
    if (strIn->find("hour") != string::npos)
       return TIME_HOURS;
@@ -339,7 +335,6 @@ int CSimulation::nDoTimeUnits(string const* strIn)
       return TIME_UNKNOWN;
 }
 
-
 /*==============================================================================================================================
 
  Opens the log file
@@ -349,12 +344,25 @@ bool CSimulation::bOpenLogFile(void)
 {
    // Open in binary mode if just checking random numbers
 #ifdef RANDCHECK
-   LogStream.open(m_strLogFile.c_str(), ios::out | ios::binary | ios::trunc);
+   if (m_nLogFileDetail == 0)
+   {
+      LogStream.open("/dev/null", ios::out | ios::binary | ios::trunc);
+      cout << "Warning: log file is not writting" << endl;
+   }
+   else
+      LogStream.open(m_strLogFile.c_str(), ios::out | ios::binary | ios::trunc);
+
 #else
-   LogStream.open(m_strLogFile.c_str(), ios::out | ios::trunc);
+   if (m_nLogFileDetail == 0)
+   {
+      LogStream.open("/dev/null", ios::out | ios::trunc);
+      cout << "Warning: log file is not writting" << endl;
+   }
+   else
+      LogStream.open(m_strLogFile.c_str(), ios::out | ios::trunc);
 #endif
 
-   if (! LogStream)
+   if (!LogStream)
    {
       // Error, cannot open log file
       cerr << ERR << "cannot open " << m_strLogFile << " for output" << endl;
@@ -363,7 +371,6 @@ bool CSimulation::bOpenLogFile(void)
 
    return true;
 }
-
 
 /*==============================================================================================================================
 
@@ -380,7 +387,6 @@ void CSimulation::AnnounceReadBasementDEM(void) const
 #endif
 }
 
-
 /*==============================================================================================================================
 
  Tells the user that we are now allocating memory
@@ -390,7 +396,6 @@ void CSimulation::AnnounceAllocateMemory(void)
 {
    cout << ALLOCATE_MEMORY << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -403,7 +408,6 @@ void CSimulation::AnnounceAddLayers(void)
    cout << ADD_LAYERS << endl;
 }
 
-
 /*==============================================================================================================================
 
  Now reading raster GIS files
@@ -413,7 +417,6 @@ void CSimulation::AnnounceReadRasterFiles(void)
 {
    cout << READING_RASTER_FILES << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -425,7 +428,6 @@ void CSimulation::AnnounceReadVectorFiles(void)
    cout << READING_VECTOR_FILES << endl;
 }
 
-
 /*==============================================================================================================================
 
  Tells the user that we are now reading the Landscape category GIS file
@@ -434,14 +436,13 @@ void CSimulation::AnnounceReadVectorFiles(void)
 void CSimulation::AnnounceReadLGIS(void) const
 {
    // Tell the user what is happening
-   if (! m_strInitialLandformFile.empty())
+   if (!m_strInitialLandformFile.empty())
 #ifdef _WIN32
       cout << READING_LANDFORM_FILE << pstrChangeToForwardSlash(&m_strInitialLandformFile) << endl;
 #else
       cout << READING_LANDFORM_FILE << m_strInitialLandformFile << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -451,14 +452,13 @@ void CSimulation::AnnounceReadLGIS(void) const
 void CSimulation::AnnounceReadICGIS(void) const
 {
    // Tell the user what is happening
-   if (! m_strInterventionClassFile.empty())
+   if (!m_strInterventionClassFile.empty())
 #ifdef _WIN32
       cout << READING_INTERVENTION_CLASS_FILE << pstrChangeToForwardSlash(&m_strInterventionClassFile) << endl;
 #else
       cout << READING_INTERVENTION_CLASS_FILE << m_strInterventionClassFile << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -468,14 +468,13 @@ void CSimulation::AnnounceReadICGIS(void) const
 void CSimulation::AnnounceReadIHGIS(void) const
 {
    // Tell the user what is happening
-   if (! m_strInterventionHeightFile.empty())
+   if (!m_strInterventionHeightFile.empty())
 #ifdef _WIN32
       cout << READING_INTERVENTION_HEIGHT_FILE << pstrChangeToForwardSlash(&m_strInterventionHeightFile) << endl;
 #else
       cout << READING_INTERVENTION_HEIGHT_FILE << m_strInterventionHeightFile << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -485,14 +484,13 @@ void CSimulation::AnnounceReadIHGIS(void) const
 void CSimulation::AnnounceReadDeepWaterWaveValuesGIS(void) const
 {
    // Tell the user what is happening
-   if (! m_strDeepWaterWavesTimeSeriesFile.empty())
+   if (!m_strDeepWaterWavesTimeSeriesFile.empty())
 #ifdef _WIN32
       cout << READING_DEEP_WATER_WAVE_FILE << pstrChangeToForwardSlash(&m_strDeepWaterWavesTimeSeriesFile) << endl;
 #else
       cout << READING_DEEP_WATER_WAVE_FILE << m_strDeepWaterWavesTimeSeriesFile << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -502,7 +500,7 @@ void CSimulation::AnnounceReadDeepWaterWaveValuesGIS(void) const
 void CSimulation::AnnounceReadSedimentEventInputValuesGIS(void) const
 {
    // Tell the user what is happening
-   if (! m_strSedimentInputEventTimeSeriesFile.empty())
+   if (!m_strSedimentInputEventTimeSeriesFile.empty())
 #ifdef _WIN32
       cout << READING_SED_INPUT_EVENT_FILE << pstrChangeToForwardSlash(&m_strSedimentInputEventTimeSeriesFile) << endl;
 #else
@@ -510,6 +508,21 @@ void CSimulation::AnnounceReadSedimentEventInputValuesGIS(void) const
 #endif
 }
 
+/*==============================================================================================================================
+
+ Tells the user that we are now reading the flood location GIS file
+
+==============================================================================================================================*/
+void CSimulation::AnnounceReadFloodLocationGIS(void) const
+{
+   // Tell the user what is happening
+   if (!m_strFloodLocationShapefile.empty())
+#ifdef _WIN32
+      cout << READING_FLOOD_LOCATION << pstrChangeToForwardSlash(&m_strFloodLocationShapefile) << endl;
+#else
+      cout << READING_FLOOD_LOCATION << m_strFloodLocationShapefile << endl;
+#endif
+}
 
 /*==============================================================================================================================
 
@@ -526,7 +539,6 @@ void CSimulation::AnnounceReadInitialSuspSedGIS(void) const
 #endif
 }
 
-
 /*==============================================================================================================================
 
  Tells the user that we are now reading the initial fine unconsolidated sediment depth GIS file
@@ -536,12 +548,11 @@ void CSimulation::AnnounceReadInitialFineUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_UNCONS_FINE_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialFineUnconsSedimentFile[nLayer]) << endl;
+   cout << READING_UNCONS_FINE_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialFineUnconsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_UNCONS_FINE_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialFineUnconsSedimentFile[nLayer] << endl;
+   cout << READING_UNCONS_FINE_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialFineUnconsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -552,12 +563,11 @@ void CSimulation::AnnounceReadInitialSandUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_UNCONS_SAND_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialSandUnconsSedimentFile[nLayer]) << endl;
+   cout << READING_UNCONS_SAND_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialSandUnconsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_UNCONS_SAND_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialSandUnconsSedimentFile[nLayer] << endl;
+   cout << READING_UNCONS_SAND_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialSandUnconsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -568,12 +578,11 @@ void CSimulation::AnnounceReadInitialCoarseUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_UNCONS_COARSE_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialCoarseUnconsSedimentFile[nLayer]) << endl;
+   cout << READING_UNCONS_COARSE_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialCoarseUnconsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_UNCONS_COARSE_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialCoarseUnconsSedimentFile[nLayer] << endl;
+   cout << READING_UNCONS_COARSE_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialCoarseUnconsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -584,12 +593,11 @@ void CSimulation::AnnounceReadInitialFineConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_CONS_FINE_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialFineConsSedimentFile[nLayer]) << endl;
+   cout << READING_CONS_FINE_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialFineConsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_CONS_FINE_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialFineConsSedimentFile[nLayer] << endl;
+   cout << READING_CONS_FINE_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialFineConsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -600,12 +608,11 @@ void CSimulation::AnnounceReadInitialSandConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_CONS_SAND_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialSandConsSedimentFile[nLayer]) << endl;
+   cout << READING_CONS_SAND_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialSandConsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_CONS_SAND_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialSandConsSedimentFile[nLayer] << endl;
+   cout << READING_CONS_SAND_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialSandConsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -616,12 +623,11 @@ void CSimulation::AnnounceReadInitialCoarseConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
 #ifdef _WIN32
-   cout << READING_CONS_COARSE_SEDIMENT_FILE << nLayer+1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialCoarseConsSedimentFile[nLayer]) << endl;
+   cout << READING_CONS_COARSE_SEDIMENT_FILE << nLayer + 1 << "): " << pstrChangeToForwardSlash(&m_VstrInitialCoarseConsSedimentFile[nLayer]) << endl;
 #else
-   cout << READING_CONS_COARSE_SEDIMENT_FILE << nLayer+1 << "): " << m_VstrInitialCoarseConsSedimentFile[nLayer] << endl;
+   cout << READING_CONS_COARSE_SEDIMENT_FILE << nLayer + 1 << "): " << m_VstrInitialCoarseConsSedimentFile[nLayer] << endl;
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -629,14 +635,13 @@ void CSimulation::AnnounceReadInitialCoarseConsSedGIS(int const nLayer) const
 
 ==============================================================================================================================*/
 void CSimulation::AnnounceReadTideData(void) const
- {
- #ifdef _WIN32
-       cout << READING_TIDE_DATA_FILE << pstrChangeToForwardSlash(&m_strTideDataFile) << endl;
- #else
-       cout << READING_TIDE_DATA_FILE << m_strTideDataFile << endl;
- #endif
- }
-
+{
+#ifdef _WIN32
+   cout << READING_TIDE_DATA_FILE << pstrChangeToForwardSlash(&m_strTideDataFile) << endl;
+#else
+   cout << READING_TIDE_DATA_FILE << m_strTideDataFile << endl;
+#endif
+}
 
 /*==============================================================================================================================
 
@@ -647,7 +652,6 @@ void CSimulation::AnnounceReadSCAPEShapeFunctionFile(void)
 {
    cout << READING_SCAPE_SHAPE_FUNCTION_FILE << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -660,7 +664,6 @@ void CSimulation::AnnounceInitializing(void)
    cout << INITIALIZING << endl;
 }
 
-
 /*==============================================================================================================================
 
  Tell the user that the simulation is now running
@@ -670,7 +673,6 @@ void CSimulation::AnnounceIsRunning(void)
 {
    cout << RUN_NOTICE << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -929,11 +931,10 @@ string CSimulation::strListRasterFiles(void) const
 
    // Remove the trailing comma and space
    if (strTmp.size() > 2)
-      strTmp.resize(strTmp.size()-2);
+      strTmp.resize(strTmp.size() - 2);
 
    return strTmp;
 }
-
 
 /*==============================================================================================================================
 
@@ -1043,11 +1044,10 @@ string CSimulation::strListVectorFiles(void) const
 
    // Remove the trailing comma and space
    if (strTmp.size() > 2)
-      strTmp.resize(strTmp.size()-2);
+      strTmp.resize(strTmp.size() - 2);
 
    return strTmp;
 }
-
 
 /*==============================================================================================================================
 
@@ -1106,7 +1106,7 @@ string CSimulation::strListTSFiles(void) const
       strTmp.append(", ");
    }
 
- if (m_bBeachSedimentChangeNetTSSave)
+   if (m_bBeachSedimentChangeNetTSSave)
    {
       strTmp.append(TIME_SERIES_BEACH_CHANGE_NET_CODE);
       strTmp.append(", ");
@@ -1118,13 +1118,24 @@ string CSimulation::strListTSFiles(void) const
       strTmp.append(", ");
    }
 
+   if (m_bFloodSetupSurgeTSSave)
+   {
+      strTmp.append(TIME_SERIES_FLOOD_SETUP_SURGE_CODE);
+      strTmp.append(", ");
+   }
+
+   if (m_bFloodSetupSurgeRunupTSSave)
+   {
+      strTmp.append(TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_CODE);
+      strTmp.append(", ");
+   }
+
    // Remove the trailing comma and space
    if (strTmp.size() > 2)
-      strTmp.resize(strTmp.size()-2);
+      strTmp.resize(strTmp.size() - 2);
 
    return strTmp;
 }
-
 
 /*==============================================================================================================================
 
@@ -1144,7 +1155,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open wetted time-series CSV file
       SeaAreaTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! SeaAreaTSStream)
+      if (!SeaAreaTSStream)
       {
          // Error, cannot open wetted area  time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1161,7 +1172,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open still water level time-series CSV file
       StillWaterLevelTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! StillWaterLevelTSStream)
+      if (!StillWaterLevelTSStream)
       {
          // Error, cannot open still water level time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1178,7 +1189,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open erosion time-series CSV file
       ErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! ErosionTSStream)
+      if (!ErosionTSStream)
       {
          // Error, cannot open erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1195,7 +1206,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open cliff collapse erosion time-series CSV file
       CliffCollapseErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! CliffCollapseErosionTSStream)
+      if (!CliffCollapseErosionTSStream)
       {
          // Error, cannot open cliff collapse erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1212,7 +1223,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open cliff collapse deposition time-series CSV file
       CliffCollapseDepositionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! CliffCollapseDepositionTSStream)
+      if (!CliffCollapseDepositionTSStream)
       {
          // Error, cannot open cliff collapse deposition time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1229,7 +1240,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open net cliff collapse time-series CSV file
       CliffCollapseNetTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! CliffCollapseNetTSStream)
+      if (!CliffCollapseNetTSStream)
       {
          // Error, cannot open net cliff collapse time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1246,7 +1257,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open beach erosion time-series CSV file
       BeachErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! BeachErosionTSStream)
+      if (!BeachErosionTSStream)
       {
          // Error, cannot open beach erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1263,7 +1274,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open beach deposition time-series CSV file
       BeachDepositionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! BeachDepositionTSStream)
+      if (!BeachDepositionTSStream)
       {
          // Error, cannot open beach deposition time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1280,7 +1291,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open net beach sediment change time-series CSV file
       BeachSedimentChangeNetTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! BeachSedimentChangeNetTSStream)
+      if (!BeachSedimentChangeNetTSStream)
       {
          // Error, cannot open beach sediment change time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1297,7 +1308,41 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open sediment load time-series CSV file
       SedLoadTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (! SedLoadTSStream)
+      if (!SedLoadTSStream)
+      {
+         // Error, cannot open sediment load time-series file
+         cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
+         return false;
+      }
+   }
+
+   if (m_bFloodSetupSurgeTSSave)
+   {
+      // Sediment load
+      strTSFile = m_strOutPath;
+      strTSFile.append(TIME_SERIES_FLOOD_SETUP_SURGE_CODE);
+      strTSFile.append(CSVEXT);
+
+      // Open sediment load time-series CSV file
+      FloodSetupSurgeTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (!FloodSetupSurgeTSStream)
+      {
+         // Error, cannot open sediment load time-series file
+         cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
+         return false;
+      }
+   }
+
+   if (m_bFloodSetupSurgeRunupTSSave)
+   {
+      // Sediment load
+      strTSFile = m_strOutPath;
+      strTSFile.append(TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_CODE);
+      strTSFile.append(CSVEXT);
+
+      // Open sediment load time-series CSV file
+      FloodSetupSurgeRunupTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (!FloodSetupSurgeRunupTSStream)
       {
          // Error, cannot open sediment load time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1307,7 +1352,6 @@ bool CSimulation::bSetUpTSFiles(void)
 
    return true;
 }
-
 
 /*==============================================================================================================================
 
@@ -1339,7 +1383,6 @@ bool CSimulation::bTimeToQuit(void)
    return false;
 }
 
-
 /*==============================================================================================================================
 
  Update and print grand totals at the end of each timestep
@@ -1347,146 +1390,151 @@ bool CSimulation::bTimeToQuit(void)
 ==============================================================================================================================*/
 void CSimulation::UpdateGrandTotals(void)
 {
-   LogStream << endl << "TOTALS FOR TIMESTEP " << m_ulIter << " (all m^3)" << endl;
-   LogStream << "Potential platform erosion = " << m_dThisIterPotentialPlatformErosion * m_dCellArea << endl;
+   LogStream << endl
+             << "TOTALS FOR TIMESTEP " << m_ulIter << endl;
+   LogStream << "Potential platform erosion = " << m_dThisIterPotentialPlatformErosion * m_dCellArea << " m^3" << endl;
 
-   LogStream << "Actual fine platform erosion = " << m_dThisIterActualPlatformErosionFine * m_dCellArea << endl;
-   LogStream << "Actual sand platform erosion = " << m_dThisIterActualPlatformErosionSand * m_dCellArea << endl;
-   LogStream << "Actual coarse platform erosion = " << m_dThisIterActualPlatformErosionCoarse * m_dCellArea << endl;
-   LogStream << "TOTAL actual platform erosion = " << (m_dThisIterActualPlatformErosionFine + m_dThisIterActualPlatformErosionSand + m_dThisIterActualPlatformErosionCoarse) * m_dCellArea << endl;
+   LogStream << "Actual fine platform erosion = " << m_dThisIterActualPlatformErosionFine * m_dCellArea << " m^3" << endl;
+   LogStream << "Actual sand platform erosion = " << m_dThisIterActualPlatformErosionSand * m_dCellArea << " m^3" << endl;
+   LogStream << "Actual coarse platform erosion = " << m_dThisIterActualPlatformErosionCoarse * m_dCellArea << " m^3" << endl;
+   LogStream << "TOTAL actual platform erosion = " << (m_dThisIterActualPlatformErosionFine + m_dThisIterActualPlatformErosionSand + m_dThisIterActualPlatformErosionCoarse) * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Cliff collapse
-   LogStream << "Cliff collapse fine = " << noshowpos << m_dThisIterCliffCollapseErosionFine * m_dCellArea << endl;
-   LogStream << "Cliff collapse sand = " << m_dThisIterCliffCollapseErosionSand * m_dCellArea << endl;
-   LogStream << "Cliff collapse coarse = " << m_dThisIterCliffCollapseErosionCoarse * m_dCellArea << endl;
-   LogStream << "TOTAL cliff collapse = " << (m_dThisIterCliffCollapseErosionFine + m_dThisIterCliffCollapseErosionSand + m_dThisIterCliffCollapseErosionCoarse) * m_dCellArea << endl;
+   LogStream << "Cliff collapse fine = " << m_dThisIterCliffCollapseErosionFine * m_dCellArea << " m^3" << endl;
+   LogStream << "Cliff collapse sand = " << m_dThisIterCliffCollapseErosionSand * m_dCellArea << " m^3" << endl;
+   LogStream << "Cliff collapse coarse = " << m_dThisIterCliffCollapseErosionCoarse * m_dCellArea << " m^3" << endl;
+   LogStream << "TOTAL cliff collapse = " << (m_dThisIterCliffCollapseErosionFine + m_dThisIterCliffCollapseErosionSand + m_dThisIterCliffCollapseErosionCoarse) * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Cliff collapse talus deposition
-   LogStream << "Deposition of unconsolidated sand talus due to cliff collapse = " << noshowpos << m_dThisIterCliffDepositionSand * m_dCellArea << endl;
-   LogStream << "Deposition of unconsolidated coarse talus due to cliff collapse = " << m_dThisIterCliffDepositionCoarse * m_dCellArea << endl;
+   LogStream << "Deposition of unconsolidated sand talus due to cliff collapse = " << m_dThisIterCliffDepositionSand * m_dCellArea << " m^3" << endl;
+   LogStream << "Deposition of unconsolidated coarse talus due to cliff collapse = " << m_dThisIterCliffDepositionCoarse * m_dCellArea << " m^3" << endl;
 
    // Cliff collapse talus erosion
-   LogStream << "Erosion of previously-deposited fine talus = " << m_dThisIterCliffErosionFine * m_dCellArea << endl;
-   LogStream << "Erosion of previously-deposited sand talus = " << m_dThisIterCliffTalusSandErosion * m_dCellArea << endl;
-   LogStream << "Erosion of previously-deposited coarse talus = " << m_dThisIterCliffTalusCoarseErosion * m_dCellArea << endl;
-   LogStream << "TOTAL change in talus from cliff collapse = " << showpos << (-m_dThisIterCliffErosionFine + (m_dThisIterCliffDepositionSand - m_dThisIterCliffTalusSandErosion) + (m_dThisIterCliffDepositionCoarse - m_dThisIterCliffTalusCoarseErosion)) * m_dCellArea << endl;
+   LogStream << "Erosion of previously-deposited fine talus = " << m_dThisIterCliffErosionFine * m_dCellArea << " m^3" << endl;
+   LogStream << "Erosion of previously-deposited sand talus = " << m_dThisIterCliffTalusSandErosion * m_dCellArea << " m^3" << endl;
+   LogStream << "Erosion of previously-deposited coarse talus = " << m_dThisIterCliffTalusCoarseErosion * m_dCellArea << " m^3" << endl;
+   LogStream << "TOTAL change in talus from cliff collapse = " << showpos << (-m_dThisIterCliffErosionFine + (m_dThisIterCliffDepositionSand - m_dThisIterCliffTalusSandErosion) + (m_dThisIterCliffDepositionCoarse - m_dThisIterCliffTalusCoarseErosion)) * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Beach erosion
-   LogStream << "Potential beach erosion = " << noshowpos << m_dThisIterPotentialBeachErosion * m_dCellArea << endl;
+   LogStream << "Potential beach erosion = " << noshowpos << m_dThisIterPotentialBeachErosion * m_dCellArea << " m^3" << endl;
 
-   LogStream << "Actual fine beach erosion = " << m_dThisIterActualBeachErosionFine * m_dCellArea << endl;
-   LogStream << "Actual sand beach erosion = " << m_dThisIterActualBeachErosionSand * m_dCellArea << endl;
-   LogStream << "Actual coarse beach erosion = " << m_dThisIterActualBeachErosionCoarse * m_dCellArea << endl;
+   LogStream << "Actual fine beach erosion = " << m_dThisIterActualBeachErosionFine * m_dCellArea << " m^3" << endl;
+   LogStream << "Actual sand beach erosion = " << m_dThisIterActualBeachErosionSand * m_dCellArea << " m^3" << endl;
+   LogStream << "Actual coarse beach erosion = " << m_dThisIterActualBeachErosionCoarse * m_dCellArea << " m^3" << endl;
 
    // Beach deposition
-   LogStream << "Sand beach deposition = " << m_dThisIterBeachDepositionSand * m_dCellArea << endl;
-   LogStream << "Coarse beach deposition = " << m_dThisIterBeachDepositionCoarse * m_dCellArea << endl;
+   LogStream << "Sand beach deposition = " << m_dThisIterBeachDepositionSand * m_dCellArea << " m^3" << endl;
+   LogStream << "Coarse beach deposition = " << m_dThisIterBeachDepositionCoarse * m_dCellArea << " m^3" << endl;
 
    LogStream << "Change in fine beach sediment = " << -m_dThisIterActualBeachErosionFine * m_dCellArea << endl;
-   LogStream << "Change in sand beach sediment = " << (m_dThisIterBeachDepositionSand - m_dThisIterActualBeachErosionSand) * m_dCellArea << endl;
-   LogStream << "Change in coarse beach sediment = " << (m_dThisIterBeachDepositionCoarse - m_dThisIterActualBeachErosionCoarse) * m_dCellArea << endl;
-   LogStream << "TOTAL change in beach sediment = " << showpos << (-m_dThisIterActualBeachErosionFine + (m_dThisIterBeachDepositionSand - m_dThisIterActualBeachErosionSand) + (m_dThisIterBeachDepositionCoarse - m_dThisIterActualBeachErosionCoarse)) * m_dCellArea << endl;
+   LogStream << "Change in sand beach sediment = " << (m_dThisIterBeachDepositionSand - m_dThisIterActualBeachErosionSand) * m_dCellArea << " m^3" << endl;
+   LogStream << "Change in coarse beach sediment = " << (m_dThisIterBeachDepositionCoarse - m_dThisIterActualBeachErosionCoarse) * m_dCellArea << " m^3" << endl;
+   LogStream << "TOTAL change in beach sediment = " << showpos << (-m_dThisIterActualBeachErosionFine + (m_dThisIterBeachDepositionSand - m_dThisIterActualBeachErosionSand) + (m_dThisIterBeachDepositionCoarse - m_dThisIterActualBeachErosionCoarse)) * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Sediment input events
-   LogStream << "Fine sediment added via input events = " << m_dThisiterFineSedimentInput * m_dCellArea << endl;
-   LogStream << "Sand sediment added via input events = " << m_dThisiterSandSedimentInput * m_dCellArea << endl;
-   LogStream << "Coarse sediment added via input events = " << m_dThisiterCoarseSedimentInput * m_dCellArea << endl;
+   LogStream << "Fine sediment added via input events = " << noshowpos << m_dThisiterFineSedimentInput * m_dCellArea << " m^3" << endl;
+   LogStream << "Sand sediment added via input events = " << m_dThisiterSandSedimentInput * m_dCellArea << " m^3" << endl;
+   LogStream << "Coarse sediment added via input events = " << m_dThisiterCoarseSedimentInput * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Sediment lost from grid due to beach erosion and deposition
-   LogStream << "Beach sediment potentially lost from grid = " << noshowpos << m_dThisIterPotentialSedLostBeachErosion * m_dCellArea << endl;
+   LogStream << "Beach sediment potentially lost from grid = " << m_dThisIterPotentialSedLostBeachErosion * m_dCellArea << " m^3" << endl;
 
-   LogStream << "Fine beach sediment actually lost from grid = " << m_dThisIterActualFineSedLostBeachErosion * m_dCellArea << endl;
-   LogStream << "Sand beach sediment actually lost from grid = " << m_dThisIterActualSandSedLostBeachErosion * m_dCellArea << endl;
-   LogStream << "Coarse beach sediment actually lost from grid = " << m_dThisIterActualCoarseSedLostBeachErosion * m_dCellArea << endl;
+   LogStream << "Fine beach sediment actually lost from grid = " << m_dThisIterActualFineSedLostBeachErosion * m_dCellArea << " m^3" << endl;
+   LogStream << "Sand beach sediment actually lost from grid = " << m_dThisIterActualSandSedLostBeachErosion * m_dCellArea << " m^3" << endl;
+   LogStream << "Coarse beach sediment actually lost from grid = " << m_dThisIterActualCoarseSedLostBeachErosion * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Sediment lost from grid due to cliff collapse
-   LogStream << "Sand sediment lost from grid due to cliff collapse = " << m_dThisIterSandSedLostCliffCollapse * m_dCellArea << endl;
-   LogStream << "Coarse sediment lost from grid due to cliff collapse = " << m_dThisIterCoarseSedLostCliffCollapse * m_dCellArea << endl;
+   LogStream << "Sand sediment lost from grid due to cliff collapse = " << m_dThisIterSandSedLostCliffCollapse * m_dCellArea << " m^3" << endl;
+   LogStream << "Coarse sediment lost from grid due to cliff collapse = " << m_dThisIterCoarseSedLostCliffCollapse * m_dCellArea << " m^3" << endl;
 
-   LogStream << "TOTAL beach sediment actually lost from grid (all processes)  = " << (m_dThisIterActualFineSedLostBeachErosion + m_dThisIterActualSandSedLostBeachErosion + m_dThisIterActualCoarseSedLostBeachErosion + m_dThisIterSandSedLostCliffCollapse + m_dThisIterCoarseSedLostCliffCollapse) * m_dCellArea << endl;
+   LogStream << "TOTAL beach sediment actually lost from grid (all processes) = " << (m_dThisIterActualFineSedLostBeachErosion + m_dThisIterActualSandSedLostBeachErosion + m_dThisIterActualCoarseSedLostBeachErosion + m_dThisIterSandSedLostCliffCollapse + m_dThisIterCoarseSedLostCliffCollapse) * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
    // Suspended sediment
-   LogStream << "Suspended sediment = " << noshowpos << m_dThisIterFineSedimentToSuspension * m_dCellArea << endl;
+   LogStream << "Suspended sediment = " << m_dThisIterFineSedimentToSuspension * m_dCellArea << " m^3" << endl;
 
    LogStream << endl;
 
-   // Any errors? TODO REPLACE THIS
-//    LogStream << "Erosion errors = " << m_dThisIterMassBalanceErosionError * m_dCellArea << endl;
-//    LogStream << "Deposition errors = " << m_dThisIterMassBalanceDepositionError * m_dCellArea << endl;
-
+   // Any differences or errors?
+   LogStream << "Difference between potential and actual erosion, fine sediment = " << m_dThisIterErosionFineDiff * m_dCellArea << " m^3" << endl;
+   LogStream << "Difference between potential and actual erosion, sand sediment = " << m_dThisIterErosionSandDiff * m_dCellArea << " m^3" << endl;
+   LogStream << "Difference between potential and actual erosion, coarse sediment = " << m_dThisIterErosionCoarseDiff * m_dCellArea << " m^3" << endl;
+   LogStream << "Deposition error, sand sediment = " << m_dThisIterDepositionSandDiff * m_dCellArea << " m^3" << endl;
+   LogStream << "Deposition error, coarse sediment = " << m_dThisIterDepositionCoarseDiff * m_dCellArea << " m^3" << endl;
    LogStream << endl;
 
    // Add to grand totals: first platform erosion
-   m_ldGTotPotentialPlatformErosion        += m_dThisIterPotentialPlatformErosion;
-//    assert(isfinite(m_dThisIterPotentialPlatformErosion));
+   m_ldGTotPotentialPlatformErosion += m_dThisIterPotentialPlatformErosion;
+   //    assert(isfinite(m_dThisIterPotentialPlatformErosion));
 
-   m_ldGTotFineActualPlatformErosion       += m_dThisIterActualPlatformErosionFine;
-   m_ldGTotSandActualPlatformErosion       += m_dThisIterActualPlatformErosionSand;
-   m_ldGTotCoarseActualPlatformErosion     += m_dThisIterActualPlatformErosionCoarse;
+   m_ldGTotFineActualPlatformErosion += m_dThisIterActualPlatformErosionFine;
+   m_ldGTotSandActualPlatformErosion += m_dThisIterActualPlatformErosionSand;
+   m_ldGTotCoarseActualPlatformErosion += m_dThisIterActualPlatformErosionCoarse;
 
    // Next cliff collapse
-   m_ldGTotCliffCollapseFine               += m_dThisIterCliffCollapseErosionFine;
-   m_ldGTotCliffCollapseSand               += m_dThisIterCliffCollapseErosionSand;
-   m_ldGTotCliffCollapseCoarse             += m_dThisIterCliffCollapseErosionCoarse;
+   m_ldGTotCliffCollapseFine += m_dThisIterCliffCollapseErosionFine;
+   m_ldGTotCliffCollapseSand += m_dThisIterCliffCollapseErosionSand;
+   m_ldGTotCliffCollapseCoarse += m_dThisIterCliffCollapseErosionCoarse;
 
    // Cliff collapse talus deposition
-   m_ldGTotCliffTalusSandDeposition        += m_dThisIterCliffDepositionSand;
-   m_ldGTotCliffTalusCoarseDeposition      += m_dThisIterCliffDepositionCoarse;
+   m_ldGTotCliffTalusSandDeposition += m_dThisIterCliffDepositionSand;
+   m_ldGTotCliffTalusCoarseDeposition += m_dThisIterCliffDepositionCoarse;
 
    // Cliff collapse talus erosion
-   m_ldGTotCliffTalusFineErosion           += m_dThisIterCliffErosionFine;
-   m_ldGTotCliffTalusSandErosion           += m_dThisIterCliffTalusSandErosion;
-   m_ldGTotCliffTalusCoarseErosion         += m_dThisIterCliffTalusCoarseErosion;
+   m_ldGTotCliffTalusFineErosion += m_dThisIterCliffErosionFine;
+   m_ldGTotCliffTalusSandErosion += m_dThisIterCliffTalusSandErosion;
+   m_ldGTotCliffTalusCoarseErosion += m_dThisIterCliffTalusCoarseErosion;
 
    // Beach erosion
-   m_ldGTotPotentialBeachErosion           += m_dThisIterPotentialBeachErosion;
+   m_ldGTotPotentialBeachErosion += m_dThisIterPotentialBeachErosion;
 
-   m_ldGTotActualFineBeachErosion          += m_dThisIterActualBeachErosionFine;
-   m_ldGTotActualSandBeachErosion          += m_dThisIterActualBeachErosionSand;
-   m_ldGTotActualCoarseBeachErosion        += m_dThisIterActualBeachErosionCoarse;
+   m_ldGTotActualFineBeachErosion += m_dThisIterActualBeachErosionFine;
+   m_ldGTotActualSandBeachErosion += m_dThisIterActualBeachErosionSand;
+   m_ldGTotActualCoarseBeachErosion += m_dThisIterActualBeachErosionCoarse;
 
    // Beach deposition
-   m_ldGTotSandBeachDeposition             += m_dThisIterBeachDepositionSand;
-   m_ldGTotCoarseBeachDeposition           += m_dThisIterBeachDepositionCoarse;
+   m_ldGTotSandBeachDeposition += m_dThisIterBeachDepositionSand;
+   m_ldGTotCoarseBeachDeposition += m_dThisIterBeachDepositionCoarse;
 
    // Sediment lost due to beach erosion
-   m_ldGTotPotentialSedLostBeachErosion    += m_dThisIterPotentialSedLostBeachErosion;
+   m_ldGTotPotentialSedLostBeachErosion += m_dThisIterPotentialSedLostBeachErosion;
 
-   m_ldGTotActualFineSedLostBeachErosion   += m_dThisIterActualFineSedLostBeachErosion;
-   m_ldGTotActualSandSedLostBeachErosion   += m_dThisIterActualSandSedLostBeachErosion;
+   m_ldGTotActualFineSedLostBeachErosion += m_dThisIterActualFineSedLostBeachErosion;
+   m_ldGTotActualSandSedLostBeachErosion += m_dThisIterActualSandSedLostBeachErosion;
    m_ldGTotActualCoarseSedLostBeachErosion += m_dThisIterActualCoarseSedLostBeachErosion;
 
    // Sediment lost due to cliff collapse
-   m_ldGTotSandSedLostCliffCollapse        += m_dThisIterSandSedLostCliffCollapse;
-   m_ldGTotCoarseSedLostCliffCollapse      += m_dThisIterCoarseSedLostCliffCollapse;
+   m_ldGTotSandSedLostCliffCollapse += m_dThisIterSandSedLostCliffCollapse;
+   m_ldGTotCoarseSedLostCliffCollapse += m_dThisIterCoarseSedLostCliffCollapse;
 
    // Sediment input event(s)
-   m_ldGTotFineSedimentInput               += m_dThisiterFineSedimentInput;
-   m_ldGTotSandSedimentInput               += m_dThisiterSandSedimentInput;
-   m_ldGTotCoarseSedimentInput             += m_dThisiterCoarseSedimentInput;
+   m_ldGTotFineSedimentInput += m_dThisiterFineSedimentInput;
+   m_ldGTotSandSedimentInput += m_dThisiterSandSedimentInput;
+   m_ldGTotCoarseSedimentInput += m_dThisiterCoarseSedimentInput;
 
    // Suspended sediment
-   m_ldGTotSuspendedSediment               += m_dThisIterFineSedimentToSuspension;
+   m_ldGTotSuspendedSediment += m_dThisIterFineSedimentToSuspension;
 
-   // Errors
-   m_ldGTotMassBalanceErosionError         += m_dThisIterMassBalanceErosionError;
-   m_ldGTotMassBalanceDepositionError      += m_dThisIterMassBalanceDepositionError;
+   // Differences and errors
+   m_ldGTotErosionFineDiff += m_dThisIterErosionFineDiff;
+   m_ldGTotErosionSandDiff += m_dThisIterErosionSandDiff;
+   m_ldGTotErosionCoarseDiff += m_dThisIterErosionCoarseDiff;
+   m_ldGTotSandDepositionDiff += m_dThisIterDepositionSandDiff;
+   m_ldGTotCoarseDepositionDiff += m_dThisIterDepositionCoarseDiff;
 }
-
 
 /*==============================================================================================================================
 
@@ -1513,7 +1561,6 @@ string CSimulation::strGetComputerName(void)
    return strComputerName;
 }
 
-
 /*==============================================================================================================================
 
  Resets the CPU clock timer to prevent it 'rolling over', as can happen during long runs. This is a particularly problem under Unix systems where the value returned by clock() is defined in microseconds (for compatibility with systems that have CPU clocks with much higher resolution) i.e. CLOCKS_PER_SEC is 1000000 rather than the more usual 1000. In this case, the value returned from clock() will wrap around after accumulating only 2147 seconds of CPU time (about 36 minutes).
@@ -1531,17 +1578,23 @@ void CSimulation::DoCPUClockReset(void)
 
    // OK, so carry on
    double dClkThis = static_cast<double>(clock());
-   dClkThis -= CLOCK_T_MIN;   // necessary when clock_t is signed, to make dClkThis unsigned
+   dClkThis -= CLOCK_T_MIN; // necessary when clock_t is signed, to make dClkThis unsigned
 
    if (dClkThis < m_dClkLast)
    {
       // Clock has 'rolled over'
-      m_dCPUClock += (CLOCK_T_RANGE + 1 - m_dClkLast);   // this elapsed before rollover
-      m_dCPUClock += dClkThis;                           // this elapsed after rollover
+      m_dCPUClock += (CLOCK_T_RANGE + 1 - m_dClkLast); // this elapsed before rollover
+      m_dCPUClock += dClkThis;                         // this elapsed after rollover
 
 #ifdef CLOCKCHECK
       // For debug purposes
-      LogStream << "Rolled over: dClkThis=" << dClkThis << " m_dClkLast=" << m_dClkLast << endl << "\t" << " before rollover=" << (CLOCK_T_RANGE + 1 - m_dClkLast) << endl << "\t" << " after rollover=" << dClkThis << endl << "\t" << " ADDED=" << (CLOCK_T_RANGE + 1 - m_dClkLast + dClkThis) << endl;
+      LogStream << "Rolled over: dClkThis=" << dClkThis << " m_dClkLast=" << m_dClkLast << endl
+                << "\t"
+                << " before rollover=" << (CLOCK_T_RANGE + 1 - m_dClkLast) << endl
+                << "\t"
+                << " after rollover=" << dClkThis << endl
+                << "\t"
+                << " ADDED=" << (CLOCK_T_RANGE + 1 - m_dClkLast + dClkThis) << endl;
 #endif
    }
    else
@@ -1559,7 +1612,6 @@ void CSimulation::DoCPUClockReset(void)
    m_dClkLast = dClkThis;
 }
 
-
 /*==============================================================================================================================
 
  Announce the end of the simulation
@@ -1567,9 +1619,9 @@ void CSimulation::DoCPUClockReset(void)
 ==============================================================================================================================*/
 void CSimulation::AnnounceSimEnd(void)
 {
-   cout << endl << FINAL_OUTPUT << endl;
+   cout << endl
+        << FINAL_OUTPUT << endl;
 }
-
 
 /*==============================================================================================================================
 
@@ -1646,7 +1698,6 @@ void CSimulation::CalcTime(double const dRunLength)
    }
 }
 
-
 /*==============================================================================================================================
 
  strDispSimTime returns a string formatted as year Julian_day hour, given a parameter in hours
@@ -1697,7 +1748,6 @@ string CSimulation::strDispSimTime(const double dTimeIn)
 
    return strTime;
 }
-
 
 /*==============================================================================================================================
 
@@ -1763,7 +1813,6 @@ string CSimulation::strDispTime(const double dTimeIn, const bool bRound, const b
    return strTime;
 }
 
-
 /*==============================================================================================================================
 
  Returns the date and time on which the program was compiled
@@ -1782,7 +1831,6 @@ string CSimulation::strGetBuild(void)
 
    return strBuild;
 }
-
 
 /*==============================================================================================================================
 
@@ -1821,7 +1869,6 @@ void CSimulation::AnnounceProgress(void)
    }
 }
 
-
 /*==============================================================================================================================
 
  Calculates the Tausworthe value for the random number generator
@@ -1831,7 +1878,6 @@ unsigned long CSimulation::ulGetTausworthe(unsigned long const ulS, unsigned lon
 {
    return (((ulS & ulC) << ulD) & MASK) ^ ((((ulS << ulA) & MASK) ^ ulS) >> ulB);
 }
-
 
 /*==============================================================================================================================
 
@@ -1856,7 +1902,6 @@ double CSimulation::dGetRand0d1(void)
 //    return (nRtn);
 // }
 
-
 /*==============================================================================================================================
 
  Returns an integer to return a double precision floating point number uniformly distributed in the range [0, nBound) i.e. includes 0 but excludes nBound. Based on a routine in taus.c from gsl-1.2
@@ -1865,23 +1910,20 @@ double CSimulation::dGetRand0d1(void)
 int CSimulation::nGetRand1To(int const nBound)
 {
    int nRtn;
-   unsigned long ulScale = 4294967295ul / nBound;                 // nBound must be > 1
+   unsigned long ulScale = 4294967295ul / nBound; // nBound must be > 1
    do
    {
       nRtn = static_cast<int>(ulGetRand1() / ulScale);
-   }
-   while (nRtn >= nBound);
+   } while (nRtn >= nBound);
 
    return (nRtn);
 }
-
 
 // double CSimulation::dGetRand0GaussPos(double const dMean, double const dStd)
 // {
 //    // Uses ulGetRand0()
 //    return (tMax((dGetRand0Gaussian() * dStd) + dMean, 0.0));
 // }
-
 
 /*==============================================================================================================================
 
@@ -1901,15 +1943,15 @@ void CSimulation::CalcProcessStats(void)
    OSVERSIONINFOEX osvi;
    BOOL bOsVersionInfoEx;
 
-   ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));              // fill this much memory with zeros
+   ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX)); // fill this much memory with zeros
    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-   if (! (bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi)))
+   if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *)&osvi)))
    {
       // OSVERSIONINFOEX didn't work so try OSVERSIONINFO instead
-      osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
+      osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
-      if (! GetVersionEx((OSVERSIONINFO *) &osvi))
+      if (!GetVersionEx((OSVERSIONINFO *)&osvi))
       {
          // That didn't work either, too risky to proceed so give up
          OutStream << NA << endl;
@@ -1921,63 +1963,63 @@ void CSimulation::CalcProcessStats(void)
    OutStream << "Running under                                \t: ";
    switch (osvi.dwPlatformId)
    {
-      case VER_PLATFORM_WIN32_NT:
-         if (osvi.dwMajorVersion <= 4)
-            OutStream << "Windows NT ";
-         else if (5 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
-            OutStream << "Windows 2000 ";
-         else if (5 == osvi.dwMajorVersion && 1 == osvi.dwMinorVersion)
-            OutStream << "Windows XP ";
-         else if (6 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
-            OutStream << "Windows Vista ";
-         else if (6 == osvi.dwMajorVersion && 1 == osvi.dwMinorVersion)
-            OutStream << "Windows 7 ";
-         else if (6 == osvi.dwMajorVersion && 2 == osvi.dwMinorVersion)
-            OutStream << "Windows 8 ";
-         else if (6 == osvi.dwMajorVersion && 3 == osvi.dwMinorVersion)
-            OutStream << "Windows 8.1 ";
-         else if (10 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
-            OutStream << "Windows 10 ";
-         else
-            OutStream << "unknown Windows version ";
+   case VER_PLATFORM_WIN32_NT:
+      if (osvi.dwMajorVersion <= 4)
+         OutStream << "Windows NT ";
+      else if (5 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
+         OutStream << "Windows 2000 ";
+      else if (5 == osvi.dwMajorVersion && 1 == osvi.dwMinorVersion)
+         OutStream << "Windows XP ";
+      else if (6 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
+         OutStream << "Windows Vista ";
+      else if (6 == osvi.dwMajorVersion && 1 == osvi.dwMinorVersion)
+         OutStream << "Windows 7 ";
+      else if (6 == osvi.dwMajorVersion && 2 == osvi.dwMinorVersion)
+         OutStream << "Windows 8 ";
+      else if (6 == osvi.dwMajorVersion && 3 == osvi.dwMinorVersion)
+         OutStream << "Windows 8.1 ";
+      else if (10 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
+         OutStream << "Windows 10 ";
+      else
+         OutStream << "unknown Windows version ";
 
-         // Display version, service pack (if any), and build number
-         if (osvi.dwMajorVersion <= 4)
-            // TODO does this still work on 64-bit platforms?
-            OutStream << "version " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << " " << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
-         else
-            // TODO does this still work on 64-bit platforms?
-            OutStream << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
-         break;
+      // Display version, service pack (if any), and build number
+      if (osvi.dwMajorVersion <= 4)
+         // TODO does this still work on 64-bit platforms?
+         OutStream << "version " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << " " << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
+      else
+         // TODO does this still work on 64-bit platforms?
+         OutStream << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
+      break;
 
-      case VER_PLATFORM_WIN32_WINDOWS:
-         if (4 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
-         {
-             OutStream << "Windows 95";
-             if ('C' == osvi.szCSDVersion[1] || 'B' == osvi.szCSDVersion[1])
-                OutStream << " OSR2";
-             OutStream << endl;
-         }
-         else if (4 == osvi.dwMajorVersion && 10 == osvi.dwMinorVersion)
-         {
-             OutStream << "Windows 98";
-             if ('A' == osvi.szCSDVersion[1])
-                OutStream << "SE";
-             OutStream << endl;
-         }
-         else if (4 == osvi.dwMajorVersion && 90 == osvi.dwMinorVersion)
-             OutStream << "Windows Me" << endl;
-         else
-             OutStream << "unknown 16-bit Windows version " << endl;
-         break;
+   case VER_PLATFORM_WIN32_WINDOWS:
+      if (4 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
+      {
+         OutStream << "Windows 95";
+         if ('C' == osvi.szCSDVersion[1] || 'B' == osvi.szCSDVersion[1])
+            OutStream << " OSR2";
+         OutStream << endl;
+      }
+      else if (4 == osvi.dwMajorVersion && 10 == osvi.dwMinorVersion)
+      {
+         OutStream << "Windows 98";
+         if ('A' == osvi.szCSDVersion[1])
+            OutStream << "SE";
+         OutStream << endl;
+      }
+      else if (4 == osvi.dwMajorVersion && 90 == osvi.dwMinorVersion)
+         OutStream << "Windows Me" << endl;
+      else
+         OutStream << "unknown 16-bit Windows version " << endl;
+      break;
 
-      case VER_PLATFORM_WIN32s:
-         OutStream << "Win32s" << endl;
-         break;
+   case VER_PLATFORM_WIN32s:
+      OutStream << "Win32s" << endl;
+      break;
    }
 
    // Now get process timimgs: this only works under 32-bit windows
-   if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId )
+   if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId)
    {
       FILETIME ftCreate, ftExit, ftKernel, ftUser;
       if (GetProcessTimes(GetCurrentProcess(), &ftCreate, &ftExit, &ftKernel, &ftUser))
@@ -1999,18 +2041,18 @@ void CSimulation::CalcProcessStats(void)
    if (hDLL != NULL)
    {
       // The dll has been found
-      typedef BOOL (__stdcall* DLLPROC) (HANDLE, PPROCESS_MEMORY_COUNTERS, DWORD);
+      typedef BOOL(__stdcall * DLLPROC)(HANDLE, PPROCESS_MEMORY_COUNTERS, DWORD);
       DLLPROC ProcAdd;
 
       // Try to get the address of the function we will call
-      ProcAdd = (DLLPROC) GetProcAddress(hDLL, "GetProcessMemoryInfo");
+      ProcAdd = (DLLPROC)GetProcAddress(hDLL, "GetProcessMemoryInfo");
       if (ProcAdd)
       {
          // Address was found
          PROCESS_MEMORY_COUNTERS pmc;
 
          // Now call the function
-         if ((ProcAdd) (GetCurrentProcess(), &pmc, sizeof(pmc)))
+         if ((ProcAdd)(GetCurrentProcess(), &pmc, sizeof(pmc)))
          {
             OutStream << "Peak working set size                        \t: " << pmc.PeakWorkingSetSize / (1024.0 * 1024.0) << " Mb" << endl;
             OutStream << "Current working set size                     \t: " << pmc.WorkingSetSize / (1024.0 * 1024.0) << " Mb" << endl;
@@ -2032,20 +2074,20 @@ void CSimulation::CalcProcessStats(void)
    rusage ru;
    if (getrusage(RUSAGE_SELF, &ru) >= 0)
    {
-      OutStream << "Time spent executing user code               \t: "  << strDispTime(static_cast<double>(ru.ru_utime.tv_sec), false, true) << endl;
-//      OutStream << "ru_utime.tv_usec                             \t: " << ru.ru_utime.tv_usec << endl;
+      OutStream << "Time spent executing user code               \t: " << strDispTime(static_cast<double>(ru.ru_utime.tv_sec), false, true) << endl;
+      //      OutStream << "ru_utime.tv_usec                             \t: " << ru.ru_utime.tv_usec << endl;
       OutStream << "Time spent executing kernel code             \t: " << strDispTime(static_cast<double>(ru.ru_stime.tv_sec), false, true) << endl;
-//      OutStream << "ru_stime.tv_usec                             \t: " << ru.ru_stime.tv_usec << endl;
-//      OutStream << "Maximum resident set size                    \t: " << ru.ru_maxrss/1024.0 << " Mb" << endl;
-//      OutStream << "ixrss (???)                                  \t: " << ru.ru_ixrss << endl;
-//      OutStream << "Sum of rm_asrss (???)                        \t: " << ru.ru_idrss << endl;
-//      OutStream << "isrss (???)                                  \t: " << ru.ru_isrss << endl;
+      //      OutStream << "ru_stime.tv_usec                             \t: " << ru.ru_stime.tv_usec << endl;
+      //      OutStream << "Maximum resident set size                    \t: " << ru.ru_maxrss/1024.0 << " Mb" << endl;
+      //      OutStream << "ixrss (???)                                  \t: " << ru.ru_ixrss << endl;
+      //      OutStream << "Sum of rm_asrss (???)                        \t: " << ru.ru_idrss << endl;
+      //      OutStream << "isrss (???)                                  \t: " << ru.ru_isrss << endl;
       OutStream << "No. of page faults not requiring physical I/O\t: " << ru.ru_minflt << endl;
       OutStream << "No. of page faults requiring physical I/O    \t: " << ru.ru_majflt << endl;
-//      OutStream << "No. of times swapped out of main memory      \t: " << ru.ru_nswap << endl;
-//      OutStream << "No. of times performed input (read request)  \t: " << ru.ru_inblock << endl;
-//      OutStream << "No. of times performed output (write request)\t: " << ru.ru_oublock << endl;
-//      OutStream << "No. of signals received                      \t: " << ru.ru_nsignals << endl;
+      //      OutStream << "No. of times swapped out of main memory      \t: " << ru.ru_nswap << endl;
+      //      OutStream << "No. of times performed input (read request)  \t: " << ru.ru_inblock << endl;
+      //      OutStream << "No. of times performed output (write request)\t: " << ru.ru_oublock << endl;
+      //      OutStream << "No. of signals received                      \t: " << ru.ru_nsignals << endl;
       OutStream << "No. of voluntary context switches            \t: " << ru.ru_nvcsw << endl;
       OutStream << "No. of involuntary context switches          \t: " << ru.ru_nivcsw << endl;
    }
@@ -2057,16 +2099,15 @@ void CSimulation::CalcProcessStats(void)
 
 #ifdef _OPENMP
 #pragma omp parallel
-{
-   if (0 == omp_get_thread_num())
    {
-      OutStream << "Number of OpenMP threads                     \t: " << omp_get_num_threads() << endl;
-      OutStream << "Number of OpenMP processors                  \t: " << omp_get_num_procs() << endl;
+      if (0 == omp_get_thread_num())
+      {
+         OutStream << "Number of OpenMP threads                     \t: " << omp_get_num_threads() << endl;
+         OutStream << "Number of OpenMP processors                  \t: " << omp_get_num_procs() << endl;
+      }
    }
-}
 #endif
 }
-
 
 /*==============================================================================================================================
 
@@ -2262,6 +2303,9 @@ string CSimulation::strGetErrorText(int const nErr)
    case RTN_ERR_SEDIMENT_INPUT_EVENT:
       strErr = "simulating sediment input event";
       break;
+   case RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION:
+      strErr = "bad location of sediment input";
+      break;
    default:
       // should never get here
       strErr = "unknown cause";
@@ -2269,7 +2313,6 @@ string CSimulation::strGetErrorText(int const nErr)
 
    return strErr;
 }
-
 
 /*==============================================================================================================================
 
@@ -2301,7 +2344,7 @@ void CSimulation::DoSimulationEnd(int const nRtn)
       {
          // If the run has actually started, then output all GIS files: this is very helpful in tracking down problems
          m_bSaveGISThisIter = true;
-         m_nGISSave = 998;                   // Will get incremented to 999 when we write the files
+         m_nGISSave = 998; // Will get incremented to 999 when we write the files
          bSaveAllRasterGISFiles();
          bSaveAllVectorGISFiles();
       }
@@ -2324,14 +2367,15 @@ void CSimulation::DoSimulationEnd(int const nRtn)
    if (isatty(fileno(stdout)))
    {
       // Stdout is connected to a tty, so not running as a background job
-      cout << endl << PRESS_KEY;
-      cout.flush();
-      getchar();
+      // cout << endl
+      //      << PRESS_KEY;
+      // cout.flush();
+      // getchar();
    }
    else
    {
       // Stdout is not connected to a tty, so must be running in the background; if we have something entered for the email address, then send an email
-      if (! m_strMailAddress.empty())
+      if (!m_strMailAddress.empty())
       {
          cout << SEND_EMAIL << m_strMailAddress << endl;
 
@@ -2385,7 +2429,6 @@ void CSimulation::DoSimulationEnd(int const nRtn)
 #endif
 }
 
-
 /*==============================================================================================================================
 
  For comparison of two floating-point numbers, with a specified accuracy
@@ -2402,39 +2445,36 @@ bool CSimulation::bFPIsEqual(double const d1, double const d2, double const dEps
       return ((tAbs(d1 - d2) < (dEpsilon * tAbs(d1))) ? true : false);
 }
 
-
 /*==============================================================================================================================
 
  Changes all forward slashes in the input string to backslashes, leaving the original unchanged
 
 ==============================================================================================================================*/
-string CSimulation::pstrChangeToBackslash(string const* strIn)
+string CSimulation::pstrChangeToBackslash(string const *strIn)
 {
    string strOut(*strIn);
    strOut.replace(strOut.begin(), strOut.end(), '/', '\\');
    return strOut;
 }
 
-
 /*==============================================================================================================================
 
  Swaps all backslashes in the input string to forward slashes, leaving the original unchanged
 
 ==============================================================================================================================*/
-string CSimulation::pstrChangeToForwardSlash(string const* strIn)
+string CSimulation::pstrChangeToForwardSlash(string const *strIn)
 {
    string strOut(*strIn);
    strOut.replace(strOut.begin(), strOut.end(), '\\', '/');
    return strOut;
 }
 
-
 /*==============================================================================================================================
 
  Trims whitespace from the left side of a string, does not change the original string
 
 ==============================================================================================================================*/
-string CSimulation::strTrimLeft(string const* strIn)
+string CSimulation::strTrimLeft(string const *strIn)
 {
    // Trim leading spaces
    size_t nStartpos = strIn->find_first_not_of(" \t");
@@ -2444,13 +2484,12 @@ string CSimulation::strTrimLeft(string const* strIn)
       return strIn->substr(nStartpos);
 }
 
-
 /*==============================================================================================================================
 
  Trims whitespace from the right side of a string, does not change the original string
 
 ==============================================================================================================================*/
-string CSimulation::strTrimRight(string const* strIn)
+string CSimulation::strTrimRight(string const *strIn)
 {
    string strTmp(*strIn);
 
@@ -2462,16 +2501,15 @@ string CSimulation::strTrimRight(string const* strIn)
    if (nEndpos == string::npos)
       return strTmp;
    else
-      return strTmp.substr(0, nEndpos+1);
+      return strTmp.substr(0, nEndpos + 1);
 }
-
 
 /*==============================================================================================================================
 
  Trims whitespace from both sides of a string, does not change the original string
 
 ==============================================================================================================================*/
-string CSimulation::strTrim(string const* strIn)
+string CSimulation::strTrim(string const *strIn)
 {
    string strTmp = *strIn;
 
@@ -2482,7 +2520,7 @@ string CSimulation::strTrim(string const* strIn)
    size_t nPos = strTmp.find_last_not_of(" \t");
 
    if (nPos != string::npos)
-      strTmp = strTmp.substr(0, nPos+1);
+      strTmp = strTmp.substr(0, nPos + 1);
 
    // Trim leading spaces
    nPos = strTmp.find_first_not_of(" \t");
@@ -2493,19 +2531,17 @@ string CSimulation::strTrim(string const* strIn)
    return strTmp;
 }
 
-
 /*==============================================================================================================================
 
  Returns the lower case version of an string, leaving the original unchanged
 
 ==============================================================================================================================*/
-string CSimulation::strToLower(string const* strIn)
+string CSimulation::strToLower(string const *strIn)
 {
    string strOut = *strIn;
    transform(strIn->begin(), strIn->end(), strOut.begin(), tolower);
    return strOut;
 }
-
 
 /*==============================================================================================================================
 
@@ -2519,13 +2555,12 @@ string CSimulation::strToLower(string const* strIn)
 //    return strOut;
 // }
 
-
 /*==============================================================================================================================
 
  Returns a string with a substring removed, and with whitespace trimmed
 
 ==============================================================================================================================*/
-string CSimulation::strRemoveSubstr(string* pStrIn, string const* pStrSub)
+string CSimulation::strRemoveSubstr(string *pStrIn, string const *pStrSub)
 {
    size_t nPos = pStrIn->find(*pStrSub);
 
@@ -2542,37 +2577,34 @@ string CSimulation::strRemoveSubstr(string* pStrIn, string const* pStrSub)
    }
 }
 
-
 /*==============================================================================================================================
 
  These two functions are from http://stackoverflow.com/questions/236129/split-a-string-in-c They implement (approximately) Python's split() function. This first version puts the results into a pre-constructed string vector. It ignores empty items
 
 ==============================================================================================================================*/
-vector<string>* CSimulation::VstrSplit(string const* s, char const delim, vector<string>* elems)
+vector<string> *CSimulation::VstrSplit(string const *s, char const delim, vector<string> *elems)
 {
    stringstream ss(*s);
    string item;
    while (getline(ss, item, delim))
    {
-      if (! item.empty())
+      if (!item.empty())
          elems->push_back(item);
    }
    return elems;
 }
-
 
 /*==============================================================================================================================
 
  This second version returns a new string vector (it calls the first version)
 
 ==============================================================================================================================*/
-vector<string> CSimulation::VstrSplit(string const* s, char const delim)
+vector<string> CSimulation::VstrSplit(string const *s, char const delim)
 {
    vector<string> elems;
    VstrSplit(s, delim, &elems);
    return elems;
 }
-
 
 /*==============================================================================================================================
 
@@ -2585,26 +2617,24 @@ double CSimulation::dCrossProduct(double const dX1, double const dY1, double con
    return (dX2 - dX1) * (dY3 - dY2) - ((dY2 - dY1) * (dX3 - dX2));
 }
 
-
 /*==============================================================================================================================
 
  Calculates the mean of a pointer to a vector of doubles
 
 ==============================================================================================================================*/
-double CSimulation::dGetMean(vector<double> const* pV)
+double CSimulation::dGetMean(vector<double> const *pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
    double dMean = dSum / static_cast<double>(pV->size());
    return dMean;
 }
 
-
 /*==============================================================================================================================
 
  Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
 
 ==============================================================================================================================*/
-double CSimulation::dGetStdDev(vector<double> const* pV)
+double CSimulation::dGetStdDev(vector<double> const *pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
    double dMean = dSum / static_cast<double>(pV->size());
@@ -2615,31 +2645,30 @@ double CSimulation::dGetStdDev(vector<double> const* pV)
    return dStdDev;
 }
 
-
 /*==============================================================================================================================
 
  Appends a CGeom2DIPoint to a vector<CGeom2DIPoint>, making sure that the new end point touches the previous end point i.e. that there is no gap between the two points
 
 ==============================================================================================================================*/
-void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint>* pVPtiPoints, CGeom2DIPoint const* pPti)
+void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint> *pVPtiPoints, CGeom2DIPoint const *pPti)
 {
    int
-      nX = pPti->nGetX(),
-      nY = pPti->nGetY(),
-      nXLast = pVPtiPoints->back().nGetX(),
-      nYLast = pVPtiPoints->back().nGetY(),
-      nXDiff = nX - nXLast,
-      nYDiff = nY - nYLast,
-      nXDiffA = tAbs(nXDiff),
-      nYDiffA = tAbs(nYDiff),
-      nDiff = tMax(nXDiffA, nYDiffA);
+       nX = pPti->nGetX(),
+       nY = pPti->nGetY(),
+       nXLast = pVPtiPoints->back().nGetX(),
+       nYLast = pVPtiPoints->back().nGetY(),
+       nXDiff = nX - nXLast,
+       nYDiff = nY - nYLast,
+       nXDiffA = tAbs(nXDiff),
+       nYDiffA = tAbs(nYDiff),
+       nDiff = tMax(nXDiffA, nYDiffA);
 
    if (nDiff > 1)
    {
       // We have a gap
       double
-         dXInc = 0,
-         dYInc = 0;
+          dXInc = 0,
+          dYInc = 0;
 
       if (nXDiffA > 1)
          dXInc = static_cast<double>(nXDiff) / nDiff;
@@ -2657,20 +2686,19 @@ void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint>* pVPtiPoints, CGeom2DI
    pVPtiPoints->push_back(CGeom2DIPoint(nX, nY));
 }
 
-
 /*==============================================================================================================================
 
  Calculates a Dean equilibrium profile h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the Dean profile at a distance y from the landward start of the profile
 
 ==============================================================================================================================*/
-void CSimulation::CalcDeanProfile(vector<double>* pdVDeanProfile, double const dInc, double const dDeanTopElev, double const dA, bool const bDeposition, int const nSeawardOffset, double const dStartCellElev)
+void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const dInc, double const dDeanTopElev, double const dA, bool const bDeposition, int const nSeawardOffset, double const dStartCellElev)
 {
    double dDistFromProfileStart = 0;
 
    if (bDeposition)
    {
       // This Dean profile is for deposition i.e. seaward displacement of the profile
-      pdVDeanProfile->at(0) = dStartCellElev;      // Is cliff-top elev for cliffs
+      pdVDeanProfile->at(0) = dStartCellElev; // Is cliff-top elev for cliffs
       for (int n = 1; n < static_cast<int>(pdVDeanProfile->size()); n++)
       {
          if (n <= nSeawardOffset)
@@ -2698,13 +2726,12 @@ void CSimulation::CalcDeanProfile(vector<double>* pdVDeanProfile, double const d
    }
 }
 
-
 /*==============================================================================================================================
 
  Calculate the total elevation difference between every point in two elevation profiles (first profile - second profile)
 
 ==============================================================================================================================*/
-double CSimulation::dSubtractProfiles(vector<double> const* pdVFirstProfile, vector<double> const* pdVSecondProfile, vector<bool> const* pbVIsValid)
+double CSimulation::dSubtractProfiles(vector<double> const *pdVFirstProfile, vector<double> const *pdVSecondProfile, vector<bool> const *pbVIsValid)
 {
    double dTotElevDiff = 0;
 
@@ -2718,31 +2745,30 @@ double CSimulation::dSubtractProfiles(vector<double> const* pdVFirstProfile, vec
       }
    }
 
-//    // DEBUG STUFF -----------------------------------------------------
-//    LogStream << endl;
-//    LogStream << "First profile = ";
-//    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
-//    {
-//       LogStream << pdVFirstProfile->at(n) << " ";
-//    }
-//    LogStream << endl;
-//    LogStream << "Second profile = ";
-//    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
-//    {
-//       LogStream << pdVSecondProfile->at(n) << " ";
-//    }
-//    LogStream << endl;
-//    LogStream << "Difference = ";
-//    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
-//    {
-//       LogStream << pdVFirstProfile->at(n) - pdVSecondProfile->at(n) << " ";
-//    }
-//    LogStream << endl;
-//    // DEBUG STUFF -----------------------------------------------------
+   //    // DEBUG STUFF -----------------------------------------------------
+   //    LogStream << endl;
+   //    LogStream << "First profile = ";
+   //    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
+   //    {
+   //       LogStream << pdVFirstProfile->at(n) << " ";
+   //    }
+   //    LogStream << endl;
+   //    LogStream << "Second profile = ";
+   //    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
+   //    {
+   //       LogStream << pdVSecondProfile->at(n) << " ";
+   //    }
+   //    LogStream << endl;
+   //    LogStream << "Difference = ";
+   //    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
+   //    {
+   //       LogStream << pdVFirstProfile->at(n) - pdVSecondProfile->at(n) << " ";
+   //    }
+   //    LogStream << endl;
+   //    // DEBUG STUFF -----------------------------------------------------
 
    return dTotElevDiff;
 }
-
 
 /*==============================================================================================================================
 
@@ -2752,8 +2778,8 @@ double CSimulation::dSubtractProfiles(vector<double> const* pdVFirstProfile, vec
 void CSimulation::CalcDepthOfClosure(void)
 {
    double
-      dDeepWaterWaveHeight,
-      dDeepWaterPeriod;
+       dDeepWaterWaveHeight,
+       dDeepWaterPeriod;
 
    if (m_bSingleDeepWaterWaveValues)
    {
@@ -2763,7 +2789,7 @@ void CSimulation::CalcDepthOfClosure(void)
    else
    {
       dDeepWaterWaveHeight = m_dMaxUserInputWaveHeight;
-      dDeepWaterPeriod     = m_dMaxUserInputWavePeriod;
+      dDeepWaterPeriod = m_dMaxUserInputWavePeriod;
    }
 
    // TODO Calculate depth of closure using 'average of the maximum values observed during a typical year'
@@ -2774,24 +2800,22 @@ void CSimulation::CalcDepthOfClosure(void)
    // from Hallermeier, R.J. (1978). Uses for a calculated limit depth to beach erosion. Proc. 16th Coastal Engineering Conf., ASCE, New York. Pp 1493 - 1512
    //
    // For the time being, and since we assume wave height and period constant just use the actual wave height and period to calculate the depth of closure
-   //m_dDepthOfClosure = (2.28 * dDeepWaterWaveHeight) - (68.5 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
+   // m_dDepthOfClosure = (2.28 * dDeepWaterWaveHeight) - (68.5 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 
    // An alternative (which produces smaller depth of closure estimates) is Birkemeier (1985)
    // dL = 1.75 * Hsx - (57.9 * Hsx^2/ (g * Tsx^2))
    m_dDepthOfClosure = (1.75 * dDeepWaterWaveHeight) - (57.9 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 }
 
-
 /*==============================================================================================================================
 
  Tests a reference to a string to see if it is numeric (modified from https://tfetimes.com/c-determine-if-a-string-is-numeric/)
 
 ==============================================================================================================================*/
-bool CSimulation::bIsNumeric(string const* strIn)
+bool CSimulation::bIsNumeric(string const *strIn)
 {
    return all_of(strIn->begin(), strIn->end(), isdigit);
 }
-
 
 /*==============================================================================================================================
 
@@ -2811,13 +2835,12 @@ double CSimulation::dConstrainFieldWidthForShapefile(double const dInField)
    return round(dInField * dFactor) / dFactor;
 }
 
-
 /*==============================================================================================================================
 
 Parses a date string into days, months, and years, and checks each of them
 
 ==============================================================================================================================*/
-bool CSimulation::bParseDate(string const* strDate, int& nDay, int& nMonth, int& nYear)
+bool CSimulation::bParseDate(string const *strDate, int &nDay, int &nMonth, int &nYear)
 {
    vector<string> VstrTmp = VstrSplit(strDate, SLASH);
 
@@ -2828,7 +2851,7 @@ bool CSimulation::bParseDate(string const* strDate, int& nDay, int& nMonth, int&
    }
 
    // Sort out day
-   if (! bIsStringValidInt(VstrTmp[0]))
+   if (!bIsStringValidInt(VstrTmp[0]))
    {
       cerr << "invalid integer for day in date '" << strDate << "'" << endl;
       return false;
@@ -2843,7 +2866,7 @@ bool CSimulation::bParseDate(string const* strDate, int& nDay, int& nMonth, int&
    }
 
    // Sort out month
-   if (! bIsStringValidInt(VstrTmp[1]))
+   if (!bIsStringValidInt(VstrTmp[1]))
    {
       cerr << "invalid integer for month in date '" << strDate << "'" << endl;
       return false;
@@ -2858,7 +2881,7 @@ bool CSimulation::bParseDate(string const* strDate, int& nDay, int& nMonth, int&
    }
 
    // Sort out year
-   if (! bIsStringValidInt(VstrTmp[2]))
+   if (!bIsStringValidInt(VstrTmp[2]))
    {
       cerr << "invalid integer for year in date '" << strDate << "'" << endl;
       return false;
@@ -2875,13 +2898,12 @@ bool CSimulation::bParseDate(string const* strDate, int& nDay, int& nMonth, int&
    return true;
 }
 
-
 /*==============================================================================================================================
 
  Parses a time string into hours, minutes, and seconds, and checks each of them
 
 ==============================================================================================================================*/
-bool CSimulation::bParseTime(string const* strTime, int& nHour, int& nMin, int& nSec)
+bool CSimulation::bParseTime(string const *strTime, int &nHour, int &nMin, int &nSec)
 {
    vector<string> VstrTmp = VstrSplit(strTime, DASH);
 
@@ -2892,7 +2914,7 @@ bool CSimulation::bParseTime(string const* strTime, int& nHour, int& nMin, int& 
    }
 
    // Sort out hour
-   if (! bIsStringValidInt(VstrTmp[0]))
+   if (!bIsStringValidInt(VstrTmp[0]))
    {
       cerr << "invalid integer for hours in time '" << strTime << "'" << endl;
       return false;
@@ -2907,7 +2929,7 @@ bool CSimulation::bParseTime(string const* strTime, int& nHour, int& nMin, int& 
    }
 
    // Sort out minutes
-   if (! bIsStringValidInt(VstrTmp[1]))
+   if (!bIsStringValidInt(VstrTmp[1]))
    {
       cerr << "invalid integer for minutes in time '" << strTime << "'" << endl;
       return false;
@@ -2922,7 +2944,7 @@ bool CSimulation::bParseTime(string const* strTime, int& nHour, int& nMin, int& 
    }
 
    // Sort out seconds
-   if (! bIsStringValidInt(VstrTmp[2]))
+   if (!bIsStringValidInt(VstrTmp[2]))
    {
       cerr << "invalid integer for seconds in time '" << strTime << "'" << endl;
       return false;
@@ -2939,13 +2961,12 @@ bool CSimulation::bParseTime(string const* strTime, int& nHour, int& nMin, int& 
    return true;
 }
 
-
 /*==============================================================================================================================
 
   For sediment input events, parses a string that may be relative (a number of hours or days after the start of the simulation), or absolute (a time/date in the format hh-mm-ss dd/mm/yyyy). Returns the timestep in which the sediment input event occurs
 
 ==============================================================================================================================*/
-unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
+unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
 {
    unsigned long ulTimeStep = 0;
 
@@ -2957,7 +2978,7 @@ unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
    {
       // OK, this is a number of hours (a relative time, from the start of simulation)
       vector<string> VstrTmp = VstrSplit(&strDate, SPACE);
-      if ((VstrTmp.size() < 2) || (! bIsStringValidInt(VstrTmp[0])))
+      if ((VstrTmp.size() < 2) || (!bIsStringValidInt(VstrTmp[0])))
       {
          cerr << "Error in number of hours '" + strDate + "' for sediment input event" << endl;
          return SEDINPUTEVENTERROR;
@@ -2976,7 +2997,7 @@ unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
    {
       // OK, this is a number of days (a relative time, from the start of simulation)
       vector<string> VstrTmp = VstrSplit(&strDate, SPACE);
-      if ((VstrTmp.size() < 2) || (! bIsStringValidInt(VstrTmp[0])))
+      if ((VstrTmp.size() < 2) || (!bIsStringValidInt(VstrTmp[0])))
       {
          cerr << "Error in number of days '" + strDate + "' for sediment input event" << endl;
          return SEDINPUTEVENTERROR;
@@ -3002,24 +3023,24 @@ unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
       }
 
       int
-         nHour = 0,
-         nMin = 0,
-         nSec = 0;
+          nHour = 0,
+          nMin = 0,
+          nSec = 0;
 
       // OK, first sort out the time
-      if (! bParseTime(&VstrTmp[0], nHour, nMin, nSec))
+      if (!bParseTime(&VstrTmp[0], nHour, nMin, nSec))
       {
          cerr << "Error in time '" + VstrTmp[0] + "' of sediment input event" << endl;
          return SEDINPUTEVENTERROR;
       }
 
       int
-         nDay = 0,
-         nMonth = 0,
-         nYear = 0;
+          nDay = 0,
+          nMonth = 0,
+          nYear = 0;
 
       // Now sort out the time
-      if (! bParseDate(&VstrTmp[1], nDay, nMonth, nYear))
+      if (!bParseDate(&VstrTmp[1], nDay, nMonth, nYear))
       {
          cerr << "Error in date '" + VstrTmp[1] + "' of sediment input event" << endl;
          return SEDINPUTEVENTERROR;

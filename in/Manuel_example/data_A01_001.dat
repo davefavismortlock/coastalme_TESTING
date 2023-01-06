@@ -1,0 +1,157 @@
+;======================================================================================================================
+;
+; Data file for CoastalME
+;
+; Copyright (C) 2022 David Favis-Mortlock and Andres Payo
+;
+;=====================================================================================================================
+;
+; This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software
+; Foundation; either version 3 of the License, or (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+; FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass
+; Ave, Cambridge, MA 02139, USA.
+;
+;======================================================================================================================
+;
+; Playa de Guainos
+;
+; Run information -----------------------------------------------------------------------------------------------------
+Main output/log file names                                          [omit path and extension]: A01.001
+Content of log file                                       [1 = least detail, 3 = most detail]: 3
+
+Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 01-00-00 01/01/2020
+Duration of simulation                                           [hours, days, months, years]: 60 days
+Timestep (hours or days)                                                                     : 3 hours
+Save times                                                       [hours, days, months, years]: 3 6 141 772 1440 hours
+
+Random number seed(s)                                                                        : 1
+
+Max save digits for GIS output file names                                               [> 1]: 5
+Save digits for GIS output sequential or iteration number?    [s = sequential, i = iteration]: i
+GIS raster files to output                                                    [see codes.txt]: all
+GIS raster output format                                          [blank = same as DEM input]: gpkg              ; gdal-config --formats for others
+   If needed, also output GIS raster world file?                                        [y/n]: y
+   If needed, scale GIS raster output values?                                           [y/n]: y
+GIS raster 'slice' elevation(s) (m)                                                          :
+GIS vector files to output                                                    [see codes.txt]: all
+GIS vector output format                                                                     : geojson           ; ESRI Shapefile ogrinfo --formats for others
+Time series files to output                                                   [see codes.txt]: all
+
+Coastline smoothing                          [0 = none, 1 = running mean, 2 = Savitsky-Golay]: 1
+Coastline smoothing window size                                                 [must be odd]: 33
+Polynomial order for Savitsky-Golay coastline smoothing                              [2 or 4]: 4
+Grid edge(s) to omit when searching for coastline                                      [NSWE]: N
+
+Profile slope running-mean smoothing window size                        [must be zero or odd]: 11
+Max local slope (m/m)                                                                        : 5
+
+Maximum elevation of beach above SWL                                                      [m]: 2
+
+; Initial raster GIS layers --------------------------------------------------------------------------------------------
+Number of layers                                                                             : 1
+; BASEMENT DEM MUST BE PRESENT
+Basement DEM file                                                             [path and name]: in/Manuel_example/GIS_files/basement_A01_001.asc
+   ; LAYER 0 THICKNESS FILES, LAYER 0 IS LOWEST
+   ; *** MUST HAVE AT LEAST ONE THICKNESS FILE FOR THE FIRST LAYER
+   Initial Unconsolidated fine sediment file                                  [path and name]: in/Manuel_example/GIS_files/A01_001_U_F.asc
+   Initial Unconsolidated sand sediment file                                  [path and name]: in/Manuel_example/GIS_files/A01_001_U_S.asc
+   Initial Unconsolidated coarse sediment file                                [path and name]: in/Manuel_example/GIS_files/A01_001_U_G.asc
+   Initial Consolidated fine sediment file                                    [path and name]: in/Manuel_example/GIS_files/A01_001_C_F.asc
+   Initial Consolidated sand sediment file                                    [path and name]: in/Manuel_example/GIS_files/A01_001_C_S.asc
+   Initial Consolidated coarse sediment file                                  [path and name]: in/Manuel_example/GIS_files/A01_001_C_G.asc
+
+; OPTIONAL THICKNESS FILE
+Initial Suspended sediment file                                               [path and name]:
+
+; OTHER OPTIONAL RASTER FILES
+Initial Landform file                                                         [path and name]:
+Intervention class file                                                       [path and name]: in/Manuel_example/GIS_files/structuresType_A01_001.asc
+Intervention height file                                                      [path and name]: in/Manuel_example/GIS_files/structuresElevation_A01_001.asc
+
+; Hydrology data -------------------------------------------------------------------------------------------------------
+Wave propagation model                                                 [0 = COVE, 1 = CShore]: 1
+
+Density of sea water (kg/m3)                                                                 : 1029
+
+Initial still water level (m), or per-timestep SWL file                                      : 2050
+Final still water level (m)                                     [blank = same as initial SWL]:
+
+Deep water wave height (m)                                         [value or point shapefile]: in/Manuel_example/GIS_files/stations_A01_001.shp
+Deep water wave height time series         [omit if deep water wave height is a single value]: in/Manuel_example/seaStates_A01_001.dat
+Deep water wave orientation (degrees)         [omit if deep water wave height from shapefile]: 
+Wave period (sec)                             [omit if deep water wave height from shapefile]: 
+Tide data file                                                                 [may be blank]: in/Manuel_example/seaLevel_A01.dat
+Breaking wave height to water depth ratio (non dimensional)                                  : 0.8
+
+; Sediment data --------------------------------------------------------------------------------------------------------
+Simulate coast platform erosion?                                                             : y
+Resistance to erosion of coast platform (m^(9/4)s^(3/2))                                     : 6000000 ; [2-6]e6 to produce 0.6 m/yr recession (Walkden & Hall, 2011), is 1/erodibility
+
+Simulate beach sediment transport?                                                           : y
+Beach sediment transport at grid edges                [0 = closed, 1 = open, 2 = recirculate]: 1
+
+Beach potential erosion/deposition equation                          [0 = CERC, 1 = Kamphuis]: 0
+
+Median size of fine sediment (mm)                        [0 = default, only for Kamphuis eqn]: 0.16
+Median size of sand sediment (mm)                        [0 = default, only for Kamphuis eqn]: 0.2980779392338177
+Median size of coarse sediment (mm)                      [0 = default, only for Kamphuis eqn]: 2
+
+Density of beach sediment (kg/m3)                                                            : 2650      ; For quartz
+Beach sediment porosity                                                                      : 0.4
+
+; Arbitrary values of relative erosivities
+Fine erosivity                                                                               : 1
+Sand erosivity                                                                               : 0.7
+Coarse erosivity                                                                             : 0.3
+
+Transport parameter KLS                                                   [only for CERC eqn]: 0.19
+Transport parameter                                                   [only for Kamphuis eqn]: 0.79
+
+Berm height i.e. height above SWL of start of depositional Dean profile (m)                  : 0.5
+
+; Cliff collapse data --------------------------------------------------------------------------------------------------
+Simulate cliff collapse?                                                                     : y
+Resistance to erosion of cliff (m^(9/4)s^(3/2))                                              : 6000000 ; [2-6]e6 to produce 0.6 m/yr recession (Walkden & Hall, 2011),
+Notch overhang to initiate collapse (m)                                                      : 0.5
+Notch base below still water level (m)                                                       : 0.30       ; was 0.3, MUST BE GREATER THAN ZERO
+Scale parameter A for cliff deposition (m^(1/3))                                   [0 = auto]: 0         ; For a 0.2 mm D50, will be 0.1
+Approximate planview width of cliff deposition talus (m)                                     : 5; 
+Planview length of cliff deposition talus (m)                                                : 50        ; was 30 15
+Height of landward talus end, as fraction of cliff elevation                                 : 0
+
+; Input events ---------------------------------------------------------------------------------------------------------
+Flood input?                                                                                 : n
+Flood coastline to output                                                                    : all
+Run-up equation                                                                              : 0
+Characteristic locations of flood                                                            : y
+Flood input location                                                                         : in/Manuel_example/GIS_files/flood_A01_001.shp
+
+Sediment input?                                                                              : n
+Sediment input location                                             [point or line shapefile]:
+Sediment input type        [required if have shapefile, P = Point, C = coast block, L = line]:
+Sediment input details file                                      [required if have shapefile]:
+
+; Other data -----------------------------------------------------------------------------------------------------------
+Gravitational acceleration (m2/s)                                                            : 9.81
+
+; TEMPORARY ONLY, CHANGE DYNAMICALLY LATER
+Spacing of coastline normals (m)                                        [0 = default minimum]: 0
+Random factor for spacing of normals                              [0 to 1, 0 = deterministic]: 1
+Length of coastline normals (m)                                                              : 400
+Maximum number of 'cape' normals                                                             : 5
+
+Start depth for wave calcs (ratio to deep water wave height)                                 : 10         ; was 10 30 15
+
+; For testing only --------------------------------------------------------------------------------------------------------------------------------------------
+Save profile data?                                                                           : n
+Profile number(s) to save                                                                    : 18 19 20 21
+Timesteps to save profile(s)                                                                 : 1
+Save parallel profiles?                                                                      : n
+Output erosion potential look-up values                                                      : y
+Erode coast in alternate direction each timestep?                                            : n
+
+; END OF FILE -------------------------------------------------------------------------------------------------------------------------------------------------

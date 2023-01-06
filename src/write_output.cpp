@@ -28,20 +28,20 @@
 using std::localtime;
 
 #include <iostream>
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 using std::ios;
-using std::showpos;
 using std::noshowpos;
+using std::showpos;
 
 #include <iomanip>
-using std::setiosflags;
+using std::put_time;
 using std::resetiosflags;
+using std::setfill;
+using std::setiosflags;
 using std::setprecision;
 using std::setw;
-using std::setfill;
-using std::put_time;
 
 #include <sstream>
 using std::stringstream;
@@ -49,7 +49,6 @@ using std::stringstream;
 #include "cme.h"
 #include "simulation.h"
 #include "interpolate.h"
-
 
 /*==============================================================================================================================
 
@@ -62,9 +61,11 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << std::fixed;
 
    // Start outputting stuff
-   OutStream << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << " on " << strGetComputerName() << endl << endl;
+   OutStream << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << " on " << strGetComputerName() << endl
+             << endl;
 
-   LogStream << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << " on " << strGetComputerName() << endl << endl;
+   LogStream << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << " on " << strGetComputerName() << endl
+             << endl;
 
    // ----------------------------------------------- Run Information ----------------------------------------------------------
    OutStream << "RUN DETAILS" << endl;
@@ -72,68 +73,72 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Run started                                               \t: " << put_time(localtime(&m_tSysStartTime), "%T %A %d %B %Y") << endl;
 
    // Same info. for Log file
-   LogStream << m_strRunName << " run started at " << put_time(localtime(&m_tSysStartTime), "%T on %A %d %B %Y") << endl << endl;
+   LogStream << m_strRunName << " run started at " << put_time(localtime(&m_tSysStartTime), "%T on %A %d %B %Y") << endl
+             << endl;
 
    // Contine with Out file
    OutStream << " Initialization file                                       \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strCMEIni) << endl;
+             << pstrChangeToForwardSlash(&m_strCMEIni) << endl;
 #else
-      << m_strCMEIni << endl;
+             << m_strCMEIni << endl;
 #endif
 
    OutStream << " Input data read from                                      \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strDataPathName) << endl;
+             << pstrChangeToForwardSlash(&m_strDataPathName) << endl;
 #else
-      << m_strDataPathName << endl;
+             << m_strDataPathName << endl;
 #endif
 
    OutStream << " Main output file (this file)                              \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strOutFile) << OUTEXT << endl;
+             << pstrChangeToForwardSlash(&m_strOutFile) << OUTEXT << endl;
 #else
-      << m_strOutFile << OUTEXT << endl;
+             << m_strOutFile << OUTEXT << endl;
 #endif
 
    LogStream << "Main output file                                          \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strOutFile) << OUTEXT << endl;
+             << pstrChangeToForwardSlash(&m_strOutFile) << OUTEXT << endl;
 #else
-      << m_strOutFile << OUTEXT << endl;
+             << m_strOutFile << OUTEXT << endl;
 #endif
 
    OutStream << " Log file                                                  \t: "
 #ifdef _WIN32
-   << pstrChangeToForwardSlash(&m_strOutFile) << LOGEXT << endl;
+             << pstrChangeToForwardSlash(&m_strOutFile) << LOGEXT << endl;
 #else
-   << m_strOutFile << LOGEXT << endl;
+             << m_strOutFile << LOGEXT << endl;
 #endif
 
    LogStream << "Log file (this file)                                      \t: "
 #ifdef _WIN32
-   << pstrChangeToForwardSlash(&m_strOutFile) << LOGEXT << endl;
+             << pstrChangeToForwardSlash(&m_strOutFile) << LOGEXT << endl;
 #else
-   << m_strOutFile << LOGEXT << endl;
+             << m_strOutFile << LOGEXT << endl;
 #endif
 
    OutStream << " Level of Log detail                                       \t: ";
-   if (m_nLogFileDetail == LOG_FILE_LEAST_DETAIL)
+   if (m_nLogFileDetail == NO_LOG_FILE)
+      OutStream << "0 (least detail)";
+   else if (m_nLogFileDetail == LOG_FILE_LEAST_DETAIL)
       OutStream << "1 (least detail)";
    else if (m_nLogFileDetail == LOG_FILE_MIDDLE_DETAIL)
-      OutStream << "1 (medium detail)";
+      OutStream << "2 (medium detail)";
    else if (m_nLogFileDetail == LOG_FILE_MOST_DETAIL)
-      OutStream << "1 (most detail)";
+      OutStream << "3 (most detail)";
    OutStream << endl;
 
    LogStream << "Level of Log detail                                       \t: ";
    if (m_nLogFileDetail == LOG_FILE_LEAST_DETAIL)
       LogStream << "1 (least detail)";
    else if (m_nLogFileDetail == LOG_FILE_MIDDLE_DETAIL)
-      LogStream << "1 (medium detail)";
+      LogStream << "2 (medium detail)";
    else if (m_nLogFileDetail == LOG_FILE_MOST_DETAIL)
-      LogStream << "1 (most detail)";
-   LogStream << endl << endl;
+      LogStream << "3 (most detail)";
+   LogStream << endl
+             << endl;
 
    OutStream << " Simulation start date/time                                \t: ";
    // hh:mm:ss dd/mm/yyyy
@@ -164,7 +169,9 @@ void CSimulation::WriteStartRunDetails(void)
       strTmp.append(strDispSimTime(m_dSimDuration));
       OutStream << strTmp << endl;
    }
-
+   OutStream << " Raster GIS output format                                  \t: " << m_strGDALRasterOutputDriverLongname << endl;
+   OutStream << " Maximum number of GIS Save Number digits                  \t: " << m_nGISMaxSaveDigits << endl;
+   OutStream << " GIS Save Numbers sequential (S) or iteration number (I)   \t: " << (m_bGISSaveDigitsSequential ? "S" : "I") << endl;
    OutStream << " Random number seeds                                       \t: ";
    {
       for (int i = 0; i < NRNG; i++)
@@ -174,8 +181,8 @@ void CSimulation::WriteStartRunDetails(void)
 
    OutStream << "*First random numbers generated                            \t: " << ulGetRand0() << '\t' << ulGetRand1() << endl;
    OutStream << " Raster GIS output format                                  \t: " << m_strGDALRasterOutputDriverLongname << endl;
-   OutStream << " Raster output values scaled (if needed)                   \t: " << (m_bScaleRasterOutput ? "Y": "N") << endl;
-   OutStream << " Raster world files created (if needed)                    \t: " << (m_bWorldFile ? "Y": "N") << endl;
+   OutStream << " Raster output values scaled (if needed)                   \t: " << (m_bScaleRasterOutput ? "Y" : "N") << endl;
+   OutStream << " Raster world files created (if needed)                    \t: " << (m_bWorldFile ? "Y" : "N") << endl;
    OutStream << " Raster GIS files saved                                    \t: " << strListRasterFiles() << endl;
    if (m_bSliceSave)
    {
@@ -190,15 +197,15 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Vector GIS files saved                                    \t: " << strListVectorFiles() << endl;
    OutStream << " Output file (this file)                                   \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strOutFile) << endl;
+             << pstrChangeToForwardSlash(&m_strOutFile) << endl;
 #else
-      << m_strOutFile << endl;
+             << m_strOutFile << endl;
 #endif
    OutStream << " Log file                                                  \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strLogFile) << endl;
+             << pstrChangeToForwardSlash(&m_strLogFile) << endl;
 #else
-      << m_strLogFile << endl;
+             << m_strLogFile << endl;
 #endif
 
    OutStream << " Optional time series files saved                          \t: " << strListTSFiles() << endl;
@@ -206,23 +213,23 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Coastline vector smoothing algorithm                      \t: ";
    switch (m_nCoastSmooth)
    {
-      case SMOOTH_NONE:
-      {
-         OutStream << "none";
-         break;
-      }
+   case SMOOTH_NONE:
+   {
+      OutStream << "none";
+      break;
+   }
 
-      case SMOOTH_RUNNING_MEAN:
-      {
-         OutStream << "running mean";
-         break;
-      }
+   case SMOOTH_RUNNING_MEAN:
+   {
+      OutStream << "running mean";
+      break;
+   }
 
-      case SMOOTH_SAVITZKY_GOLAY:
-      {
-         OutStream << "Savitzky-Golay";
-         break;
-      }
+   case SMOOTH_SAVITZKY_GOLAY:
+   {
+      OutStream << "Savitzky-Golay";
+      break;
+   }
    }
    OutStream << endl;
 
@@ -240,14 +247,13 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Vertical tolerance for beach to be included in smoothing  \t: " << m_dMaxBeachElevAboveSWL << " m" << endl;
    OutStream << endl;
 
-
    // --------------------------------------------------- Raster GIS stuff -------------------------------------------------------
    OutStream << "Raster GIS Input Files" << endl;
    OutStream << " Basement DEM file                                         \t: "
 #ifdef _WIN32
-      << pstrChangeToForwardSlash(&m_strInitialBasementDEMFile) << endl;
+             << pstrChangeToForwardSlash(&m_strInitialBasementDEMFile) << endl;
 #else
-      << m_strInitialBasementDEMFile << endl;
+             << m_strInitialBasementDEMFile << endl;
 #endif
    OutStream << " Basement DEM driver code                                  \t: " << m_strGDALBasementDEMDriverCode << endl;
    OutStream << " GDAL basement DEM driver description                      \t: " << m_strGDALBasementDEMDriverDesc << endl;
@@ -263,7 +269,7 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << std::fixed << setprecision(2);
    OutStream << "*Grid area                                                 \t: " << m_dExtCRSGridArea * 1e-6 << " km^2" << endl;
 
-   if (! m_strInitialLandformFile.empty())
+   if (!m_strInitialLandformFile.empty())
    {
       OutStream << " Initial Landform Class file                               \t: " << m_strInitialLandformFile << endl;
       OutStream << " GDAL Initial Landform Class file driver code              \t: " << m_strGDALLDriverCode << endl;
@@ -273,7 +279,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << endl;
    }
 
-   if (! m_strInterventionClassFile.empty())
+   if (!m_strInterventionClassFile.empty())
    {
       OutStream << " Intervention Class file                                   \t: " << m_strInterventionClassFile << endl;
       OutStream << " GDAL Intervention Class file driver code                  \t: " << m_strGDALICDriverCode << endl;
@@ -283,7 +289,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << endl;
    }
 
-   if (! m_strInterventionHeightFile.empty())
+   if (!m_strInterventionHeightFile.empty())
    {
       OutStream << " Intervention Height file                                  \t: " << m_strInterventionHeightFile << endl;
       OutStream << " GDAL Intervention Height file driver code                 \t: " << m_strGDALIHDriverCode << endl;
@@ -293,7 +299,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << endl;
    }
 
-   if (! m_strInitialSuspSedimentFile.empty())
+   if (!m_strInitialSuspSedimentFile.empty())
    {
       OutStream << " Initial Susp Sediment file                                \t: " << m_strInitialSuspSedimentFile << endl;
       OutStream << " GDAL Initial Susp Sediment file driver code               \t: " << m_strGDALISSDriverCode << endl;
@@ -308,9 +314,9 @@ void CSimulation::WriteStartRunDetails(void)
       if (m_nLayers == 1)
          OutStream << " Only one layer" << endl;
       else
-         OutStream << " Layer " << i << (i == 0 ? "(Top)" : "") << (i == m_nLayers-1 ? "(Bottom)" : "") << endl;
+         OutStream << " Layer " << i << (i == 0 ? "(Top)" : "") << (i == m_nLayers - 1 ? "(Bottom)" : "") << endl;
 
-      if (! m_VstrInitialFineUnconsSedimentFile[i].empty())
+      if (!m_VstrInitialFineUnconsSedimentFile[i].empty())
       {
          OutStream << "    Initial Fine Uncons Sediment file                      \t: " << m_VstrInitialFineUnconsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Fine Uncons Sediment file driver code     \t: " << m_VstrGDALIUFDriverCode[i] << endl;
@@ -320,7 +326,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
 
-      if (! m_VstrInitialSandUnconsSedimentFile[i].empty())
+      if (!m_VstrInitialSandUnconsSedimentFile[i].empty())
       {
          OutStream << "    Initial Sand Uncons Sediment file                      \t: " << m_VstrInitialSandUnconsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Sand Uncons Sediment file driver code     \t: " << m_VstrGDALIUSDriverCode[i] << endl;
@@ -330,7 +336,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
 
-      if (! m_VstrInitialCoarseUnconsSedimentFile[i].empty())
+      if (!m_VstrInitialCoarseUnconsSedimentFile[i].empty())
       {
          OutStream << "    Initial Coarse Uncons Sediment file                    \t: " << m_VstrInitialCoarseUnconsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Coarse Uncons Sediment file driver code   \t: " << m_VstrGDALIUCDriverCode[i] << endl;
@@ -340,7 +346,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
 
-      if (! m_VstrInitialFineConsSedimentFile[i].empty())
+      if (!m_VstrInitialFineConsSedimentFile[i].empty())
       {
          OutStream << "    Initial Fine Cons Sediment file                        \t: " << m_VstrInitialFineConsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Fine Cons Sediment file driver code       \t: " << m_VstrGDALICFDriverCode[i] << endl;
@@ -350,7 +356,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
 
-      if (! m_VstrInitialSandConsSedimentFile[i].empty())
+      if (!m_VstrInitialSandConsSedimentFile[i].empty())
       {
          OutStream << "    Initial Sand Cons Sediment file                        \t: " << m_VstrInitialSandConsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Sand Cons Sediment file driver code       \t: " << m_VstrGDALICSDriverCode[i] << endl;
@@ -360,7 +366,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
 
-      if (! m_VstrInitialCoarseConsSedimentFile[i].empty())
+      if (!m_VstrInitialCoarseConsSedimentFile[i].empty())
       {
          OutStream << "    Initial Coarse Cons Sediment file                      \t: " << m_VstrInitialCoarseConsSedimentFile[i] << endl;
          OutStream << "    GDAL Initial Coarse Cons Sediment file driver code     \t: " << m_VstrGDALICCDriverCode[i] << endl;
@@ -370,7 +376,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << endl;
       }
    }
-//   OutStream << endl;
+   //   OutStream << endl;
 
    // ---------------------------------------------------- Vector GIS stuff ------------------------------------------------------
    OutStream << "Vector GIS Input Files" << endl;
@@ -408,7 +414,6 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << " Deep water wave height                                    \t: " << m_dAllCellsDeepWaterWaveHeight << " m" << endl;
       OutStream << " Deep water wave orientation                               \t: " << m_dAllCellsDeepWaterWaveAngle << " degrees" << endl;
       OutStream << " Wave period                                               \t: " << m_dAllCellsDeepWaterWavePeriod << " s" << endl;
-
    }
    else
    {
@@ -417,10 +422,10 @@ void CSimulation::WriteStartRunDetails(void)
    }
    OutStream << " Start depth for wave calcs (*deep water wave height)      \t: " << m_dWaveDepthRatioForWaveCalcs << endl;
    OutStream << "*Depth of closure                                          \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dDepthOfClosure << " m" << endl;
-//    OutStream << " Tide data file                                            \t: " << m_strTideDataFile << endl;
-   OutStream << " Do coast platform erosion?                                \t: " << (m_bDoCoastPlatformErosion ? "Y": "N") << endl;
+   OutStream << " Tide data file                                            \t: " << m_strTideDataFile << endl;
+   OutStream << " Do coast platform erosion?                                \t: " << (m_bDoCoastPlatformErosion ? "Y" : "N") << endl;
    OutStream << " R value                                                   \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(2) << m_dR << endl;
-   OutStream << " Do beach sediment transport?                              \t: " << (m_bDoBeachSedimentTransport ? "Y": "N") << endl;
+   OutStream << " Do beach sediment transport?                              \t: " << (m_bDoBeachSedimentTransport ? "Y" : "N") << endl;
    OutStream << " Handling of beach sediment at grid edges                  \t: ";
    if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_CLOSED)
       OutStream << "closed";
@@ -447,7 +452,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << " Transport parameter KLS for CERC equation                 \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dKLS << endl;
    if (m_nBeachErosionDepositionEquation == UNCONS_SEDIMENT_EQUATION_KAMPHUIS)
       OutStream << " Transport parameter for Kamphuis equation                 \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dKamphuis << endl;
-   OutStream << " Height of Dean profile start above SWL                    \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(1) << m_dDeanProfileStartAboveSWL  << " m" << endl;
+   OutStream << " Height of Dean profile start above SWL                    \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(1) << m_dDeanProfileStartAboveSWL << " m" << endl;
    OutStream << " Sediment input at a point                                 \t: " << (m_bSedimentInput ? "Y" : "N") << endl;
    if (m_bSedimentInput)
    {
@@ -461,8 +466,8 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << "where line interests with coast";
       OutStream << endl;
       OutStream << " Sediment input time series file                           \t: " << m_strSedimentInputEventTimeSeriesFile << endl;
-   }
-   OutStream << " Do cliff collapse?                                        \t: " << (m_bDoCliffCollapse ? "Y": "N") << endl;
+   }   
+   OutStream << " Do cliff collapse?                                        \t: " << (m_bDoCliffCollapse ? "Y" : "N") << endl;
    OutStream << " Cliff erodibility                                         \t: " << m_dCliffErosionResistance << endl;
    OutStream << " Notch overhang to initiate collapse                       \t: " << m_dNotchOverhangAtCollapse << " m" << endl;
    OutStream << " Notch base below SWL                                      \t: " << m_dNotchBaseBelowSWL << " m" << endl;
@@ -475,24 +480,31 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Planview width of cliff deposition talus                  \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCliffDepositionPlanviewWidth << " m" << endl;
    OutStream << " Planview length of cliff deposition talus                 \t: " << m_dCliffDepositionPlanviewLength << " m" << endl;
    OutStream << " Height of talus at land end (fraction of cliff elevation) \t: " << m_dCliffDepositionHeightFrac << endl;
+   OutStream << " Do riverine flooding?                                     \t: " << (m_bDoFlood ? "Y" : "N") << endl;
+   if (m_bDoFlood)
+   {
+      OutStream << " FloodSWLSetupLine                                         \t: " << (m_bFloodSWLSetupLine ? "Y" : "N") << endl;
+      OutStream << " FloodSWLSetupSurgeLine                                    \t: " << (m_bFloodSWLSetupSurgeLine ? "Y" : "N") << endl;
+      OutStream << " m_bFloodSWLSetupSurgeRunupLine                            \t: " << (m_bFloodSWLSetupSurgeRunupLine ? "Y" : "N") << endl;
+   }   
    OutStream << " Gravitational acceleration                                \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dG << " m^2/s" << endl;
    OutStream << " Minimum spacing of coastline normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalAvgSpacing << " m" << endl;
    OutStream << " Random factor for spacing of normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalRandSpaceFact << endl;
    OutStream << " Length of coastline normals                               \t: " << m_dCoastNormalLength << " m" << endl;
    OutStream << " Maximum number of 'cape' normals                          \t: " << m_nNaturalCapeNormals << endl;
    OutStream << endl;
-/*
-   OutStream << std::fixed << setprecision(8);
-   OutStream << " Erosion potential shape function:" << endl;
-   OutStream << "\tDepth over DB\tErosion potential\tFirst derivative of erosion potential" << endl;
-   for (int i = 0; i < m_VdDepthOverDB.size(); i++)
-      OutStream << "\t" << m_VdDepthOverDB[i] << "\t\t" << m_VdErosionPotential[i] << "\t\t" << m_VdErosionPotentialFirstDeriv[i] << endl;
-   OutStream << endl;
-*/
+   /*
+      OutStream << std::fixed << setprecision(8);
+      OutStream << " Erosion potential shape function:" << endl;
+      OutStream << "\tDepth over DB\tErosion potential\tFirst derivative of erosion potential" << endl;
+      for (int i = 0; i < m_VdDepthOverDB.size(); i++)
+         OutStream << "\t" << m_VdDepthOverDB[i] << "\t\t" << m_VdErosionPotential[i] << "\t\t" << m_VdErosionPotentialFirstDeriv[i] << endl;
+      OutStream << endl;
+   */
    // ------------------------------------------------------ Testing only --------------------------------------------------------
    OutStream << "Testing only" << endl;
 
-   OutStream << " Output profile data?                                      \t: " << (m_bOutputProfileData ? "Y": "N") << endl;
+   OutStream << " Output profile data?                                      \t: " << (m_bOutputProfileData ? "Y" : "N") << endl;
    OutStream << " Profile numbers to be saved                               \t: ";
    for (unsigned int i = 0; i < m_VnProfileToSave.size(); i++)
       OutStream << m_VnProfileToSave[i] << SPACE;
@@ -501,14 +513,15 @@ void CSimulation::WriteStartRunDetails(void)
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
       OutStream << m_VulProfileTimestep[i] << SPACE;
    OutStream << endl;
-   OutStream << " Output parallel profile data?                             \t: " << (m_bOutputParallelProfileData ? "Y": "N") << endl;
-   OutStream << " Output erosion potential look-up data?                    \t: " << (m_bOutputLookUpData ? "Y": "N");
+   OutStream << " Output parallel profile data?                             \t: " << (m_bOutputParallelProfileData ? "Y" : "N") << endl;
+   OutStream << " Output erosion potential look-up data?                    \t: " << (m_bOutputLookUpData ? "Y" : "N");
    if (m_bOutputLookUpData)
       OutStream << " (see " << m_strOutPath << EROSION_POTENTIAL_LOOKUP_FILE << ")";
    OutStream << endl;
-   OutStream << " Erode coast in alternate directions?                      \t: " << (m_bErodeShorePlatformAlternateDirection ? "Y": "N") << endl;
+   OutStream << " Erode coast in alternate directions?                      \t: " << (m_bErodeShorePlatformAlternateDirection ? "Y" : "N") << endl;
 
-   OutStream << endl << endl;
+   OutStream << endl
+             << endl;
 
    // -------------------------------------------------- Per-iteration output ----------------------------------------------------
    OutStream << std::fixed << setprecision(2);
@@ -526,7 +539,6 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << PERITERHEAD5 << endl;
 }
 
-
 /*===============================================================================================================================
 
  Write the results for this timestep to the .out file
@@ -539,10 +551,10 @@ bool CSimulation::bWritePerTimestepResults(void)
 
    // Output timestep and simulated time info ===================================================================================
    OutStream << setw(4) << m_ulIter;
-   OutStream << setw(7) << m_dSimElapsed;                            // In hours
+   OutStream << setw(7) << m_dSimElapsed; // In hours
    OutStream << resetiosflags(ios::floatfield);
    OutStream << std::fixed << setprecision(0);
-   OutStream << setw(7) << m_dSimElapsed / (24 * 365.25);            // In years
+   OutStream << setw(7) << m_dSimElapsed / (24 * 365.25); // In years
 
    // Output average sea depth (m) per sea cell =================================================================================
    OutStream << resetiosflags(ios::floatfield);
@@ -605,7 +617,7 @@ bool CSimulation::bWritePerTimestepResults(void)
    OutStream << std::fixed << setprecision(0);
    assert(m_ulThisIterNumSeaCells > 0);
    double dTmp = 1000 * m_dThisIterPotentialBeachErosion / static_cast<double>(m_ulThisIterNumSeaCells);
-   if (dTmp  > 99999)
+   if (dTmp > 99999)
    {
       OutStream << setw(6) << std::scientific << setprecision(0) << dTmp;
       OutStream << std::fixed;
@@ -790,7 +802,7 @@ bool CSimulation::bWriteTSFiles(void)
    if (m_bActualPlatformErosionTSSave)
    {
       // Output as is (m depth equivalent)
-      ErosionTSStream << m_dSimElapsed  << "\t,\t" << m_dThisIterActualPlatformErosionFine << ",\t" << m_dThisIterActualPlatformErosionSand << ",\t" << m_dThisIterActualPlatformErosionCoarse << endl;
+      ErosionTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterActualPlatformErosionFine << ",\t" << m_dThisIterActualPlatformErosionSand << ",\t" << m_dThisIterActualPlatformErosionCoarse << endl;
 
       // Did a time series file write error occur?
       if (ErosionTSStream.fail())
@@ -873,6 +885,26 @@ bool CSimulation::bWriteTSFiles(void)
          return false;
    }
 
+   if (m_bFloodSetupSurgeTSSave)
+   {
+      // Output as is (m depth equivalent)
+      FloodSetupSurgeTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterDiffWaveSetupSurgeWaterLevel << endl;
+
+      // Did a time series file write error occur?
+      if (FloodSetupSurgeTSStream.fail())
+         return false;
+   }
+
+   if (m_bFloodSetupSurgeRunupTSSave)
+   {
+      // Output as is (m depth equivalent)
+      FloodSetupSurgeRunupTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterDiffWaveSetupSurgeRunupWaterLevel << endl;
+
+      // Did a time series file write error occur?
+      if (FloodSetupSurgeRunupTSStream.fail())
+         return false;
+   }
+
    return true;
 }
 
@@ -896,9 +928,9 @@ void CSimulation::WriteLookUpData(void)
       double dDepthOverDB = 0.0;
       while (dDepthOverDB <= m_dDepthOverDBMax)
       {
-	 double dErosionPotential = interpolate( m_VdDepthOverDB, m_VdErosionPotential, dDepthOverDB, false );
+         double dErosionPotential = interpolate(m_VdDepthOverDB, m_VdErosionPotential, dDepthOverDB, false);
          LookUpOutStream << dDepthOverDB << ",\t" << dErosionPotential << endl;
-	 dDepthOverDB += DEPTH_OVER_DB_INCREMENT;
+         dDepthOverDB += DEPTH_OVER_DB_INCREMENT;
       }
       LookUpOutStream << endl;
 
@@ -907,13 +939,12 @@ void CSimulation::WriteLookUpData(void)
    }
 }
 
-
 /*==============================================================================================================================
 
  Save a coastline-normal profile
 
 ==============================================================================================================================*/
-int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint>* const pPtVGridProfile, vector<double> const* pdVScapeXY)
+int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -922,7 +953,7 @@ int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nP
       {
          if ((m_ulIter == m_VulProfileTimestep[i]) && (nProfile == m_VnProfileToSave[j]))
          {
-            if (! bWriteProfileData(nCoast, nProfile, nProfSize, pdVDistXY, pdVZ, pdVDepthOverDB, pdVErosionPotentialFunc, pdVSlope, pdVRecessionXY, pdVChangeElevZ, pPtVGridProfile, pdVScapeXY))
+            if (!bWriteProfileData(nCoast, nProfile, nProfSize, pdVDistXY, pdVZ, pdVDepthOverDB, pdVErosionPotentialFunc, pdVSlope, pdVRecessionXY, pdVChangeElevZ, pPtVGridProfile, pdVScapeXY))
                return RTN_ERR_PROFILEWRITE;
          }
       }
@@ -931,13 +962,12 @@ int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nP
    return RTN_OK;
 }
 
-
 /*==============================================================================================================================
 
  Writes values for a single profile, for checking purposes
 
 ==============================================================================================================================*/
-bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint>* const pPtVGridProfile, vector<double> const* pdVScapeXY) const
+bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
 {
    string strFName = m_strOutPath;
    stringstream ststrTmp;
@@ -956,7 +986,7 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
 
    ofstream OutProfStream;
    OutProfStream.open(strFName.c_str(), ios::out | ios::trunc);
-   if (! OutProfStream)
+   if (!OutProfStream)
    {
       // Error, cannot open file
       cerr << ERR << "cannot open " << strFName << " for output" << endl;
@@ -969,7 +999,7 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
       double dX = dGridCentroidXToExtCRSX(pPtVGridProfile->at(i).nGetX());
       double dY = dGridCentroidYToExtCRSY(pPtVGridProfile->at(i).nGetY());
 
-      OutProfStream << pdVDistXY->at(i) << ",\t" << dX << ",\t" << dY << ",\t" << pdVZ->at(i) << ",\t" << pdVDepthOverDB->at(i) << ",\t" << pdVErosionPotentialFunc->at(i) << ",\t" << pdVSlope->at(i) << ",\t" << pdVRecessionXY->at(i) << ",\t" << pdVChangeElevZ->at(i) << ",\t" <<  pPtVGridProfile->at(i).nGetX() <<  ",\t" << pPtVGridProfile->at(i).nGetY() <<  ", \t" << pdVScapeXY->at(i) << endl;
+      OutProfStream << pdVDistXY->at(i) << ",\t" << dX << ",\t" << dY << ",\t" << pdVZ->at(i) << ",\t" << pdVDepthOverDB->at(i) << ",\t" << pdVErosionPotentialFunc->at(i) << ",\t" << pdVSlope->at(i) << ",\t" << pdVRecessionXY->at(i) << ",\t" << pdVChangeElevZ->at(i) << ",\t" << pPtVGridProfile->at(i).nGetX() << ",\t" << pPtVGridProfile->at(i).nGetY() << ", \t" << pdVScapeXY->at(i) << endl;
    }
 
    OutProfStream.close();
@@ -977,13 +1007,12 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
    return true;
 }
 
-
 /*==============================================================================================================================
 
  Save a coastline-normal parallel profile
 
 ==============================================================================================================================*/
-int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint>* const pPtVGridProfile, vector<double> const* pdVScapeXY)
+int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -992,7 +1021,7 @@ int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const
       {
          if ((m_ulIter == m_VulProfileTimestep[i]) && (nProfile == m_VnProfileToSave[j]))
          {
-            if (! bWriteParProfileData(nCoast, nProfile, nParProfSize, nDirection, nDistFromProfile, pdVDistXY, pdVZ, pdVDepthOverDB, pdVErosionPotentialFunc, pdVSlope, pdVRecessionXY, pdVChangeElevZ, pPtVGridProfile, pdVScapeXY))
+            if (!bWriteParProfileData(nCoast, nProfile, nParProfSize, nDirection, nDistFromProfile, pdVDistXY, pdVZ, pdVDepthOverDB, pdVErosionPotentialFunc, pdVSlope, pdVRecessionXY, pdVChangeElevZ, pPtVGridProfile, pdVScapeXY))
                return RTN_ERR_PROFILEWRITE;
          }
       }
@@ -1001,13 +1030,12 @@ int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const
    return RTN_OK;
 }
 
-
 /*==============================================================================================================================
 
  Writes values for a single parallel profile, for checking purposes
 
 ==============================================================================================================================*/
-bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int const nProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint>* const pPtVGridProfile, vector<double> const* pdVScapeXY) const
+bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int const nProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
 {
    string strFName = m_strOutPath;
    stringstream ststrTmp;
@@ -1034,7 +1062,7 @@ bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int
 
    ofstream OutProfStream;
    OutProfStream.open(strFName.c_str(), ios::out | ios::trunc);
-   if (! OutProfStream)
+   if (!OutProfStream)
    {
       // Error, cannot open file
       cerr << ERR << "cannot open " << strFName << " for output" << endl;
@@ -1047,14 +1075,13 @@ bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int
       double dX = dGridCentroidXToExtCRSX(pPtVGridProfile->at(i).nGetX());
       double dY = dGridCentroidYToExtCRSY(pPtVGridProfile->at(i).nGetY());
 
-      OutProfStream << pdVDistXY->at(i) << ",\t" << dX << ",\t" << dY << ",\t" << pdVZ->at(i) << ",\t" << pdVDepthOverDB->at(i) << ",\t" << pdVErosionPotentialFunc->at(i) << ",\t" << pdVSlope->at(i) << ",\t" << pdVRecessionXY->at(i) << ",\t" << pdVChangeElevZ->at(i) << ",\t" <<  pPtVGridProfile->at(i).nGetX() <<  ",\t" << pPtVGridProfile->at(i).nGetY() <<  ", \t" << pdVScapeXY->at(i) << endl;
+      OutProfStream << pdVDistXY->at(i) << ",\t" << dX << ",\t" << dY << ",\t" << pdVZ->at(i) << ",\t" << pdVDepthOverDB->at(i) << ",\t" << pdVErosionPotentialFunc->at(i) << ",\t" << pdVSlope->at(i) << ",\t" << pdVRecessionXY->at(i) << ",\t" << pdVChangeElevZ->at(i) << ",\t" << pPtVGridProfile->at(i).nGetX() << ",\t" << pPtVGridProfile->at(i).nGetY() << ", \t" << pdVScapeXY->at(i) << endl;
    }
 
    OutProfStream.close();
 
    return true;
 }
-
 
 /*==============================================================================================================================
 
@@ -1064,15 +1091,15 @@ bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int
 int CSimulation::nWriteEndRunDetails(void)
 {
    // Final write to time series CSV files
-   if (! bWriteTSFiles())
+   if (!bWriteTSFiles())
       return (RTN_ERR_TIMESERIES_FILE_WRITE);
 
    // Save the values from the RasterGrid array into raster GIS files
-   if (! bSaveAllRasterGISFiles())
+   if (!bSaveAllRasterGISFiles())
       return (RTN_ERR_RASTER_FILE_WRITE);
 
    // Save the vector GIS files
-   if (! bSaveAllVectorGISFiles())
+   if (!bSaveAllVectorGISFiles())
       return (RTN_ERR_VECTOR_FILE_WRITE);
 
    OutStream << " GIS" << m_nGISSave << endl;
@@ -1085,7 +1112,8 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << PERITERHEAD5 << endl;
 
    OutStream << std::fixed << setprecision(2);
-   OutStream << endl << endl;
+   OutStream << endl
+             << endl;
 
    // Write out hydrology grand totals etc.
    OutStream << ENDHYDROLOGYHEAD << endl;
@@ -1094,10 +1122,12 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << endl;
 
    // Now write out sediment movement grand totals etc.
-   OutStream << ENDSEDIMENTHEAD << endl << endl;
+   OutStream << ENDSEDIMENTHEAD << endl
+             << endl;
 
    OutStream << "PLATFORM EROSION" << endl;
-   OutStream << "Total potential platform erosion = " << m_ldGTotPotentialPlatformErosion * m_dCellArea << " m^3" << endl << endl;
+   OutStream << "Total potential platform erosion = " << m_ldGTotPotentialPlatformErosion * m_dCellArea << " m^3" << endl
+             << endl;
 
    OutStream << "Total actual platform erosion = " << (m_ldGTotFineActualPlatformErosion + m_ldGTotSandActualPlatformErosion + m_ldGTotCoarseActualPlatformErosion) * m_dCellArea << " m^3" << endl;
    OutStream << "Total fine actual platform erosion = " << m_ldGTotFineActualPlatformErosion * m_dCellArea << " m^3" << endl;
@@ -1126,7 +1156,8 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << endl;
 
    OutStream << "BEACH EROSION" << endl;
-   OutStream << "Total potential beach erosion = " << m_ldGTotPotentialBeachErosion * m_dCellArea << " m^3" << endl << endl;
+   OutStream << "Total potential beach erosion = " << m_ldGTotPotentialBeachErosion * m_dCellArea << " m^3" << endl
+             << endl;
    OutStream << "Total actual beach erosion = " << (m_ldGTotActualFineBeachErosion + m_ldGTotActualSandBeachErosion + m_ldGTotActualCoarseBeachErosion) * m_dCellArea << " m^3" << endl;
    OutStream << "Total actual fine beach erosion = " << m_ldGTotActualFineBeachErosion * m_dCellArea << " m^3" << endl;
    OutStream << "Total actual sand beach erosion = " << m_ldGTotActualSandBeachErosion * m_dCellArea << " m^3" << endl;
@@ -1150,20 +1181,17 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << endl;
 
    OutStream << "LOST FROM GRID" << endl;
-   OutStream << "Total potential sediment lost from grid due to beach erosion = " << m_ldGTotPotentialSedLostBeachErosion * m_dCellArea << " m^3" << endl << endl;
+   OutStream << "Total potential sediment lost from grid due to beach erosion = " << m_ldGTotPotentialSedLostBeachErosion * m_dCellArea << " m^3" << endl
+             << endl;
 
    OutStream << "Total actual fine sediment lost from grid due to beach erosion = " << m_ldGTotActualFineSedLostBeachErosion * m_dCellArea << " m^3" << endl;
    OutStream << "Total actual sand sediment lost from grid due to beach erosion = " << m_ldGTotActualSandSedLostBeachErosion * m_dCellArea << " m^3" << endl;
-   OutStream << "Total actual coarse sediment lost from grid due to beach erosion = " << m_ldGTotActualCoarseSedLostBeachErosion * m_dCellArea << " m^3" << endl << endl;
+   OutStream << "Total actual coarse sediment lost from grid due to beach erosion = " << m_ldGTotActualCoarseSedLostBeachErosion * m_dCellArea << " m^3" << endl
+             << endl;
 
    OutStream << "Total sand sediment lost from grid due to cliff collapse = " << m_ldGTotSandSedLostCliffCollapse * m_dCellArea << " m^3" << endl;
    OutStream << "Total coarse sediment lost from grid due to cliff collapse = " << m_ldGTotCoarseSedLostCliffCollapse * m_dCellArea << " m^3" << endl;
    OutStream << endl;
-
-//    OutStream << "ERRORS" << endl;
-//    OutStream << "Erosion error = " << m_ldGTotMassBalanceErosionError << " m^3" << endl;
-//    OutStream << "Deposition error = " << m_ldGTotMassBalanceDepositionError << " m^3" << endl;
-//    OutStream << endl;
 
    OutStream << "ALL-PROCESS TOTALS" << endl;
    long double ldActualTotalEroded = m_ldGTotFineActualPlatformErosion + m_ldGTotSandActualPlatformErosion + m_ldGTotCoarseActualPlatformErosion + m_ldGTotCliffCollapseFine + m_ldGTotCliffCollapseSand + m_ldGTotCliffCollapseCoarse + m_ldGTotCliffTalusFineErosion + m_ldGTotCliffTalusSandErosion + m_ldGTotCliffTalusCoarseErosion + m_ldGTotActualFineBeachErosion + m_ldGTotActualSandBeachErosion + m_ldGTotActualCoarseBeachErosion;
@@ -1176,7 +1204,8 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << "Total sediment lost from grid (all processes) = " << ldTotalLost * m_dCellArea << " m^3" << endl;
    OutStream << "                                              = " << ldTotalLost * m_dCellArea / m_dSimDuration << " m^3/hour" << endl;
    OutStream << std::fixed << setprecision(4);
-   OutStream << "                                              = " << ldTotalLost * m_dCellArea / (m_dSimDuration * 3600) << " m^3/sec" << endl << endl;
+   OutStream << "                                              = " << ldTotalLost * m_dCellArea / (m_dSimDuration * 3600) << " m^3/sec" << endl
+             << endl;
    OutStream << std::fixed << setprecision(2);
 
    OutStream << "NOTE grid edge option is ";
@@ -1189,12 +1218,27 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << endl;
 
    long double
-      ldLHS = ldActualTotalEroded + ldTotalLost,
-      ldRHS = ldTotalDepositedAndSuspension ;
+       ldLHS = ldActualTotalEroded + ldTotalLost,
+       ldRHS = ldTotalDepositedAndSuspension;
    OutStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
    OutStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
+   OutStream << endl;
 
-   OutStream << endl << endl;
+   OutStream << "DIFFERENCES/ERRORS" << endl;
+   OutStream << "Difference beween potential and actual erosion, fine sediment   = " << m_ldGTotErosionFineDiff << " m^3" << endl;
+   OutStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
+   OutStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl;
+   OutStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
+   long double ldTmp = 0;
+   if (m_ldGTotSandBeachDeposition > 0)
+      ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
+   OutStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
+   OutStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
+   ldTmp = 0;
+   if (m_ldGTotCoarseBeachDeposition > 0)
+      ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
+   OutStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
+   OutStream << endl;
 
    // Finally calculate performance details
    OutStream << PERFORMHEAD << endl;
@@ -1203,15 +1247,12 @@ int CSimulation::nWriteEndRunDetails(void)
    m_tSysEndTime = time(nullptr);
 
    OutStream << "Run ended at " << put_time(localtime(&m_tSysEndTime), "%T on %A %d %B %Y") << endl;
-   OutStream << "Time simulated: " << strDispSimTime(m_dSimDuration) << endl << endl;
+   OutStream << "Time simulated: " << strDispSimTime(m_dSimDuration) << endl
+             << endl;
 
    // Write to log file
-   LogStream << "END OF RUN ================================================================================================" << endl << endl;
-
-   LogStream << "ERRORS" << endl;
-   LogStream << "Erosion error = " << m_ldGTotMassBalanceErosionError << " m^3" << endl;
-   LogStream << "Deposition error = " << m_ldGTotMassBalanceDepositionError << " m^3" << endl;
-   LogStream << endl;
+   LogStream << "END OF RUN ================================================================================================" << endl
+             << endl;
 
    LogStream << "ALL-PROCESS TOTALS" << endl;
    LogStream << "Total sediment added = " << (m_ldGTotFineSedimentInput + m_ldGTotSandSedimentInput + m_ldGTotCoarseSedimentInput) * m_dCellArea << " m^3" << endl;
@@ -1221,8 +1262,8 @@ int CSimulation::nWriteEndRunDetails(void)
 
    LogStream << "Total sediment lost from grid (all processes) = " << ldTotalLost * m_dCellArea << " m^3" << endl;
    LogStream << "                                              = " << ldTotalLost * m_dCellArea / m_dSimDuration << " m^3/hour" << endl;
-   LogStream << std::fixed << setprecision(4);
-   LogStream << "                                              = " << ldTotalLost * m_dCellArea / (m_dSimDuration * 3600) << " m^3/sec" << endl << endl;
+   LogStream << "                                              = " << ldTotalLost * m_dCellArea / (m_dSimDuration * 3600) << " m^3/sec" << endl
+             << endl;
    LogStream << std::fixed << setprecision(2);
 
    LogStream << "NOTE grid edge option is ";
@@ -1235,24 +1276,42 @@ int CSimulation::nWriteEndRunDetails(void)
    LogStream << endl;
 
    LogStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
-   LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl << endl;
+   LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl
+             << endl;
 
    // Output averages for on-profile and between-profile potential shore platform erosion, ideally these are roughly equal
    LogStream << std::fixed;
-   LogStream << endl;
    LogStream << "On-profile average potential shore platform erosion = " << (m_ulTotPotentialPlatformErosionOnProfiles > 0 ? m_dTotPotentialPlatformErosionOnProfiles / static_cast<double>(m_ulTotPotentialPlatformErosionOnProfiles) : 0) << " mm (n = " << m_ulTotPotentialPlatformErosionOnProfiles << ")" << endl;
    LogStream << "Between-profile average potential shore platform erosion = " << (m_ulTotPotentialPlatformErosionBetweenProfiles > 0 ? m_dTotPotentialPlatformErosionBetweenProfiles / static_cast<double>(m_ulTotPotentialPlatformErosionBetweenProfiles) : 0) << " mm (n = " << m_ulTotPotentialPlatformErosionBetweenProfiles << ")" << endl;
    LogStream << endl;
+   
+   LogStream << "DIFFERENCES/ERRORS" << endl;
+   LogStream << "Difference beween potential and actual erosion, fine sediment   = " << m_ldGTotErosionFineDiff << " m^3" << endl;
+   LogStream << "Sand sediment, difference beween potential and actual erosion   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
+   LogStream << "Coarse sediment, difference beween potential and actual erosion = " << m_ldGTotErosionCoarseDiff << " m^3" << endl;
+   LogStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
+   ldTmp = 0;
+   if (m_ldGTotSandBeachDeposition > 0)
+      ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
+   LogStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
+   LogStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
+   ldTmp = 0;
+   if (m_ldGTotCoarseBeachDeposition > 0)
+      ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
+   LogStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
+   LogStream << endl;
 
-#if ! defined RANDCHECK
+#if !defined RANDCHECK
    // Calculate length of run, write in file (note that m_dSimDuration is in hours)
    CalcTime(m_dSimDuration * 3600);
 #endif
 
    // Calculate statistics re. memory usage etc.
    CalcProcessStats();
-   OutStream << endl << "END OF RUN" << endl;
-   LogStream << endl << "END OF RUN" << endl;
+   OutStream << endl
+             << "END OF RUN" << endl;
+   LogStream << endl
+             << "END OF RUN" << endl;
 
    // Need to flush these here (if we don't, the buffer may not get written)
    LogStream.flush();
@@ -1260,5 +1319,3 @@ int CSimulation::nWriteEndRunDetails(void)
 
    return RTN_OK;
 }
-
-

@@ -36,19 +36,23 @@ endif ()
 set (CSHORE_HEADER_NAME "cshore.h")
 
 find_path(CSHORELIB_INCLUDE_DIR ${CSHORE_HEADER_NAME} HINTS ${CMAKE_SOURCE_DIR}/inc ${CMAKE_INSTALL_DIR}/inc PATH_SUFFIXES inc)
-message (STATUS, "CSHORELIB_INCLUDE_DIR=${CSHORELIB_INCLUDE_DIR}")
+#message (STATUS, "CSHORELIB_INCLUDE_DIR=${CSHORELIB_INCLUDE_DIR}")
 
 find_library(CSHORELIB_DIR NAMES ${CSHORE_LIB_NAME} HINTS $ENV{LD_LIBRARY_PATH} ${CMAKE_SOURCE_DIR}/lib ${CMAKE_INSTALL_DIR}/lib)
-message (STATUS, "CSHORELIB_DIR=${CSHORELIB_DIR}")
+#message (STATUS, "CSHORELIB_DIR=${CSHORELIB_DIR}")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(CShoreLib DEFAULT_MSG CSHORELIB_DIR CSHORELIB_INCLUDE_DIR)
 
-message (STATUS, "CShoreLib_FOUND=${CShoreLib_FOUND}")
+#message (STATUS, "CShoreLib_FOUND=${CShoreLib_FOUND}")
 
-if (CSHORELIB_FOUND)
-   message(STATUS "Found ${CSHORE_LIB_NAME} at ${CSHORELIB_DIR}")
-else ()
+# if (CSHORELIB_FOUND)
+#    message(STATUS "Found ${CSHORE_LIB_NAME} at ${CSHORELIB_DIR}")
+# else ()
+#   message(FATAL_ERROR "Could not find ${CSHORE_LIB_NAME}")
+# endif ()
+
+if (NOT CSHORELIB_FOUND)
   message(FATAL_ERROR "Could not find ${CSHORE_LIB_NAME}")
 endif ()
 

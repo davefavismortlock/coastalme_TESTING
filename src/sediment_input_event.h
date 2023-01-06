@@ -37,9 +37,10 @@ private:
       m_dCoarseSedVol,       // Volume (m3) of coarse sediment
       m_dLen,                // The coast-normal length (m) of the sediment block
       m_dWidth;              // The along-coast width (m) of the sediment block
+      // m_dThick;              // The along-coast thickness (m) of the sediment block
 
 public:
-   CSedInputEvent(int const, unsigned long const, double const, double const, double const, double const, double const);
+   CSedInputEvent(int const, unsigned long const, double const, double const, double const, double const, double const); //, double const);
    ~CSedInputEvent(void);
 
    int nGetLocationID(void);
@@ -49,5 +50,6 @@ public:
    double dGetCoarseSedVol(void);
    double dGetLen(void);
    double dGetWidth(void);
+   // double dGetThick(void);
 };
 #endif // CSEDINPUT_H

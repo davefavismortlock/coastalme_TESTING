@@ -155,26 +155,26 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
          {
             // Potential erosion on this polygon is not zero, so determine actual erosion on this polygon, in sediment size categories
             double
-               dTotFineEroded = 0,
-               dTotSandEroded = 0,
-               dTotCoarseEroded = 0;
+               dFineErodeEstimate = 0,
+               dSandErodeEstimate = 0,
+               dCoarseErodeEstimate = 0;
 
             // Estimate how much we can erode on this polygon: traverse the polygon's shoreline in a down-coast direction (i.e. in the direction of increasing coastpoint indices), with profiles which are parallel to the polygon's up-coast boundary
             // NOTE also tried doing a second traverse, going up-coast, with profiles parallel to the down-coast boundary, if the down-coast routine was unable to reach its erosion target. But this second traverse almost always produced zero erosion, so seems not worth doing
-            nRet = nTraversePolygonAndEstimateBeachErosion(nCoast, nPoly, -dSedChange, dTotFineEroded, dTotSandEroded, dTotCoarseEroded);
+            nRet = nTraversePolygonAndEstimateBeachErosion(nCoast, nPoly, -dSedChange, dFineErodeEstimate, dSandErodeEstimate, dCoarseErodeEstimate);
             if (nRet != RTN_OK)
                return nRet;
 
             // Save these values
             CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
-            pPolygon->SetDeltaEstimatedUnconsFine(-dTotFineEroded);
-            pPolygon->SetDeltaEstimatedUnconsSand(-dTotSandEroded);
-            pPolygon->SetDeltaEstimatedUnconsCoarse(-dTotCoarseEroded);
+            pPolygon->SetDeltaEstimatedUnconsFine(-dFineErodeEstimate);
+            pPolygon->SetDeltaEstimatedUnconsSand(-dSandErodeEstimate);
+            pPolygon->SetDeltaEstimatedUnconsCoarse(-dCoarseErodeEstimate);
 
             // Save the estimated values
-            m_dThisIterEstimatedActualFineBeachErosion   += dTotFineEroded;
-            m_dThisIterEstimatedActualSandBeachErosion   += dTotSandEroded;
-            m_dThisIterEstimatedActualCoarseBeachErosion += dTotCoarseEroded;
+            m_dThisIterEstimatedActualFineBeachErosion   += dFineErodeEstimate;
+            m_dThisIterEstimatedActualSandBeachErosion   += dSandErodeEstimate;
+            m_dThisIterEstimatedActualCoarseBeachErosion += dCoarseErodeEstimate;
          }
       }
    }
@@ -389,18 +389,16 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
          {
             // Net erosion on this polygon, so calculate a net decrease in depth of unconsolidated sediment (fine, sand, coarse) on the cells within the polygon. Note however that some cells may gain in elevation (i.e. have some unconsolidated sediment deposition)
             double
-               dFineError = 0,
-               dSandError = 0,
-               dCoarseError = 0;
+               dFineErosionDiff = 0,
+               dSandErosionDiff = 0,
+               dCoarseErosionDiff = 0;
 
-            nRet = nDoBeachErosionOnPolygon(nCoast, nPoly, -dSedChange, dFineError, dSandError, dCoarseError);
+            nRet = nDoBeachErosionOnPolygon(nCoast, nPoly, -dSedChange, dFineErosionDiff, dSandErosionDiff, dCoarseErosionDiff);
             if (nRet != RTN_OK)
                return nRet;
 
-            if ((dFineError + dSandError + dCoarseError) != 0)
+            if ((dFineErosionDiff + dSandErosionDiff + dCoarseErosionDiff) != 0)
             {
-//                LogStream << "dFineError = " << -dFineError << " dSandError = " << -dSandError<< " dCoarseError = " << -dCoarseError << endl;
-
                CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
                if (pPolygon->bDownCoastThisIter())
@@ -436,31 +434,22 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                            else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_OPEN)
                            {
                               // Open grid edges, so this sediment goes off-grid
-                              if (dFineError != 0)
+                              if (dFineErosionDiff != 0)
                               {
-                                 m_dThisIterActualFineSedLostBeachErosion -= dFineError;
-
-                                 m_dThisIterMassBalanceErosionError -= dFineError;
-
-                                 dCheckTotal += dFineError;
+                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;
+                                 dCheckTotal += dFineErosionDiff;
                               }
 
-                              if (dSandError != 0)
+                              if (dSandErosionDiff != 0)
                               {
-                                 m_dThisIterActualSandSedLostBeachErosion += dSandError;
-
-                                 m_dThisIterMassBalanceErosionError -= dSandError;
-
-                                 dCheckTotal += dSandError;
+                                 m_dThisIterActualSandSedLostBeachErosion += dSandErosionDiff;
+                                 dCheckTotal += dSandErosionDiff;
                               }
 
-                              if (dCoarseError != 0)
+                              if (dCoarseErosionDiff != 0)
                               {
-                                 m_dThisIterActualCoarseSedLostBeachErosion += dCoarseError;
-
-                                 m_dThisIterMassBalanceErosionError -= dCoarseError;
-
-                                 dCheckTotal += dCoarseError;
+                                 m_dThisIterActualCoarseSedLostBeachErosion += dCoarseErosionDiff;
+                                 dCheckTotal += dCoarseErosionDiff;
                               }
                            }
 
@@ -470,37 +459,25 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                               int nOtherEndPoly = 0;
                               CGeomCoastPolygon* pOtherEndPoly = m_VCoast[nCoast].pGetPolygon(nOtherEndPoly);
 
-                              if (dFineError != 0)
+                              if (dFineErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsFine(-dFineError);
-
-                                 m_dThisIterActualFineSedLostBeachErosion -= dFineError;
-
-                                 m_dThisIterMassBalanceErosionError -= dFineError;
-
-                                 dCheckTotal += dFineError;
+                                 pOtherEndPoly->AddDeltaActualUnconsFine(-dFineErosionDiff);
+                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;
+                                 dCheckTotal += dFineErosionDiff;
                               }
 
-                              if (dSandError != 0)
+                              if (dSandErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsSand(-dSandError);
-
-                                 m_dThisIterActualSandSedLostBeachErosion -= dSandError;
-
-                                 m_dThisIterMassBalanceErosionError -= dSandError;
-
-                                 dCheckTotal += dSandError;
+                                 pOtherEndPoly->AddDeltaActualUnconsSand(-dSandErosionDiff);
+                                 m_dThisIterActualSandSedLostBeachErosion -= dSandErosionDiff;
+                                 dCheckTotal += dSandErosionDiff;
                               }
 
-                              if (dCoarseError != 0)
+                              if (dCoarseErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsCoarse(-dCoarseError);
-
-                                 m_dThisIterActualCoarseSedLostBeachErosion -= dCoarseError;
-
-                                 m_dThisIterMassBalanceErosionError -= dCoarseError;
-
-                                 dCheckTotal += dCoarseError;
+                                 pOtherEndPoly->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff);
+                                 m_dThisIterActualCoarseSedLostBeachErosion -= dCoarseErosionDiff;
+                                 dCheckTotal += dCoarseErosionDiff;
                               }
                            }
                         }
@@ -512,52 +489,49 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         CGeomCoastPolygon* pAdjPolygon = m_VCoast[nCoast].pGetPolygon(nAdjPoly);
                         double dBoundaryShare = pPolygon->dGetDownCoastAdjacentPolygonBoundaryShare(n);
 
-                        if (dFineError != 0)
+                        if (dFineErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsFine(-dFineError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dFineError * dBoundaryShare);
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterErosionFineDiff = " << m_dThisIterErosionFineDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsFine(-dFineErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaFine NOW = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaFine now = " << pAdjPolygon->dGetDeltaActualUnconsFine() << endl;
 
-                           dCheckTotal += (dFineError * dBoundaryShare);
+                           dCheckTotal += (dFineErosionDiff * dBoundaryShare);
                         }
 
-                        if (dSandError != 0)
+                        if (dSandErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsSand(-dSandError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dSandError * dBoundaryShare);
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterErosionSandDiff = " << m_dThisIterErosionSandDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsSand(-dSandErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaSand NOW = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaSand now = " << pAdjPolygon->dGetDeltaActualUnconsSand() << endl;
 
-                           dCheckTotal += (dSandError * dBoundaryShare);
+                           dCheckTotal += (dSandErosionDiff * dBoundaryShare);
                         }
 
-                        if (dCoarseError != 0)
+                        if (dCoarseErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dCoarseError * dBoundaryShare);
-
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterErosionCoarseDiff = " << m_dThisIterErosionCoarseDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff * dBoundaryShare);
+                           
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaCoarse NOW = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaCoarse now = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << endl;
 
-                           dCheckTotal += (dCoarseError * dBoundaryShare);
+                           dCheckTotal += (dCoarseErosionDiff * dBoundaryShare);
                         }
                      }
                   }
 
                   if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                     LogStream << "dCheckTotal = " << dCheckTotal << " dFineError = " << dFineError << " dSandError = " << dSandError << " dCoarse Error = " << dCoarseError << endl;
+                     LogStream << "dCheckTotal = " << dCheckTotal << " dFineErosionDiff = " << dFineErosionDiff << " dSandErosionDiff = " << dSandErosionDiff << " dCoarseErosionDiff = " << dCoarseErosionDiff << endl;
 
                }
                else
@@ -593,31 +567,22 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                            else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_OPEN)
                            {
                               // Open grid edges, so this sediment goes off-grid
-                              if (dFineError != 0)
+                              if (dFineErosionDiff != 0)
                               {
-                                 m_dThisIterActualFineSedLostBeachErosion -= dFineError;
-
-                                 m_dThisIterMassBalanceErosionError -= dFineError;
-
-                                 dCheckTotal += dFineError;
+                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;                           
+                                 dCheckTotal += dFineErosionDiff;
                               }
 
-                              if (dSandError != 0)
+                              if (dSandErosionDiff != 0)
                               {
-                                 m_dThisIterActualSandSedLostBeachErosion += dSandError;
-
-                                 m_dThisIterMassBalanceErosionError -= dSandError;
-
-                                 dCheckTotal += dSandError;
+                                 m_dThisIterActualSandSedLostBeachErosion += dSandErosionDiff;
+                                 dCheckTotal += dSandErosionDiff;
                               }
 
-                              if (dCoarseError != 0)
+                              if (dCoarseErosionDiff != 0)
                               {
-                                 m_dThisIterActualCoarseSedLostBeachErosion += dCoarseError;
-
-                                 m_dThisIterMassBalanceErosionError -= dCoarseError;
-
-                                 dCheckTotal += dCoarseError;
+                                 m_dThisIterActualCoarseSedLostBeachErosion += dCoarseErosionDiff;
+                                 dCheckTotal += dCoarseErosionDiff;
                               }
                            }
 
@@ -627,37 +592,28 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                               int nOtherEndPoly = 0;
                               CGeomCoastPolygon* pOtherEndPoly = m_VCoast[nCoast].pGetPolygon(nOtherEndPoly);
 
-                              if (dFineError != 0)
+                              if (dFineErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsFine(-dFineError);
+                                 pOtherEndPoly->AddDeltaActualUnconsFine(-dFineErosionDiff);
 
-                                 m_dThisIterActualFineSedLostBeachErosion -= dFineError;
-
-                                 m_dThisIterMassBalanceErosionError -= dFineError;
-
-                                 dCheckTotal += dFineError;
+                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;
+                                 dCheckTotal += dFineErosionDiff;
                               }
 
-                              if (dSandError != 0)
+                              if (dSandErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsSand(-dSandError);
+                                 pOtherEndPoly->AddDeltaActualUnconsSand(-dSandErosionDiff);
 
-                                 m_dThisIterActualSandSedLostBeachErosion -= dSandError;
-
-                                 m_dThisIterMassBalanceErosionError -= dSandError;
-
-                                 dCheckTotal += dSandError;
+                                 m_dThisIterActualSandSedLostBeachErosion -= dSandErosionDiff;
+                                 dCheckTotal += dSandErosionDiff;
                               }
 
-                              if (dCoarseError != 0)
+                              if (dCoarseErosionDiff != 0)
                               {
-                                 pOtherEndPoly->AddDeltaActualUnconsCoarse(-dCoarseError);
+                                 pOtherEndPoly->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff);
 
-                                 m_dThisIterActualCoarseSedLostBeachErosion -= dCoarseError;
-
-                                 m_dThisIterMassBalanceErosionError -= dCoarseError;
-
-                                 dCheckTotal += dCoarseError;
+                                 m_dThisIterActualCoarseSedLostBeachErosion -= dCoarseErosionDiff;
+                                 dCheckTotal += dCoarseErosionDiff;
                               }
                            }
                         }
@@ -669,52 +625,49 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         CGeomCoastPolygon* pAdjPolygon = m_VCoast[nCoast].pGetPolygon(nAdjPoly);
                         double dBoundaryShare = pPolygon->dGetUpCoastAdjacentPolygonBoundaryShare(n);
 
-                        if (dFineError != 0)
+                        if (dFineErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsFine(-dFineError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dFineError * dBoundaryShare);
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterErosionFineDiff = " << m_dThisIterErosionFineDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsFine(-dFineErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaFine NOW = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaFine now = " << pAdjPolygon->dGetDeltaActualUnconsFine() << endl;
 
-                           dCheckTotal += (dFineError * dBoundaryShare);
+                           dCheckTotal += (dFineErosionDiff * dBoundaryShare);
                         }
 
-                        if (dSandError != 0)
+                        if (dSandErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsSand(-dSandError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dSandError * dBoundaryShare);
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterErosionSandDiff = " << m_dThisIterErosionSandDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsSand(-dSandErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaSand NOW = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaSand now = " << pAdjPolygon->dGetDeltaActualUnconsSand() << endl;
 
-                           dCheckTotal += (dSandError * dBoundaryShare);
+                           dCheckTotal += (dSandErosionDiff * dBoundaryShare);
                         }
 
-                        if (dCoarseError != 0)
+                        if (dCoarseErosionDiff != 0)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterMassBalanceErosionError WAS = " << m_dThisIterMassBalanceErosionError;
-                           pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseError * dBoundaryShare);
-
-                           m_dThisIterMassBalanceErosionError -= (dCoarseError * dBoundaryShare);
+                              LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterErosionCoarseDiff = " << m_dThisIterErosionCoarseDiff;
+                           
+                           pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                              LogStream << " dDeltaCoarse NOW = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterMassBalanceErosionError = " << m_dThisIterMassBalanceErosionError << endl;
+                              LogStream << " dDeltaCoarse now = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << endl;
 
-                           dCheckTotal += (dCoarseError * dBoundaryShare);
+                           dCheckTotal += (dCoarseErosionDiff * dBoundaryShare);
                         }
                      }
                   }
 
                   if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                     LogStream << "dCheckTotal = " << dCheckTotal << " dFineError = " << dFineError << " dSandError = " << dSandError << " dCoarse Error = " << dCoarseError << endl;
+                     LogStream << "dCheckTotal = " << dCheckTotal << " dFineErosionDiff = " << dFineErosionDiff << " dSandErosionDiff = " << dSandErosionDiff << " dCoarseErosionDiff = " << dCoarseErosionDiff << endl;
 
                }
             }
@@ -744,7 +697,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
             // Net deposition on this polygon: we will be depositing sand and coarse sediment
             dSedChange = m_VCoast[nCoast].pGetPolygon(nPoly)->dGetDeltaActualUnconsSand() + m_VCoast[nCoast].pGetPolygon(nPoly)->dGetDeltaActualUnconsCoarse();
 
-            // Calculate a net increase in depth of unconsolidated sediment on the cells within the polygon by depositing fine and sand. Note that some cells may decrease in elevation (i.e. have some unconsolidated sediment erosion) however
+            // Calculate a net increase in depth of unconsolidated sediment on the cells within the polygon by depositing sand and coarse. Note that some cells may decrease in elevation (i.e. have some unconsolidated sediment erosion) however
             nRet = nDoBeachDepositionOnPolygon(nCoast, nPoly, dSedChange);
             if (nRet != RTN_OK)
                return nRet;

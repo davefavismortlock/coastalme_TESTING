@@ -808,7 +808,7 @@ bool CSimulation::bCheckRasterGISOutputFormat(void)
    if (strstr(CSLFetchNameValue(papszMetadata, "DMD_CREATIONDATATYPES"), "Float"))
    {
       m_bGDALCanWriteFloat = true;
-      m_GDALWriteFloatDataType = GDT_Float64;
+      m_GDALWriteFloatDataType = GDT_Float32;
    }
 
    if (strstr(CSLFetchNameValue(papszMetadata, "DMD_CREATIONDATATYPES"), "UInt32"))
@@ -926,6 +926,14 @@ bool CSimulation::bCheckVectorGISOutputFormat(void)
       // Set this, so that just a single dataset-with-one-layer shapefile is created, rather than a directory
       // (see http://www.gdal.org/ogr/drv_shapefile.html)
       m_strOGRVectorOutputExtension = ".shp";
+   }
+   else if (m_strVectorGISOutFormat == "geojson")
+   {
+      m_strOGRVectorOutputExtension = ".geojson";
+   }
+   else if (m_strVectorGISOutFormat == "gpkg")
+   {
+      m_strOGRVectorOutputExtension = ".gpkg";
    }
    // TODO Others
 
@@ -1217,6 +1225,17 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
          return false;
    }
 
+   if (m_bSetupSurgeFloodMaskSave)
+   {
+      if (!bWriteRasterGISFile(RASTER_PLOT_SETUP_SURGE_FLOOD_MASK, &RASTER_PLOT_SETUP_SURGE_FLOOD_MASK_TITLE))
+         return false;
+   }
+   if (m_bSetupSurgeRunupFloodMaskSave)
+   {
+      if (!bWriteRasterGISFile(RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK, &RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK_TITLE))
+         return false;
+   }
+
    return true;
 }
 
@@ -1228,11 +1247,17 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
 bool CSimulation::bSaveAllVectorGISFiles(void)
 {
    // Always written
-   if (!bWriteVectorGISFile(VECTOR_PLOT_COAST, &VECTOR_PLOT_COAST_TITLE))
-      return false;
+   if (m_bCoastSave)
+   {
+      if (!bWriteVectorGISFile(VECTOR_PLOT_COAST, &VECTOR_PLOT_COAST_TITLE))
+         return false;
+   }
 
-   if (!bWriteVectorGISFile(VECTOR_PLOT_NORMALS, &VECTOR_PLOT_NORMALS_TITLE))
-      return false;
+   if (m_bNormalsSave)
+   {
+      if (!bWriteVectorGISFile(VECTOR_PLOT_NORMALS, &VECTOR_PLOT_NORMALS_TITLE))
+         return false;
+   }
 
    if (m_bInvalidNormalsSave)
    {
@@ -1317,13 +1342,28 @@ bool CSimulation::bSaveAllVectorGISFiles(void)
       if (!bWriteVectorGISFile(VECTOR_PLOT_WAVE_SETUP, &VECTOR_PLOT_WAVE_SETUP_TITLE))
          return false;
    }
-
    if (m_bStormSurgeSave)
    {
       if (!bWriteVectorGISFile(VECTOR_PLOT_STORM_SURGE, &VECTOR_PLOT_STORM_SURGE_TITLE))
          return false;
    }
+   if (m_bRunUpSave)
+   {
+      if (!bWriteVectorGISFile(VECTOR_PLOT_RUN_UP, &VECTOR_PLOT_RUN_UP_TITLE))
+         return false;
+   }
 
+   if (m_bVectorWaveFloodLineSave)
+   {
+      if (!bWriteVectorGISFile(VECTOR_PLOT_FLOOD_LINE, &VECTOR_PLOT_FLOOD_SWL_SETUP_LINE_TITLE))
+         return false;
+
+      // if (!bWriteVectorGISFile(VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE, &VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE_TITLE))
+      //    return false;
+
+      // if (!bWriteVectorGISFile(VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE, &VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_TITLE))
+      //    return false;
+   }
    return true;
 }
 
@@ -1341,7 +1381,10 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double &dMin, doubl
        (nDataItem == RASTER_PLOT_COAST) ||
        (nDataItem == RASTER_PLOT_NORMAL) ||
        (nDataItem == RASTER_PLOT_ACTIVE_ZONE) ||
-       (nDataItem == RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT))
+       (nDataItem == RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT) ||
+       (nDataItem == RASTER_PLOT_SETUP_SURGE_FLOOD_MASK) ||
+       (nDataItem == RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK) ||
+       (nDataItem == RASTER_PLOT_WAVE_FLOOD_LINE))
    {
       dMin = 0;
       dMax = 1;

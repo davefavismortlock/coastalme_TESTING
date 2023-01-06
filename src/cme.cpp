@@ -25,21 +25,21 @@
 #include "cme.h"
 #include "simulation.h"
 
-
 /*===============================================================================================================================
 
  CoastalME's main function
 
 ===============================================================================================================================*/
-int main (int argc, char* argv[])
+int main(int argc, char *argv[])
 {
    // Enable the use of UTF-8 symbols in CoastalME output
    setlocale(LC_ALL, "en_GB.UTF-8");
 
    // Create a CSimulation object
-   CSimulation* pSimulation = new CSimulation;
+   CSimulation *pSimulation = new CSimulation;
 
    // Run the simulation and then check how it ends
+
    int nRtn = pSimulation->nDoSimulation(argc, argv);
    pSimulation->DoSimulationEnd(nRtn);
 
