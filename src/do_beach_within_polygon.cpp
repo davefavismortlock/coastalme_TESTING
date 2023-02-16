@@ -888,9 +888,9 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
 
          if (nParProfLen > (pUpCoastProfile->nGetNumCellsInProfile()))
          {
-            // We've reached the seaward end of the up-coast profile, and still cannot deposit sufficient sediment. Need to quit, since mass balance will not be preserved (TODO find a way round this)
-            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-               LogStream << m_ulIter << ": " << WARN << "reached seaward end of up-coast profile during DOWN-COAST deposition of unconsolidated sediment for coast " << nCoast << " polygon " << nPoly << " (nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << ")" << endl;
+            // We've reached the seaward end of the up-coast profile, need to quit
+            // if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+            //    LogStream << m_ulIter << ": " << WARN << "reached seaward end of up-coast profile during DOWN-COAST deposition of unconsolidated sediment for coast " << nCoast << " polygon " << nPoly << " (nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << ")" << endl;
 
             break;
          }
@@ -1064,15 +1064,39 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
          // Leave the loop if we have deposited enough for this polygon
          if ((dSandToDepositOnPoly <= 0) && (dCoarseToDepositOnPoly <= 0))
          {
-            LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " ****** leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+            if (dSandToDepositOnPoly < 0)
+            {
+               LogStream << "!!!!!! DOWN-COAST dSandToDepositOnPoly = " << dSandToDepositOnPoly << endl;
+               
+               LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+            }
 
+            if (dCoarseToDepositOnPoly < 0)
+            {
+               LogStream << "!!!!!! DOWN-COAST dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+               
+               LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+            }
+            
             break;
          }
 
          // Leave the loop if we have done enough deposition for this profile
          if ((dSandToDepositOnProf <= 0) && (dCoarseToDepositOnProf <= 0))
          {
-            LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " ****** leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+            if (dSandToDepositOnProf < 0)
+            {
+               LogStream << "***** DOWN-COAST dSandToDepositOnProf = " << dSandToDepositOnProf << endl;
+               
+               LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+            }
+            
+            if (dCoarseToDepositOnProf < 0)
+            {
+               LogStream << "***** DOWN-COAST dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << endl;
+               
+               LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+            }
             
             break;
          }
@@ -1352,9 +1376,9 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
 
             if (nParProfLen > (pDownCoastProfile->nGetNumCellsInProfile()))
             {
-               // We've reached the seaward end of the down-coast profile, and still cannot deposit sufficient sediment. Need to quit, since mass balance will not be preserved (TODO find a way round this)
-               if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                  LogStream << m_ulIter << ": " << WARN << "reached seaward end of down-coast profile during UP-COAST deposition of unconsolidated sediment for coast " << nCoast << " polygon " << nPoly << " (nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << ")" << endl;
+               // We've reached the seaward end of the down-coast profile, need to quit
+               // if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+               //    LogStream << m_ulIter << ": " << WARN << "reached seaward end of down-coast profile during UP-COAST deposition of unconsolidated sediment for coast " << nCoast << " polygon " << nPoly << " (nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << ")" << endl;
 
                break;
             }
@@ -1523,14 +1547,40 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
             // Leave the loop if we have deposited enough for this polygon
             if ((dSandToDepositOnPoly <= 0) && (dCoarseToDepositOnPoly <= 0))
             {
-               //                LogStream << "\tIn nBeachRedistributionOnPolygon() going UP-COAST, nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep (" << nSeawardFromCoast << " / " << nParProfLen << ") because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+               if (dSandToDepositOnPoly < 0)
+               {
+                  LogStream << "!!!!!! UP-COAST dSandToDepositOnPoly = " << dSandToDepositOnPoly << endl;
+                  
+                  LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+               }
+
+               if (dCoarseToDepositOnPoly < 0)
+               {
+                  LogStream << "!!!!!! UP-COAST dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+                  
+                  LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+               }
+
                break;
             }
 
             // Leave the loop if we have done enough deposition for this profile
             if ((dSandToDepositOnProf <= 0) && (dCoarseToDepositOnProf <= 0))
             {
-               //                LogStream << "\tIn nBeachRedistributionOnPolygon() going UP-COAST, nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep (" << nSeawardFromCoast << " / " << nParProfLen << ") because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+               if (dSandToDepositOnProf < 0)
+               {
+                  LogStream << "***** UP-COAST dSandToDepositOnProf = " << dSandToDepositOnProf << endl;
+                  
+                  LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+               }
+               
+               if (dCoarseToDepositOnProf < 0)
+               {
+                  LogStream << "***** UP-COAST dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << endl;
+                  
+                  LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+               }
+               
                break;
             }
 
