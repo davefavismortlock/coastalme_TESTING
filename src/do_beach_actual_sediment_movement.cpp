@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -493,7 +493,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterErosionFineDiff = " << m_dThisIterErosionFineDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsFine(-dFineErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
@@ -506,7 +506,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterErosionSandDiff = " << m_dThisIterErosionSandDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsSand(-dSandErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
@@ -519,9 +519,9 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterErosionCoarseDiff = " << m_dThisIterErosionCoarseDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff * dBoundaryShare);
-                           
+
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << " dDeltaCoarse now = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << endl;
 
@@ -569,7 +569,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                               // Open grid edges, so this sediment goes off-grid
                               if (dFineErosionDiff != 0)
                               {
-                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;                           
+                                 m_dThisIterActualFineSedLostBeachErosion -= dFineErosionDiff;
                                  dCheckTotal += dFineErosionDiff;
                               }
 
@@ -629,7 +629,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaFine was = " << pAdjPolygon->dGetDeltaActualUnconsFine() << " m_dThisIterErosionFineDiff = " << m_dThisIterErosionFineDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsFine(-dFineErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
@@ -642,7 +642,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaSand was = " << pAdjPolygon->dGetDeltaActualUnconsSand() << " m_dThisIterErosionSandDiff = " << m_dThisIterErosionSandDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsSand(-dSandErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
@@ -655,7 +655,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                         {
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                               LogStream << m_ulIter << ": on polygon " << nAdjPoly << ", dDeltaCoarse was = " << pAdjPolygon->dGetDeltaActualUnconsCoarse() << " m_dThisIterErosionCoarseDiff = " << m_dThisIterErosionCoarseDiff;
-                           
+
                            pAdjPolygon->AddDeltaActualUnconsCoarse(-dCoarseErosionDiff * dBoundaryShare);
 
                            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)

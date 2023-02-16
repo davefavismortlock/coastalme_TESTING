@@ -504,11 +504,11 @@ double const MAX_LAND_LENGTH_OF_SHADOW_ZONE_LINE = 5; // Used in shadow line tra
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME)\nVersion 1.0.0 (06 Jan 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME)\nVersion 1.0.1 (16 Feb 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
-string const COPYRIGHT = "(C) 2022 Andres Payo and David Favis-Mortlock";
+string const COPYRIGHT = "(C) 2023 Andres Payo and David Favis-Mortlock";
 string const LINE = "-------------------------------------------------------------------------------";
 string const DISCLAIMER1 = "This program is distributed in the hope that it will be useful, but WITHOUT ANY";
 string const DISCLAIMER2 = "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A";

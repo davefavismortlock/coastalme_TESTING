@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -456,7 +456,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    {
       // Save number is iteration
       ststrTmp << FillToWidth('0', m_nGISMaxSaveDigits) << m_dUSaveTime[m_nGISSave - 1];
-   }      
+   }
    strFilePathName.append(ststrTmp.str());
    gpkg_layer_name << ststrTmp.str();
 

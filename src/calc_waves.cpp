@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -1294,7 +1294,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       // Compute the run-up using STOCKDON (2006)
       double dS0 = 2 * PI * dWaveHeight / (9.81 * dDeepWaterWavePeriod * dDeepWaterWavePeriod);
       // dRunUp = 1.1 * ((0.35 * dWaveHeight * (pow((1 / dS0) * dWaveHeight * dWaveHeight, 0.5))) + (((((1 / dS0) * dWaveHeight * dWaveHeight) * (0.563 * dWaveHeight * dWaveHeight + 0.0004)), 0.5)) / 2);
-      
+
       double dH0OverL0 = (1 / dS0) * dWaveHeight;
       double dTmp1 = 0.35 * dWaveHeight * pow(dH0OverL0, 0.5);
       double dTmp2 = pow(dH0OverL0 * ((0.563 * dWaveHeight * dWaveHeight) + 0.0004), 0.5);
@@ -1690,7 +1690,7 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const *pVdProfileDistXY
        VdWaveSetupSurgeCShoreTmp(pVdWaveSetupSurgeCShore->begin(), pVdWaveSetupSurgeCShore->begin() + nOutSize), // MCB added
                                                                                                                  //  VdStormSurgeCShoreTmp(pVdStormSurgeCShore->begin(), pVdStormSurgeCShore->begin() + nOutSize), // MCB added
                                                                                                                  //  VdWaveSetupRunUpCShoreTmp(pVdWaveSetupRunUpCShore->begin(), pVdWaveSetupRunUpCShore->begin() + nOutSize), // MCB added
-                                                                                                                 
+
    VdSinWaveAngleRadiansCShoreTmp(pVdSinWaveAngleRadiansCShore->begin(), pVdSinWaveAngleRadiansCShore->begin() + nOutSize),
    VdFractionBreakingWavesCShoreTmp(pVdFractionBreakingWavesCShore->begin(), pVdFractionBreakingWavesCShore->begin() + nOutSize);
 

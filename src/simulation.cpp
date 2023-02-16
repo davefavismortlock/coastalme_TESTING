@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -154,21 +154,21 @@ CSimulation::CSimulation (void)
    m_bSedimentInputThisIter =
    m_bSedimentInputEventSave =
    m_bWaveSetupSave =
-   m_bStormSurgeSave =   
+   m_bStormSurgeSave =
    m_bDoFlood =
    m_bRunUpSave =
    m_bVectorWaveFloodLineSave =
    m_bFloodLocation =
    m_bFloodSWLSetupLine =
    m_bFloodSWLSetupSurgeLine =
-   m_bFloodSWLSetupSurgeRunupLine = 
+   m_bFloodSWLSetupSurgeRunupLine =
    m_bGISSaveDigitsSequential = false;
-   
+
    m_bGDALCanCreate = true;
-   
+
    m_papszGDALRasterOptions =
    m_papszGDALVectorOptions = NULL;
-   
+
    m_nLayers =
    m_nCoastSmooth =
    m_nCoastSmoothWindow =
@@ -201,21 +201,21 @@ CSimulation::CSimulation (void)
    m_nDeepWaterWaveDataNTimeSteps =
    m_nLogFileDetail =
    m_nRunUpEquation = 0;
-   
+
    // NOTE May wish to make this a user-supplied value
    m_nMissingValue = INT_NODATA;
-   
+
    m_nXMinBoundingBox = INT_MAX;
    m_nXMaxBoundingBox = INT_MIN;
    m_nYMinBoundingBox = INT_MAX;
    m_nYMaxBoundingBox = INT_MIN;
-   
+
    m_GDALWriteIntDataType =
    m_GDALWriteFloatDataType = GDT_Unknown;
-   
+
    m_lGDALMaxCanWrite =
    m_lGDALMinCanWrite = 0;
-   
+
    m_ulIter =
    m_ulTotTimestep =
    m_ulThisIterNumPotentialBeachErosionCells =
@@ -229,13 +229,13 @@ CSimulation::CSimulation (void)
    m_ulThisIterNumCoastCells =
    m_ulThisIterNumPotentialPlatformErosionCells =
    m_ulThisIterNumActualPlatformErosionCells = 0;
-   
+
    for (int i = 0; i < NRNG; i++)
       m_ulRandSeed[i] = 0;
-   
+
    for (int i = 0; i < SAVEMAX; i++)
       m_dUSaveTime[i] = 0;
-   
+
    m_dDurationUnitsMult =
    m_dNorthWestXExtCRS =
    m_dNorthWestYExtCRS =
@@ -343,16 +343,16 @@ CSimulation::CSimulation (void)
    m_dThisiterFineSedimentInput =
    m_dThisiterSandSedimentInput =
    m_dThisiterCoarseSedimentInput = 0;
-   
+
    m_dMinSWL = DBL_MAX;
    m_dMaxSWL = DBL_MIN;
-   
+
    for (int i = 0; i < 6; i++)
       m_dGeoTransform[i] = 0;
-   
+
    // NOTE May wish to make this a user-supplied value
    m_dMissingValue = DBL_NODATA;
-   
+
    m_ldGTotPotentialPlatformErosion =
    m_ldGTotFineActualPlatformErosion =
    m_ldGTotSandActualPlatformErosion =
@@ -386,17 +386,17 @@ CSimulation::CSimulation (void)
    m_ldGTotFineSedimentInput =
    m_ldGTotSandSedimentInput =
    m_ldGTotCoarseSedimentInput = 0;
-   
+
    for (int i = 0; i < 2; i++)
    {
       m_ulRState[i].s1 =
       m_ulRState[i].s2 =
       m_ulRState[i].s3 = 0;
    }
-   
+
    m_tSysStartTime =
    m_tSysEndTime = 0;
-   
+
    m_pRasterGrid = NULL;
 }
 

@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -467,7 +467,7 @@ int CSimulation::nDoBeachErosionOnPolygon(int const nCoast, int const nPoly, dou
       }
 
       // Calculate the difference between what we should have been able to erode, and what we actually eroded
-      double dTotErosionDiff = dErosionTarget - dTotalErosion;      
+      double dTotErosionDiff = dErosionTarget - dTotalErosion;
       // LogStream << endl << "&&&0 nCoast = " << nCoast << " nPoly = " << nPoly << " dTotErosionDiff = " << dTotErosionDiff << endl;
 
       if (dTotalErosion > 0)
@@ -476,11 +476,11 @@ int CSimulation::nDoBeachErosionOnPolygon(int const nCoast, int const nPoly, dou
          dFineErosionDiff = dTotErosionDiff * dTotFineEroded / dTotalErosion;
          dSandErosionDiff = dTotErosionDiff * dTotSandEroded / dTotalErosion;
          dCoarseErosionDiff = dTotErosionDiff * dTotCoarseEroded / dTotalErosion;
-         
+
          m_dThisIterErosionFineDiff += dFineErosionDiff;
          m_dThisIterErosionSandDiff += dSandErosionDiff;
          m_dThisIterErosionCoarseDiff += dCoarseErosionDiff;
-         
+
          // LogStream << "&&&1 dFineErosionDiff = " << dFineErosionDiff << " m_dThisIterErosionFineDiff = " << m_dThisIterErosionFineDiff << endl;
          // LogStream << "&&&1 dSandErosionDiff = " << dSandErosionDiff << " m_dThisIterErosionSandDiff = " << m_dThisIterErosionSandDiff  << endl;
          // LogStream << "&&&1 dCoarseErosionDiff = " << dCoarseErosionDiff << " m_dThisIterErosionCoarseDiff = " << m_dThisIterErosionCoarseDiff  << endl;
@@ -1064,7 +1064,7 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
          // Leave the loop if we have deposited enough for this polygon
          if ((dSandToDepositOnPoly <= 0) && (dCoarseToDepositOnPoly <= 0))
          {
-            //             LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep (" << nSeawardFromCoast << " / " << nParProfLen << ")  because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
+            LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " ****** leaving loop at start of timestep because enough deposition for polygon, dSandToDepositOnPoly = " << dSandToDepositOnPoly << " dCoarseToDepositOnPoly = " << dCoarseToDepositOnPoly << endl;
 
             break;
          }
@@ -1072,7 +1072,8 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
          // Leave the loop if we have done enough deposition for this profile
          if ((dSandToDepositOnProf <= 0) && (dCoarseToDepositOnProf <= 0))
          {
-            //             LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " leaving loop at start of timestep (" << nSeawardFromCoast << " / " << nParProfLen << ") because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+            LogStream << m_ulIter << ": nPoly = " << nPoly << " nCoastPoint = " << nCoastPoint << " nSeawardOffset = " << nSeawardOffset << " ****** leaving loop at start of timestep because enough deposition for profile, dSandToDepositOnProf = " << dSandToDepositOnProf << " dCoarseToDepositOnProf = " << dCoarseToDepositOnProf << " dAllSedimentTargetPerProfile = " << dAllSedimentTargetPerProfile << endl;
+            
             break;
          }
 

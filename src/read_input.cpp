@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -72,15 +72,15 @@ bool CSimulation::bReadIniFile(void)
       return false;
    }
 
-   int 
-      nLine = 0, 
+   int
+      nLine = 0,
       i = 0;
    string strRec, strErr;
 
    while (getline(InStream, strRec))
    {
       nLine++;
-      
+
       // Trim off leading and trailing whitespace
       strRec = strTrim(&strRec);
 
@@ -233,7 +233,7 @@ bool CSimulation::bReadRunDataFile(void)
    while (getline(InStream, strRec))
    {
       nLine++;
-      
+
       // Trim off leading and trailing whitespace
       strRec = strTrim(&strRec);
 
@@ -249,7 +249,7 @@ bool CSimulation::bReadRunDataFile(void)
          {
             // Error: badly formatted (no colon)
             cerr << ERR << "on line " << to_string(nLine) << "badly formatted (no ':') in " << m_strDataPathName << endl
-                 << strRec << endl; 
+                 << strRec << endl;
             return false;
          }
 
@@ -565,7 +565,7 @@ bool CSimulation::bReadRunDataFile(void)
                   m_ulRandSeed[n] = m_ulRandSeed[n - 1];
             }
             break;
-            
+
          case 8:
             // Max save digits for GIS output file names
             if (!bIsStringValidInt(strRH))
@@ -579,7 +579,7 @@ bool CSimulation::bReadRunDataFile(void)
             if (m_nGISMaxSaveDigits < 2)
                strErr = "line " + to_string(nLine) + ": max save digits for GIS output file names must be > 1";
             break;
-            
+
          case 9:
             // Save digits for GIS output sequential or iteration number?    [s = sequential, i = iteration]: s
             if (strRH.empty())
@@ -588,7 +588,7 @@ bool CSimulation::bReadRunDataFile(void)
             {
                // Convert to lower case
                strRH = strToLower(&strRH);
-               
+
                if (strRH.find('s') != string::npos)
                {
                   // First look for 's'
@@ -606,7 +606,7 @@ bool CSimulation::bReadRunDataFile(void)
                }
             }
             break;
-            
+
 
          case 10:
             // Raster GIS files to output
@@ -1539,7 +1539,7 @@ bool CSimulation::bReadRunDataFile(void)
                            cerr << ERR << "premature end of file in " << m_strDataPathName << endl;
                            return false;
                         }
-                        
+
                         nLine++;
 
                         // Trim off leading and trailing whitespace
@@ -2495,7 +2495,7 @@ bool CSimulation::bReadRunDataFile(void)
             if (strRH.find("y") != string::npos)
                m_bDoFlood = true;
             break;
-            
+
          case 67:
             // Output flood coastlines
             if (m_bDoFlood)
@@ -2532,7 +2532,7 @@ bool CSimulation::bReadRunDataFile(void)
                         m_bFloodSWLSetupSurgeRunupLine = true;
                         strRH = strRemoveSubstr(&strRH, &VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_CODE);
                      }
-                     
+
                      // Check to see if all codes have been removed
                      if (! strRH.empty())
                         strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of vector GIS flood coastline files";
@@ -2542,7 +2542,7 @@ bool CSimulation::bReadRunDataFile(void)
                   strErr = "line " + to_string(nLine) + ": vector GIS flood coastline files must not be empty if simulating floods";
             }
             break;
-            
+
          case 68:
             if (m_bDoFlood)
             {
@@ -2608,7 +2608,7 @@ bool CSimulation::bReadRunDataFile(void)
             if (strRH.find("y") != string::npos)
                m_bSedimentInput = true;
             break;
-            
+
          case 72:
             // Sediment input location (point or line shapefile)
             if (m_bSedimentInput)
@@ -2924,7 +2924,7 @@ int CSimulation::nReadTideDataFile()
    while (getline(InStream, strRec))
    {
       nLine++;
-      
+
       // Trim off leading and trailing whitespace
       strRec = strTrim(&strRec);
 
@@ -2960,7 +2960,7 @@ int CSimulation::nReadShapeFunctionFile()
    vector<double> VdDepthOverDB{0, 0.09616066, 0.14941888, 0.1997183, 0.24853833, 0.29735836, 0.3994366, 0.50003545, 0.55033487, 0.75301196, 0.80331138, 0.89947205, 0.95420965, 1.00302968, 1.0267};
    vector<double> VdErosionPotential{0, -1.171875, -3.125, -7.14285714, -12.5, -11.94196429, -7.421875, -8.53794643, -8.09151786, -5.18973214, -5.63616071, -6.08258929, -6.25, -1.5625, -0.05580357};
    vector<double> VdErosionPotentialFirstDeriv{0, -28.27447203, -48.70000067, -110.48218074, -69.8222302, 57.30543556, 11.54251156, -5.20131157, 18.67771968, -6.92498633, -6.056257, -32.72222382, 72.90403858, 85.14160481, 43.38930653};
-   
+
    // Sort out the path and filename
    // m_strShapeFunctionFile = m_strCMEDir;
    // m_strShapeFunctionFile.append(SCAPE_DIR);
@@ -3097,7 +3097,7 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
    while (getline(InStream, strRec))
    {
       nLine++;
-      
+
       // Trim off leading and trailing whitespace
       strRec = strTrim(&strRec);
 
@@ -3411,7 +3411,7 @@ int CSimulation::nReadSedimentInputEventTimeSeriesFile(void)
    }
 
    // Opened OK
-   int 
+   int
       nLine = 0,
       nRead = 0;
    string strRec, strErr;
@@ -3420,7 +3420,7 @@ int CSimulation::nReadSedimentInputEventTimeSeriesFile(void)
    while (getline(InStream, strRec))
    {
       nLine++;
-      
+
       // Trim off leading and trailing whitespace
       strRec = strTrim(&strRec);
 

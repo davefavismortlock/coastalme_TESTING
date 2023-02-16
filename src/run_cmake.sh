@@ -22,7 +22,8 @@ echo ""
 echo "CoastalME: starting CMake for Linux (using gcc, $buildtype build)"
 
 rm -f CMakeCache.txt
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildtype .
+#cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildtype .
+cmake -DCMAKE_BUILD_TYPE=$buildtype . -G"CodeBlocks - Unix Makefiles"
 
 echo ""
 echo "================================================================="

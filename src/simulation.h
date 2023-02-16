@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  * \file simulation.h
@@ -244,7 +244,7 @@ private:
         m_ulThisIterNumSeaCells,
         m_ulThisIterNumCoastCells,
         m_ulThisIterNumPotentialPlatformErosionCells,
-        m_ulThisIterNumActualPlatformErosionCells,        
+        m_ulThisIterNumActualPlatformErosionCells,
         m_ulThisIterNumPotentialBeachErosionCells,
         m_ulThisIterNumActualBeachErosionCells,
         m_ulThisIterNumBeachDepositionCells,

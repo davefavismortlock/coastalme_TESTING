@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2021
+ * \date 2023
  * \copyright GNU General Public License
  *
  */
@@ -466,7 +466,7 @@ void CSimulation::WriteStartRunDetails(void)
          OutStream << "where line interests with coast";
       OutStream << endl;
       OutStream << " Sediment input time series file                           \t: " << m_strSedimentInputEventTimeSeriesFile << endl;
-   }   
+   }
    OutStream << " Do cliff collapse?                                        \t: " << (m_bDoCliffCollapse ? "Y" : "N") << endl;
    OutStream << " Cliff erodibility                                         \t: " << m_dCliffErosionResistance << endl;
    OutStream << " Notch overhang to initiate collapse                       \t: " << m_dNotchOverhangAtCollapse << " m" << endl;
@@ -486,7 +486,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << " FloodSWLSetupLine                                         \t: " << (m_bFloodSWLSetupLine ? "Y" : "N") << endl;
       OutStream << " FloodSWLSetupSurgeLine                                    \t: " << (m_bFloodSWLSetupSurgeLine ? "Y" : "N") << endl;
       OutStream << " m_bFloodSWLSetupSurgeRunupLine                            \t: " << (m_bFloodSWLSetupSurgeRunupLine ? "Y" : "N") << endl;
-   }   
+   }
    OutStream << " Gravitational acceleration                                \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dG << " m^2/s" << endl;
    OutStream << " Minimum spacing of coastline normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalAvgSpacing << " m" << endl;
    OutStream << " Random factor for spacing of normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalRandSpaceFact << endl;
@@ -1210,24 +1210,31 @@ int CSimulation::nWriteEndRunDetails(void)
 
    OutStream << "NOTE grid edge option is ";
    if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_CLOSED)
-      OutStream << "CLOSED, therefore values above are for fine sediment only";
+      OutStream << "CLOSED. Values above are for fine sediment only";
    else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_OPEN)
-      OutStream << "OPEN, therefore values above are for all sediment size classes";
+      OutStream << "OPEN. Values above are for all sediment size classes";
    else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_RECIRCULATE)
-      OutStream << "RE-CIRCULATING, therefore values above are for all sediment size classes";
-   OutStream << endl;
+      OutStream << "RE-CIRCULATING. Values above are for all sediment size classes";
+   OutStream << endl << endl;
 
+   OutStream << "DIFFERENCES BETWEEN POTENTIAL AND ACTUAL EROSION" << endl;
+   OutStream << "Difference beween potential and actual erosion, fine sediment   = " << m_ldGTotErosionFineDiff << " m^3" << endl;
+   OutStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
+   OutStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl << endl;
+   
+   OutStream << "ERRORS" << endl;
    long double
        ldLHS = ldActualTotalEroded + ldTotalLost,
        ldRHS = ldTotalDepositedAndSuspension;
    OutStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
    OutStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
-   OutStream << endl;
-
-   OutStream << "DIFFERENCES/ERRORS" << endl;
-   OutStream << "Difference beween potential and actual erosion, fine sediment   = " << m_ldGTotErosionFineDiff << " m^3" << endl;
-   OutStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
-   OutStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl;
+   OutStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
+   OutStream << "                                    = ";
+   if (ldActualTotalEroded > 0)
+      OutStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
+   else
+      OutStream << endl;
+   
    OutStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
    long double ldTmp = 0;
    if (m_ldGTotSandBeachDeposition > 0)
@@ -1268,16 +1275,12 @@ int CSimulation::nWriteEndRunDetails(void)
 
    LogStream << "NOTE grid edge option is ";
    if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_CLOSED)
-      LogStream << "CLOSED, therefore values above are for fine sediment only";
+      LogStream << "CLOSED. Values above are for fine sediment only";
    else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_OPEN)
-      LogStream << "OPEN, therefore values above are for all sediment size classes";
+      LogStream << "OPEN. Values above are for all sediment size classes";
    else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_RECIRCULATE)
-      LogStream << "RE-CIRCULATING, therefore values above are for all sediment size classes";
-   LogStream << endl;
-
-   LogStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
-   LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl
-             << endl;
+      LogStream << "RE-CIRCULATING. Values above are for all sediment size classes";
+   LogStream << endl << endl;
 
    // Output averages for on-profile and between-profile potential shore platform erosion, ideally these are roughly equal
    LogStream << std::fixed;
@@ -1285,10 +1288,24 @@ int CSimulation::nWriteEndRunDetails(void)
    LogStream << "Between-profile average potential shore platform erosion = " << (m_ulTotPotentialPlatformErosionBetweenProfiles > 0 ? m_dTotPotentialPlatformErosionBetweenProfiles / static_cast<double>(m_ulTotPotentialPlatformErosionBetweenProfiles) : 0) << " mm (n = " << m_ulTotPotentialPlatformErosionBetweenProfiles << ")" << endl;
    LogStream << endl;
    
-   LogStream << "DIFFERENCES/ERRORS" << endl;
+   
+   LogStream << "DIFFERENCES BETWEEN POTENTIAL AND ACTUAL EROSION" << endl;
    LogStream << "Difference beween potential and actual erosion, fine sediment   = " << m_ldGTotErosionFineDiff << " m^3" << endl;
-   LogStream << "Sand sediment, difference beween potential and actual erosion   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
-   LogStream << "Coarse sediment, difference beween potential and actual erosion = " << m_ldGTotErosionCoarseDiff << " m^3" << endl;
+   LogStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
+   LogStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl << endl;
+   
+   LogStream << "ERRORS" << endl;
+   ldLHS = ldActualTotalEroded + ldTotalLost,
+   ldRHS = ldTotalDepositedAndSuspension;
+   LogStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
+   LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
+   LogStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
+   LogStream << "                                    = ";
+   if (ldActualTotalEroded > 0)
+      LogStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
+   else
+      LogStream << endl;
+   
    LogStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
    ldTmp = 0;
    if (m_ldGTotSandBeachDeposition > 0)
