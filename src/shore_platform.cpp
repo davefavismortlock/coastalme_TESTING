@@ -479,7 +479,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
              nYPar = PtiVGridParProfile[i].nGetY();
 
          // Is this a sea cell?
-         if (!m_pRasterGrid->m_Cell[nXPar][nYPar].bIsInundated())
+         if (! m_pRasterGrid->m_Cell[nXPar][nYPar].bIsInundated())
          {
             // It isn't so move along, nothing to do here
             //             LogStream << m_ulIter << " : [" << nXPar << "][" << nYPar << "] is not inundated" << endl;
@@ -1229,7 +1229,7 @@ void CSimulation::ConstructParallelProfile(int const nProfileStartX, int const n
           nYPar = nYProf + nYOffset;
 
       // Is this cell within the grid? If not, cut short the profile
-      if (!bIsWithinValidGrid(nXPar, nYPar))
+      if (! bIsWithinValidGrid(nXPar, nYPar))
       {
          //         LogStream << "NOT WITHIN GRID [" << nXPar << "][" << nYPar << "]" << endl;
          return;

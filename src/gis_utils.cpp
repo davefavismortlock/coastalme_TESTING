@@ -1450,7 +1450,7 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double &dMin, doubl
             break;
 
          case (RASTER_PLOT_WAVE_HEIGHT):
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
                dTmp = m_dMissingValue;
             else
                dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
@@ -1461,7 +1461,7 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double &dMin, doubl
             break;
 
          case (RASTER_PLOT_WAVE_ORIENTATION):
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
                dTmp = m_dMissingValue;
             else
                dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle();

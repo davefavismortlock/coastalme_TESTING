@@ -182,7 +182,7 @@ int CSimulation::nTraversePolygonAndEstimateBeachErosion(int const nCoast, int c
           nParProfEndY = VPtiParProfile[0].nGetY();
 
       // Safety check
-      if (!bIsWithinValidGrid(nParProfEndX, nParProfEndY))
+      if (! bIsWithinValidGrid(nParProfEndX, nParProfEndY))
       {
          //          LogStream << WARN << "01 @@@@ while estimating actual beach erosion for coast " << nCoast << " polygon " << nPoly << ", hit edge of grid at [" << nParProfEndX << "][" << nParProfEndY << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its seaward end" << endl;
 
@@ -240,7 +240,7 @@ int CSimulation::nTraversePolygonAndEstimateBeachErosion(int const nCoast, int c
                 nYUpCoastThisStart = nCoastY - nYUpCoastStartOffset;
 
             // Is the new landwards point within the raster grid?
-            if (!bIsWithinValidGrid(nXUpCoastThisStart, nYUpCoastThisStart))
+            if (! bIsWithinValidGrid(nXUpCoastThisStart, nYUpCoastThisStart))
             {
                // It isn't
                //                LogStream << WARN << "reached edge of grid at [" << nXUpCoastThisStart << "][" << nYUpCoastThisStart << "] = {" << dGridCentroidXToExtCRSX(nXUpCoastThisStart) << ", " << dGridCentroidYToExtCRSY(nYUpCoastThisStart) << "} during DOWN-COAST estimation of beach erosion for coast " << nCoast << " polygon " << nPoly << ", nCoastPoint = " << nCoastPoint << ", this is [" << nCoastX << "][" << nCoastY << "] = {" << dGridCentroidXToExtCRSX(nCoastX) << ", " <<  dGridCentroidYToExtCRSY(nCoastY) << "}, nInlandOffset = " << nInlandOffset << ")" << endl << endl;
@@ -258,7 +258,7 @@ int CSimulation::nTraversePolygonAndEstimateBeachErosion(int const nCoast, int c
                 nYParNew = nYUpCoastThisStart + nYOffset;
 
             // Safety check
-            if (!bIsWithinValidGrid(nXParNew, nYParNew))
+            if (! bIsWithinValidGrid(nXParNew, nYParNew))
             {
                //                LogStream << WARN << "02 @@@@ while estimating actual beach erosion on coast " << nCoast << " polygon " << nPoly << " (nInlandOffset = " << nInlandOffset << "), outside valid grid at [" << nXParNew << "][" << nYParNew << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its landward end, is now [";
 
@@ -333,7 +333,7 @@ int CSimulation::nTraversePolygonAndEstimateBeachErosion(int const nCoast, int c
                 nY = VPtiParProfile[nParProfLen - m - 1].nGetY();
 
             // Safety check
-            if (!bIsWithinValidGrid(nX, nY))
+            if (! bIsWithinValidGrid(nX, nY))
             {
                //                LogStream << WARN << "03 @@@@ while constructing parallel profile to estimate DOWN-COAST actual beach erosion on coast " << nCoast << " polygon " << nPoly << ", hit edge of grid at [" << nX << "][" << nY << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its seaward end" << endl;
 
@@ -494,7 +494,7 @@ int CSimulation::nEstimateBeachErosionOnParallelProfile(/*int const nPoly, int c
           nY = PtiTmp.nGetY();
 
       // Safety check
-      if (!bIsWithinValidGrid(nX, nY))
+      if (! bIsWithinValidGrid(nX, nY))
       {
          //             LogStream << WARN << "04 @@@@ while estimating sediment size fractions on eroding polygon " << nPoly << ", hit edge of grid at [" << nParProfEndX << "][" << nParProfEndY << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its seaward end" << endl;
 
@@ -508,7 +508,7 @@ int CSimulation::nEstimateBeachErosionOnParallelProfile(/*int const nPoly, int c
          continue;
 
       // Don't do cells twice
-      if (!m_pRasterGrid->m_Cell[nX][nY].bGetActualBeachErosionEstimated())
+      if (! m_pRasterGrid->m_Cell[nX][nY].bGetActualBeachErosionEstimated())
       {
          // Set flag so we don't estimate erosion/deposition on this cell again
          m_pRasterGrid->m_Cell[nX][nY].SetActualBeachErosionEstimated();

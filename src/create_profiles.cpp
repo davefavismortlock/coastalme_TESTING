@@ -566,7 +566,7 @@ int CSimulation::nCreateProfile(int const nCoast, int const nProfileStartPoint, 
        nYEnd = PtiEnd.nGetY();
 
    // Safety check: is the end point in the contiguous sea?
-   if (!m_pRasterGrid->m_Cell[nXEnd][nYEnd].bIsInContiguousSea())
+   if (! m_pRasterGrid->m_Cell[nXEnd][nYEnd].bIsInContiguousSea())
    {
       if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
          LogStream << m_ulIter << ": coast " << nCoast << ", possible profile with start point " << nProfileStartPoint << " has inland end point at [" << nXEnd << "][" << nYEnd << "] = {" << dGridCentroidXToExtCRSX(nXEnd) << ", " << dGridCentroidYToExtCRSY(nYEnd) << "}, ignoring" << endl;
@@ -854,7 +854,7 @@ int CSimulation::nGetCoastNormalEndPoint(int const nCoast, int const nStartCoast
 
    // Check that pPtiEnd is not off the grid. Note that pPtiEnd is NOT (necessarily) a cell centroid
    pPtiEnd->SetXY(nRound(dExtCRSXToGridX(pPtEnd->dGetX())), nRound(dExtCRSYToGridY(pPtEnd->dGetY())));
-   if (!bIsWithinValidGrid(pPtiEnd))
+   if (! bIsWithinValidGrid(pPtiEnd))
    {
       // The end point is off the grid, so constrain it to be within the valid grid
       CGeom2DIPoint PtiStart(nRound(dExtCRSXToGridX(pPtStart->dGetX())), nRound(dExtCRSYToGridY(pPtStart->dGetY())));
@@ -1426,7 +1426,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
          if ((!pProfile->bStartOfCoast()) && (!pProfile->bEndOfCoast()))
          {
             // Is the interpolated point within the valid raster grid?
-            if (!bIsWithinValidGrid(nX, nY))
+            if (! bIsWithinValidGrid(nX, nY))
             {
                // It is outside the valid grid, so mark this profile and quit the loop
                bTruncated = true;

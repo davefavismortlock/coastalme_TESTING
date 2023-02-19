@@ -118,7 +118,7 @@ int CSimulation::nReadRasterBasementDEM(void)
    double dCellSideY = tAbs(m_dGeoTransform[5]);
 
    // Check that the cell is more or less square
-   if (!bFPIsEqual(dCellSideX, dCellSideY, 1e-2))
+   if (! bFPIsEqual(dCellSideX, dCellSideY, 1e-2))
    {
       // Error: cell is not square enough
       cerr << ERR << "cell is not square in " << m_strInitialBasementDEMFile << ", is " << dCellSideX << " x " << dCellSideY << endl;
@@ -234,7 +234,7 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
 
       for (int nY = 0; nY < m_nYGridMax; nY++)
       {
-         if (!m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
          {
             CGeom2DIPoint PtiTmp(nX, nY);
             VPtiBoundingBoxCorner.push_back(PtiTmp);
@@ -260,7 +260,7 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
 
       for (int nX = m_nXGridMax - 1; nX >= 0; nX--)
       {
-         if (!m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
          {
             CGeom2DIPoint PtiTmp(nX, nY);
             VPtiBoundingBoxCorner.push_back(PtiTmp);
@@ -286,7 +286,7 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
 
       for (int nY = m_nYGridMax - 1; nY >= 0; nY--)
       {
-         if (!m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
          {
             CGeom2DIPoint PtiTmp(nX, nY);
             VPtiBoundingBoxCorner.push_back(PtiTmp);
@@ -312,7 +312,7 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
 
       for (int nX = 0; nX < m_nXGridMax; nX++)
       {
-         if (!m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
          {
             CGeom2DIPoint PtiTmp(nX, nY);
             VPtiBoundingBoxCorner.push_back(PtiTmp);
@@ -576,7 +576,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       double dTmp = m_dGeoTransform[0] - (m_dGeoTransform[1] / 2);
-      if (!bFPIsEqual(dTmp, m_dNorthWestXExtCRS, TOLERANCE))
+      if (! bFPIsEqual(dTmp, m_dNorthWestXExtCRS, TOLERANCE))
       {
          // Error: different min x from DEM file
          cerr << ERR << "different min x values in " << strGISFile << " (" << dTmp << ") and " << m_strInitialBasementDEMFile << " (" << m_dNorthWestXExtCRS << ")" << endl;
@@ -584,7 +584,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       dTmp = m_dGeoTransform[3] - (m_dGeoTransform[5] / 2);
-      if (!bFPIsEqual(dTmp, m_dNorthWestYExtCRS, TOLERANCE))
+      if (! bFPIsEqual(dTmp, m_dNorthWestYExtCRS, TOLERANCE))
       {
          // Error: different min x from DEM file
          cerr << ERR << "different min y values in " << strGISFile << " (" << dTmp << ") and " << m_strInitialBasementDEMFile << " (" << m_dNorthWestYExtCRS << ")" << endl;
@@ -592,7 +592,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       double dTmpResX = tAbs(dGeoTransform[1]);
-      if (!bFPIsEqual(dTmpResX, m_dCellSide, 1e-2))
+      if (! bFPIsEqual(dTmpResX, m_dCellSide, 1e-2))
       {
          // Error: different cell size in X direction: note that due to rounding errors in some GIS packages, must expect some discrepancies
          cerr << ERR << "cell size in X direction (" << dTmpResX << ") in " << strGISFile << " differs from cell size in of basement DEM (" << m_dCellSide << ")" << endl;
@@ -600,7 +600,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       double dTmpResY = tAbs(dGeoTransform[5]);
-      if (!bFPIsEqual(dTmpResY, m_dCellSide, 1e-2))
+      if (! bFPIsEqual(dTmpResY, m_dCellSide, 1e-2))
       {
          // Error: different cell size in Y direction: note that due to rounding errors in some GIS packages, must expect some discrepancies
          cerr << ERR << "cell size in Y direction (" << dTmpResY << ") in " << strGISFile << " differs from cell size of basement DEM (" << m_dCellSide << ")" << endl;

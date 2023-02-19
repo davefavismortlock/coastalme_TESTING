@@ -338,7 +338,7 @@ int CSimulation::nDoAllShadowZones(void)
                    nXPrev = PtiPrev.nGetX(),
                    nYPrev = PtiPrev.nGetY();
 
-               if (!m_pRasterGrid->m_Cell[nXPrev][nYPrev].bIsInActiveZone())
+               if (! m_pRasterGrid->m_Cell[nXPrev][nYPrev].bIsInActiveZone())
                {
                   // The previous cell was outside the active zone, so use its wave orientation value
                   dPrevWaveAngle = m_pRasterGrid->m_Cell[nXPrev][nYPrev].dGetWaveAngle();
@@ -366,7 +366,7 @@ int CSimulation::nDoAllShadowZones(void)
                {
                   //                   LogStream << m_ulIter << ": dPrevWaveAngle == DBL_NODATA for cell [" << nXPrev << "][" << nYPrev << "] = {" << dGridCentroidXToExtCRSX(nXPrev) << ", " << dGridCentroidYToExtCRSY(nYPrev) << "}" << endl;
 
-                  if (!m_pRasterGrid->m_Cell[nXPrev][nYPrev].bIsInContiguousSea())
+                  if (! m_pRasterGrid->m_Cell[nXPrev][nYPrev].bIsInContiguousSea())
                   {
                      // The previous cell was an inland cell, so use the deep water wave orientation
                      dPrevWaveAngle = m_pRasterGrid->m_Cell[nXPrev][nYPrev].dGetCellDeepWaterWaveAngle();
@@ -394,7 +394,7 @@ int CSimulation::nDoAllShadowZones(void)
                 nY = PtiNew.nGetY();
 
             // Have we hit the edge of the valid part of the grid?
-            if ((!bIsWithinValidGrid(&PtiNew)) || (m_pRasterGrid->m_Cell[nX][nY].bIsBoundingBoxEdge()))
+            if ((! bIsWithinValidGrid(&PtiNew)) || (m_pRasterGrid->m_Cell[nX][nY].bIsBoundingBoxEdge()))
             {
                // Yes we have
                bHitEdge = true;
@@ -679,7 +679,7 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
    bool bStartPointOK = true;
    bool bAllPointNotSea = true;
    CGeom2DIPoint PtiFloodFillStart = *pPtiCentroid;
-   if (!m_pRasterGrid->m_Cell[PtiFloodFillStart.nGetX()][PtiFloodFillStart.nGetY()].bIsInContiguousSea())
+   if (! m_pRasterGrid->m_Cell[PtiFloodFillStart.nGetX()][PtiFloodFillStart.nGetY()].bIsInContiguousSea())
    {
       // No it isn't: so try to find a cell that is
       bStartPointOK = false;
@@ -697,7 +697,7 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
          }
 
          // Safety check
-         if (!bIsWithinValidGrid(&PtiFloodFillStart))
+         if (! bIsWithinValidGrid(&PtiFloodFillStart))
          {
             if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
                LogStream << m_ulIter << ": " << ERR << "start point [" << PtiFloodFillStart.nGetX() << "][" << PtiFloodFillStart.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiFloodFillStart.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiFloodFillStart.nGetY()) << "} for flood fill of shadow zone is outside grid" << endl;
@@ -749,7 +749,7 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
           nX = Pti.nGetX(),
           nY = Pti.nGetY();
 
-      while ((nX >= 0) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (!m_pRasterGrid->m_Cell[nX][nY].bIsinThisShadowZone(-nZone - 1)) && (!m_pRasterGrid->m_Cell[nX][nY].bIsShadowZoneBoundary()) && (!m_pRasterGrid->m_Cell[nX][nY].bIsCoastline()))
+      while ((nX >= 0) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (! m_pRasterGrid->m_Cell[nX][nY].bIsinThisShadowZone(-nZone - 1)) && (! m_pRasterGrid->m_Cell[nX][nY].bIsShadowZoneBoundary()) && (! m_pRasterGrid->m_Cell[nX][nY].bIsCoastline()))
          nX--;
 
       nX++;
@@ -758,29 +758,29 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
           bSpanAbove = false,
           bSpanBelow = false;
 
-      while ((nX < m_nXGridMax) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (!m_pRasterGrid->m_Cell[nX][nY].bIsinThisShadowZone(-nZone - 1)) && (!m_pRasterGrid->m_Cell[nX][nY].bIsShadowZoneBoundary()) && (!m_pRasterGrid->m_Cell[nX][nY].bIsCoastline()))
+      while ((nX < m_nXGridMax) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (! m_pRasterGrid->m_Cell[nX][nY].bIsinThisShadowZone(-nZone - 1)) && (! m_pRasterGrid->m_Cell[nX][nY].bIsShadowZoneBoundary()) && (! m_pRasterGrid->m_Cell[nX][nY].bIsCoastline()))
       {
          // Mark the cell as being in the shadow zone but not yet processed (a -ve number, with -1 being zone 1)
          m_pRasterGrid->m_Cell[nX][nY].SetShadowZoneNumber(-nZone - 1);
 
          //          LogStream << m_ulIter << ": [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "} marked as shadow zone" << endl;
 
-         if ((!bSpanAbove) && (nY > 0) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsinThisShadowZone(-nZone - 1)) && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsShadowZoneBoundary()) && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsCoastline()))
+         if ((!bSpanAbove) && (nY > 0) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsinThisShadowZone(-nZone - 1)) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsShadowZoneBoundary()) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsCoastline()))
          {
             PtiStack.push(CGeom2DIPoint(nX, nY - 1));
             bSpanAbove = true;
          }
-         else if (bSpanAbove && (nY > 0) && ((!m_pRasterGrid->m_Cell[nX][nY - 1].bIsInContiguousSea()) || m_pRasterGrid->m_Cell[nX][nY - 1].bIsinThisShadowZone(-nZone - 1) || m_pRasterGrid->m_Cell[nX][nY - 1].bIsShadowZoneBoundary() || m_pRasterGrid->m_Cell[nX][nY - 1].bIsCoastline()))
+         else if (bSpanAbove && (nY > 0) && ((! m_pRasterGrid->m_Cell[nX][nY - 1].bIsInContiguousSea()) || m_pRasterGrid->m_Cell[nX][nY - 1].bIsinThisShadowZone(-nZone - 1) || m_pRasterGrid->m_Cell[nX][nY - 1].bIsShadowZoneBoundary() || m_pRasterGrid->m_Cell[nX][nY - 1].bIsCoastline()))
          {
             bSpanAbove = false;
          }
 
-         if ((!bSpanBelow) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (nY < m_nYGridMax - 1) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsinThisShadowZone(-nZone - 1)) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsShadowZoneBoundary()) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsCoastline()))
+         if ((!bSpanBelow) && m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea() && (nY < m_nYGridMax - 1) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsinThisShadowZone(-nZone - 1)) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsShadowZoneBoundary()) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsCoastline()))
          {
             PtiStack.push(CGeom2DIPoint(nX, nY + 1));
             bSpanBelow = true;
          }
-         else if (bSpanBelow && (nY < m_nYGridMax - 1) && ((!m_pRasterGrid->m_Cell[nX][nY + 1].bIsInContiguousSea()) || m_pRasterGrid->m_Cell[nX][nY + 1].bIsinThisShadowZone(-nZone - 1) || m_pRasterGrid->m_Cell[nX][nY + 1].bIsShadowZoneBoundary() || m_pRasterGrid->m_Cell[nX][nY + 1].bIsCoastline()))
+         else if (bSpanBelow && (nY < m_nYGridMax - 1) && ((! m_pRasterGrid->m_Cell[nX][nY + 1].bIsInContiguousSea()) || m_pRasterGrid->m_Cell[nX][nY + 1].bIsinThisShadowZone(-nZone - 1) || m_pRasterGrid->m_Cell[nX][nY + 1].bIsShadowZoneBoundary() || m_pRasterGrid->m_Cell[nX][nY + 1].bIsCoastline()))
          {
             bSpanBelow = false;
          }
@@ -921,7 +921,7 @@ int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone
           nX = static_cast<int>(dX),
           nY = static_cast<int>(dY);
 
-      if (!bIsWithinValidGrid(nX, nY))
+      if (! bIsWithinValidGrid(nX, nY))
       {
          // Safety check
          break;
@@ -1080,7 +1080,7 @@ int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone
          }
 
          // Outside valid grid?
-         if (!bIsWithinValidGrid(nX, nY))
+         if (! bIsWithinValidGrid(nX, nY))
          {
             //             LogStream << m_ulIter << ": n = " << n << ", m = " << m << ", dLinkingLineLength = " << dLinkingLineLength << ", dCoastDistSoFar = " << dCoastDistSoFar << " (nTotAlongCoastDistanceToDownDriftEndpoint = " << nTotAlongCoastDistanceToDownDriftEndpoint << "), dDownDriftBoundaryDistSoFar = " << dDownDriftBoundaryDistSoFar << " (nTotDownDriftBoundaryDistance = " << nTotDownDriftBoundaryDistance << ") outside valid grid at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
 
@@ -1094,7 +1094,7 @@ int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone
          }
 
          // Not a sea cell?
-         if (!m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
          {
             // Not a sea cell
             //             LogStream << m_ulIter << ": n = " << n << ", m = " << m << ", dLinkingLineLength = " << dLinkingLineLength << ", dCoastDistSoFar = " << dCoastDistSoFar << " (nTotAlongCoastDistanceToDownDriftEndpoint = " << nTotAlongCoastDistanceToDownDriftEndpoint << "), dDownDriftBoundaryDistSoFar = " << dDownDriftBoundaryDistSoFar << " (nTotDownDriftBoundaryDistance = " << nTotDownDriftBoundaryDistance << ") not a sea cell at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
@@ -1114,7 +1114,7 @@ int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone
             // We have not, so the linking line has two parts: one between the coast and the shadow boundary, one between the shadow boundary and the downdrift boundary
             bool bInShadowZone = true;
 
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsinAnyShadowZone())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsinAnyShadowZone())
             {
                // We have left the shadow zone
                //                LogStream << "[" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "} LEFT SHADOW ZONE" << endl;

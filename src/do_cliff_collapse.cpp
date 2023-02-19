@@ -846,7 +846,7 @@ int CSimulation::nRasterizeCliffCollapseProfile(vector<CGeom2DPoint> const *pVPo
           nY = static_cast<int>(dY);
 
       // Make sure the interpolated point is within the raster grid (can get this kind of problem due to rounding)
-      if (!bIsWithinValidGrid(nX, nY))
+      if (! bIsWithinValidGrid(nX, nY))
          KeepWithinValidGrid(nRound(dXStart), nRound(dYStart), nX, nY);
 
       // This point is fine, so append it to the output vector

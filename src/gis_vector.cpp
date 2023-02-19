@@ -1101,7 +1101,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
          for (int nY = 0; nY < m_nYGridMax; nY++)
          {
             // Only output a value if the cell is a sea cell which is not in the active zone (wave height and angle values are meaningless if in the active zone)
-            if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (!m_pRasterGrid->m_Cell[nX][nY].bIsInActiveZone()))
+            if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (! m_pRasterGrid->m_Cell[nX][nY].bIsInActiveZone()))
             {
                // Create a feature object, one per sea cell
                OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
@@ -1470,7 +1470,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                 dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveAngle(),
                 dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveHeight();
 
-            if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA) || (!m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
+            if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA) || (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
                continue;
 
             // Set the feature's attributes

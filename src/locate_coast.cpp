@@ -130,7 +130,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
           nX = Pti.nGetX(),
           nY = Pti.nGetY();
 
-      while ((nX >= 0) && (!m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
+      while ((nX >= 0) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
          nX--;
 
       nX++;
@@ -174,7 +174,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
             PtiStack.push(CGeom2DIPoint(nX, nY - 1));
             bSpanAbove = true;
          }
-         else if (bSpanAbove && (nY > 0) && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()))
+         else if (bSpanAbove && (nY > 0) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()))
          {
             bSpanAbove = false;
          }
@@ -184,7 +184,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
             PtiStack.push(CGeom2DIPoint(nX, nY + 1));
             bSpanBelow = true;
          }
-         else if (bSpanBelow && (nY < m_nYGridMax - 1) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()))
+         else if (bSpanBelow && (nY < m_nYGridMax - 1) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()))
          {
             bSpanBelow = false;
          }
@@ -304,7 +304,7 @@ int CSimulation::nTraceAllCoasts(void)
       if ((!bThisCellIsSea) && bNextCellIsSea)
       {
          // 'This' cell is just inland, has it already been flagged as a possible start for a coastline (even if this subsequently 'failed' as a coastline)?
-         if (!m_pRasterGrid->m_Cell[nXThis][nYThis].bIsPossibleCoastStartCell())
+         if (! m_pRasterGrid->m_Cell[nXThis][nYThis].bIsPossibleCoastStartCell())
          {
             // It has not, so flag it
             m_pRasterGrid->m_Cell[nXThis][nYThis].SetPossibleCoastStartCell();
@@ -321,7 +321,7 @@ int CSimulation::nTraceAllCoasts(void)
       else if (bThisCellIsSea && (!bNextCellIsSea))
       {
          // The 'next' cell is just inland, has it already been flagged as a possible start for a coastline (even if this subsequently 'failed' as a coastline)?
-         if (!m_pRasterGrid->m_Cell[nXNext][nYNext].bIsPossibleCoastStartCell())
+         if (! m_pRasterGrid->m_Cell[nXNext][nYNext].bIsPossibleCoastStartCell())
          {
             // It has not, so flag it
             m_pRasterGrid->m_Cell[nXNext][nYNext].SetPossibleCoastStartCell();
@@ -687,7 +687,7 @@ int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, in
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
                if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (m_pRasterGrid->m_Cell[nX][nY].dGetInterventionTopElev() >= m_dThisIterSWL))
@@ -726,7 +726,7 @@ int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, in
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
                if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (m_pRasterGrid->m_Cell[nX][nY].dGetInterventionTopElev() >= m_dThisIterSWL))
@@ -764,7 +764,7 @@ int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, in
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
                if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (m_pRasterGrid->m_Cell[nX][nY].dGetInterventionTopElev() >= m_dThisIterSWL))
@@ -898,7 +898,7 @@ int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, in
    if ((nCoastEndX != nEndX) || (nCoastEndY != nEndY))
    {
       // The grid-edge cell at nEndX, nEndY is not already at end of ILTempGridCRS. But is the final cell in ILTempGridCRS already at the edge of the grid?
-      if (!m_pRasterGrid->m_Cell[nCoastEndX][nCoastEndY].bIsBoundingBoxEdge())
+      if (! m_pRasterGrid->m_Cell[nCoastEndX][nCoastEndY].bIsBoundingBoxEdge())
       {
          // The final cell in ILTempGridCRS is not a grid-edge cell, so add the grid-edge cell and mark the cell as coastline
          ILTempGridCRS.Append(nEndX, nEndY);
@@ -1081,7 +1081,7 @@ int CSimulation::FindAllInundatedCells(void)
           nX = m_VEdgeCell[n].nGetX(),
           nY = m_VEdgeCell[n].nGetY();
 
-      if ((!m_pRasterGrid->m_Cell[nX][nY].bIsCellFloodCheck()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()))
+      if ((! m_pRasterGrid->m_Cell[nX][nY].bIsCellFloodCheck()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()))
       // This edge cell is below SWL and sea depth remains set to zero
       {
          FloodFillLand(nX, nY);
@@ -1199,7 +1199,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
       {
          if (m_pRasterGrid->m_Cell[nX][nY].bIsCellFloodCheck())
             break;
-         if (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
             break;
          nX--;
       }
@@ -1213,7 +1213,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
       {
          if (m_pRasterGrid->m_Cell[nX][nY].bIsCellFloodCheck())
             break;
-         if (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
+         if (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
             break;
          // Set flood this cell
          m_pRasterGrid->m_Cell[nX][nY].SetCheckFloodCell();
@@ -1229,22 +1229,22 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
             break;
          }
 
-         if ((!bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY - 1].bIsWaveFlood()) && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsCellFloodCheck()))
+         if ((!bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY - 1].bIsWaveFlood()) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsCellFloodCheck()))
          {
             PtiStackFlood.push(CGeom2DIPoint(nX, nY - 1));
             bSpanAbove = true;
          }
-         else if (bSpanAbove && (nY > 0) && (!m_pRasterGrid->m_Cell[nX][nY - 1].bIsWaveFlood()))
+         else if (bSpanAbove && (nY > 0) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsWaveFlood()))
          {
             bSpanAbove = false;
          }
 
-         if ((!bSpanBelow) && (nY < m_nYGridMax - 1) && (m_pRasterGrid->m_Cell[nX][nY + 1].bIsWaveFlood()) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsCellFloodCheck()))
+         if ((!bSpanBelow) && (nY < m_nYGridMax - 1) && (m_pRasterGrid->m_Cell[nX][nY + 1].bIsWaveFlood()) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsCellFloodCheck()))
          {
             PtiStackFlood.push(CGeom2DIPoint(nX, nY + 1));
             bSpanBelow = true;
          }
-         else if (bSpanBelow && (nY < m_nYGridMax - 1) && (!m_pRasterGrid->m_Cell[nX][nY + 1].bIsWaveFlood()))
+         else if (bSpanBelow && (nY < m_nYGridMax - 1) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsWaveFlood()))
          {
             bSpanBelow = false;
          }
@@ -1297,7 +1297,7 @@ int CSimulation::nTraceAllFloodCoasts(void)
       if ((!bThisCellIsSea) && bNextCellIsSea)
       {
          // 'This' cell is just inland, has it already been flagged as a possible start for a coastline (even if this subsequently 'failed' as a coastline)?
-         // if (!m_pRasterGrid->m_Cell[nXThis][nYThis].bIsPossibleCoastStartCell())
+         // if (! m_pRasterGrid->m_Cell[nXThis][nYThis].bIsPossibleCoastStartCell())
          {
             // It has not, so flag it
             m_pRasterGrid->m_Cell[nXThis][nYThis].SetPossibleFloodStartCell();
@@ -1312,7 +1312,7 @@ int CSimulation::nTraceAllFloodCoasts(void)
       else if (bThisCellIsSea && (!bNextCellIsSea))
       {
          // The 'next' cell is just inland, has it already been flagged as a possible start for a coastline (even if this subsequently 'failed' as a coastline)?
-         // if (!m_pRasterGrid->m_Cell[nXNext][nYNext].bIsPossibleCoastStartCell())
+         // if (! m_pRasterGrid->m_Cell[nXNext][nYNext].bIsPossibleCoastStartCell())
          {
             // It has not, so flag it
             m_pRasterGrid->m_Cell[nXNext][nYNext].SetPossibleFloodStartCell();
@@ -1676,16 +1676,16 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
-               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
+               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
                {
                   // It is, so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
                   ILTempGridCRS.Append(&Pti);
                }
-               else if (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
+               else if (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
                {
                   // The sediment top is above SWL so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
@@ -1715,16 +1715,16 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
-               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
+               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
                {
                   // It is, so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
                   ILTempGridCRS.Append(&Pti);
                }
-               else if (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
+               else if (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
                {
                   // The sediment top is above SWL so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
@@ -1753,16 +1753,16 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
             bAtCoast = true;
 
             // Has the current cell already marked been marked as a coast cell?
-            if (!m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
+            if (! m_pRasterGrid->m_Cell[nX][nY].bIsFloodLine())
             {
                // Not already marked, is this an intervention cell with the top above SWL?
-               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
+               if ((m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION) && (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood()))
                {
                   // It is, so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
                   ILTempGridCRS.Append(&Pti);
                }
-               else if (!m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
+               else if (! m_pRasterGrid->m_Cell[nX][nY].bIsWaveFlood())
                {
                   // The sediment top is above SWL so mark as coast and add it to the vector object
                   m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(true);
@@ -1887,7 +1887,7 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
    if ((nCoastEndX != nEndX) || (nCoastEndY != nEndY))
    {
       // The grid-edge cell at nEndX, nEndY is not already at end of ILTempGridCRS. But is the final cell in ILTempGridCRS already at the edge of the grid?
-      if (!m_pRasterGrid->m_Cell[nCoastEndX][nCoastEndY].bIsBoundingBoxEdge())
+      if (! m_pRasterGrid->m_Cell[nCoastEndX][nCoastEndY].bIsBoundingBoxEdge())
       {
          // The final cell in ILTempGridCRS is not a grid-edge cell, so add the grid-edge cell and mark the cell as coastline
          ILTempGridCRS.Append(nEndX, nEndY);
