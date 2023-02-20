@@ -934,8 +934,8 @@ int CSimulation::nDoBeachDepositionOnPolygon(int const nCoast, int const nPoly, 
          // Safety check
          if (! bIsWithinValidGrid(nSeaEndX, nSeaEndY))
          {
-            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-               LogStream << WARN << "09 @@@@ while doing DOWN-COAST deposition on polygon " << nPoly << ", hit edge of grid at [" << nSeaEndX << "][" << nSeaEndY << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its seaward end" << endl;
+            // if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+            //    LogStream << WARN << "09 @@@@ while doing DOWN-COAST deposition on polygon " << nPoly << ", hit edge of grid at [" << nSeaEndX << "][" << nSeaEndY << "] for parallel profile from coast point " << nCoastPoint << " at [" << nCoastX << "][" << nCoastY << "]. Constraining this parallel profile at its seaward end" << endl;
 
             KeepWithinValidGrid(nCoastX, nCoastY, nSeaEndX, nSeaEndY);
             PtiVParProfile.back().SetX(nSeaEndX);

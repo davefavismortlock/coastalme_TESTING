@@ -27,7 +27,7 @@ Content of log file                                       [1 = least detail, 3 =
 Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 00-00-00 01/01/2020
 Duration of simulation                                           [hours, days, months, years]: 6 hours                 ; *** LAST 3 days
 Timestep (hours or days)                                                                     : 3 hours
-Save times (after simulation start)                             [hours, days, months, years ]: 3 6 hours
+Save times (after simulation start)                             [hours, days, months, years ]: 3 hours
 
 Random number seed(s)                                                                        : 1
 

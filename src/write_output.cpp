@@ -1222,30 +1222,30 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
    OutStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl << endl;
    
-   OutStream << "ERRORS" << endl;
-   long double
-       ldLHS = ldActualTotalEroded + ldTotalLost,
-       ldRHS = ldTotalDepositedAndSuspension;
-   OutStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
-   OutStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
-   OutStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
-   OutStream << "                                    = ";
-   if (ldActualTotalEroded > 0)
-      OutStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
-   else
-      OutStream << endl;
+   // OutStream << "ERRORS" << endl;
+   // long double
+   //     ldLHS = ldActualTotalEroded + ldTotalLost,
+   //     ldRHS = ldTotalDepositedAndSuspension;
+   // OutStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
+   // OutStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
+   // OutStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
+   // OutStream << "                                    = ";
+   // if (ldActualTotalEroded > 0)
+   //    OutStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
+   // else
+   //    OutStream << endl;
    
-   OutStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
-   long double ldTmp = 0;
-   if (m_ldGTotSandBeachDeposition > 0)
-      ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
-   OutStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
-   OutStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
-   ldTmp = 0;
-   if (m_ldGTotCoarseBeachDeposition > 0)
-      ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
-   OutStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
-   OutStream << endl;
+   // OutStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
+   // long double ldTmp = 0;
+   // if (m_ldGTotSandBeachDeposition > 0)
+   //    ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
+   // OutStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
+   // OutStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
+   // ldTmp = 0;
+   // if (m_ldGTotCoarseBeachDeposition > 0)
+   //    ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
+   // OutStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
+   // OutStream << endl;
 
    // Finally calculate performance details
    OutStream << PERFORMHEAD << endl;
@@ -1294,29 +1294,29 @@ int CSimulation::nWriteEndRunDetails(void)
    LogStream << "Difference beween potential and actual erosion, sand sediment   = " << m_ldGTotErosionSandDiff << " m^3" << endl;
    LogStream << "Difference beween potential and actual erosion, coarse sediment = " << m_ldGTotErosionCoarseDiff << " m^3" << endl << endl;
    
-   LogStream << "ERRORS" << endl;
-   ldLHS = ldActualTotalEroded + ldTotalLost,
-   ldRHS = ldTotalDepositedAndSuspension;
-   LogStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
-   LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
-   LogStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
-   LogStream << "                                    = ";
-   if (ldActualTotalEroded > 0)
-      LogStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
-   else
-      LogStream << endl;
+   // LogStream << "ERRORS" << endl;
+   // ldLHS = ldActualTotalEroded + ldTotalLost,
+   // ldRHS = ldTotalDepositedAndSuspension;
+   // LogStream << "Eroded + lost = " << ldLHS * m_dCellArea << " m^3" << endl;
+   // LogStream << "Deposited + suspension = " << ldRHS * m_dCellArea << " m^3" << endl;
+   // LogStream << "Difference (due to rounding errors) = " << (ldLHS - ldRHS) * m_dCellArea << " m^3" << endl;
+   // LogStream << "                                    = ";
+   // if (ldActualTotalEroded > 0)
+   //    LogStream << 100 * (ldLHS - ldRHS) / ldActualTotalEroded << " % of total erosion" << endl;
+   // else
+   //    LogStream << endl;
    
-   LogStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
-   ldTmp = 0;
-   if (m_ldGTotSandBeachDeposition > 0)
-      ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
-   LogStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
-   LogStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
-   ldTmp = 0;
-   if (m_ldGTotCoarseBeachDeposition > 0)
-      ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
-   LogStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
-   LogStream << endl;
+   // LogStream << "Insufficient deposited, sand sediment   = " << m_ldGTotSandDepositionDiff * m_dCellArea << " m^3" << endl;
+   // ldTmp = 0;
+   // if (m_ldGTotSandBeachDeposition > 0)
+   //    ldTmp = 100 * m_ldGTotSandDepositionDiff / m_ldGTotSandBeachDeposition;
+   // LogStream << "                                        = " << ldTmp << " % of total sand deposition" << endl;
+   // LogStream << "Insufficient deposited, coarse sediment = " << m_ldGTotCoarseDepositionDiff * m_dCellArea << " m^3" << endl;
+   // ldTmp = 0;
+   // if (m_ldGTotCoarseBeachDeposition > 0)
+   //    ldTmp = 100 * m_ldGTotCoarseDepositionDiff / m_ldGTotCoarseBeachDeposition;
+   // LogStream << "                                        = " << ldTmp << " % of total coarse deposition" << endl;
+   // LogStream << endl;
 
 #if !defined RANDCHECK
    // Calculate length of run, write in file (note that m_dSimDuration is in hours)

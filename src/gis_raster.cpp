@@ -151,7 +151,7 @@ int CSimulation::nReadRasterBasementDEM(void)
 
    // If we have value units, then check them
    string strUnits = pGDALBand->GetUnitType();
-   if ((!strUnits.empty()) && (strUnits.find("m") == string::npos))
+   if ((! strUnits.empty()) && (strUnits.find("m") == string::npos))
    {
       // Error: value units must be m
       cerr << ERR << "DEM vertical units are (" << strUnits << " ) in " << m_strInitialBasementDEMFile << ", should be 'm'" << endl;
@@ -520,7 +520,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
    }
 
    // Do we have a filename for this data item? If we don't then just return
-   if (!strGISFile.empty())
+   if (! strGISFile.empty())
    {
       // We do have a filename, so use GDAL to create a dataset object, which then opens the GIS file
       GDALDataset *pGDALDataset = (GDALDataset *)GDALOpen(strGISFile.c_str(), GA_ReadOnly);

@@ -479,24 +479,24 @@ unsigned long const SEDINPUTEVENTERROR = -1;
 
 double const PI = 3.141592653589793238462643;
 
-double const D50_FINE_DEFAULT = 0.0625; // In mm
-double const D50_SAND_DEFAULT = 0.42;   // Ditto
-double const D50_COARSE_DEFAULT = 19.0; // Ditto
+double const D50_FINE_DEFAULT = 0.0625;               // In mm
+double const D50_SAND_DEFAULT = 0.42;                 // Ditto
+double const D50_COARSE_DEFAULT = 19.0;               // Ditto
 
-double const BEACH_PROTECTION_HB_RATIO = 0.23; // The beach protection factor is this times breaking depth
-double const WALKDEN_HALL_PARAM_1 = 3.25;      // First param in Equation 4 from Walkden & Hall, 2005
-double const WALKDEN_HALL_PARAM_2 = 1.50;      // Second param in Equation 4 from Walkden & Hall, 2005
+double const BEACH_PROTECTION_HB_RATIO = 0.23;        // The beach protection factor is this times breaking depth
+double const WALKDEN_HALL_PARAM_1 = 3.25;             // First param in Equation 4 from Walkden & Hall, 2005
+double const WALKDEN_HALL_PARAM_2 = 1.50;             // Second param in Equation 4 from Walkden & Hall, 2005
 
-double const DEPTH_OVER_DB_INCREMENT = 0.001;        // Depth Over DB increment for erosion potential look-up function
-double const INVERSE_DEPTH_OVER_DB_INCREMENT = 1000; // Inverse of the above
-double const DEAN_POWER = 2.0 / 3.0;                 // Dean profile exponent
+double const DEPTH_OVER_DB_INCREMENT = 0.001;         // Depth Over DB increment for erosion potential look-up function
+double const INVERSE_DEPTH_OVER_DB_INCREMENT = 1000;  // Inverse of the above
+double const DEAN_POWER = 2.0 / 3.0;                  // Dean profile exponent
 
 // TODO Let the user define these CShore input parameters
-double const CSHORE_FRICTION_FACTOR = 0.015; // Friction factor for CShore model
-double const CSHORE_SURGE_LEVEL = 0.0;       // Not used, but in the future we might include surge in the calculations
+double const CSHORE_FRICTION_FACTOR = 0.015;          // Friction factor for CShore model
+double const CSHORE_SURGE_LEVEL = 0.0;                // Not used, but in the future we might include surge in the calculations
 
-double const TOLERANCE = 1e-7;                // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
-double const SEDIMENT_ELEV_TOLERANCE = 1e-10; // Differences in depth-equivalent sediment amount (m) less than this are ignored
+double const TOLERANCE = 1e-7;                        // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
+double const SEDIMENT_ELEV_TOLERANCE = 1e-10;         // Differences in depth-equivalent sediment amount (m) less than this are ignored
 double const STRAIGHT_COAST_MAX_DETAILED_CURVATURE = -5;
 double const STRAIGHT_COAST_MAX_SMOOTH_CURVATURE = -1;
 double const MIN_LENGTH_OF_SHADOW_ZONE_LINE = 10;     // Used in shadow line tracing
@@ -504,7 +504,7 @@ double const MAX_LAND_LENGTH_OF_SHADOW_ZONE_LINE = 5; // Used in shadow line tra
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.0.1 (19 Feb 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.0.1 (20 Feb 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
