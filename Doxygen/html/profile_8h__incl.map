@@ -1,5 +1,5 @@
 <map id="profile.h" name="profile.h">
-<area shape="rect" id="node1" title="Contains CGeomProfile definitions." alt="" coords="423,5,499,32"/>
+<area shape="rect" id="node1" title="Contains CGeomProfile definitions." alt="" coords="424,5,499,32"/>
 <area shape="rect" id="node2" href="$cme_8h.html" title="This file contains global definitions for CoastalME." alt="" coords="306,304,369,331"/>
 <area shape="rect" id="node15" href="$2d__point_8h.html" title="Contains CGeom2DPoint definitions." alt="" coords="759,603,849,629"/>
 <area shape="rect" id="node18" href="$2di__point_8h.html" title="Contains CGeom2DIPoint definitions." alt="" coords="191,603,286,629"/>
@@ -22,6 +22,6 @@
 <area shape="rect" id="node17" href="$2di__shape_8h.html" title="Contains CA2DShape definitions." alt="" coords="353,528,453,555"/>
 <area shape="rect" id="node22" href="$cell_8h.html" title="Contains CGeomCell definitions." alt="" coords="433,155,490,181"/>
 <area shape="rect" id="node23" href="$cell__landform_8h.html" title="Contains CRWCellLandform definitions." alt="" coords="351,229,473,256"/>
-<area shape="rect" id="node24" href="$cell__layer_8h.html" title="Contains CRWCellLayer definitions." alt="" coords="549,229,646,256"/>
+<area shape="rect" id="node24" href="$cell__layer_8h.html" title="Contains CRWCellLayer definitions." alt="" coords="548,229,644,256"/>
 <area shape="rect" id="node25" href="$cell__sediment_8h.html" title="Contains CRWCellSediment definitions." alt="" coords="532,304,657,331"/>
 </map>

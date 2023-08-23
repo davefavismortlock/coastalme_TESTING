@@ -13,21 +13,19 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include "cme.h"
 #include "raster_grid.h"
 
-
 CGeomRasterGrid* CGeomCell::m_pGrid = NULL;          // Initialise m_pGrid, the static member of CGeomCell
-
 
 CGeomRasterGrid::CGeomRasterGrid(CSimulation* pSimIn)
 : m_dD50Fine(0),
@@ -37,7 +35,6 @@ CGeomRasterGrid::CGeomRasterGrid(CSimulation* pSimIn)
   m_Cell(NULL)
 {
 }
-
 
 CGeomRasterGrid::~CGeomRasterGrid(void)
 {
@@ -50,18 +47,15 @@ CGeomRasterGrid::~CGeomRasterGrid(void)
    delete [] m_Cell;
 }
 
-
 CSimulation* CGeomRasterGrid::pGetSim(void)
 {
    return m_pSim;
 }
 
-
 // CGeomCell* CGeomRasterGrid::pGetCell(int const nX, int const nY)
 // {
 //    return &m_Cell[nX][nY];
 // }
-
 
 int CGeomRasterGrid::nCreateGrid(void)
 {

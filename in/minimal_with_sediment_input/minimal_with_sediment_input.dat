@@ -22,12 +22,12 @@
 ;
 ; Run information -----------------------------------------------------------------------------------------------------
 Main output/log file names                                          [omit path and extension]: minimal
-Content of log file                                       [1 = least detail, 3 = most detail]: 1
+Content of log file                                       [1 = least detail, 3 = most detail]: 2
 
 Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 00-00-00 01/01/1999
-Duration of simulation                                           [hours, days, months, years]: 30 days
+Duration of simulation                                           [hours, days, months, years]: 60 days
 Timestep (hours or days)                                                                     : 6 hours
-Save times                                                       [hours, days, months, years]: 6 12 24 42 100 200 300 462 500 600 hours
+Save times                                                       [hours, days, months, years]: 50 100 200 300 462 500 600 800 1000 1200 hours
 
 Random number seed(s)                                                                        : 280764
 

@@ -1,5 +1,5 @@
 <map id="CGeomProfile::bInsertIntersection" name="CGeomProfile::bInsertIntersection">
-<area shape="rect" id="node1" title=" " alt="" coords="5,46,248,73"/>
-<area shape="rect" id="node2" href="$class_c_geom_multi_line.html#ab995e6f50eee7b4c9ec53b0c223abf1b" title="Inserts a line segment, inheriting from preceding line segments." alt="" coords="308,5,511,47"/>
-<area shape="rect" id="node3" href="$class_c_geom_multi_line.html#ae22f845fd065108959610678de571cdb" title="Appends a line segment which then inherits from the preceding line segments." alt="" coords="296,71,523,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,46,247,73"/>
+<area shape="rect" id="node2" href="$class_c_geom_multi_line.html#ab995e6f50eee7b4c9ec53b0c223abf1b" title="Inserts a line segment, inheriting from preceding line segments." alt="" coords="307,5,509,47"/>
+<area shape="rect" id="node3" href="$class_c_geom_multi_line.html#ae22f845fd065108959610678de571cdb" title="Appends a line segment which then inherits from the preceding line segments." alt="" coords="295,71,521,112"/>
 </map>

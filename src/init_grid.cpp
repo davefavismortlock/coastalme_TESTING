@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <assert.h>
@@ -43,7 +43,7 @@ using std::endl;
 
 /*===============================================================================================================================
 
-  At the beginning of each timestep: initialize the raster grid; clear all coastlines, profiles, and polygons; and initialize some per-timestep accounting variables
+At the beginning of each timestep: initialize the raster grid; clear all coastlines, profiles, and polygons; and initialize some per-timestep accounting variables
 
 ===============================================================================================================================*/
 int CSimulation::nInitGridAndCalcStillWaterLevel(void)
@@ -72,38 +72,33 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
 
    m_dThisIterTotSeaDepth =
    m_dThisIterPotentialPlatformErosion =
-   m_dThisIterActualPlatformErosionFine =
-   m_dThisIterActualPlatformErosionSand =
-   m_dThisIterActualPlatformErosionCoarse =
    m_dThisIterPotentialBeachErosion =
-   m_dThisIterActualBeachErosionFine =
-   m_dThisIterActualBeachErosionSand =
-   m_dThisIterActualBeachErosionCoarse =
+   m_dThisIterBeachErosionFine =
+   m_dThisIterBeachErosionSand =
+   m_dThisIterBeachErosionCoarse =
    m_dThisIterBeachDepositionSand =
    m_dThisIterBeachDepositionCoarse =
    m_dThisIterPotentialSedLostBeachErosion =
-   m_dThisIterActualFineSedLostBeachErosion =
-   m_dThisIterActualSandSedLostBeachErosion =
-   m_dThisIterActualCoarseSedLostBeachErosion =
-   m_dThisIterEstimatedActualFineBeachErosion =
-   m_dThisIterEstimatedActualSandBeachErosion =
-   m_dThisIterEstimatedActualCoarseBeachErosion =
+   m_dThisIterFineSedimentToSuspension =
    m_dThisIterSandSedLostCliffCollapse =
    m_dThisIterCoarseSedLostCliffCollapse =
-   m_dThisIterCliffCollapseErosionFine =
-   m_dThisIterCliffCollapseErosionSand =
-   m_dThisIterCliffCollapseErosionCoarse =
-   m_dThisIterCliffDepositionSand =
-   m_dThisIterCliffDepositionCoarse =
-   m_dThisIterFineSedimentToSuspension =
-   m_dThisIterErosionFineDiff =
-   m_dThisIterErosionSandDiff =
-   m_dThisIterErosionCoarseDiff =
-   m_dThisIterDepositionSandDiff =
-   m_dThisIterDepositionCoarseDiff =
-   m_dThisiterFineSedimentInput =
-   m_dThisiterSandSedimentInput =
-   m_dThisiterCoarseSedimentInput = 0;
+   m_dThisIterCliffCollapseErosionFineUncons =
+   m_dThisIterCliffCollapseErosionSandUncons =
+   m_dThisIterCliffCollapseErosionCoarseUncons =
+   m_dThisIterUnconsSandCliffDeposition =
+   m_dThisIterUnconsCoarseCliffDeposition =
+   m_dThisIterCliffCollapseErosionFineCons =
+   m_dThisIterCliffCollapseErosionSandCons =
+   m_dThisIterCliffCollapseErosionCoarseCons =
+   m_dThisIterActualPlatformErosionFineCons =
+   m_dThisIterActualPlatformErosionSandCons =
+   m_dThisIterActualPlatformErosionCoarseCons =
+   m_dThisIterLeftGridUnconsFine =
+   m_dThisIterLeftGridUnconsSand =
+   m_dThisIterLeftGridUnconsCoarse =
+   m_dThisiterUnconsFineInput =
+   m_dThisiterUnconsSandInput =
+   m_dThisiterUnconsCoarseInput = 0;
 
    for (int n = 0; n < m_nLayers; n++)
    {
@@ -112,44 +107,60 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
    }
 
    // Re-calculate the depth of closure, in case deep water wave properties have changed
-   CalcDepthOfClosure();
+   CalcDepthOfClosure();   
+
+   int nZeroThickness = 0;
+   
+   m_dStartIterSuspFine =
+   m_dStartIterUnconsSand =
+   m_dStartIterUnconsCoarse =
+   m_dStartIterConsFine =
+   m_dStartIterConsSand =
+   m_dStartIterConsCoarse = 0;
 
    // And go through all cells in the RasterGrid array
-   int nZeroThickness = 0;
    for (int nX = 0; nX < m_nXGridMax; nX++)
    {
       for (int nY = 0; nY < m_nYGridMax; nY++)
       {
-         // Initialize values for this cell
+         // Re-initialize values for this cell
          m_pRasterGrid->m_Cell[nX][nY].InitCell();
 
          if (m_ulIter == 1)
          {
-               // For the first timestep only, check to see that all cells have some sediment on them
-               double dSedThickness = m_pRasterGrid->m_Cell[nX][nY].dGetTotAllSedThickness();
-               if (dSedThickness <= 0)
-               {
-                  nZeroThickness++;
+            // For the first timestep only, check to see that all cells have some sediment on them
+            double dSedThickness = m_pRasterGrid->m_Cell[nX][nY].dGetTotAllSedThickness();
+            if (dSedThickness <= 0)
+            {
+               nZeroThickness++;
 
-                  if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-                     LogStream << m_ulIter << ": " << WARN << "total sediment thickness is " << dSedThickness << " at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
-               }
+               if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+                  LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << WARN << "total sediment thickness is " << dSedThickness << " at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
+            }
 
-               // For the first timestep only, calculate the elevation of all this cell's layers. During the rest of the simulation, each cell's elevation is re-calculated just after any change occurs on that cell
-               m_pRasterGrid->m_Cell[nX][nY].CalcAllLayerElevsAndD50();
+            // For the first timestep only, calculate the elevation of all this cell's layers. During the rest of the simulation, each cell's elevation is re-calculated just after any change occurs on that cell
+            m_pRasterGrid->m_Cell[nX][nY].CalcAllLayerElevsAndD50();
          }
+         
+         m_dStartIterConsFine += m_pRasterGrid->m_Cell[nX][nY].dGetTotConsFineThickConsiderNotch();
+         m_dStartIterConsSand += m_pRasterGrid->m_Cell[nX][nY].dGetTotConsSandThickConsiderNotch();
+         m_dStartIterConsCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetTotConsCoarseThickConsiderNotch();
+         
+         m_dStartIterSuspFine += m_pRasterGrid->m_Cell[nX][nY].dGetSuspendedSediment();
+         m_dStartIterUnconsSand += m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsSandThickness();         
+         m_dStartIterUnconsCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsCoarseThickness();
 
          if (m_bSingleDeepWaterWaveValues)
          {
-               // If we have just a single measurement for deep water waves (either given by the user, or from a single wave station) then set all cells, even dry land cells, to the same value for deep water wave height, deep water wave orientation, and deep water period
-               m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWaveHeight(m_dAllCellsDeepWaterWaveHeight);
-               m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWaveAngle(m_dAllCellsDeepWaterWaveAngle);
-               m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWavePeriod(m_dAllCellsDeepWaterWavePeriod);
+            // If we have just a single measurement for deep water waves (either given by the user, or from a single wave station) then set all cells, even dry land cells, to the same value for deep water wave height, deep water wave orientation, and deep water period
+            m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWaveHeight(m_dAllCellsDeepWaterWaveHeight);
+            m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWaveAngle(m_dAllCellsDeepWaterWaveAngle);
+            m_pRasterGrid->m_Cell[nX][nY].SetCellDeepWaterWavePeriod(m_dAllCellsDeepWaterWavePeriod);
          }
       }
    }
 
-   if (m_bHaveWaveStationData && (!m_bSingleDeepWaterWaveValues))
+   if (m_bHaveWaveStationData && (! m_bSingleDeepWaterWaveValues))
    {
       // Each cell's value for deep water wave height and deep water wave orientation is interpolated from multiple user-supplied values
       int nRet = nInterpolateAllDeepWaterWaveValues();
@@ -177,7 +188,7 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
    if (nZeroThickness > 0)
    {
       cerr << m_ulIter << ": " << WARN << nZeroThickness << " cells have no sediment, is this correct?" << endl;
-      LogStream << m_ulIter << ": " << WARN << nZeroThickness << " cells have no sediment, is this correct?" << endl;
+      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << WARN << nZeroThickness << " cells have no sediment, is this correct?" << endl;
    }
 
    //    // DEBUG CODE ===========================================
@@ -298,6 +309,6 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
    //    GDALClose(pDataSet);
    //    delete[] pdRaster;
    //    // DEBUG CODE ===========================================
-
+   
    return RTN_OK;
 }

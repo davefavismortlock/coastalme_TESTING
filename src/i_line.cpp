@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <iostream>
@@ -31,7 +31,6 @@ using std::ios;
 #include "cme.h"
 #include "i_line.h"
 
-
 CGeomILine::CGeomILine(void)
 {
 }
@@ -40,12 +39,10 @@ CGeomILine::~CGeomILine(void)
 {
 }
 
-
 CGeom2DIPoint* CGeomILine::pPtiGetAt(int const n)
 {
    return &m_VPoints[n];
 }
-
 
 // int CGeomILine::nGetXAt(int const n)
 // {
@@ -67,7 +64,6 @@ void CGeomILine::SetYAt(int const n, int const nY)
    m_VPoints[n].SetY(nY);
 }
 
-
 bool CGeomILine::bIsPresent(int const nX, int const nY)
 {
    int nSize = static_cast<int>(m_VPoints.size());
@@ -82,7 +78,6 @@ bool CGeomILine::bIsPresent(int const nX, int const nY)
 
    return false;
 }
-
 
 void CGeomILine::Display(void)
 {

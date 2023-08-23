@@ -17,13 +17,13 @@
 #define COAST_H
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include "cme.h"
@@ -64,23 +64,23 @@ private:
         m_VnBreakingDistance, // Distance of breaking (in cells), at each point on m_LCoastlineExtCRS
         m_VnPolygonNode;      // At every point on m_LCoastlineExtCRS: INT_NODATA if no nodepoint there, otherwise the node (point of greatest concave curvature) number for a coast polygon
     vector<double>
-        m_VdCurvatureDetailed,   // Detailed curvature at each point on m_LCoastlineExtCRS
-        m_VdCurvatureSmooth,     // Smoothed curvature at each point on m_LCoastlineExtCRS
-        m_VdDeepWaterWaveHeight, // The deep water wave height at the end of a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdDeepWaterWaveAngle,  // The deep water wave orientation at the end of a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdDeepWaterWavePeriod, // The deep water wave period at the end of a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdBreakingWaveHeight,  // The breaking wave height on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdWaveSetupSurge,      // The wave setup on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdCurvatureDetailed,      // Detailed curvature at each point on m_LCoastlineExtCRS
+        m_VdCurvatureSmooth,        // Smoothed curvature at each point on m_LCoastlineExtCRS
+        m_VdDeepWaterWaveHeight,    // The deep water wave height at the end of a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdDeepWaterWaveAngle,     // The deep water wave orientation at the end of a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdDeepWaterWavePeriod,    // The deep water wave period at the end of a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdBreakingWaveHeight,     // The breaking wave height on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdWaveSetupSurge,         // The wave setup on a normal drawn from each point on m_LCoastlineExtCRS
         // m_VdStormSurge,           // The storm surge on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdRunUp,                // The run-up on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdCoastWaveHeight,      // The wave height at coast point on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdBreakingWaveAngle,    // The breaking wave orientation on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdDepthOfBreaking,      // The depth of breaking on a normal drawn from each point on m_LCoastlineExtCRS
-        m_VdFluxOrientation,      // As in the COVE model, is the orientation alongshore energy/sediment movement; a +ve flux is in direction of increasing indices along coast. At each point on m_LCoastlineExtCRS
-        m_VdWaveEnergyAtBreaking; // Wave energy at each point on m_LCoastlineExtCRS
+        m_VdRunUp,                  // The run-up on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdCoastWaveHeight,        // The wave height at coast point on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdBreakingWaveAngle,      // The breaking wave orientation on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdDepthOfBreaking,        // The depth of breaking on a normal drawn from each point on m_LCoastlineExtCRS
+        m_VdFluxOrientation,        // As in the COVE model, is the orientation alongshore energy/sediment movement; a +ve flux is in direction of increasing indices along coast. At each point on m_LCoastlineExtCRS
+        m_VdWaveEnergyAtBreaking;   // Wave energy at each point on m_LCoastlineExtCRS
 
     vector<CACoastLandform *>
-        m_pVLandforms; // Pointer to a coastal landform object, at each point on m_LCoastlineExtCRS
+        m_pVLandforms;              // Pointer to a coastal landform object, at each point on m_LCoastlineExtCRS
 
     // These do not have the same length as m_LCoastlineExtCRS
     vector<CGeomProfile>
@@ -109,13 +109,13 @@ public:
     void SetEndEdge(int const);
     int nGetEndEdge(void) const;
 
-    void SetCoastlineExtCRS(CGeomLine const *);
+    void SetCoastlineExtCRS(CGeomLine const*);
     void AppendPointToCoastlineExtCRS(double const, double const);
-    CGeomLine *pLGetCoastlineExtCRS(void);
+    CGeomLine* pLGetCoastlineExtCRS(void);
     // CGeomLine *pLGetFloodWaveSetupExtCRS(void);
-    // void SetFloodWaveSetupPointExtCRS(CGeomLine const *);
-    // void SetFloodWaveSetupSurgePointExtCRS(CGeomLine const *);
-    // void SetFloodWaveSetupSurgeRunupPointExtCRS(CGeomLine const *);
+    // void SetFloodWaveSetupPointExtCRS(CGeomLine const*);
+    // void SetFloodWaveSetupSurgePointExtCRS(CGeomLine const*);
+    // void SetFloodWaveSetupSurgeRunupPointExtCRS(CGeomLine const*);
     CGeom2DPoint *pPtGetCoastlinePointExtCRS(int const);
     // CGeom2DPoint *pPtGetFloodWaveSetupPointExtCRS(int const);
     // CGeom2DPoint *pPtGetFloodWaveSetupSurgePointExtCRS(int const);
@@ -126,19 +126,19 @@ public:
     //    double dGetCoastlineLengthSoFar(int const);
     //    void DisplayCoastline(void);
 
-    void SetCoastlineGridCRS(CGeomILine const *);
+    void SetCoastlineGridCRS(CGeomILine const*);
     //    void AppendCellMarkedAsCoastline(CGeom2DIPoint const*);
     //    void AppendCellMarkedAsCoastline(int const, int const);
-    CGeom2DIPoint *pPtiGetCellMarkedAsCoastline(int const);
+    CGeom2DIPoint* pPtiGetCellMarkedAsCoastline(int const);
     //    int nGetNCellsMarkedAsCoastline(void) const;
-    int nGetCoastPointGivenCell(CGeom2DIPoint *);
+    int nGetCoastPointGivenCell(CGeom2DIPoint*);
 
     double dGetDetailedCurvature(int const) const;
     void SetDetailedCurvature(int const, double const);
-    vector<double> *pVGetDetailedCurvature(void);
+    vector<double>* pVGetDetailedCurvature(void);
     double dGetSmoothCurvature(int const) const;
     void SetSmoothCurvature(int const, double const);
-    vector<double> *pVGetSmoothCurvature(void);
+    vector<double>* pVGetSmoothCurvature(void);
     void SetDetailedCurvatureMean(double const);
     double dGetDetailedCurvatureMean(void) const;
     void SetDetailedCurvatureSTD(double const);
@@ -148,7 +148,7 @@ public:
     void SetSmoothCurvatureSTD(double const);
     double dGetSmoothCurvatureSTD(void) const;
 
-    CGeomProfile *pGetProfile(int const);
+    CGeomProfile* pGetProfile(int const);
     void AppendProfile(int const, int const);
     //    void ReplaceProfile(int const, vector<CGeom2DPoint> const*);
     int nGetNumProfiles(void) const;
@@ -201,12 +201,12 @@ public:
     void SetWaveEnergyAtBreaking(int const, double const);
     double dGetWaveEnergyatBreaking(int const) const;
 
-    void AppendCoastLandform(CACoastLandform *);
-    CACoastLandform *pGetCoastLandform(int const);
+    void AppendCoastLandform(CACoastLandform*);
+    CACoastLandform* pGetCoastLandform(int const);
 
     void SetPolygonNode(int const, int const);
     int nGetPolygonNode(int const) const;
-    void CreatePolygon(int const, int const, int const, CGeom2DIPoint const *, CGeom2DIPoint const *, int const, int const, vector<CGeom2DPoint> const *, int const, int const, int const);
+    void CreatePolygon(int const, int const, int const, CGeom2DIPoint const*, CGeom2DIPoint const*, int const, int const, vector<CGeom2DPoint> const*, int const, int const, int const);
     int nGetNumPolygons(void) const;
     CGeomCoastPolygon *pGetPolygon(int const) const;
 
@@ -214,11 +214,11 @@ public:
     double dGetPolygonLength(int const) const;
 
     int nGetNumShadowBoundaries(void);
-    void AppendShadowBoundary(CGeomLine const *);
-    CGeomLine *pGetShadowBoundary(int const);
+    void AppendShadowBoundary(CGeomLine const*);
+    CGeomLine* pGetShadowBoundary(int const);
 
     int nGetNumShadowDowndriftBoundaries(void);
-    void AppendShadowDowndriftBoundary(CGeomLine const *);
-    CGeomLine *pGetShadowDowndriftBoundary(int const);
+    void AppendShadowDowndriftBoundary(CGeomLine const*);
+    CGeomLine* pGetShadowDowndriftBoundary(int const);
 };
 #endif // COAST_H

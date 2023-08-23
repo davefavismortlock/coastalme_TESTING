@@ -13,13 +13,13 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include <cfloat>
@@ -43,7 +43,7 @@ using std::stringstream;
 
 /*==============================================================================================================================
 
- Reads vector GIS datafiles
+Reads vector GIS datafiles
 
 ===============================================================================================================================*/
 int CSimulation::nReadVectorGISFile(int const nDataItem)
@@ -343,25 +343,25 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
 
 /*==============================================================================================================================
 
- Writes vector GIS files using OGR
+Writes vector GIS files using OGR
 
 ===============================================================================================================================*/
 bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlotTitle)
 {
    // Begin constructing the file name for this save
    string strFilePathName(m_strOutPath);
-   stringstream gpkg_layer_name;
+   stringstream strstrFileName;
 
    switch (nDataItem)
    {
    case (VECTOR_PLOT_COAST):
       strFilePathName.append(VECTOR_COAST_NAME);
-      gpkg_layer_name << VECTOR_COAST_NAME;
+      strstrFileName << VECTOR_COAST_NAME;
       break;
 
    case (VECTOR_PLOT_NORMALS):
       strFilePathName.append(VECTOR_NORMALS_NAME);
-      gpkg_layer_name << VECTOR_NORMALS_NAME;
+      strstrFileName << VECTOR_NORMALS_NAME;
       break;
 
    case (VECTOR_PLOT_INVALID_NORMALS):
@@ -430,17 +430,17 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
 
    case (VECTOR_PLOT_FLOOD_LINE):
       strFilePathName.append(VECTOR_FLOOD_LINE_NAME);
-      gpkg_layer_name << VECTOR_FLOOD_LINE_NAME;
+      strstrFileName << VECTOR_FLOOD_LINE_NAME;
       break;
 
       // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE):
       //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME);
-      //    gpkg_layer_name << VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME;
+      //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME;
       //    break;
 
       // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE):
       //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME);
-      //    gpkg_layer_name << VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME;
+      //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME;
       //    break;
    }
 
@@ -455,16 +455,16 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    else
    {
       // Save number is iteration
-      ststrTmp << FillToWidth('0', m_nGISMaxSaveDigits) << m_dUSaveTime[m_nGISSave - 1];
+      ststrTmp << FillToWidth('0', m_nGISMaxSaveDigits) << m_ulIter;
    }
    strFilePathName.append(ststrTmp.str());
-   gpkg_layer_name << ststrTmp.str();
+   strstrFileName << ststrTmp.str();
 
    // Make a copy of the filename without any extension
    string strFilePathNameNoExt = strFilePathName;
 
    // If desired, append an extension
-   if (!m_strOGRVectorOutputExtension.empty())
+   if (! m_strOGRVectorOutputExtension.empty())
       strFilePathName.append(m_strOGRVectorOutputExtension);
 
    // Set up the vector driver
@@ -488,7 +488,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    OGRSpatialReference OGRSpatialRef;
 
    // And tell it about the co-ordinate system used by the basement raster layer
-   if (!m_strGDALBasementDEMProjection.c_str())
+   if (! m_strGDALBasementDEMProjection.c_str())
    {
       OGRSpatialRef.importFromWkt(m_strGDALBasementDEMProjection.c_str());
    }
@@ -508,7 +508,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
       m_papszGDALVectorOptions = CSLSetNameValue(m_papszGDALVectorOptions, "COORDINATE_PRECISION", "2");
    }
 
-   OGRLayer *pOGRLayer = pGDALDataSet->CreateLayer(gpkg_layer_name.str().c_str(), &OGRSpatialRef, eGType, m_papszGDALVectorOptions);
+   OGRLayer *pOGRLayer = pGDALDataSet->CreateLayer(strstrFileName.str().c_str(), &OGRSpatialRef, eGType, m_papszGDALVectorOptions);
 
    if (pOGRLayer == NULL)
    {
@@ -636,7 +636,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
       // {
       //    OGRFeature *pOGR2Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
       //    pOGR2Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-      //    pOGR2Feature->SetField(strFieldValue2.c_str(), m_dUSaveTime[m_nGISSave - 1]);
+      //    pOGR2Feature->SetField(strFieldValue2.c_str(), m_ulIter);
       //    int setup_level = int(m_dThisIterDiffWaveSetupWaterLevel * 1000);
       //    pOGR2Feature->SetField(strFieldValue3.c_str(), setup_level);
       //    // Set the feature's attribute (the coast number)
@@ -695,7 +695,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
          {
 
             pOGR3Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-            pOGR3Feature->SetField(strFieldValue2.c_str(), m_dUSaveTime[m_nGISSave - 1]);
+            pOGR3Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
             int surge_level = int(m_dThisIterDiffWaveSetupSurgeWaterLevel * 1000);
             pOGR3Feature->SetField(strFieldValue3.c_str(), surge_level);
             // Set the feature's attribute (the coast number)
@@ -753,7 +753,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
          for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurgeRunup.size()); i++)
          {
             pOGR4Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-            pOGR4Feature->SetField(strFieldValue2.c_str(), m_dUSaveTime[m_nGISSave - 1]);
+            pOGR4Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
             int runup_level = int(m_dThisIterDiffWaveSetupSurgeRunupWaterLevel * 1000);
             pOGR4Feature->SetField(strFieldValue4.c_str(), runup_level);
 
@@ -1032,18 +1032,18 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                else
                {
                   int nCategory = pCoastLandform->nGetLandFormCategory();
-                  double dNotchOverhang = 0.0;
+                  double dNotchDepth = 0.0;
 
                   if (nCategory == LF_CAT_CLIFF)
                   {
-                     CRWCliff *pCliff = reinterpret_cast<CRWCliff *>(pCoastLandform);
+                     CRWCliff*pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
 
                      // Get attribute values from the cliff object
-                     dNotchOverhang = pCliff->dGetNotchOverhang();
+                     dNotchDepth = pCliff->dGetNotchDepth();
                   }
 
                   // Set the feature's attribute
-                  pOGRFeature->SetField(strFieldValue1.c_str(), dNotchOverhang);
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dNotchDepth);
                }
             }
 
@@ -1288,10 +1288,10 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
             // Set the feature's attributes
             pOGRFeature->SetField(strFieldValue1.c_str(), j);
             pOGRFeature->SetField(strFieldValue2.c_str(), pPolygon->nGetNodeCoastPoint());
-            pOGRFeature->SetField(strFieldValue3.c_str(), pPolygon->dGetDeltaActualTotalSediment());
-            pOGRFeature->SetField(strFieldValue4.c_str(), pPolygon->dGetDeltaActualUnconsFine());
-            pOGRFeature->SetField(strFieldValue5.c_str(), pPolygon->dGetDeltaActualUnconsSand());
-            pOGRFeature->SetField(strFieldValue6.c_str(), pPolygon->dGetDeltaActualUnconsCoarse());
+            pOGRFeature->SetField(strFieldValue3.c_str(), pPolygon->dGetDepositionAllUncons());
+            pOGRFeature->SetField(strFieldValue4.c_str(), pPolygon->dGetDepositionUnconsFine());
+            pOGRFeature->SetField(strFieldValue5.c_str(), pPolygon->dGetDepositionUnconsSand());
+            pOGRFeature->SetField(strFieldValue6.c_str(), pPolygon->dGetDepositionUnconsCoarse());
 
             // Now attach a geometry to the feature object
             for (int n = 0; n < pPolygon->nGetBoundarySize(); n++)

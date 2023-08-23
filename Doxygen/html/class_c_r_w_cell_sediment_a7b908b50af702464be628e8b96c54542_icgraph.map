@@ -1,8 +1,11 @@
 <map id="CRWCellSediment::dGetFine" name="CRWCellSediment::dGetFine">
-<area shape="rect" id="node1" title=" " alt="" coords="308,137,513,163"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#a1b6c61362ff510fc5b45f10e9ad10be7" title="For this cell: calculates the elevation of the top of every layer, and the d50 for the topmost uncons..." alt="" coords="23,5,242,47"/>
-<area shape="rect" id="node3" href="$class_c_r_w_cell_layer.html#a6d4c5caa48b50a266ef57faf189d7f4c" title=" " alt="" coords="13,71,252,112"/>
-<area shape="rect" id="node4" href="$class_c_r_w_cell_layer.html#a894e1b3d51a02c4dd798df7c4b06edb3" title=" " alt="" coords="8,137,257,163"/>
-<area shape="rect" id="node5" href="$class_c_r_w_cell_layer.html#a968b7fbdc65a6e0a230ce25e9a59e129" title=" " alt="" coords="5,188,260,229"/>
-<area shape="rect" id="node6" href="$class_c_r_w_cell_layer.html#aabad3a69d7201834bd7f71ed45702278" title=" " alt="" coords="31,254,234,281"/>
+<area shape="rect" id="node1" title=" " alt="" coords="595,209,801,235"/>
+<area shape="rect" id="node2" href="$class_c_geom_cell.html#a1b6c61362ff510fc5b45f10e9ad10be7" title="For this cell: calculates the elevation of the top of every layer, and the d50 for the topmost uncons..." alt="" coords="297,5,515,47"/>
+<area shape="rect" id="node3" href="$class_c_r_w_cell_layer.html#a6d4c5caa48b50a266ef57faf189d7f4c" title=" " alt="" coords="287,71,525,112"/>
+<area shape="rect" id="node4" href="$class_c_r_w_cell_layer.html#a3b483bdbf6a768f3dd23a5c0426ca9fe" title=" " alt="" coords="273,136,539,177"/>
+<area shape="rect" id="node6" href="$class_c_r_w_cell_layer.html#a0d3fa89db93cf7888a81cd3f81fa996a" title=" " alt="" coords="265,201,547,243"/>
+<area shape="rect" id="node7" href="$class_c_r_w_cell_layer.html#a894e1b3d51a02c4dd798df7c4b06edb3" title=" " alt="" coords="281,267,531,294"/>
+<area shape="rect" id="node8" href="$class_c_r_w_cell_layer.html#a968b7fbdc65a6e0a230ce25e9a59e129" title=" " alt="" coords="279,319,533,360"/>
+<area shape="rect" id="node9" href="$class_c_r_w_cell_layer.html#aabad3a69d7201834bd7f71ed45702278" title=" " alt="" coords="305,385,507,411"/>
+<area shape="rect" id="node5" href="$class_c_geom_cell.html#a171c5ac57ca8b50aeaafc8919639109b" title="Returns the total thickness of fine consolidated sediment on this cell, minus the depth&#45;equivalent of..." alt="" coords="5,136,217,177"/>
 </map>

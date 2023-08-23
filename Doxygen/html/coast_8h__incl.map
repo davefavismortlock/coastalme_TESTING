@@ -1,9 +1,9 @@
 <map id="coast.h" name="coast.h">
 <area shape="rect" id="node1" title="Contains CRWCoast definitions." alt="" coords="516,5,585,32"/>
 <area shape="rect" id="node2" href="$cme_8h.html" title="This file contains global definitions for CoastalME." alt="" coords="486,379,549,405"/>
-<area shape="rect" id="node20" href="$profile_8h.html" title="Contains CGeomProfile definitions." alt="" coords="691,80,767,107"/>
+<area shape="rect" id="node20" href="$profile_8h.html" title="Contains CGeomProfile definitions." alt="" coords="691,80,765,107"/>
 <area shape="rect" id="node23" href="$cell_8h.html" title="Contains CGeomCell definitions." alt="" coords="447,229,505,256"/>
-<area shape="rect" id="node27" href="$coast__landform_8h.html" title="Contains CACoastLandform definitions." alt="" coords="221,155,355,181"/>
+<area shape="rect" id="node27" href="$coast__landform_8h.html" title="Contains CACoastLandform definitions." alt="" coords="222,155,357,181"/>
 <area shape="rect" id="node28" href="$coast__polygon_8h.html" title="Contains CGeomCoastPolygon definitions." alt="" coords="952,229,1080,256"/>
 <area shape="rect" id="node3" title=" " alt="" coords="484,453,551,480"/>
 <area shape="rect" id="node4" title=" " alt="" coords="575,453,649,480"/>
@@ -25,6 +25,6 @@
 <area shape="rect" id="node21" href="$multi__line_8h.html" title="Contains CGeomMultiLine definitions." alt="" coords="779,453,877,480"/>
 <area shape="rect" id="node22" href="$raster__grid_8h.html" title="Contains CGeomRasterGrid definitions." alt="" coords="499,155,603,181"/>
 <area shape="rect" id="node24" href="$cell__landform_8h.html" title="Contains CRWCellLandform definitions." alt="" coords="429,304,552,331"/>
-<area shape="rect" id="node25" href="$cell__layer_8h.html" title="Contains CRWCellLayer definitions." alt="" coords="257,304,354,331"/>
-<area shape="rect" id="node26" href="$cell__sediment_8h.html" title="Contains CRWCellSediment definitions." alt="" coords="243,379,368,405"/>
+<area shape="rect" id="node25" href="$cell__layer_8h.html" title="Contains CRWCellLayer definitions." alt="" coords="259,304,355,331"/>
+<area shape="rect" id="node26" href="$cell__sediment_8h.html" title="Contains CRWCellSediment definitions." alt="" coords="244,379,369,405"/>
 </map>

@@ -13,20 +13,19 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include <assert.h>
 
 #include "cme.h"
 #include "multi_line.h"
-
 
 //! Constructor, no parameters
 CGeomMultiLine::CGeomMultiLine(void)
@@ -37,7 +36,6 @@ CGeomMultiLine::CGeomMultiLine(void)
 CGeomMultiLine::~CGeomMultiLine(void)
 {
 }
-
 
 //! Appends a new empty line segment
 void CGeomMultiLine::AppendLineSegment(void)
@@ -131,7 +129,6 @@ void CGeomMultiLine::RemoveLineSegment(int const nSegment)
 {
    m_prVVLineSegment.erase(m_prVVLineSegment.begin()+nSegment);
 }
-
 
 //! Appends a coincident profile pair to the CGeomMultiLine object's final line segment
 void CGeomMultiLine::AppendCoincidentProfileToLineSegments(pair<int, int> const prIn)
@@ -242,8 +239,6 @@ void CGeomMultiLine::GetMostCoastwardSharedLineSegment(int const nOtherProfile, 
       }
    }
 }
-
-
 
 //! Returns the profile number, given a line segment and the index of the co-incident profile for that line segment
 int CGeomMultiLine::nGetProf(int const nSegment, int const nCoinc) const

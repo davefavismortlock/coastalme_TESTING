@@ -1,5 +1,5 @@
 <map id="CRWIntervention" name="CRWIntervention">
-<area shape="rect" id="node1" title="Real&#45;world class used to represent the &#39;intervention&#39; category of coastal landform objects." alt="" coords="70,1577,238,1684"/>
-<area shape="rect" id="node2" href="$class_c_a_coast_landform.html" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="43,1289,265,1528"/>
-<area shape="rect" id="node3" href="$class_c_r_w_coast.html" title="Real&#45;world class used to represent coastline objects." alt="" coords="5,5,303,1227"/>
+<area shape="rect" id="node1" title="Real&#45;world class used to represent the &#39;intervention&#39; category of coastal landform objects." alt="" coords="69,1592,237,1699"/>
+<area shape="rect" id="node2" href="$class_c_a_coast_landform.html" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="42,1304,265,1543"/>
+<area shape="rect" id="node3" href="$class_c_r_w_coast.html" title="Real&#45;world class used to represent coastline objects." alt="" coords="5,5,301,1241"/>
 </map>

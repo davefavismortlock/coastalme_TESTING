@@ -1,7 +1,7 @@
 /*!
  *
  * \file do_beach_potential_erosion.cpp
- * \brief Calculates potential (i.e. not constrained by the availability of unconsolidated sediment) beach erosion on coastal polygons
+ * \brief Calculates potential (i.e. not constrained by the availability of unconsolidated sediment) beach erosion of unconsolidated sediment on coastal polygons
  * \details TODO A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 //#include <assert.h>
@@ -42,9 +42,7 @@ using std::pair;
 
 /*===============================================================================================================================
 
- Function used to sort polygon length values
-
- If the first argument must be ordered before the second, return true
+Function used to sort polygon length values. If the first argument must be ordered before the second, return true
 
 ===============================================================================================================================*/
 bool bPolygonLengthPairCompare(const pair<int, double> &prLeft, const pair<int, double> &prRight)
@@ -55,7 +53,7 @@ bool bPolygonLengthPairCompare(const pair<int, double> &prLeft, const pair<int, 
 
 /*===============================================================================================================================
 
- Uses either the CERC equation or the Kamphuis (1990) equation to calculate potential (unconstrained) sediment movement between polygons
+Uses either the CERC equation or the Kamphuis (1990) equation to calculate potential (unconstrained) sediment movement between polygons
 
 ===============================================================================================================================*/
 void CSimulation::DoAllPotentialBeachErosion(void)
@@ -121,6 +119,10 @@ void CSimulation::DoAllPotentialBeachErosion(void)
                dAvgBreakingDist += (m_VCoast[nCoast].nGetBreakingDistance(nCoastPoint) * m_dCellSide);
             }
          }
+         
+         // Safety check
+         if (nCoastPoints == 0)
+            nCoastPoints = 1;
 
          // Calc the averages
          dAvgFluxOrientation /= nCoastPoints;
@@ -161,7 +163,7 @@ void CSimulation::DoAllPotentialBeachErosion(void)
             dThetaBr = tAbs(dThetaBr);
 
             // Safety check: not sure why we need this, but get occasional big values
-            // dThetaBr = tMin(dThetaBr, 90.0);
+            dThetaBr = tMin(dThetaBr, 90.0);
 
             // Calculate the immersed weight of sediment transport
             double dImmersedWeightTransport = 0;
@@ -216,14 +218,14 @@ void CSimulation::DoAllPotentialBeachErosion(void)
             if (dSedimentDepth < SEDIMENT_ELEV_TOLERANCE)
                dSedimentDepth = 0;
 
-            //            LogStream << m_ulIter << ": polygon = " << nThisPoly << " nActiveZonePoints = " << nActiveZonePoints << " dAvgBreakingWaveHeight = " << dAvgBreakingWaveHeight << " dAvgFluxOrientation = " << dAvgFluxOrientation << " dNormalOrientation = " << dNormalOrientation << " dAvgBreakingWaveAngle = " << dAvgBreakingWaveAngle <<  " potential sediment transport this timestep = " << dSedimentDepth << " m " << (bDownCoast ? "DOWN" : "UP") << " coast" << endl;
+            //            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): polygon = " << nThisPoly << " nActiveZonePoints = " << nActiveZonePoints << " dAvgBreakingWaveHeight = " << dAvgBreakingWaveHeight << " dAvgFluxOrientation = " << dAvgFluxOrientation << " dNormalOrientation = " << dNormalOrientation << " dAvgBreakingWaveAngle = " << dAvgBreakingWaveAngle <<  " potential sediment transport this timestep = " << dSedimentDepth << " m " << (bDownCoast ? "DOWN" : "UP") << " coast" << endl;
 
             // Store the potential erosion value for this polygon
-            pPolygon->AddDeltaPotentialTotalSediment(-dSedimentDepth);
+            pPolygon->AddPotentialErosion(-dSedimentDepth);
             //            LogStream << "\tPotential erosion on polygon " << nThisPoly << " -dSedimentDepth = " << -dSedimentDepth << endl;
          }
          //          else
-         //             LogStream << m_ulIter << ": polygon = " << nThisPoly << " NOT IN ACTIVE ZONE dAvgFluxOrientation = " << dAvgFluxOrientation << endl;
+         //             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): polygon = " << nThisPoly << " NOT IN ACTIVE ZONE dAvgFluxOrientation = " << dAvgFluxOrientation << endl;
       }
    }
 }

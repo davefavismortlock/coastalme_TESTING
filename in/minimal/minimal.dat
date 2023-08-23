@@ -22,12 +22,12 @@
 ;
 ; Run information -----------------------------------------------------------------------------------------------------
 Main output/log file names                                          [omit path and extension]: minimal
-Content of log file                                       [1 = least detail, 3 = most detail]: 3
+Content of log file                                       [1 = least detail, 3 = most detail]: 2
 
 Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 00-00-00 01/01/1999
 Duration of simulation                                           [hours, days, months, years]: 30 days
 Timestep (hours or days)                                                                     : 6 hours
-Save times                                                       [hours, days, months, years]: 6 12 24 42 100 200 300 462 500 600 hours
+Save times                                                       [hours, days, months, years]: 6 12 24 42 100 200 300 462 500 600 1000 1200 1400 hours
 
 Random number seed(s)                                                                        : 280764
 
@@ -97,7 +97,7 @@ Resistance to erosion of coast platform (m^(9/4)s^(3/2))                        
 Simulate beach sediment transport?                                                           : y
 Beach sediment transport at grid edges                [0 = closed, 1 = open, 2 = recirculate]: 1
 
-Beach potential erosion/deposition equation                          [0 = CERC, 1 = Kamphuis]: 1
+Beach potential erosion/deposition equation                          [0 = CERC, 1 = Kamphuis]: 0
 
 Median size of fine sediment (mm)                        [0 = default, only for Kamphuis eqn]: 0
 Median size of sand sediment (mm)                        [0 = default, only for Kamphuis eqn]: 0
@@ -111,8 +111,8 @@ Fine erosivity                                                                  
 Sand erosivity                                                                               : 0.7
 Coarse erosivity                                                                             : 0.3
 
-Transport parameter KLS                                                   [only for CERC eqn]: 0.5        ; Should vary between 0.4 to 0.79
-Transport parameter                                                   [only for Kamphuis eqn]: 1.0
+Transport parameter KLS                                                   [only for CERC eqn]: 0.4        ; Should vary between 0.4 to 0.79
+Transport parameter                                                   [only for Kamphuis eqn]: 5.0        ; WAS 1.0
 
 Berm height i.e. height above SWL of start of depositional Dean profile (m)                  : 0.25
 

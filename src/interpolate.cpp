@@ -10,6 +10,17 @@
  *
  */
 
+/*===============================================================================================================================
+
+This file is part of CoastalME, the Coastal Modelling Environment.
+
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+===============================================================================================================================*/
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -17,77 +28,88 @@ using namespace std;
 
 #include "cme.h"
 
+/*===============================================================================================================================
 
-//======================================================================
+Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles
 
-// Returns interpolated value at x from parallel arrays ( xData, yData )
-//   Assumes that xData has at least two elements, is sorted and is strictly monotonic increasing
-//   boolean argument extrapolate determines behaviour beyond ends of array (if needed)
-
-
-//======================================================================
-//   Both x and y are double
-//======================================================================
-double interpolate( vector<double> xData, vector<double> yData, double x, bool extrapolate )
+===============================================================================================================================*/
+double dInterpolate(vector<double> VdXdata, vector<double> VdYdata, double dX, bool bExtrapolate)
 {
-   int size = static_cast<int>(xData.size());
+   int size = static_cast<int>(VdXdata.size());
 
-   int i = 0;                                                                  // find left end of interval for interpolation
-   if ( x >= xData[size - 2] )                                                 // special case: beyond right end
+   int i = 0;                                   // Find left end of interval for interpolation
+   if (dX >= VdXdata[size - 2])                 // Special case: beyond right end
    {
       i = size - 2;
    }
    else
    {
-      while ( x > xData[i+1] ) i++;
+      while (dX > VdXdata[i+1]) i++;
    }
-   double xL = xData[i], yL = yData[i], xR = xData[i+1], yR = yData[i+1];      // points on either side (unless beyond ends)
-   if ( !extrapolate )                                                         // if beyond ends of array and not extrapolating
+   
+   double 
+      dXL = VdXdata[i], 
+      dYL = VdYdata[i], 
+      dXR = VdXdata[i+1], 
+      dYR = VdYdata[i+1];                       // Points on either side (unless beyond ends)
+      
+   if (! bExtrapolate)                          // If beyond ends of array and not extrapolating
    {
-      if ( x < xL ) yR = yL;
-      if ( x > xR ) yL = yR;
+      if (dX < dXL) dYR = dYL;
+      if (dX > dXR) dYL = dYR;
    }
 
-   double dydx = ( yR - yL ) / ( xR - xL );                                    // gradient
+   double ddYdX = (dYR - dYL) / (dXR - dXL);    // Gradient
 
-   return yL + dydx * ( x - xL );                                              // linear interpolation
+   return (dYL + ddYdX * (dX - dXL));           // Linear interpolation
 }
 
-//======================================================================
-//    x is integer and y is double
-//======================================================================
-double interpolate( vector<int> xData, vector<double> yData, int x, bool extrapolate )
-{
-   unsigned int size = static_cast<unsigned int>(xData.size());
+/*===============================================================================================================================
 
-   int i = 0;                                                                  // find left end of interval for interpolation
-   if ( x >= xData[size - 2] )                                                 // special case: beyond right end
+Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double
+
+===============================================================================================================================*/
+double dInterpolate( vector<int> VnXdata, vector<double> VdYdata, int nX, bool bExtrapolate )
+{
+   unsigned int nSize = static_cast<unsigned int>(VnXdata.size());
+
+   int i = 0;                                   // Find left end of interval for interpolation
+   if (nX >= VnXdata[nSize - 2])                // Special case: beyond right end
    {
-      i = size - 2;
+      i = nSize - 2;
    }
    else
    {
-      while ( x > xData[i+1] ) i++;
+      while (nX > VnXdata[i+1]) i++;
    }
-   int xL = xData[i], xR = xData[i+1];
-   double yL = yData[i], yR = yData[i+1];      // points on either side (unless beyond ends)
-   if ( !extrapolate )                                                         // if beyond ends of array and not extrapolating
+   
+   int 
+      nXL = VnXdata[i], 
+      nXR = VnXdata[i+1];
+      
+   double 
+      dYL = VdYdata[i], 
+      dYR = VdYdata[i+1];                       // Points on either side (unless beyond ends)
+      
+   if (! bExtrapolate)                          // If beyond ends of array and not extrapolating
    {
-      if ( x < xL ) yR = yL;
-      if ( x > xR ) yL = yR;
+      if (nX < nXL) dYR = dYL;
+      if (nX > nXR) dYL = dYR;
    }
 
-   double dydx = ( yR - yL ) / static_cast<double>( xR - xL );                                    // gradient
+   double ddYdX = (dYR - dYL) / static_cast<double>(nXR - nXL);      // Gradient
 
-   return yL + dydx * static_cast<double>( x - xL );                                              // linear interpolation
+   return dYL + ddYdX * static_cast<double>(nX - nXL);               // Linear interpolation
 }
 //======================================================================
+
+
 
 //int main()
 //{
 //   // Original data
-//   vector<double> xData = { 1, 5, 10, 15, 20 };
-//   vector<double> yData = { 0.3, 0.5, 0.8, 0.1, 0.14 };
+//   vector<double> VdXdata = { 1, 5, 10, 15, 20 };
+//   vector<double> VdYdata = { 0.3, 0.5, 0.8, 0.1, 0.14 };
 
 //   // Set up some points for interpolation in xVals
 //   const int NPTS = 20;
@@ -97,7 +119,7 @@ double interpolate( vector<int> xData, vector<double> yData, int x, bool extrapo
 //   // Interpolate
 //   for ( double x : xVals )
 //   {
-//      double y = interpolate( xData, yData, x, true );
+//      double y = dInterpolate( VdXdata, VdYdata, x, true );
 //      yVals.push_back( y );
 //   }
 //
@@ -105,7 +127,7 @@ double interpolate( vector<int> xData, vector<double> yData, int x, bool extrapo
 //   #define SP << fixed << setw( 15 ) << setprecision( 6 ) <<
 //   #define NL << '\n'
 //   cout << "Original data:\n";
-//   for ( int i = 0; i < xData.size(); i++ ) cout SP xData[i] SP yData[i] NL;
+//   for ( int i = 0; i < VdXdata.size(); i++ ) cout SP VdXdata[i] SP VdYdata[i] NL;
 //   cout << "\nInterpolated data:\n";
 //   for ( int i = 0; i < xVals.size(); i++ ) cout SP xVals[i] SP yVals[i] NL;
 //}

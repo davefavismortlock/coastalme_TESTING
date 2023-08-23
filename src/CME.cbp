@@ -227,13 +227,10 @@
 		<Unit filename="/home/davefm/coast/CoastalME/src/create_profiles.cpp">
 			<Option target="cme"/>
 		</Unit>
-		<Unit filename="/home/davefm/coast/CoastalME/src/do_beach_actual_sediment_movement.cpp">
-			<Option target="cme"/>
-		</Unit>
-		<Unit filename="/home/davefm/coast/CoastalME/src/do_beach_estimate_actual_erosion.cpp">
-			<Option target="cme"/>
-		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/do_beach_potential_erosion.cpp">
+			<Option target="cme"/>
+		</Unit>
+		<Unit filename="/home/davefm/coast/CoastalME/src/do_beach_sediment_movement.cpp">
 			<Option target="cme"/>
 		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/do_beach_within_polygon.cpp">
@@ -246,6 +243,9 @@
 			<Option target="cme"/>
 		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/do_sediment_input_event.cpp">
+			<Option target="cme"/>
+		</Unit>
+		<Unit filename="/home/davefm/coast/CoastalME/src/do_shore_platform_erosion.cpp">
 			<Option target="cme"/>
 		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/drift.cpp">
@@ -336,9 +336,6 @@
 			<Option target="cme"/>
 		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/sediment_input_event.h">
-			<Option target="cme"/>
-		</Unit>
-		<Unit filename="/home/davefm/coast/CoastalME/src/shore_platform.cpp">
 			<Option target="cme"/>
 		</Unit>
 		<Unit filename="/home/davefm/coast/CoastalME/src/simulation.cpp">

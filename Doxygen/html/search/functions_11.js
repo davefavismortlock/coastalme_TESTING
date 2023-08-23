@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['_7eca2dishape_1646',['~CA2DIShape',['../class_c_a2_d_i_shape.html#a583e3950b7634690db3b44e86491f3de',1,'CA2DIShape']]],
-  ['_7eca2dshape_1647',['~CA2DShape',['../class_c_a2_d_shape.html#af7f4ef9649f998b9ee84ec0f71352eff',1,'CA2DShape']]],
-  ['_7ecacoastlandform_1648',['~CACoastLandform',['../class_c_a_coast_landform.html#a76a31307710b9ebb28eaa02d555d7c99',1,'CACoastLandform']]],
-  ['_7ecgeomcell_1649',['~CGeomCell',['../class_c_geom_cell.html#a6509a6d7e7e2b29860139a542e524eb9',1,'CGeomCell']]],
-  ['_7ecgeomcoastpolygon_1650',['~CGeomCoastPolygon',['../class_c_geom_coast_polygon.html#a417103424c09d6cf726fafc5a530dd8b',1,'CGeomCoastPolygon']]],
-  ['_7ecgeomiline_1651',['~CGeomILine',['../class_c_geom_i_line.html#a5291f427d44524d216a8e0ab23331b0c',1,'CGeomILine']]],
-  ['_7ecgeomline_1652',['~CGeomLine',['../class_c_geom_line.html#adc50aa4504b1605753ccc27175812158',1,'CGeomLine']]],
-  ['_7ecgeommultiline_1653',['~CGeomMultiLine',['../class_c_geom_multi_line.html#a268b827f81745b1351d36995cac97ed3',1,'CGeomMultiLine']]],
-  ['_7ecgeomprofile_1654',['~CGeomProfile',['../class_c_geom_profile.html#a50bb814ed8c4a6e0e2079b433db95e26',1,'CGeomProfile']]],
-  ['_7ecgeomrastergrid_1655',['~CGeomRasterGrid',['../class_c_geom_raster_grid.html#a519180e4809f755f4b0357514c647998',1,'CGeomRasterGrid']]],
-  ['_7ecrwcelllandform_1656',['~CRWCellLandform',['../class_c_r_w_cell_landform.html#a3f8f8c8c720157d633db05f85698514a',1,'CRWCellLandform']]],
-  ['_7ecrwcliff_1657',['~CRWCliff',['../class_c_r_w_cliff.html#ad637979919fc4f022ab8cbd89133bad7',1,'CRWCliff']]],
-  ['_7ecrwcoast_1658',['~CRWCoast',['../class_c_r_w_coast.html#a919d155f79e72467f8dbd41688f2e108',1,'CRWCoast']]],
-  ['_7ecrwdrift_1659',['~CRWDrift',['../class_c_r_w_drift.html#ab72ffd96e57b686bed1e584ffeb287af',1,'CRWDrift']]],
-  ['_7ecrwintervention_1660',['~CRWIntervention',['../class_c_r_w_intervention.html#a26e062aa49db5e69aa7abd74dfb72171',1,'CRWIntervention']]],
-  ['_7ecsedinputevent_1661',['~CSedInputEvent',['../class_c_sed_input_event.html#abaa0f9673d3508af5a6c2e14172e9664',1,'CSedInputEvent']]],
-  ['_7ecsimulation_1662',['~CSimulation',['../class_c_simulation.html#a9657f6315931bb105f99a5ff414b6dbf',1,'CSimulation']]]
+  ['vdinterp1_0',['VdInterp1',['../linearinterp_8cpp.html#ad6e6fb0f63b702976682ec269211bff6',1,'VdInterp1(vector&lt; double &gt; const *pVdX, vector&lt; double &gt; const *pVdY, vector&lt; double &gt; const *pVdX_new):&#160;linearinterp.cpp'],['../linearinterp_8h.html#ab052b213ea21913fb41923d038f3f830',1,'VdInterp1(vector&lt; double &gt; const *, vector&lt; double &gt; const *, vector&lt; double &gt; const *):&#160;linearinterp.cpp']]],
+  ['vngetcircularities_1',['VnGetCircularities',['../class_c_geom_coast_polygon.html#ab8696731f2acd084dc8ea57711fb86ea',1,'CGeomCoastPolygon']]]
 ];

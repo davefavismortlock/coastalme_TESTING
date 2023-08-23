@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title="Contains CRWCliff definitions." alt="" coords="270,5,329,32"/>
 <area shape="rect" id="node2" href="$assign__landforms_8cpp.html" title="Assigns landform categories to coastlines and coastal cells, and to all other dryland cells." alt="" coords="5,80,169,107"/>
 <area shape="rect" id="node3" href="$cliff_8cpp.html" title="CRWCliff routines." alt="" coords="193,80,267,107"/>
-<area shape="rect" id="node4" href="$do__cliff__collapse_8cpp.html" title="Collapses cliffs." alt="" coords="291,80,449,107"/>
-<area shape="rect" id="node5" href="$gis__vector_8cpp.html" title="These functions use GDAL to read and write vector GIS files in several formats. This version will bui..." alt="" coords="473,80,589,107"/>
+<area shape="rect" id="node4" href="$do__cliff__collapse_8cpp.html" title="Collapses cliffs if a critical notch depth is exceeded. Then distributes both consolidated and uncons..." alt="" coords="291,80,449,107"/>
+<area shape="rect" id="node5" href="$gis__vector_8cpp.html" title="These functions use GDAL to read and write vector GIS files in several formats. This version will bui..." alt="" coords="473,80,587,107"/>
 </map>

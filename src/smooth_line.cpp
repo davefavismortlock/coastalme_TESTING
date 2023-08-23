@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public  License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public  License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <cmath>
@@ -42,9 +42,9 @@ void LULinearSolve(Matrix const, int const, int const[], double[]);
 
 /*==============================================================================================================================
 
- Calculates the Savitzky-Golay smoothing coefficients for a given size of smoothing window
+Calculates the Savitzky-Golay smoothing coefficients for a given size of smoothing window
 
- This and associated Savitzky-Golay routines have been derived from C originals by Jean-Pierre Moreau (jpmoreau@wanadoo.fr, http://jean-pierre.moreau.pagesperso-orange.fr/index.html), to whom we are much indebted
+This and associated Savitzky-Golay routines have been derived from C originals by Jean-Pierre Moreau (jpmoreau@wanadoo.fr, http://jean-pierre.moreau.pagesperso-orange.fr/index.html), to whom we are much indebted
 
 ==============================================================================================================================*/
 void CSimulation::CalcSavitzkyGolayCoeffs(void)
@@ -77,7 +77,7 @@ void CSimulation::CalcSavitzkyGolayCoeffs(void)
 
 /*==============================================================================================================================
 
- Does smoothing of a CGeomLine coastline vector using a Savitzky-Golay filter
+Does smoothing of a CGeomLine coastline vector using a Savitzky-Golay filter
 
 ==============================================================================================================================*/
 CGeomLine CSimulation::LSmoothCoastSavitzkyGolay(CGeomLine *pLineIn, int const nStartEdge, int const nEndEdge) const
@@ -193,7 +193,7 @@ CGeomLine CSimulation::LSmoothCoastSavitzkyGolay(CGeomLine *pLineIn, int const n
 
 /*==============================================================================================================================
 
- Does running-mean smoothing of a CGeomLine coastline vector
+Does running-mean smoothing of a CGeomLine coastline vector
 
 ==============================================================================================================================*/
 CGeomLine CSimulation::LSmoothCoastRunningMean(CGeomLine *pLineIn) const
@@ -353,7 +353,7 @@ vector<double> CSimulation::dVSmoothProfileSlope(vector<double> *pdVSlope)
 
 /*==============================================================================================================================
 
- CalcSavitzkyGolay uses LULinearSolve and LUDecomp. It returns dFilterCoeffsArray[nWindowSize], a set of Savitzky-Golay filter coefficients in wrap-around order. nLeft is the number of leftward data points used, nRight is the number of rightward data points, making the total number of data points used = nLeft + nRight + 1. nDerivOrder is the order of the derivative desired (e.g. nDerivOrder = 0 for smoothed function), nSmoothPolyOrder is the order of the smoothing polynomial also equal to the highest conserved moment; usual values are nSmoothPolyOrder = 2 or nSmoothPolyOrder = 4
+CalcSavitzkyGolay uses LULinearSolve and LUDecomp. It returns dFilterCoeffsArray[nWindowSize], a set of Savitzky-Golay filter coefficients in wrap-around order. nLeft is the number of leftward data points used, nRight is the number of rightward data points, making the total number of data points used = nLeft + nRight + 1. nDerivOrder is the order of the derivative desired (e.g. nDerivOrder = 0 for smoothed function), nSmoothPolyOrder is the order of the smoothing polynomial also equal to the highest conserved moment; usual values are nSmoothPolyOrder = 2 or nSmoothPolyOrder = 4
 
 ==============================================================================================================================*/
 void CSimulation::CalcSavitzkyGolay(double dFilterCoeffsArray[], int const nWindowSize, int const nLeft, int const nRight, int const nDerivOrder, int const nSmoothPolyOrder)
@@ -430,7 +430,7 @@ void CSimulation::CalcSavitzkyGolay(double dFilterCoeffsArray[], int const nWind
 
 /*==============================================================================================================================
 
- Given an N x N matrix A, this routine replaces it by the LU decomposition of a rowwise permutation of itself. A and N are input. nIndexArray is an output vector which records the row permutation effected by the partial pivoting; D is output as -1 or 1, depending on whether the number of row interchanges was even or odd, respectively. This routine is used in combination with LULinearSolve to solve linear equations or to invert a matrix. Returns with nICode = 1 if matrix is singular
+Given an N x N matrix A, this routine replaces it by the LU decomposition of a rowwise permutation of itself. A and N are input. nIndexArray is an output vector which records the row permutation effected by the partial pivoting; D is output as -1 or 1, depending on whether the number of row interchanges was even or odd, respectively. This routine is used in combination with LULinearSolve to solve linear equations or to invert a matrix. Returns with nICode = 1 if matrix is singular
 
 ==============================================================================================================================*/
 void LUDecomp(Matrix A, int const N, int const np, int nIndexArray[], int *nDCode, int *nICode)
@@ -522,7 +522,7 @@ void LUDecomp(Matrix A, int const N, int const np, int nIndexArray[], int *nDCod
 
 /*==============================================================================================================================
 
- Solves the set of N linear equations A . X = B.  Here A is input, not as the matrix A but rather as its LU decomposition, determined by the routine LUDecomp. nIndexArray is input as the permutation vector returned by LUDecomp. B is input as the right-hand side vector B, and returns with the solution vector X. A, N and nIndexArray are not modified by this routine and can be used for successive calls with different right-hand sides. This routine is also efficient for plain matrix inversion
+Solves the set of N linear equations A . X = B.  Here A is input, not as the matrix A but rather as its LU decomposition, determined by the routine LUDecomp. nIndexArray is input as the permutation vector returned by LUDecomp. B is input as the right-hand side vector B, and returns with the solution vector X. A, N and nIndexArray are not modified by this routine and can be used for successive calls with different right-hand sides. This routine is also efficient for plain matrix inversion
 
 ==============================================================================================================================*/
 void LULinearSolve(Matrix const A, int const N, int const nIndexArray[], double B[])

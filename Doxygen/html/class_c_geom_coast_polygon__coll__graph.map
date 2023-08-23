@@ -1,8 +1,8 @@
 <map id="CGeomCoastPolygon" name="CGeomCoastPolygon">
-<area shape="rect" id="node1" title="Geometry class used for coast polygon objects." alt="" coords="5,860,285,1729"/>
-<area shape="rect" id="node2" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="56,543,235,811"/>
-<area shape="rect" id="node3" title=" " alt="" coords="35,403,255,480"/>
-<area shape="rect" id="node4" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="19,145,165,340"/>
-<area shape="rect" id="node5" title=" " alt="" coords="190,204,319,281"/>
-<area shape="rect" id="node6" title=" " alt="" coords="235,5,274,83"/>
+<area shape="rect" id="node1" title="Geometry class used for coast polygon objects." alt="" coords="5,860,289,2243"/>
+<area shape="rect" id="node2" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="58,543,237,811"/>
+<area shape="rect" id="node3" title=" " alt="" coords="37,403,257,480"/>
+<area shape="rect" id="node4" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="21,145,167,340"/>
+<area shape="rect" id="node5" title=" " alt="" coords="192,204,321,281"/>
+<area shape="rect" id="node6" title=" " alt="" coords="237,5,276,83"/>
 </map>

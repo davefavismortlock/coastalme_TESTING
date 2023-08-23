@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <iostream>
@@ -38,7 +38,7 @@ using std::find;
 
 /*===============================================================================================================================
 
- Check to see if we have any sediment input events this timestep, if so then do the event(s)
+Check to see if we have any sediment input events this timestep, if so then do the event(s)
 
 ===============================================================================================================================*/
 int CSimulation::nCheckForSedimentInputEvent(void)
@@ -63,7 +63,7 @@ int CSimulation::nCheckForSedimentInputEvent(void)
 
 /*===============================================================================================================================
 
- Do a sediment input event
+Do a sediment input event
 
 ===============================================================================================================================*/
 int CSimulation::nDoSedimentInputEvent(int const nEvent)
@@ -110,15 +110,15 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
          // Add to this cell's unconsolidated sediment
          double dFineDepth = dFineSedVol / m_dCellArea;
          m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepth);
-         m_dThisiterFineSedimentInput += dFineDepth;
+         m_dThisiterUnconsFineInput += dFineDepth;
 
          double dSandDepth = dSandSedVol / m_dCellArea;
          m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepth);
-         m_dThisiterSandSedimentInput += dSandDepth;
+         m_dThisiterUnconsSandInput += dSandDepth;
 
          double dCoarseDepth = dCoarseSedVol / m_dCellArea;
          m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepth);
-         m_dThisiterCoarseSedimentInput += dCoarseDepth;
+         m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
          // And update the cell's total
          m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddToTotSedimentInputDepth(dFineDepth + dSandDepth + dCoarseDepth);
@@ -294,13 +294,13 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
          {
             // Add to this cell's unconsolidated sediment
             m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepthPerCell);
-            m_dThisiterFineSedimentInput += dFineDepth;
+            m_dThisiterUnconsFineInput += dFineDepth;
 
             m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepthPerCell);
-            m_dThisiterSandSedimentInput += dSandDepth;
+            m_dThisiterUnconsSandInput += dSandDepth;
 
             m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepthPerCell);
-            m_dThisiterCoarseSedimentInput += dCoarseDepth;
+            m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
             // And update the cell's total
             m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddToTotSedimentInputDepth(dFineDepth + dSandDepth + dCoarseDepth);
@@ -404,15 +404,15 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
       // Add to this cell's unconsolidated sediment
       double dFineDepth = dFineSedVol / m_dCellArea;
       m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepth);
-      m_dThisiterFineSedimentInput += dFineDepth;
+      m_dThisiterUnconsFineInput += dFineDepth;
 
       double dSandDepth = dSandSedVol / m_dCellArea;
       m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepth);
-      m_dThisiterSandSedimentInput += dSandDepth;
+      m_dThisiterUnconsSandInput += dSandDepth;
 
       double dCoarseDepth = dCoarseSedVol / m_dCellArea;
       m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepth);
-      m_dThisiterCoarseSedimentInput += dCoarseDepth;
+      m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
       // And update the cell's total
       m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddToTotSedimentInputDepth(dFineDepth + dSandDepth + dCoarseDepth);

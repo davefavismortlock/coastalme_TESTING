@@ -1,4 +1,4 @@
 <map id="CRWDrift" name="CRWDrift">
-<area shape="rect" id="node1" title="Real&#45;world class used to represent the &#39;drift&#39; category of coastal landform object." alt="" coords="57,307,176,413"/>
+<area shape="rect" id="node1" title="Real&#45;world class used to represent the &#39;drift&#39; category of coastal landform object." alt="" coords="58,307,175,413"/>
 <area shape="rect" id="node2" href="$class_c_a_coast_landform.html" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="5,5,228,259"/>
 </map>

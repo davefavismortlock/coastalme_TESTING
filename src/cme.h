@@ -40,13 +40,13 @@
 #define CME_H
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include <climits>
@@ -192,14 +192,12 @@ int const MIN_INLAND_OFFSET_FOR_BEACH_EROSION_ESTIMATION = 5;  // Used in estima
 
 // Log file detail level
 int const NO_LOG_FILE = 0;
-int const LOG_FILE_LEAST_DETAIL = 1;
+int const LOG_FILE_LOW_DETAIL = 1;
 int const LOG_FILE_MIDDLE_DETAIL = 2;
-int const LOG_FILE_MOST_DETAIL = 3;
+int const LOG_FILE_HIGH_DETAIL = 3;
 
-// TODO Make these user inputs
+// TODO Make this a user input
 int const NUMBER_OF_INTERVENTION_CAPES = 4;
-int const CSHORE_INTERPOLATION_LINEAR = 0;
-int const CSHORE_INTERPOLATION_HERMITE_CUBIC = 1;
 
 int const INT_NODATA = -9999;
 
@@ -301,61 +299,67 @@ int const FLOOD_LOCATION_VEC = 3;
 int const FLOOD_LOCATION_MAX_LAYER = 1;
 
 // GIS raster output codes
-int const RASTER_PLOT_ACTIVE_ZONE = 1;
-int const RASTER_PLOT_ACTUAL_BEACH_EROSION = 2;
-int const RASTER_PLOT_ACTUAL_PLATFORM_EROSION = 3;
-int const RASTER_PLOT_AVG_SEA_DEPTH = 4;
-int const RASTER_PLOT_AVG_SUSPENDED_SEDIMENT = 5;
-int const RASTER_PLOT_AVG_WAVE_HEIGHT = 6;
-int const RASTER_PLOT_AVG_WAVE_ORIENTATION = 7;
-int const RASTER_PLOT_BASEMENT_ELEVATION = 8;
-int const RASTER_PLOT_BEACH_DEPOSITION = 9;
-int const RASTER_PLOT_BEACH_MASK = 10;
-int const RASTER_PLOT_BEACH_PROTECTION = 11;
-int const RASTER_PLOT_CLIFF_COLLAPSE = 12;
-int const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT = 13;
-int const RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT = 14;
-int const RASTER_PLOT_COARSE_UNCONSOLIDATED_SEDIMENT = 15;
-int const RASTER_PLOT_COAST = 16;
-int const RASTER_PLOT_DEEP_WATER_WAVE_HEIGHT = 17;
-int const RASTER_PLOT_DEEP_WATER_WAVE_ORIENTATION = 18;
-int const RASTER_PLOT_DEEP_WATER_WAVE_PERIOD = 19;
-int const RASTER_PLOT_FINE_CONSOLIDATED_SEDIMENT = 20;
-int const RASTER_PLOT_FINE_UNCONSOLIDATED_SEDIMENT = 21;
-int const RASTER_PLOT_INTERVENTION_CLASS = 22;
-int const RASTER_PLOT_INTERVENTION_HEIGHT = 23;
-int const RASTER_PLOT_INUNDATION_MASK = 24;
-int const RASTER_PLOT_LANDFORM = 25;
-int const RASTER_PLOT_LOCAL_SLOPE_OF_CONSOLIDATED_SEDIMENT = 26;
-int const RASTER_PLOT_NORMAL = 27;
-int const RASTER_PLOT_OVERALL_TOP_ELEVATION = 28;
-int const RASTER_PLOT_POLYGON = 29;
-int const RASTER_PLOT_POLYGON_GAIN_OR_LOSS = 30;
-int const RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT = 31;
-int const RASTER_PLOT_POTENTIAL_BEACH_EROSION = 32;
-int const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION = 33;
-int const RASTER_PLOT_SAND_CONSOLIDATED_SEDIMENT = 34;
-int const RASTER_PLOT_SAND_UNCONSOLIDATED_SEDIMENT = 35;
-int const RASTER_PLOT_SEA_DEPTH = 36;
-int const RASTER_PLOT_SEDIMENT_TOP_ELEVATION_ELEV = 37;
-int const RASTER_PLOT_SHADOW_DOWNDRIFT_ZONE = 38;
-int const RASTER_PLOT_SHADOW_ZONE = 39;
-int const RASTER_PLOT_SLICE = 40;
-int const RASTER_PLOT_SUSPENDED_SEDIMENT = 41;
-int const RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION = 42;
-int const RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION = 43;
-int const RASTER_PLOT_TOTAL_BEACH_DEPOSITION = 44;
-int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE = 45;
-int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT = 46;
-int const RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION = 47;
-int const RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION = 48;
-int const RASTER_PLOT_WAVE_HEIGHT = 49;
-int const RASTER_PLOT_WAVE_ORIENTATION = 50;
-int const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK = 51;
-int const RASTER_PLOT_SEDIMENT_INPUT = 52;
-int const RASTER_PLOT_SETUP_SURGE_FLOOD_MASK = 53;
-int const RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK = 54;
-int const RASTER_PLOT_WAVE_FLOOD_LINE = 55;
+int const RASTER_PLOT_ACTIVE_ZONE                          = 1;
+int const RASTER_PLOT_ACTUAL_BEACH_EROSION                 = 2;
+int const RASTER_PLOT_ACTUAL_PLATFORM_EROSION              = 3;
+int const RASTER_PLOT_AVG_SEA_DEPTH                        = 4;
+int const RASTER_PLOT_AVG_SUSPENDED_SEDIMENT               = 5;
+int const RASTER_PLOT_AVG_WAVE_HEIGHT                      = 6;
+int const RASTER_PLOT_AVG_WAVE_ORIENTATION                 = 7;
+int const RASTER_PLOT_BASEMENT_ELEVATION                   = 8;
+int const RASTER_PLOT_BEACH_DEPOSITION                     = 9;
+int const RASTER_PLOT_BEACH_MASK                           = 10;
+int const RASTER_PLOT_BEACH_PROTECTION                     = 11;
+int const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE          = 12;
+int const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND          = 13;
+int const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE        = 14;
+int const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND          = 15;
+int const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE        = 16;
+int const RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT         = 17;
+int const RASTER_PLOT_COARSE_UNCONSOLIDATED_SEDIMENT       = 18;
+int const RASTER_PLOT_COAST                                = 19;
+int const RASTER_PLOT_DEEP_WATER_WAVE_HEIGHT               = 20;
+int const RASTER_PLOT_DEEP_WATER_WAVE_ORIENTATION          = 21;
+int const RASTER_PLOT_DEEP_WATER_WAVE_PERIOD               = 22;
+int const RASTER_PLOT_FINE_CONSOLIDATED_SEDIMENT           = 23;
+int const RASTER_PLOT_FINE_UNCONSOLIDATED_SEDIMENT         = 24;
+int const RASTER_PLOT_INTERVENTION_CLASS                   = 25;
+int const RASTER_PLOT_INTERVENTION_HEIGHT                  = 26;
+int const RASTER_PLOT_INUNDATION_MASK                      = 27;
+int const RASTER_PLOT_LANDFORM                             = 28;
+int const RASTER_PLOT_LOCAL_SLOPE_OF_CONSOLIDATED_SEDIMENT = 29;
+int const RASTER_PLOT_NORMAL                               = 30;
+int const RASTER_PLOT_OVERALL_TOP_ELEVATION                = 31;
+int const RASTER_PLOT_POLYGON                              = 32;
+int const RASTER_PLOT_POLYGON_GAIN_OR_LOSS                 = 33;
+int const RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT         = 34;
+int const RASTER_PLOT_POTENTIAL_BEACH_EROSION              = 35;
+int const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION           = 36;
+int const RASTER_PLOT_SAND_CONSOLIDATED_SEDIMENT           = 37;
+int const RASTER_PLOT_SAND_UNCONSOLIDATED_SEDIMENT         = 38;
+int const RASTER_PLOT_SEA_DEPTH                            = 39;
+int const RASTER_PLOT_SEDIMENT_TOP_ELEVATION_ELEV          = 40;
+int const RASTER_PLOT_SHADOW_DOWNDRIFT_ZONE                = 41;
+int const RASTER_PLOT_SHADOW_ZONE                          = 42;
+int const RASTER_PLOT_SLICE                                = 43;
+int const RASTER_PLOT_SUSPENDED_SEDIMENT                   = 44;
+int const RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION           = 45;
+int const RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION        = 46;
+int const RASTER_PLOT_TOTAL_BEACH_DEPOSITION               = 47;
+int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE    = 48;
+int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND    = 49;
+int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE  = 50;
+int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND    = 51;
+int const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE  = 52;
+int const RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION        = 53;
+int const RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION     = 54;
+int const RASTER_PLOT_WAVE_HEIGHT                          = 55;
+int const RASTER_PLOT_WAVE_ORIENTATION                     = 56;
+int const RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK      = 57;
+int const RASTER_PLOT_SEDIMENT_INPUT                       = 58;
+int const RASTER_PLOT_SETUP_SURGE_FLOOD_MASK               = 59;
+int const RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK         = 60;
+int const RASTER_PLOT_WAVE_FLOOD_LINE                      = 61;
 
 // GIS vector output codes
 int const VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT = 1;
@@ -450,6 +454,8 @@ int const RTN_ERR_READING_SEDIMENT_INPUT_EVENT = 64;
 int const RTN_ERR_SEDIMENT_INPUT_EVENT = 65;
 int const RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION = 66;
 int const RTN_ERR_FLOOD_LOCATION = 67;
+int const RTN_ERR_CLIFF_NOT_IN_POLYGON = 68;
+int const RTN_ERR_UNKNOWN = 69;
 
 // Elevation and 'slice' codes
 int const ELEV_IN_BASEMENT = -1;
@@ -496,7 +502,8 @@ double const CSHORE_FRICTION_FACTOR = 0.015;          // Friction factor for CSh
 double const CSHORE_SURGE_LEVEL = 0.0;                // Not used, but in the future we might include surge in the calculations
 
 double const TOLERANCE = 1e-7;                        // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
-double const SEDIMENT_ELEV_TOLERANCE = 1e-10;         // Differences in depth-equivalent sediment amount (m) less than this are ignored
+double const SEDIMENT_ELEV_TOLERANCE = 1e-10;         // For bFPIsEqual, used to compare depth-equivalent sediment amounts
+double const MASS_BALANCE_TOLERANCE = 1e-5;           // For bFPIsEqual, used to compare this-iteration and last-iteration sediment totals
 double const STRAIGHT_COAST_MAX_DETAILED_CURVATURE = -5;
 double const STRAIGHT_COAST_MAX_SMOOTH_CURVATURE = -1;
 double const MIN_LENGTH_OF_SHADOW_ZONE_LINE = 10;     // Used in shadow line tracing
@@ -504,7 +511,7 @@ double const MAX_LAND_LENGTH_OF_SHADOW_ZONE_LINE = 5; // Used in shadow line tra
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.0.1 (20 Feb 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1 (23 Aug 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
@@ -687,14 +694,26 @@ string const RASTER_COAST_NORMAL_CODE = "rcoast_normal";
 string const RASTER_COAST_NORMAL_NAME = "rcoast_normal";
 string const RASTER_ACTIVE_ZONE_CODE = "active_zone";
 string const RASTER_ACTIVE_ZONE_NAME = "active_zone";
-string const RASTER_CLIFF_COLLAPSE_CODE = "cliff_collapse";
-string const RASTER_CLIFF_COLLAPSE_NAME = "cliff_collapse";
-string const RASTER_TOTAL_CLIFF_COLLAPSE_CODE = "total_cliff_collapse";
-string const RASTER_TOTAL_CLIFF_COLLAPSE_NAME = "total_cliff_collapse";
-string const RASTER_CLIFF_COLLAPSE_DEPOSITION_CODE = "cliff_collapse_deposition";
-string const RASTER_CLIFF_COLLAPSE_DEPOSITION_NAME = "cliff_collapse_deposition";
-string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_CODE = "total_cliff_collapse_deposition";
-string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_NAME = "total_cliff_collapse_deposition";
+string const RASTER_CLIFF_COLLAPSE_EROSION_FINE_CODE = "cliff_collapse_erosion_fine";
+string const RASTER_CLIFF_COLLAPSE_EROSION_FINE_NAME = "cliff_collapse_erosion_fine";
+string const RASTER_CLIFF_COLLAPSE_EROSION_SAND_CODE = "cliff_collapse_erosion_sand";
+string const RASTER_CLIFF_COLLAPSE_EROSION_SAND_NAME = "cliff_collapse_erosion_sand";
+string const RASTER_CLIFF_COLLAPSE_EROSION_COARSE_CODE = "cliff_collapse_erosion_coarse";
+string const RASTER_CLIFF_COLLAPSE_EROSION_COARSE_NAME = "cliff_collapse_erosion_coarse";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_CODE = "total_cliff_collapse_erosion_fine";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_NAME = "total_cliff_collapse_erosion_fine";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_CODE = "total_cliff_collapse_erosion_sand";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_NAME = "total_cliff_collapse_erosion_sand";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_CODE = "total_cliff_collapse_erosion_coarse";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_NAME = "total_cliff_collapse_erosion_coarse";
+string const RASTER_CLIFF_COLLAPSE_DEPOSITION_SAND_CODE = "cliff_collapse_talus_deposition_sand";
+string const RASTER_CLIFF_COLLAPSE_DEPOSITION_SAND_NAME = "cliff_collapse_talus_deposition_sand";
+string const RASTER_CLIFF_COLLAPSE_DEPOSITION_COARSE_CODE = "cliff_collapse_talus_deposition_coarse";
+string const RASTER_CLIFF_COLLAPSE_DEPOSITION_COARSE_NAME = "cliff_collapse_talus_deposition_coarse";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_SAND_CODE = "total_cliff_collapse_talus_deposition_sand";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_SAND_NAME = "total_cliff_collapse_talus_deposition_sand";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_COARSE_CODE = "total_cliff_collapse_talus_deposition_coarse";
+string const RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_COARSE_NAME = "total_cliff_collapse_talus_deposition_coarse";
 string const RASTER_POLYGON_CODE = "polygon_raster";
 string const RASTER_POLYGON_NAME = "polygon_raster";
 string const RASTER_SLICE_CODE = "slice";
@@ -734,8 +753,11 @@ string const RASTER_PLOT_BASEMENT_ELEVATION_TITLE = "Basement elevation";
 string const RASTER_PLOT_BEACH_DEPOSITION_TITLE = "Beach deposition depth";
 string const RASTER_PLOT_BEACH_MASK_TITLE = "Beach mask";
 string const RASTER_PLOT_BEACH_PROTECTION_TITLE = "Beach protection factor";
-string const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_TITLE = "Cliff collapse deposition depth";
-string const RASTER_PLOT_CLIFF_COLLAPSE_TITLE = "Cliff collapse depth";
+string const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE = "Depth of sand talus from cliff collapse";
+string const RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE = "Depth of coarse talus from cliff collapse";
+string const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE_TITLE = "Cliff collapse depth of erosion, fine sediment";
+string const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND_TITLE = "Cliff collapse depth of erosion, sand sediment";
+string const RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE_TITLE = "Cliff collapse depth of erosion, coarse sediment";
 string const RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT_TITLE = "Consolidated coarse sediment depth";
 string const RASTER_PLOT_COARSE_UNCONSOLIDATED_SEDIMENT_TITLE = "Unconsolidated coarse sediment depth";
 string const RASTER_PLOT_COAST_TITLE = "Rasterized coastline";
@@ -767,8 +789,11 @@ string const RASTER_PLOT_SUSPENDED_SEDIMENT_TITLE = "Suspended sediment depth";
 string const RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION_TITLE = "Total actual (constrained) beach erosion depth";
 string const RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION_TITLE = "Total actual (constrained) shore platform erosion depth";
 string const RASTER_PLOT_TOTAL_BEACH_DEPOSITION_TITLE = "Total beach deposition depth";
-string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_TITLE = "Total of cliff collapse deposition depth";
-string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_TITLE = "Total of cliff collapse depth";
+string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE = "Total depth of sand talus from cliff collapse";
+string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE = "Total depth of coarse talus from cliff collapse";
+string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_TITLE = "Total of cliff collapse erosion depth, fine";
+string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_TITLE = "Total of cliff collapse erosion depth, sand";
+string const RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_TITLE = "Total of cliff collapse erosion depth, coarse";
 string const RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION_TITLE = "Total potential (unconstrained) beach erosion depth";
 string const RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION_TITLE = "Total potential (unconstrained) shore platform erosion depth";
 string const RASTER_PLOT_WAVE_HEIGHT_TITLE = "Wave height";
@@ -937,12 +962,29 @@ bool bIsBetween(T a, T b, T c)
 }
 
 template <typename T>
-string strNumToStr(const T &t)
+string strDblToStr(const T &t)
 {
     // From http://stackoverflow.com/questions/2125880/convert-float-to-stdstring-in-c
     ostringstream os;
     os << t;
     return os.str();
+}
+
+/*==============================================================================================================================
+
+For comparison of two floating-point numbers, with a specified accuracy
+
+==============================================================================================================================*/
+template <class T>
+bool bFPIsEqual(const T d1, const T d2, const T dEpsilon)
+{
+   // Since the accuracy of floating-point numbers varies with their magnitude, we must compare them by using an accuracy threshold which is relative to the magnitude of the two numbers being compared. This is a blend of an example from Knuth's 'The Art of Computer Programming. Volume 1. Fundamental Algorithms' and a posting dated 18 Nov 93 by rmartin@rcmcon.com (Robert Martin), archived in cpp_tips
+   if ((0 == d1) && (tAbs(d2) < dEpsilon))
+      return true;
+   else if ((0 == d2) && (tAbs(d1) < dEpsilon))
+      return true;
+   else
+      return ((tAbs(d1 - d2) < (dEpsilon * tAbs(d1))) ? true : false);
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -953,6 +995,7 @@ int nRound(double const);
 // bool bIsWhole(double const);
 bool bIsStringValidDouble(string &);
 bool bIsStringValidInt(string &);
+
 struct FillToWidth
 {
     FillToWidth(char f, int w) : chFill(f), nWidth(w)
@@ -962,6 +1005,13 @@ struct FillToWidth
     int nWidth;
 };
 ostream &operator<<(ostream &, const FillToWidth &);
+
+string strDbl(double const, int const);
+string strDblRight(double const, int const, int const, bool = false);
+string strIntRight(int const, int const);
+string strCentre(string const, int const);
+string strRight(string const, int const);
+string strLeft(string const, int const);
 
 #endif
 

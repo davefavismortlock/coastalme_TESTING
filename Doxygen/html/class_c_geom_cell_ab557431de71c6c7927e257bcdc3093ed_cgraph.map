@@ -1,0 +1,7 @@
+<map id="CGeomCell::dGetTotConsCoarseThickConsiderNotch" name="CGeomCell::dGetTotConsCoarseThickConsiderNotch">
+<area shape="rect" id="node1" title="Returns the total thickness of coarse consolidated sediment on this cell, minus the depth&#45;equivalent ..." alt="" coords="5,71,236,112"/>
+<area shape="rect" id="node2" href="$class_c_r_w_cell_layer.html#a32e85ba5d2fcc628d8212a426ce75b0f" title=" " alt="" coords="304,5,503,47"/>
+<area shape="rect" id="node4" href="$class_c_r_w_cell_sediment.html#ac96207eb3a1e11ae0e48e71eb89a13ef" title=" " alt="" coords="295,71,512,112"/>
+<area shape="rect" id="node5" href="$class_c_r_w_cell_layer.html#a30800b5cd971976ffec36381d4e54342" title=" " alt="" coords="284,136,523,177"/>
+<area shape="rect" id="node3" href="$class_c_r_w_cell_sediment.html#a7f2edac8db7d8e47ec400f4b06efd1a5" title=" " alt="" coords="571,13,795,39"/>
+</map>

@@ -18,26 +18,26 @@
 #define SEDIMENT_H
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 class CRWCellSediment
 {
 private:
    double
-      m_dFine,                // Depth equivalent in m
-      m_dNotchFineLost,       // Depth equivalent (m) of sediment lost via notch incision
-      m_dSand,                // Depth equivalent in m
-      m_dNotchSandLost,       // Depth equivalent (m) of sediment lost via notch incision
-      m_dCoarse,              // Depth equivalent in m
-      m_dNotchCoarseLost,     // Depth equivalent (m) of sediment lost via notch incision
-      m_dTotSedimentInput;    // Total depth (m, from all size classes) of sediment input events, since start of simulation
+      m_dFine,                      // Depth equivalent of fine sediment in m
+      m_dNotchFineLost,             // Depth equivalent (m) of fine sediment lost via notch incision
+      m_dSand,                      // Depth equivalent of sand sediment in m
+      m_dNotchSandLost,             // Depth equivalent (m) of sand sediment lost via notch incision
+      m_dCoarse,                    // Depth equivalent of coarse sediment in m
+      m_dNotchCoarseLost,           // Depth equivalent (m) of coarse sediment lost via notch incision
+      m_dTotSedimentInput;          // Total depth (m, from all size classes) of sediment input events, since start of simulation
 
 public:
    CRWCellSediment(void);

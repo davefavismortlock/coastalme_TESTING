@@ -1,4 +1,6 @@
 <map id="tMin" name="tMin">
-<area shape="rect" id="node1" title=" " alt="" coords="224,5,275,32"/>
-<area shape="rect" id="node2" href="$class_c_r_w_cliff.html#a51192ae84cf9469ac21d716dc7869905" title=" " alt="" coords="5,5,176,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="361,31,412,57"/>
+<area shape="rect" id="node2" href="$class_c_r_w_cliff.html#a4130546498a9a0adedad9d6df31961af" title="Increases the XY&#45;plane length (in external CRS units) of the erosional notch, measured inland from th..." alt="" coords="129,5,292,32"/>
+<area shape="rect" id="node3" href="$class_c_simulation.html#ac72a34bfb2593d1aa861240ac243962f" title="Runs the simulation." alt="" coords="108,56,313,83"/>
+<area shape="rect" id="node4" href="$cme_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,60,83"/>
 </map>

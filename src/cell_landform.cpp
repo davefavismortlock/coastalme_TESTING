@@ -13,19 +13,19 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include "cme.h"
 #include "cell_landform.h"
 
-
+//! Constructor
 CRWCellLandform::CRWCellLandform()
 :  m_nCategory(LF_NONE),
    m_nSubCategory(LF_NONE),
@@ -35,6 +35,7 @@ CRWCellLandform::CRWCellLandform()
 {
 }
 
+//! Destructor
 CRWCellLandform::~CRWCellLandform(void)
 {
 }
@@ -69,7 +70,6 @@ int CRWCellLandform::nGetLFSubCategory(void) const
 {
    return  m_nSubCategory;
 }
-
 
 //! Set the coast number
 void CRWCellLandform::SetCoast(int const nCoastIn)
@@ -120,15 +120,15 @@ double CRWCellLandform::dGetCliffNotchBaseElev(void) const
 }
 
 //! Set the cliff notch overhang which remains on this cell
-void CRWCellLandform::SetCliffNotchOverhang(double const dLenIn)
+void CRWCellLandform::SetCliffNotchDepth(double const dLenIn)
 {
-   m_uLFData.m_sCliffData.m_dNotchOverhang = dLenIn;
+   m_uLFData.m_sCliffData.m_dNotchDepth = dLenIn;
 }
 
 //! Get the cliff notch overhang which remains on this cell
-double CRWCellLandform::dGetCliffNotchOverhang(void) const
+double CRWCellLandform::dGetCliffNotchDepth(void) const
 {
-   return m_uLFData.m_sCliffData.m_dNotchOverhang;
+   return m_uLFData.m_sCliffData.m_dNotchDepth;
 }
 
 //! Set the cliff depth remaining on this cell

@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <assert.h>
@@ -30,6 +30,9 @@ using std::cout;
 using std::endl;
 using std::ios;
 
+#include <iomanip>
+using std::setprecision;
+
 #include <cfloat>
 
 #include "cme.h"
@@ -39,7 +42,7 @@ using std::ios;
 
 /*==============================================================================================================================
 
- The CSimulation constructor
+The CSimulation constructor
 
 ==============================================================================================================================*/
 CSimulation::CSimulation (void)
@@ -157,6 +160,9 @@ CSimulation::CSimulation (void)
    m_bStormSurgeSave =
    m_bDoFlood =
    m_bRunUpSave =
+   m_bSetupSurgeFloodMaskSave =
+   m_bSetupSurgeRunupFloodMaskSave =
+   m_bRasterWaveFloodLineSave =
    m_bVectorWaveFloodLineSave =
    m_bFloodLocation =
    m_bFloodSWLSetupLine =
@@ -200,7 +206,8 @@ CSimulation::CSimulation (void)
    m_nSimStartYear =
    m_nDeepWaterWaveDataNTimeSteps =
    m_nLogFileDetail =
-   m_nRunUpEquation = 0;
+   m_nRunUpEquation = 
+   m_nLevel = 0;
 
    // NOTE May wish to make this a user-supplied value
    m_nMissingValue = INT_NODATA;
@@ -250,8 +257,8 @@ CSimulation::CSimulation (void)
    m_dSimDuration =
    m_dTimeStep =
    m_dSimElapsed =
-   m_dRSaveTime =
-   m_dRSaveInterval =
+   m_dRegularSaveTime =
+   m_dRegularSaveInterval =
    m_dClkLast =
    m_dCPUClock =
    m_dSeaWaterDensity =
@@ -289,28 +296,22 @@ CSimulation::CSimulation (void)
    m_dCoastNormalLength =
    m_dThisIterTotSeaDepth =
    m_dThisIterPotentialSedLostBeachErosion =
-   m_dThisIterActualFineSedLostBeachErosion =
-   m_dThisIterActualSandSedLostBeachErosion =
-   m_dThisIterActualCoarseSedLostBeachErosion =
+   m_dThisIterLeftGridUnconsFine =
+   m_dThisIterLeftGridUnconsSand =
+   m_dThisIterLeftGridUnconsCoarse =
    m_dThisIterSandSedLostCliffCollapse =
    m_dThisIterCoarseSedLostCliffCollapse =
    m_dThisIterPotentialPlatformErosion =
-   m_dThisIterActualPlatformErosionFine =
-   m_dThisIterActualPlatformErosionSand =
-   m_dThisIterActualPlatformErosionCoarse =
+   m_dThisIterActualPlatformErosionFineCons =
+   m_dThisIterActualPlatformErosionSandCons =
+   m_dThisIterActualPlatformErosionCoarseCons =
    m_dThisIterPotentialBeachErosion =
-   m_dThisIterActualBeachErosionFine =
-   m_dThisIterActualBeachErosionSand =
-   m_dThisIterActualBeachErosionCoarse =
+   m_dThisIterBeachErosionFine =
+   m_dThisIterBeachErosionSand =
+   m_dThisIterBeachErosionCoarse =
    m_dThisIterBeachDepositionSand =
    m_dThisIterBeachDepositionCoarse =
-   m_dThisIterEstimatedActualFineBeachErosion =
-   m_dThisIterEstimatedActualSandBeachErosion =
-   m_dThisIterEstimatedActualCoarseBeachErosion =
    m_dThisIterFineSedimentToSuspension =
-   m_dThisIterErosionFineDiff =
-   m_dThisIterErosionSandDiff =
-   m_dThisIterErosionCoarseDiff =
    m_dThisIterDepositionSandDiff =
    m_dThisIterDepositionCoarseDiff =
    m_dDepthOverDBMax =
@@ -319,20 +320,23 @@ CSimulation::CSimulation (void)
    m_dProfileMaxSlope =
    m_dMaxBeachElevAboveSWL =
    m_dCliffErosionResistance =
-   m_dNotchOverhangAtCollapse =
+   m_dNotchDepthAtCollapse =
    m_dNotchBaseBelowSWL =
    m_dCliffDepositionA =
    m_dCliffDepositionPlanviewWidth =
    m_dCliffDepositionPlanviewLength =
    m_dCliffDepositionHeightFrac =
-   m_dThisIterCliffCollapseErosionFine =
-   m_dThisIterCliffCollapseErosionSand =
-   m_dThisIterCliffCollapseErosionCoarse =
-   m_dThisIterCliffDepositionSand =
-   m_dThisIterCliffDepositionCoarse =
-   m_dThisIterCliffErosionFine =
-   m_dThisIterCliffTalusSandErosion =
-   m_dThisIterCliffTalusCoarseErosion =
+   m_dThisIterCliffCollapseErosionFineUncons =
+   m_dThisIterCliffCollapseErosionSandUncons =
+   m_dThisIterCliffCollapseErosionCoarseUncons =
+   m_dThisIterCliffCollapseErosionFineCons =
+   m_dThisIterCliffCollapseErosionSandCons =
+   m_dThisIterCliffCollapseErosionCoarseCons =
+   m_dThisIterUnconsSandCliffDeposition =
+   m_dThisIterUnconsCoarseCliffDeposition =
+   m_dThisIterCliffCollapseFineErodedDuringDeposition =
+   m_dThisIterCliffCollapseSandErodedDuringDeposition =
+   m_dThisIterCliffCollapseCoarseErodedDuringDeposition =
    m_dCoastNormalRandSpaceFact =
    m_dDeanProfileStartAboveSWL =
    m_dAccumulatedSeaLevelChange =
@@ -340,9 +344,19 @@ CSimulation::CSimulation (void)
    m_dWaveDataWrapHours =
    m_dThisIterTopElevMax =
    m_dThisIterTopElevMin =
-   m_dThisiterFineSedimentInput =
-   m_dThisiterSandSedimentInput =
-   m_dThisiterCoarseSedimentInput = 0;
+   m_dThisiterUnconsFineInput =
+   m_dThisiterUnconsSandInput =
+   m_dThisiterUnconsCoarseInput = 
+   m_dStartIterSuspFine =
+   m_dStartIterUnconsSand =
+   m_dStartIterUnconsCoarse = 
+   m_dStartIterConsFine =
+   m_dStartIterConsSand =
+   m_dStartIterConsCoarse = 
+   m_dThisIterDiffTotWaterLevel = 
+   m_dThisIterDiffWaveSetupWaterLevel = 
+   m_dThisIterDiffWaveSetupSurgeWaterLevel = 
+   m_dThisIterDiffWaveSetupSurgeRunupWaterLevel = 0;
 
    m_dMinSWL = DBL_MAX;
    m_dMaxSWL = DBL_MIN;
@@ -358,19 +372,20 @@ CSimulation::CSimulation (void)
    m_ldGTotSandActualPlatformErosion =
    m_ldGTotCoarseActualPlatformErosion =
    m_ldGTotPotentialSedLostBeachErosion =
-   m_ldGTotActualFineSedLostBeachErosion =
-   m_ldGTotActualSandSedLostBeachErosion =
-   m_ldGTotActualCoarseSedLostBeachErosion =
+   m_ldGTotActualFineLostBeachErosion =
+   m_ldGTotActualSandLostBeachErosion =
+   m_ldGTotActualCoarseLostBeachErosion =
    m_ldGTotSandSedLostCliffCollapse =
    m_ldGTotCoarseSedLostCliffCollapse =
    m_ldGTotCliffCollapseFine =
    m_ldGTotCliffCollapseSand =
    m_ldGTotCliffCollapseCoarse =
+   m_ldGTotCliffTalusFineToSuspension =
    m_ldGTotCliffTalusSandDeposition =
    m_ldGTotCliffTalusCoarseDeposition =
-   m_ldGTotCliffTalusFineErosion =
-   m_ldGTotCliffTalusSandErosion =
-   m_ldGTotCliffTalusCoarseErosion =
+   m_ldGTotCliffCollapseFineErodedDuringDeposition =
+   m_ldGTotCliffCollapseSandErodedDuringDeposition =
+   m_ldGTotCliffCollapseCoarseErodedDuringDeposition =
    m_ldGTotPotentialBeachErosion =
    m_ldGTotActualFineBeachErosion =
    m_ldGTotActualSandBeachErosion =
@@ -378,9 +393,6 @@ CSimulation::CSimulation (void)
    m_ldGTotSandBeachDeposition =
    m_ldGTotCoarseBeachDeposition =
    m_ldGTotSuspendedSediment =
-   m_ldGTotErosionFineDiff =
-   m_ldGTotErosionSandDiff =
-   m_ldGTotErosionCoarseDiff =
    m_ldGTotSandDepositionDiff =
    m_ldGTotCoarseDepositionDiff =
    m_ldGTotFineSedimentInput =
@@ -402,7 +414,7 @@ CSimulation::CSimulation (void)
 
 /*==============================================================================================================================
 
- The CSimulation destructor
+The CSimulation destructor
 
 ==============================================================================================================================*/
 CSimulation::~CSimulation (void)
@@ -478,51 +490,101 @@ CSimulation::~CSimulation (void)
       delete m_pRasterGrid;
 }
 
+/*==============================================================================================================================
+
+Returns the double Missing Value code
+
+==============================================================================================================================*/
 double CSimulation::dGetMissingValue (void) const
 {
    return m_dMissingValue;
 }
 
+/*==============================================================================================================================
+
+Returns the Still Water Level
+
+==============================================================================================================================*/
 double CSimulation::dGetThisIterSWL (void) const
 {
    return m_dThisIterSWL;
 }
 
+/*==============================================================================================================================
+
+Returns the this-iteration total water level
+
+==============================================================================================================================*/
 double CSimulation::dGetThisIterTotWaterLevel (void) const
 {
    return m_dThisIterDiffTotWaterLevel;
 }
 
+/*==============================================================================================================================
+
+Returns the max elevation of the beach above SWL
+
+==============================================================================================================================*/
 double CSimulation::dGetMaxBeachElevAboveSWL (void) const
 {
    return m_dMaxBeachElevAboveSWL;
 }
 
+/*==============================================================================================================================
+
+Returns the cell side length
+
+==============================================================================================================================*/
 // double CSimulation::dGetCellSide(void) const
 // {
 //    return m_dCellSide;
 // }
 
+/*==============================================================================================================================
+
+Returns X grid max
+
+==============================================================================================================================*/
 int CSimulation::nGetGridXMax (void) const
 {
    return m_nXGridMax;
 }
 
+/*==============================================================================================================================
+
+Returns Y grid max
+
+==============================================================================================================================*/
 int CSimulation::nGetGridYMax (void) const
 {
    return m_nYGridMax;
 }
 
+/*==============================================================================================================================
+
+Returns D50 for fine sediment
+
+==============================================================================================================================*/
 double CSimulation::dGetD50Fine (void) const
 {
    return m_dD50Fine;
 }
 
+/*==============================================================================================================================
+
+Returns D50 for sand sediment
+
+==============================================================================================================================*/
 double CSimulation::dGetD50Sand (void) const
 {
    return m_dD50Sand;
 }
 
+/*==============================================================================================================================
+
+Returns D50 for coarse sediment
+
+==============================================================================================================================*/
 double CSimulation::dGetD50Coarse (void) const
 {
    return m_dD50Coarse;
@@ -530,7 +592,7 @@ double CSimulation::dGetD50Coarse (void) const
 
 /*==============================================================================================================================
 
- The nDoSimulation member function of CSimulation sets up and runs the simulation
+The nDoSimulation member function of CSimulation sets up and runs the simulation
 
 ==============================================================================================================================*/
 int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
@@ -548,7 +610,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    StartClock();
 
    // Find out the folder in which the CoastalME executable sits, in order to open the .ini file (they are assumed to be in the same folder)
-   if (!bFindExeDir (pcArgv[0]))
+   if (! bFindExeDir (pcArgv[0]))
       return (RTN_ERR_CMEDIR);
 
    // Deal with command-line parameters
@@ -561,27 +623,27 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    AnnounceLicence();
 
    // Read the .ini file and get the name of the run-data file, and path for output etc.
-   if (!bReadIniFile())
+   if (! bReadIniFile())
       return (RTN_ERR_INI);
 
    // We have the name of the run-data input file, so read it
-   if (!bReadRunDataFile())
+   if (! bReadRunDataFile())
       return RTN_ERR_RUNDATA;
 
    // Check raster GIS output format
-   if (!bCheckRasterGISOutputFormat())
+   if (! bCheckRasterGISOutputFormat())
       return (RTN_ERR_RASTER_GIS_OUT_FORMAT);
 
    // Check vector GIS output format
-   if (!bCheckVectorGISOutputFormat())
+   if (! bCheckVectorGISOutputFormat())
       return (RTN_ERR_VECTOR_GIS_OUT_FORMAT);
 
    // Open log file
-   if (!bOpenLogFile())
+   if (! bOpenLogFile())
       return (RTN_ERR_LOGFILE);
 
    // Set up the time series output files
-   if (!bSetUpTSFiles())
+   if (! bSetUpTSFiles())
       return (RTN_ERR_TSFILE);
 
    // Initialize the random number generators
@@ -698,7 +760,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       return (nRet);
 
    // Maybe read in the landform class data, otherwise calculate this during the first timestep using identification rules
-   if (!m_strInitialLandformFile.empty())
+   if (! m_strInitialLandformFile.empty())
    {
       AnnounceReadLGIS();
       nRet = nReadRasterGISFile (LANDFORM_RASTER, 0);
@@ -708,7 +770,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    }
 
    // Maybe read in intervention data
-   if (!m_strInterventionClassFile.empty())
+   if (! m_strInterventionClassFile.empty())
    {
       AnnounceReadICGIS();
       nRet = nReadRasterGISFile (INTERVENTION_CLASS_RASTER, 0);
@@ -724,7 +786,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    }
 
    // Maybe read in the tide data
-   if (!m_strTideDataFile.empty())
+   if (! m_strTideDataFile.empty())
    {
       AnnounceReadTideData();
       nRet = nReadTideDataFile();
@@ -822,7 +884,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
    // Misc initialization calcs
    m_nCoastMax = COAST_LENGTH_MAX * tMax (m_nXGridMax, m_nYGridMax); // Arbitrary but probably OK
-   m_nCoastMin = tMin (m_nXGridMax, m_nYGridMax);                   // MCB, in some cases the following rule doesnt work
+   m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                   // MCB, in some cases the following rule doesnt work
    // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide); // Ditto
    m_nCoastCurvatureInterval = tMax (nRound (m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2); // Ditto
 
@@ -876,7 +938,10 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       // Tell the user how the simulation is progressing
       AnnounceProgress();
 
-      LogStream << "TIMESTEP " << m_ulIter << " ================================================================================================" << endl;
+      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+         LogStream << "TIMESTEP " << m_ulIter << " ================================================================================================" << endl << endl;
+      
+      LogStream << std::fixed << setprecision(3);
 
       // Check to see if there is a new intervention in place: if so, update it on the RasterGrid array
       nRet = nUpdateIntervention();
@@ -902,7 +967,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       if (nRet != RTN_OK)
          return nRet;
 
-      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << endl;
 
       // Tell the user how the simulation is progressing
@@ -982,7 +1047,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       if (nRet != RTN_OK)
          return nRet;
 
-      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << endl;
 
       // Tell the user how the simulation is progressing
@@ -1013,14 +1078,14 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       if (nRet != RTN_OK)
          return nRet;
-
+      
       // Change the wave properties in all shallow water sea cells: propagate waves and define the active zone, also locate wave shadow zones
       nRet = nDoAllPropagateWaves();
 
       if (nRet != RTN_OK)
          return nRet;
 
-      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << endl;
 
       // Tell the user how the simulation is progressing
@@ -1123,10 +1188,11 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
             return nRet;
       }
 
-      // Add the fine sediment that was eroded this timestep (from the shore platform, from beach erosion, and cliff collapse talus deposition, minus the fine that went off-grid) to the suspended sediment load
-      double dFineThisIter = m_dThisIterActualPlatformErosionFine + m_dThisIterActualBeachErosionFine + m_dThisIterCliffErosionFine - m_dThisIterActualFineSedLostBeachErosion;
+      // Add the fine sediment that was eroded this timestep (from the shore platform, from cliff collapse, from erosion of existing fine sediment during cliff collapse talus deposition, and from beach erosion; minus the fine sediment from beach erosion that went off-grid) to the suspended sediment load
+      double dFineThisIter = m_dThisIterActualPlatformErosionFineCons + m_dThisIterCliffCollapseErosionFineUncons + m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseFineErodedDuringDeposition + m_dThisIterBeachErosionFine - m_dThisIterLeftGridUnconsFine;
+      
       m_dThisIterFineSedimentToSuspension += dFineThisIter;
-
+      
       // Tell the user how the simulation is progressing
       AnnounceProgress();
 
@@ -1196,7 +1262,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Do some end-of-timestep updates to the raster grid, also update per-timestep and running totals
       nRet = nUpdateGrid();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -1204,31 +1269,37 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       if (m_bFloodSWLSetupSurgeLine | m_bSetupSurgeFloodMaskSave)
       {
          m_nLevel = 0;
+         
          nRet = nLocateFloodAndCoasts();
+         if (nRet != RTN_OK)
+            return nRet;
       }
 
       if (m_bFloodSWLSetupSurgeRunupLine | m_bSetupSurgeRunupFloodMaskSave)
       {
          m_nLevel = 1;
+         
          nRet = nLocateFloodAndCoasts();
+         if (nRet != RTN_OK)
+            return nRet;
       }
 
       // Now save results, first the raster and vector GIS files if required
       m_bSaveGISThisIter = false;
 
-      if ( (m_bSaveRegular && (m_dSimElapsed >= m_dRSaveTime) && (m_dSimElapsed < m_dSimDuration)) || (!m_bSaveRegular && (m_dSimElapsed >= m_dUSaveTime[m_nThisSave])))
+      if ( (m_bSaveRegular && (m_dSimElapsed >= m_dRegularSaveTime) && (m_dSimElapsed < m_dSimDuration)) || (! m_bSaveRegular && (m_dSimElapsed >= m_dUSaveTime[m_nThisSave])))
       {
          m_bSaveGISThisIter = true;
 
          // Save the values from the RasterGrid array into raster GIS files
-         if (!bSaveAllRasterGISFiles())
+         if (! bSaveAllRasterGISFiles())
             return (RTN_ERR_RASTER_FILE_WRITE);
 
          // Tell the user how the simulation is progressing
          AnnounceProgress();
 
          // Save the vector GIS files
-         if (!bSaveAllVectorGISFiles())
+         if (! bSaveAllVectorGISFiles())
             return (RTN_ERR_VECTOR_FILE_WRITE);
 
          // Tell the user how the simulation is progressing
@@ -1236,18 +1307,18 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       }
 
       // Output per-timestep results to the .out file
-      if (!bWritePerTimestepResults())
+      if (! bWritePerTimestepResults())
          return (RTN_ERR_TEXT_FILE_WRITE);
 
       // Now output time series CSV stuff
-      if (!bWriteTSFiles())
+      if (! bWriteTSFiles())
          return (RTN_ERR_TIMESERIES_FILE_WRITE);
 
       // Tell the user how the simulation is progressing
       AnnounceProgress();
 
       // Update grand totals
-      UpdateGrandTotals();
+      DoTimestepTotals();
    } // ================================================ End of main loop ======================================================
 
    // =================================================== post-loop tidying =====================================================

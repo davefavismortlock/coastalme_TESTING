@@ -13,13 +13,13 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include <assert.h>
@@ -49,7 +49,7 @@ using std::to_string;
 
 /*==============================================================================================================================
 
- Reads a raster DEM of basement elevation data to the Cell array
+Reads a raster DEM of basement elevation data to the Cell array
 
 ===============================================================================================================================*/
 int CSimulation::nReadRasterBasementDEM(void)
@@ -69,7 +69,7 @@ int CSimulation::nReadRasterBasementDEM(void)
    m_strGDALBasementDEMProjection = pGDALDataset->GetProjectionRef();
 
    // If we have reference units, then check that they are in meters (note US spelling)
-   if (!m_strGDALBasementDEMProjection.empty())
+   if (! m_strGDALBasementDEMProjection.empty())
    {
       string strTmp = strToLower(&m_strGDALBasementDEMProjection);
       if (strTmp.find("meter") == string::npos)
@@ -199,7 +199,7 @@ int CSimulation::nReadRasterBasementDEM(void)
       {
          double dTmp = pdScanline[i];
 
-         if (!isfinite(dTmp)) // Deal with any NaN values
+         if (! isfinite(dTmp)) // Deal with any NaN values
             dTmp = m_dMissingValue;
 
          m_pRasterGrid->m_Cell[i][j].SetBasementElev(dTmp);
@@ -244,10 +244,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
       }
    }
 
-   if (!bFound)
+   if (! bFound)
    {
-      if (m_nLogFileDetail >= LOG_FILE_MOST_DETAIL)
-         LogStream << m_ulIter << ": north (top) " << endl;
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+         LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): north (top) " << endl;
       return RTN_ERR_BOUNDING_BOX;
    }
 
@@ -270,10 +270,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
       }
    }
 
-   if (!bFound)
+   if (! bFound)
    {
-      if (m_nLogFileDetail >= LOG_FILE_MOST_DETAIL)
-         LogStream << m_ulIter << ": east (right) edge of bounding box not found" << endl;
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+         LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): east (right) edge of bounding box not found" << endl;
       return RTN_ERR_BOUNDING_BOX;
    }
 
@@ -296,10 +296,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
       }
    }
 
-   if (!bFound)
+   if (! bFound)
    {
-      if (m_nLogFileDetail >= LOG_FILE_MOST_DETAIL)
-         LogStream << m_ulIter << ": south (bottom) edge of bounding box not found" << endl;
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+         LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): south (bottom) edge of bounding box not found" << endl;
       return RTN_ERR_BOUNDING_BOX;
    }
 
@@ -322,10 +322,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
       }
    }
 
-   if (!bFound)
+   if (! bFound)
    {
-      if (m_nLogFileDetail >= LOG_FILE_MOST_DETAIL)
-         LogStream << m_ulIter << ": west (left) edge of bounding box not found" << endl;
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+         LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): west (left) edge of bounding box not found" << endl;
       return RTN_ERR_BOUNDING_BOX;
    }
 
@@ -351,10 +351,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
          break;
       }
 
-      if (!bFound)
+      if (! bFound)
       {
          if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-            LogStream << m_ulIter << ": could not find a bounding box edge cell for grid column " << nX << endl;
+            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): could not find a bounding box edge cell for grid column " << nX << endl;
          return RTN_ERR_BOUNDING_BOX;
       }
    }
@@ -381,10 +381,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
          break;
       }
 
-      if (!bFound)
+      if (! bFound)
       {
          if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-            LogStream << m_ulIter << ": could not find a bounding box edge cell for grid row " << nY << endl;
+            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): could not find a bounding box edge cell for grid row " << nY << endl;
          return RTN_ERR_BOUNDING_BOX;
       }
    }
@@ -411,10 +411,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
          break;
       }
 
-      if (!bFound)
+      if (! bFound)
       {
          if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-            LogStream << m_ulIter << ": could not find a bounding box edge cell for grid column " << nX << endl;
+            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): could not find a bounding box edge cell for grid column " << nX << endl;
          return RTN_ERR_BOUNDING_BOX;
       }
    }
@@ -441,10 +441,10 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
          break;
       }
 
-      if (!bFound)
+      if (! bFound)
       {
          if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-            LogStream << m_ulIter << ": could not find a bounding box edge cell for grid row " << nY << endl;
+            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): could not find a bounding box edge cell for grid row " << nY << endl;
          return RTN_ERR_BOUNDING_BOX;
       }
    }
@@ -454,7 +454,7 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
 
 /*==============================================================================================================================
 
- Reads all other raster GIS datafiles into the RasterGrid array
+Reads all other raster GIS datafiles into the RasterGrid array
 
 ===============================================================================================================================*/
 int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
@@ -756,7 +756,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Landform Class GIS data, is integer TODO Do we also need a landform sub-category input?
                nTmp = static_cast<int>(pdScanline[nX]);
 
-               if (!isfinite(nTmp)) // Deal with any NaN values
+               if (! isfinite(nTmp)) // Deal with any NaN values
                {
                   nTmp = m_nMissingValue;
                   nMissing++;
@@ -769,7 +769,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Intervention class, is integer
                nTmp = static_cast<int>(pdScanline[nX]);
 
-               if (!isfinite(nTmp)) // Deal with any NaN values
+               if (! isfinite(nTmp)) // Deal with any NaN values
                {
                   nTmp = m_nMissingValue;
                   nMissing++;
@@ -782,7 +782,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Intervention height
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -795,7 +795,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Suspended Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -808,7 +808,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Unconsolidated Fine Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -821,7 +821,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Unconsolidated Sand Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -834,7 +834,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Unconsolidated Coarse Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -847,7 +847,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Consolidated Fine Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -860,7 +860,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Consolidated Sand Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -873,7 +873,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
                // Initial Consolidated Coarse Sediment GIS data
                dTmp = pdScanline[nX];
 
-               if (!isfinite(dTmp)) // Deal with any NaN values
+               if (! isfinite(dTmp)) // Deal with any NaN values
                {
                   dTmp = m_dMissingValue;
                   nMissing++;
@@ -903,7 +903,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
 
 /*==============================================================================================================================
 
- Writes GIS raster files using GDAL, using data from the RasterGrid array
+Writes GIS raster files using GDAL, using data from the RasterGrid array
 
 ===============================================================================================================================*/
 bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlotTitle, int const nLayer, double const dElev)
@@ -1043,20 +1043,44 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
       strFilePathName.append(strLayer);
       break;
 
-   case (RASTER_PLOT_CLIFF_COLLAPSE):
-      strFilePathName.append(RASTER_CLIFF_COLLAPSE_NAME);
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE):
+      strFilePathName.append(RASTER_CLIFF_COLLAPSE_EROSION_FINE_NAME);
       break;
 
-   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE):
-      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_NAME);
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND):
+      strFilePathName.append(RASTER_CLIFF_COLLAPSE_EROSION_SAND_NAME);
       break;
 
-   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT):
-      strFilePathName.append(RASTER_CLIFF_COLLAPSE_DEPOSITION_NAME);
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE):
+      strFilePathName.append(RASTER_CLIFF_COLLAPSE_EROSION_COARSE_NAME);
       break;
 
-   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT):
-      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_NAME);
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE):
+      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_NAME);
+      break;
+
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND):
+      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_NAME);
+      break;
+
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE):
+      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_NAME);
+      break;
+
+   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND):
+      strFilePathName.append(RASTER_CLIFF_COLLAPSE_DEPOSITION_SAND_NAME);
+      break;
+
+   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+      strFilePathName.append(RASTER_CLIFF_COLLAPSE_DEPOSITION_COARSE_NAME);
+      break;
+
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND):
+      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_SAND_NAME);
+      break;
+
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+      strFilePathName.append(RASTER_TOTAL_CLIFF_COLLAPSE_DEPOSITION_COARSE_NAME);
       break;
 
    case (RASTER_PLOT_INTERVENTION_HEIGHT):
@@ -1183,12 +1207,12 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    else
    {
       // Save number is iteration
-      ststrTmp << FillToWidth('0', m_nGISMaxSaveDigits) << m_dUSaveTime[m_nGISSave - 1];
+      ststrTmp << FillToWidth('0', m_nGISMaxSaveDigits) << m_ulIter;
    }
    strFilePathName.append(ststrTmp.str());
 
    // Finally, maybe append the extension
-   if (!m_strGDALRasterOutputDriverExtension.empty())
+   if (! m_strGDALRasterOutputDriverExtension.empty())
    {
       strFilePathName.append(".");
       strFilePathName.append(m_strGDALRasterOutputDriverExtension);
@@ -1256,7 +1280,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
        dRangeScale = 0,
        dDataMin = 0;
 
-   if (!m_bGDALCanWriteFloat)
+   if (! m_bGDALCanWriteFloat)
    {
       double dDataMax = 0;
 
@@ -1421,20 +1445,44 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
             dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetCoarse();
             break;
 
-         case (RASTER_PLOT_CLIFF_COLLAPSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetCliffCollapse();
+         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
             break;
 
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapse();
+         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
             break;
 
-         case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetCliffCollapseDeposition();
+         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
             break;
 
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseDeposition();
+         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseFine();
+            break;
+
+         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseSand();
+            break;
+
+         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseCoarse();
+            break;
+
+         case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
+            break;
+
+         case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition();
+            break;
+
+         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSandTalusDeposition();
+            break;
+
+         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCoarseTalusDeposition();
             break;
 
          case (RASTER_PLOT_INTERVENTION_HEIGHT):
@@ -1470,7 +1518,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
             else
             {
                // Get total volume (all sediment size classes) of change in sediment for this polygon for this timestep (-ve erosion, +ve deposition)
-               dTmp = m_pVCoastPolygon[nPoly]->dGetDeltaActualTotalSediment() * m_dCellArea;
+               dTmp = m_pVCoastPolygon[nPoly]->dGetDepositionAllUncons() * m_dCellArea;
 
                // Calculate the rate in m^3 / sec
                dTmp /= (m_dTimeStep * 3600);
@@ -1615,10 +1663,16 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    case (RASTER_PLOT_FINE_CONSOLIDATED_SEDIMENT):
    case (RASTER_PLOT_SAND_CONSOLIDATED_SEDIMENT):
    case (RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT):
-   case (RASTER_PLOT_CLIFF_COLLAPSE):
-   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE):
-   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT):
-   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT):
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE):
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND):
+   case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE):
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE):
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND):
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE):
+   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND):
+   case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND):
+   case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE):
    case (RASTER_PLOT_INTERVENTION_HEIGHT):
    case (RASTER_PLOT_DEEP_WATER_WAVE_HEIGHT):
    case (RASTER_PLOT_SEDIMENT_INPUT):
@@ -1804,7 +1858,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    pBand->SetStatistics(dMin, dMax, dMean, dStdDev);
    CPLPopErrorHandler();
 
-   if (!m_bGDALCanCreate)
+   if (! m_bGDALCanCreate)
    {
       // Since the user-selected raster driver cannot use the Create() method, we have been writing to a dataset created by the in-memory driver. So now we need to use CreateCopy() to copy this in-memory dataset to a file in the user-specified raster driver format
       GDALDriver *pOutDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
@@ -1832,10 +1886,10 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
 
 /*===============================================================================================================================
 
- Interpolates wave properties from all profiles to all within-polygon sea cells. We use GDALGridCreate(), the library version of external utility gdal_grid, to do this
+Interpolates wave properties from all profiles to all within-polygon sea cells. We use GDALGridCreate(), the library version of external utility gdal_grid, to do this
 
 ===============================================================================================================================*/
-int CSimulation::nInterpolateWavePropertiesToWithinPolygonCells(vector<double> const *pVdX, vector<double> const *pVdY, vector<double> const *pVdHeightX, vector<double> const *pVdHeightY)
+int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vector<double> const *pVdY, vector<double> const *pVdHeightX, vector<double> const *pVdHeightY)
 {
    int
        nXSize = 0,
@@ -1874,6 +1928,8 @@ int CSimulation::nInterpolateWavePropertiesToWithinPolygonCells(vector<double> c
       GDALGridLinearOptions *pOptions = new GDALGridLinearOptions();
       pOptions->dfNoDataValue = m_dMissingValue; // Set the no-data marker to fill empty points
       pOptions->dfRadius = -1;                   // Set the search radius to infinite
+      pOptions->nSizeOfStructure = sizeof(GDALGridLinearOptions);    // Needed for GDAL 3.6 onwards, see https://gdal.org/api/gdal_alg.html#_CPPv421GDALGridLinearOptions
+      
       //      pOptions.dfRadius = static_cast<double>(nXSize + nYSize) / 2.0;                       // Set the search radius
 
       // GDALGridNearestNeighborOptions *pOptions = new GDALGridNearestNeighborOptions();
@@ -1916,7 +1972,7 @@ int CSimulation::nInterpolateWavePropertiesToWithinPolygonCells(vector<double> c
          // Unfortunately, GDALGridCreate(() outputs NaNs when the polygon are far from regular. So check for these
          for (unsigned int n = 0; n < VdOutX.size(); n++)
          {
-            if (!isfinite(VdOutX[n]))
+            if (! isfinite(VdOutX[n]))
                VdOutX[n] = m_dMissingValue; // VdOutX[n - 1]; // VdOutX[n - 1]; // m_dMissingValue; // MCB: if not valid, assign the nearest better than mean value of the whole mesh
             else
             {
@@ -1934,7 +1990,7 @@ int CSimulation::nInterpolateWavePropertiesToWithinPolygonCells(vector<double> c
          // Unfortunately, GDALGridCreate(() outputs NaNs when the polygon are far from regular. So check for these
          for (unsigned int n = 0; n < VdOutY.size(); n++)
          {
-            if (!isfinite(VdOutY[n]))
+            if (! isfinite(VdOutY[n]))
                VdOutY[n] = m_dMissingValue; // VdOutY[n - 1]; // VdOutY[n - 1]; // m_dMissingValue; // MCB: if not valid, assign the nearest better than mean value of the whole mesh;
             else
             {
@@ -2196,7 +2252,7 @@ int CSimulation::nInterpolateWavePropertiesToWithinPolygonCells(vector<double> c
 
 /*===============================================================================================================================
 
- If the user supplies multiple deep water wave height and angle values, this routine interplates these to all cells (including dry land cells)
+If the user supplies multiple deep water wave height and angle values, this routine interplates these to all cells (including dry land cells)
 
 ===============================================================================================================================*/
 int CSimulation::nInterpolateAllDeepWaterWaveValues(void)

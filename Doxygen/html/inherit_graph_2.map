@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$class_c_a_coast_landform.html" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="5,56,144,83"/>
-<area shape="rect" id="node2" href="$class_c_r_w_cliff.html" title="Real&#45;world class used to represent the &#39;cliff&#39; category of coastal landform object." alt="" coords="218,5,298,32"/>
+<area shape="rect" id="node2" href="$class_c_r_w_cliff.html" title="Real&#45;world class used to represent the &#39;cliff&#39; category of coastal landform object." alt="" coords="219,5,297,32"/>
 <area shape="rect" id="node3" href="$class_c_r_w_drift.html" title="Real&#45;world class used to represent the &#39;drift&#39; category of coastal landform object." alt="" coords="217,56,299,83"/>
 <area shape="rect" id="node4" href="$class_c_r_w_intervention.html" title="Real&#45;world class used to represent the &#39;intervention&#39; category of coastal landform objects." alt="" coords="192,107,324,133"/>
 </map>

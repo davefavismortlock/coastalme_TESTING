@@ -13,17 +13,22 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include "linearinterp.h"
 
+/*==============================================================================================================================
+
+TODO DFM What does this do? What is it here for? Need a description
+
+===============================================================================================================================*/
 int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
 {
    double dDist = DBL_MAX;
@@ -31,7 +36,7 @@ int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
 
    for (unsigned int i = 0; i < pVdX->size(); ++i)
    {
-      double dNewDist = tAbs (dValue - pVdX->at (i));
+      double dNewDist = tAbs(dValue - pVdX->at(i));
 
       if (dNewDist <= dDist)
       {
@@ -43,52 +48,56 @@ int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
    return nIdx;
 }
 
+/*==============================================================================================================================
 
-vector<double> VdInterp1 (vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdX_new)
+TODO DFM What does this do? What is it here for? Need a description. NOTE this crashes (divide by zero) if there are identical consecutive values in pVdX
+
+===============================================================================================================================*/
+vector<double> VdInterp1(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdX_new)
 {
    vector<double> VdY_new;
    double dX, dY;
    unsigned int
-   x_max_idx = static_cast<unsigned int> (pVdX->size()) - 1,
-   x_new_size = static_cast<unsigned int> (pVdX_new->size());
+   x_max_idx = static_cast<unsigned int>(pVdX->size()) - 1,
+   x_new_size = static_cast<unsigned int>(pVdX_new->size());
 
-   VdY_new.reserve (x_new_size);
+   VdY_new.reserve(x_new_size);
 
    for (unsigned int i = 0; i < x_new_size; ++i)
    {
-      unsigned int idx = nNearestNeighbourIndex (pVdX, pVdX_new->at (i));
+      unsigned int idx = nNearestNeighbourIndex(pVdX, pVdX_new->at(i));
 
-      if (pVdX->at (idx) > pVdX_new->at (i))
+      if (pVdX->at(idx) > pVdX_new->at(i))
       {
          if (idx > 0)
          {
-            dX = pVdX->at (idx) - pVdX->at (idx - 1);
-            dY = pVdY->at (idx) - pVdY->at (idx - 1);
+            dX = pVdX->at(idx) - pVdX->at(idx - 1);
+            dY = pVdY->at(idx) - pVdY->at(idx - 1);
          }
          else
          {
-            dX = pVdX->at (idx + 1) - pVdX->at (idx);
-            dY = pVdY->at (idx + 1) - pVdY->at (idx);
+            dX = pVdX->at(idx + 1) - pVdX->at(idx);
+            dY = pVdY->at(idx + 1) - pVdY->at(idx);
          }
       }
       else
       {
          if (idx < x_max_idx)
          {
-            dX = pVdX->at (idx + 1) - pVdX->at (idx);
-            dY = pVdY->at (idx + 1) - pVdY->at (idx);
+            dX = pVdX->at(idx + 1) - pVdX->at(idx);
+            dY = pVdY->at(idx + 1) - pVdY->at(idx);
          }
          else
          {
-            dX = pVdX->at (idx) - pVdX->at (idx - 1);
-            dY = pVdY->at (idx) - pVdY->at (idx - 1);
+            dX = pVdX->at(idx) - pVdX->at(idx - 1);
+            dY = pVdY->at(idx) - pVdY->at(idx - 1);
          }
       }
+      
+      double dM = dY / dX;
+      double dB = pVdY->at(idx) - pVdX->at(idx) * dM;
 
-      double m = dY / dX;
-      double b = pVdY->at (idx) - pVdX->at (idx) * m;
-
-      VdY_new.push_back (pVdX_new->at (i) * m + b);
+      VdY_new.push_back(pVdX_new->at(i) * dM + dB);
    }
 
    return VdY_new;

@@ -1,4 +1,4 @@
 <map id="CGeomProfile::nGetCellGivenDepth" name="CGeomProfile::nGetCellGivenDepth">
-<area shape="rect" id="node1" title="Returns the index of the cell on this profile which has a sea depth which is just less than a given d..." alt="" coords="5,5,220,47"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#a3a378431e2f6095792582989f50fb435" title="Returns the depth of seawater on this cell." alt="" coords="268,13,465,39"/>
+<area shape="rect" id="node1" title="Returns the index of the cell on this profile which has a sea depth which is just less than a given d..." alt="" coords="5,5,219,47"/>
+<area shape="rect" id="node2" href="$class_c_geom_cell.html#a3a378431e2f6095792582989f50fb435" title="Returns the depth of seawater on this cell." alt="" coords="267,13,464,39"/>
 </map>

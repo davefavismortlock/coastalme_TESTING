@@ -13,13 +13,13 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include <vector>
@@ -36,13 +36,11 @@ CA2DIShape::~CA2DIShape(void)
 {
 }
 
-
 CGeom2DIPoint& CA2DIShape::operator[] (int const n)
 {
    // NOTE No safety check
    return m_VPoints[n];
 }
-
 
 CGeom2DIPoint& CA2DIShape::Back(void)
 {
@@ -53,7 +51,6 @@ vector<CGeom2DIPoint>* CA2DIShape::pPtiVGetPoints(void)
 {
    return &m_VPoints;
 }
-
 
 void CA2DIShape::Clear(void)
 {
@@ -69,7 +66,6 @@ int CA2DIShape::nGetSize(void) const
 {
    return static_cast<int>(m_VPoints.size());
 }
-
 
 // void CA2DIShape::InsertAtFront(int const nX, int const nY)
 // {
@@ -96,7 +92,6 @@ void CA2DIShape::AppendIfNotAlready(int const nX, int const nY)
    else if (m_VPoints.back() != &PtiIn)
       m_VPoints.push_back(PtiIn);
 }
-
 
 // void CA2DIShape::SetPoints(const vector<CGeom2DIPoint>* VNewPoints)
 // {

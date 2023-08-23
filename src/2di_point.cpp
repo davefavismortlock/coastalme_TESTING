@@ -12,18 +12,17 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include "2di_point.h"
 #include "cme.h"
-
 
 //! Constructor with no parameters (the X and Y co-ordinates of the CGeom2DIPoint object are set to zero)
 CGeom2DIPoint::CGeom2DIPoint(void)
@@ -38,7 +37,6 @@ CGeom2DIPoint::CGeom2DIPoint(int const nNewX, int const nNewY)
    nY(nNewY)
 {
 }
-
 
 //! Returns the CGeom2DIPoint object's integer X co-ordinate
 int CGeom2DIPoint::nGetX(void) const
@@ -90,7 +88,6 @@ void CGeom2DIPoint::SetXY(int const nNewX, int const nNewY)
 //    nY = Pti->nGetY();
 // }
 
-
 //! Adds the first integer parameter to the CGeom2DIPoint object's X co-ordinate, adds the second integer parameter to the CGeom2DIPoint object's Y co-ordinate
 void CGeom2DIPoint::AddXAddY(int const nXToAdd, int const nYToAdd)
 {
@@ -104,7 +101,6 @@ void CGeom2DIPoint::AddXAddY(double const dXToAdd, double const dYToAdd)
    nX += nRound(dXToAdd);
    nY += nRound(dYToAdd);
 }
-
 
 //! Divides the CGeom2DIPoint object's X co-ordinate by the first double parameter (rounded), divides the CGeom2DIPoint object's Y co-ordinate by the second double parameter (rounded)
 void CGeom2DIPoint::DivXDivY(double const dXDiv, double const dYDiv)
@@ -120,7 +116,6 @@ void CGeom2DIPoint::DivXDivY(double const dXDiv, double const dYDiv)
    if (nYDiv != 0)
       nY /= nYDiv;
 }
-
 
 //! Sets one CGeom2DIPoint object to be the same as another
 void CGeom2DIPoint::operator= (CGeom2DIPoint* pPti)

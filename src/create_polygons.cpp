@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <assert.h>
@@ -39,7 +39,7 @@ using std::stack;
 
 /*===============================================================================================================================
 
- Create polygons, and marks the polygon boundaries on the raster grid
+Create polygons, and marks the polygon boundaries on the raster grid
 
 ===============================================================================================================================*/
 int CSimulation::nCreateAllPolygons(void)
@@ -107,7 +107,7 @@ int CSimulation::nCreateAllPolygons(void)
                   pThisProfile->GetMostCoastwardSharedLineSegment(nPrevProfile, nThisProfileEnd, nPrevProfileEnd);
                   if (nThisProfileEnd == -1)
                   {
-                     LogStream << m_ulIter << ": " << ERR << "profile " << nPrevProfile << " should be coincident with profile " << nThisProfile << " but was not found" << endl;
+                     LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << ERR << "profile " << nPrevProfile << " should be coincident with profile " << nThisProfile << " but was not found" << endl;
                      return RTN_ERR_BAD_MULTILINE;
                   }
 
@@ -215,10 +215,9 @@ int CSimulation::nCreateAllPolygons(void)
    return RTN_OK;
 }
 
-
 /*===============================================================================================================================
 
- Puts a polygon 'joining line' (the line which is the seaward boundary of the polygon, if the polygon doesn't meet at a point) onto the raster grid
+Puts a polygon 'joining line' (the line which is the seaward boundary of the polygon, if the polygon doesn't meet at a point) onto the raster grid
 
 ===============================================================================================================================*/
 void CSimulation::RasterizePolygonJoiningLine(CGeom2DPoint const* pPt1, CGeom2DPoint const* pPt2)
@@ -270,10 +269,9 @@ void CSimulation::RasterizePolygonJoiningLine(CGeom2DPoint const* pPt1, CGeom2DP
    }
 }
 
-
 /*===============================================================================================================================
 
- Marks cells of the raster grid that are within each coastal polygon. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack)
+Marks cells of the raster grid that are within each coastal polygon. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack)
 
 ===============================================================================================================================*/
 void CSimulation::MarkPolygonCells(void)
@@ -284,8 +282,17 @@ void CSimulation::MarkPolygonCells(void)
       // Do this for every coastal polygon
       for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
       {
-//          int nCellsInPolygon = 0;
-//       double dTotDepth = 0;
+         int nCellsInPolygon = 0;
+         double 
+            dTotDepth = 0,
+            dStoredUnconsFine = 0,
+            dStoredUnconsSand = 0,
+            dStoredUnconsCoarse = 0,
+            dCliffCollapseErosionFine = 0,
+            dCliffCollapseErosionSand = 0,
+            dCliffCollapseErosionCoarse = 0,
+            dCliffCollapseTalusSand = 0,
+            dCliffCollapseTalusCoarse = 0;
 
          CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
          int nPolyID = pPolygon->nGetGlobalID();
@@ -331,7 +338,7 @@ void CSimulation::MarkPolygonCells(void)
          // Safety check (PtFindPointInPolygon() returns CGeom2DPoint(DBL_NODATA, DBL_NODATA) if it cannot find a valid start point)
          if (PtStart.dGetX() == DBL_NODATA)
          {
-            LogStream << m_ulIter << ": " << ERR << "could not find a flood fill start point for coast " << nCoast << ", polygon " << nPoly << endl;
+            LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << ERR << "could not find a flood fill start point for coast " << nCoast << ", polygon " << nPoly << endl;
             break;
          }
 
@@ -339,7 +346,7 @@ void CSimulation::MarkPolygonCells(void)
          CGeom2DIPoint PtiStart = PtiExtCRSToGrid(&PtStart);                // Grid CRS
          PtiStack.push(PtiStart);
 
-//          LogStream << m_ulIter << ": filling polygon " << nPoly << " from [" << PtiStart.nGetX() << "][" << PtiStart.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiStart.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiStart.nGetY()) << "}" << endl;
+//          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): filling polygon " << nPoly << " from [" << PtiStart.nGetX() << "][" << PtiStart.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiStart.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiStart.nGetY()) << "}" << endl;
 
          // Then do the flood fill: loop until there are no more cell co-ords on the stack
          while (! PtiStack.empty())
@@ -350,12 +357,12 @@ void CSimulation::MarkPolygonCells(void)
             int
                nX = Pti.nGetX(),
                nY = Pti.nGetY();
-
+               
             while ((nX >= 0) && (m_pRasterGrid->m_Cell[nX][nY].nGetPolygonID() == INT_NODATA))
                nX--;
 
             nX++;
-
+            
             bool
                bSpanAbove = false,
                bSpanBelow = false;
@@ -365,17 +372,30 @@ void CSimulation::MarkPolygonCells(void)
                // Mark the cell as being in this polygon
                m_pRasterGrid->m_Cell[nX][nY].SetPolygonID(nPolyID);
 //                LogStream << "[" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
-
+               
                // Increment the running totals for this polygon
-//                nCellsInPolygon++;
-//                dTotDepth += m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth();
+               dCliffCollapseErosionFine += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
+               dCliffCollapseErosionSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
+               dCliffCollapseErosionCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
+               dCliffCollapseTalusSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
+               dCliffCollapseTalusCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition(); 
+               
+               // Get the number of the highest layer with non-zero thickness
+               int nThisLayer = m_pRasterGrid->m_Cell[nX][nY].nGetTopNonZeroLayerAboveBasement();
+               
+               // And increment some more running totals for this polygon
+               dStoredUnconsFine += m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->dGetFine();
+               dStoredUnconsSand += m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->dGetSand();
+               dStoredUnconsCoarse += m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->dGetCoarse();               
+               
+               nCellsInPolygon++;
+               dTotDepth += m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth();
 
                if ((! bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY-1].nGetPolygonID() == INT_NODATA))
                {
                   PtiStack.push(CGeom2DIPoint(nX, nY-1));
                   bSpanAbove = true;
                }
-
                else if (bSpanAbove && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY-1].nGetPolygonID() != INT_NODATA))
                {
                   bSpanAbove = false;
@@ -386,7 +406,6 @@ void CSimulation::MarkPolygonCells(void)
                   PtiStack.push(CGeom2DIPoint(nX, nY+1));
                   bSpanBelow = true;
                }
-
                else if (bSpanBelow && (nY < m_nYGridMax-1) && (m_pRasterGrid->m_Cell[nX][nY+1].nGetPolygonID() != INT_NODATA))
                {
                   bSpanBelow = false;
@@ -395,14 +414,19 @@ void CSimulation::MarkPolygonCells(void)
                nX++;
             }
          }
-
-         // Store the number of cells in the interior of the polygon (note that this is an underestimate, it does not include cells in the polygon boundary)
-//          pPolygon->SetNumCellsInPolygon(nCellsInPolygon);
-//          LogStream << m_ulIter << ": N cells = " << nCellsInPolygon << " in polygon " << nPoly << endl;
+         
+         // Store this polygon's stored sediment depths
+         pPolygon->SetStoredUnconsFine(dStoredUnconsFine);
+         pPolygon->SetStoredUnconsSand(dStoredUnconsSand);
+         pPolygon->SetStoredUnconsCoarse(dStoredUnconsCoarse);         
+         
+         // Store the number of cells in the interior of the polygon
+         pPolygon->SetNumCellsInPolygon(nCellsInPolygon);
+         // LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): N cells = " << nCellsInPolygon << " in polygon " << nPoly << endl;
 
          // Calculate the total volume of seawater on the polygon (m3) and store it
-//          double dSeaVolume = dTotDepth * m_dCellSide;
-//          pPolygon->SetSeawaterVolume(dSeaVolume);
+         double dSeaVolume = dTotDepth * m_dCellSide;
+         pPolygon->SetSeawaterVolume(dSeaVolume);
       }
    }
 
@@ -410,7 +434,7 @@ void CSimulation::MarkPolygonCells(void)
 //    string strOutFile = m_strOutPath + "polygon_test_";
 //    strOutFile += to_string(m_ulIter);
 //    strOutFile += ".tif";
-//
+// 
 //    GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName("gtiff");
 //    GDALDataset* pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
 //    pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
@@ -420,6 +444,7 @@ void CSimulation::MarkPolygonCells(void)
 //       n = 0,
 //       nInPoly = 0,
 //       nNotInPoly = 0;
+//       
 //    for (int nY = 0; nY < m_nYGridMax; nY++)
 //    {
 //       for (int nX = 0; nX < m_nXGridMax; nX++)
@@ -429,30 +454,48 @@ void CSimulation::MarkPolygonCells(void)
 //             nNotInPoly++;
 //          else
 //             nInPoly++;
-//
+//          
+//          // if (nX == 12)
+//          // {
+//          //    LogStream << m_ulIter << " " << "[" << nX << "][" << nY << "] is ";
+//          //    if (nID == INT_NODATA)
+//          //       LogStream << "NOT in poly" << endl;
+//          //    else
+//          //       LogStream << "in poly " << nID << endl;
+//          // }       
+//          // 
+//          // if (nX == 72)
+//          // {
+//          //    LogStream << m_ulIter << " " << "[" << nX << "][" << nY << "] is ";
+//          //    if (nID == INT_NODATA)
+//          //       LogStream << "NOT in poly" << endl;
+//          //    else
+//          //       LogStream << "in poly " << nID << endl;
+//          // }       
+// 
 //          pdRaster[n++] = nID;
-//       }
+//       }      
 //    }
-//
+// 
 //    GDALRasterBand* pBand = pDataSet->GetRasterBand(1);
 //    pBand->SetNoDataValue(m_dMissingValue);
 //    int nRet = pBand->RasterIO(GF_Write, 0, 0, m_nXGridMax, m_nYGridMax, pdRaster, m_nXGridMax, m_nYGridMax, GDT_Float64, 0, 0, NULL);
 //    if (nRet == CE_Failure)
 //       return;
-//
+// 
 //    GDALClose(pDataSet);
 //    delete[] pdRaster;
-//
-//    LogStream << m_ulIter << " Number of cells in a polygon = " << nInPoly << endl;
-//    LogStream << m_ulIter << " Number of cells not in any polygon = " << nNotInPoly << endl;
-//
+// 
+//    // LogStream << m_ulIter << " Number of cells in a polygon = " << nInPoly << endl;
+//    // LogStream << m_ulIter << " Number of cells not in any polygon = " << nNotInPoly << endl;
+// 
 //    // DEBUG CODE ===========================================
 }
 
 
 /*===============================================================================================================================
 
- For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons
+For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons
 
  // TODO Will need to change this when length of coastline-normal profiles (and so polygon seaward length) is determined by depth of closure
 
@@ -537,7 +580,12 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
 
             // Calculate the up-coast boundary share
             for (unsigned int n = 0; n < dVUpCoastBoundaryShare.size(); n++)
+            {
                dVUpCoastBoundaryShare[n] /= dUpCoastTotBoundaryLen;
+               
+               // // Safety check
+               // dVUpCoastBoundaryShare[n] = tMin(dVUpCoastBoundaryShare[n], 1.0);
+            }
 
             // Store in the polygon
             pPolygon->SetUpCoastAdjacentPolygons(&nVUpCoastAdjacentPolygon);
@@ -604,7 +652,12 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
 
             // Calculate the down-coast boundary share
             for (unsigned int n = 0; n < dVDownCoastBoundaryShare.size(); n++)
+            {
                dVDownCoastBoundaryShare[n] /= dDownCoastTotBoundaryLen;
+               
+               // // Safety check
+               // dVDownCoastBoundaryShare[n] = tMin(dVDownCoastBoundaryShare[n], 1.0);
+            }
 
             // Store in the polygon
             pPolygon->SetDownCoastAdjacentPolygons(&nVDownCoastAdjacentPolygon);
@@ -621,8 +674,8 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
 //          assert(dVUpCoastBoundaryShare.size() == nVUpCoastAdjacentPolygon.size());
 //          assert(dVDownCoastBoundaryShare.size() == nVDownCoastAdjacentPolygon.size());
 //
-//          //             LogStream << m_ulIter << ": polygon = " << nPoly << (pPolygon->bIsPointed() ? " IS TRIANGULAR" : "") << endl;
-//          LogStream << m_ulIter << ": coast " << nCoast << " polygon " << nPoly << endl;
+//          //             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): polygon = " << nPoly << (pPolygon->bIsPointed() ? " IS TRIANGULAR" : "") << endl;
+//          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): coast " << nCoast << " polygon " << nPoly << endl;
 //
 //          LogStream << "\tThere are " << nVUpCoastAdjacentPolygon.size() << " UP-COAST adjacent polygon(s) = ";
 //          for (unsigned int n = 0; n < nVUpCoastAdjacentPolygon.size(); n++)
@@ -652,12 +705,11 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
    return RTN_OK;
 }
 
-
 /*===============================================================================================================================
 
- Determines whether a point is within a polygon: however if the point is exactly on the edge of the polygon, then the result is indeterminate
+Determines whether a point is within a polygon: however if the point is exactly on the edge of the polygon, then the result is indeterminate
 
- Modified from code at http://alienryderflex.com/polygon/, our thanks to Darel Rex Finley (DarelRex@gmail.com)
+Modified from code at http://alienryderflex.com/polygon/, our thanks to Darel Rex Finley (DarelRex@gmail.com)
 
 ===============================================================================================================================*/
 bool CSimulation::bIsWithinPolygon(CGeom2DPoint const* pPtStart, vector<CGeom2DPoint> const* pPtPoints)
@@ -694,12 +746,11 @@ bool CSimulation::bIsWithinPolygon(CGeom2DPoint const* pPtStart, vector<CGeom2DP
   return bOddNodes;
 }
 
-
 /*===============================================================================================================================
 
- Finds a point in a polygon: is guaranteed to succeed, as every strictly closed polygon has at least one triangle that is completely contained within the polygon
+Finds a point in a polygon: is guaranteed to succeed, as every strictly closed polygon has at least one triangle that is completely contained within the polygon
 
- Derived from an algorithm at http://stackoverflow.com/questions/9797448/get-a-point-inside-the-polygon
+Derived from an algorithm at http://stackoverflow.com/questions/9797448/get-a-point-inside-the-polygon
 
 ===============================================================================================================================*/
 CGeom2DPoint CSimulation::PtFindPointInPolygon(vector<CGeom2DPoint> const* pPtPoints, int const nStartPoint)

@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <cfloat>
@@ -38,10 +38,9 @@ using std::inner_product;
 #include "simulation.h"
 #include "coast.h"
 
-
 /*===============================================================================================================================
 
- Calculates both detailed and smoothed curvature for every point on a coastline
+Calculates both detailed and smoothed curvature for every point on a coastline
 
 ===============================================================================================================================*/
 void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
@@ -123,7 +122,7 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
 //       CGeom2DIPoint PtiThis = *m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(mm);
 //       CGeom2DPoint PtThis = *m_VCoast[nCoast].pPtGetCoastlinePointExtCRS(mm);
 
-//       LogStream << m_ulIter << ": at coast point (" << mm << ") [" << PtiThis.nGetX() << "][" << PtiThis.nGetY() << "] = {" << PtThis.dGetX() << ", " << PtThis.dGetY() << "} curvature = " << m_VCoast[nCoast].dGetDetailedCurvature(mm) << " smoothed curvature = " << m_VCoast[nCoast].dGetSmoothCurvature(mm) << endl;
+//       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): at coast point (" << mm << ") [" << PtiThis.nGetX() << "][" << PtiThis.nGetY() << "] = {" << PtThis.dGetX() << ", " << PtThis.dGetY() << "} curvature = " << m_VCoast[nCoast].dGetDetailedCurvature(mm) << " smoothed curvature = " << m_VCoast[nCoast].dGetSmoothCurvature(mm) << endl;
 
       if (m_VCoast[nCoast].dGetDetailedCurvature(mm) < dMaxConvexDetailed)
       {
@@ -136,7 +135,6 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
          dMaxConvexSmoothed = m_VCoast[nCoast].dGetSmoothCurvature(mm);
          nMaxConvexSmoothedCoastPoint = mm;
       }
-
    }
 
    if (dMaxConvexDetailed == 0)
@@ -157,15 +155,16 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
 //    LogStream << "-----------------" << endl;
 
    CGeom2DIPoint PtiMax = *m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nMaxConvexDetailedCoastPoint);
-   if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-      LogStream << m_ulIter << ": max detailed convexity (" << m_VCoast[nCoast].dGetDetailedCurvature(nMaxConvexDetailedCoastPoint) << ") at raster coastline point " << nMaxConvexDetailedCoastPoint << " [" << PtiMax.nGetX() << "][" << PtiMax.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiMax.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiMax.nGetY()) << "}"  << endl;
+   
+   if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): max detailed convexity (" << m_VCoast[nCoast].dGetDetailedCurvature(nMaxConvexDetailedCoastPoint) << ") at raster coastline point " << nMaxConvexDetailedCoastPoint << " [" << PtiMax.nGetX() << "][" << PtiMax.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiMax.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiMax.nGetY()) << "}"  << endl;
 
    CGeom2DIPoint PtiMaxSmooth = *m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nMaxConvexSmoothedCoastPoint);
    CGeom2DPoint PtMaxSmooth = *m_VCoast[nCoast].pPtGetCoastlinePointExtCRS(nMaxConvexSmoothedCoastPoint);
-   if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-      LogStream << m_ulIter << ": max smoothed convexity (" << m_VCoast[nCoast].dGetSmoothCurvature(nMaxConvexSmoothedCoastPoint) << ") near vector coastline point " << nMaxConvexSmoothedCoastPoint << ", at [" << PtiMaxSmooth.nGetX() << "][" << PtiMaxSmooth.nGetY() << "] = {" << PtMaxSmooth.dGetX() << ", " << PtMaxSmooth.dGetY() << "}" << endl;
+   
+   if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): max smoothed convexity (" << m_VCoast[nCoast].dGetSmoothCurvature(nMaxConvexSmoothedCoastPoint) << ") near vector coastline point " << nMaxConvexSmoothedCoastPoint << ", at [" << PtiMaxSmooth.nGetX() << "][" << PtiMaxSmooth.nGetY() << "] = {" << PtMaxSmooth.dGetX() << ", " << PtMaxSmooth.dGetY() << "}" << endl;
 }
-
 
 /*===============================================================================================================================
 

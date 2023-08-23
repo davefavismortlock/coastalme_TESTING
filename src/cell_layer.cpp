@@ -13,26 +13,26 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
-// #include <assert.h>
+#include <assert.h>
 
 #include "cme.h"
 #include "cell_layer.h"
 
-
+//! Constructor
 CRWCellLayer::CRWCellLayer(void)
 {
 }
 
-
+//! Destructor
 CRWCellSediment* CRWCellLayer::pGetUnconsolidatedSediment(void)
 {
    return &m_UnconsolidatedSediment;
@@ -42,7 +42,6 @@ CRWCellSediment* CRWCellLayer::pGetConsolidatedSediment(void)
 {
    return &m_ConsolidatedSediment;
 }
-
 
 void CRWCellLayer::RemoveCliff(void)
 {
@@ -79,6 +78,36 @@ void CRWCellLayer::RemoveCliff(void)
    dLost = m_ConsolidatedSediment.dGetNotchCoarseLost();
    m_ConsolidatedSediment.SetCoarse(tMax(dNow - dLost, 0.0));
    m_ConsolidatedSediment.SetNotchCoarseLost(0);
+}
+
+double CRWCellLayer::dGetFineUnconsolidatedThickness(void) const
+{
+   return m_UnconsolidatedSediment.dGetFine();
+}
+
+double CRWCellLayer::dGetFineConsolidatedThickness(void) const
+{
+   return m_ConsolidatedSediment.dGetFine();
+}
+
+double CRWCellLayer::dGetSandUnconsolidatedThickness(void) const
+{
+   return m_UnconsolidatedSediment.dGetSand();
+}
+
+double CRWCellLayer::dGetSandConsolidatedThickness(void) const
+{
+   return m_ConsolidatedSediment.dGetSand();
+}
+
+double CRWCellLayer::dGetCoarseUnconsolidatedThickness(void) const
+{
+   return m_UnconsolidatedSediment.dGetCoarse();
+}
+
+double CRWCellLayer::dGetCoarseConsolidatedThickness(void) const
+{
+   return m_ConsolidatedSediment.dGetCoarse();
 }
 
 double CRWCellLayer::dGetUnconsolidatedThickness(void) const

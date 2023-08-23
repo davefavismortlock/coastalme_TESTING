@@ -1,6 +1,6 @@
 CoastalME (Coastal Modelling Environment) simulates the long-term behaviour of a coast. This initial version is a prototype which considers simple soft cliff cross-shore effects only.
 
-By Andres Payo and Dave Favis-Mortlock (both British Geological Survey)
+By Andres Payo (British Geological Survey) and Dave Favis-Mortlock.
 
 This is the TESTING version of CoastalME. See <a href="https://github.com/coastalme/coastalme" target="_blank">https://github.com/coastalme/coastalme</a> for the most recent release version of the source code.
 

@@ -1,6 +1,7 @@
 <map id="CRWCellSediment::dGetNotchFineLost" name="CRWCellSediment::dGetNotchFineLost">
-<area shape="rect" id="node1" title=" " alt="" coords="372,49,589,90"/>
+<area shape="rect" id="node1" title=" " alt="" coords="372,78,589,119"/>
 <area shape="rect" id="node2" href="$class_c_r_w_cell_layer.html#ae3f725d00cf4af206f29069bfb6c846e" title=" " alt="" coords="13,5,316,32"/>
 <area shape="rect" id="node3" href="$class_c_r_w_cell_layer.html#ae070b7d4f5c3cd9b03ee53f8e7cb12fe" title=" " alt="" coords="5,56,324,83"/>
-<area shape="rect" id="node4" href="$class_c_r_w_cell_layer.html#aabad3a69d7201834bd7f71ed45702278" title=" " alt="" coords="63,107,266,133"/>
+<area shape="rect" id="node4" href="$class_c_geom_cell.html#a171c5ac57ca8b50aeaafc8919639109b" title="Returns the total thickness of fine consolidated sediment on this cell, minus the depth&#45;equivalent of..." alt="" coords="59,107,271,149"/>
+<area shape="rect" id="node5" href="$class_c_r_w_cell_layer.html#aabad3a69d7201834bd7f71ed45702278" title=" " alt="" coords="63,173,266,200"/>
 </map>

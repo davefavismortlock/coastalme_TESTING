@@ -1,5 +1,5 @@
 <map id="CGeomCell::dGetTotAllSedThickness" name="CGeomCell::dGetTotAllSedThickness">
-<area shape="rect" id="node1" title="Returns the total thickness of all sediment on this cell." alt="" coords="5,27,200,69"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#ac3be2e047bfb26b2c3f7f5e5a9b29b01" title="Returns the total thickness of consolidated sediment on this cell." alt="" coords="248,5,499,32"/>
-<area shape="rect" id="node3" href="$class_c_geom_cell.html#aac46d791660e8602df1fa731729759c7" title="Returns the total thickness of unconsolidated sediment on this cell." alt="" coords="273,57,474,98"/>
+<area shape="rect" id="node1" title="Returns the total thickness of all sediment (all size classes) on this cell." alt="" coords="5,27,200,69"/>
+<area shape="rect" id="node2" href="$class_c_geom_cell.html#ac3be2e047bfb26b2c3f7f5e5a9b29b01" title="Returns the total thickness of consolidated sediment (all size classes) on this cell." alt="" coords="248,5,499,32"/>
+<area shape="rect" id="node3" href="$class_c_geom_cell.html#aac46d791660e8602df1fa731729759c7" title="Returns the total thickness of unconsolidated sediment (all size classes) on this cell." alt="" coords="273,57,474,98"/>
 </map>

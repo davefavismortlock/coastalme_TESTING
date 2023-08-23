@@ -13,13 +13,13 @@
 
 /*==============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public  License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public  License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ==============================================================================================================================*/
 #include <cmath>
@@ -33,10 +33,9 @@ using std::setw;
 
 #include "cme.h"
 
-
 /*==============================================================================================================================
 
- Correctly rounds doubles
+Correctly rounds doubles
 
 ==============================================================================================================================*/
 double dRound(double const d)
@@ -45,18 +44,16 @@ double dRound(double const d)
    return ((d < 0.0) ? ceil(d - 0.5) : floor(d + 0.5));
 }
 
-
 /*==============================================================================================================================
 
- Version of the above that returns an int
+Version of the above that returns an int
 
- ==============================================================================================================================*/
+==============================================================================================================================*/
 int nRound(double const d)
 {
    // Rounds positive or negative doubles correctly
    return static_cast<int>((d < 0.0) ? ceil(d - 0.5) : floor(d + 0.5));
 }
-
 
 // bool bIsWhole(double d)
 // {
@@ -64,10 +61,9 @@ int nRound(double const d)
 //    return (static_cast<int>(d) == d);
 // }
 
-
 /*==============================================================================================================================
 
- Checks to see if a string can be read as a valid double number. Does not find trailing (i.e.post-number) rubbish, but then neither does strtod(). From https://stackoverflow.com/questions/392981/how-can-i-convert-string-to-double-in-c
+Checks to see if a string can be read as a valid double number. Does not find trailing (i.e.post-number) rubbish, but then neither does strtod(). From https://stackoverflow.com/questions/392981/how-can-i-convert-string-to-double-in-c
 
 ==============================================================================================================================*/
 bool bIsStringValidDouble(string& str)
@@ -81,10 +77,9 @@ bool bIsStringValidDouble(string& str)
    return true;
 }
 
-
 /*==============================================================================================================================
 
- Checks to see if a string can be read as a valid integer, from https://stackoverflow.com/questions/2844817/how-do-i-check-if-a-c-string-is-an-int
+Checks to see if a string can be read as a valid integer, from https://stackoverflow.com/questions/2844817/how-do-i-check-if-a-c-string-is-an-int
 
 ==============================================================================================================================*/
 bool bIsStringValidInt(string& str)
@@ -102,10 +97,9 @@ bool bIsStringValidInt(string& str)
    return (str.find_first_not_of("0123456789") == string::npos);
 }
 
-
 /*==============================================================================================================================
 
- Operator that inserts a given fill character, to a given width, into an output stream. From http://stackoverflow.com/questions/2839592/equivalent-of-02d-with-stdstringstream
+Operator that inserts a given fill character, to a given width, into an output stream. From http://stackoverflow.com/questions/2839592/equivalent-of-02d-with-stdstringstream
 
 ==============================================================================================================================*/
 ostream& operator<< (ostream& ostr, const FillToWidth& args)
@@ -116,3 +110,110 @@ ostream& operator<< (ostream& ostr, const FillToWidth& args)
    return ostr;
 }
 
+/*==============================================================================================================================
+
+Convert double to string with specified number of places after the decimal. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strDbl(double const dX, int const nDigits) 
+{
+   stringstream ss;
+   ss << std::fixed;
+   ss.precision(nDigits);      // Set the number of places after decimal
+   ss << dX;
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Convert double to string with specified number of decimal places, within a field of given width, pads with blank spaces to enforce right alignment. Modified from https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strDblRight(double const dX, int const nDigits, int const nWidth, bool bShowZero)
+{
+   stringstream ss;
+   ss << std::fixed << std::right;
+   ss.fill(' ');
+   ss.width(nWidth-1);
+   
+   if ((dX == 0) && (! bShowZero))
+   {
+      ss << "-";      
+   }
+   else
+   {
+      ss.precision(nDigits);  // Set number of places after decimal
+      ss << dX;
+   }
+   
+   ss << " ";                 // Add a final space
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Convert int to string within a field of given width, pads with blank spaces to enforce alignment.. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strIntRight(int const nX, int const nWidth)
+{
+   stringstream ss;
+   ss << std::fixed << std::right;
+   ss.fill(' ');              // Fill space around displayed number
+   ss.width(nWidth-1);        // Set width around displayed number
+   ss << nX;
+   ss << " ";                 // Add a final space
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Centre-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strCentre(string const strIn, int const nWidth) 
+{
+   stringstream ss, spaces;
+   int nPadding = nWidth - static_cast<int>(strIn.size());    // Count excess room to pad
+   
+   for (int i = 0; i < nPadding / 2; ++i)
+      spaces << " ";
+
+   ss << spaces.str() << strIn << spaces.str();       // Format with padding
+   
+   if (nPadding > 0 && nPadding % 2 != 0)             // If odd number, add one space
+      ss << " ";
+   
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Right-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strRight(string const strIn, int const nWidth) 
+{
+   stringstream ss, spaces;
+   int nPadding = nWidth - static_cast<int>(strIn.size()) - 1;    // Count excess room to pad
+   for (int i = 0; i < nPadding; ++i)
+      spaces << " ";
+   ss << spaces.str() << strIn;                       // Format with padding
+   ss << " ";                                         // Add a final space
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Left-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strLeft(string const strIn, int const nWidth) 
+{
+   stringstream ss, spaces;
+   int nPadding = nWidth - static_cast<int>(strIn.size());  // Count excess room to pad
+   for (int i = 0; i < nPadding; ++i)
+      spaces << " ";
+   ss << strIn << spaces.str();                       // Format with padding
+   return ss.str();
+}

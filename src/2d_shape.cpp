@@ -12,34 +12,33 @@
 
 /*===============================================================================================================================
 
- This file is part of CoastalME, the Coastal Modelling Environment.
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
 #include "cme.h"
 #include "2d_shape.h"
 
-
+//! Constructor
 CA2DShape::CA2DShape(void)
 {
 }
 
+//! Destructor
 CA2DShape::~CA2DShape(void)
 {
 }
-
 
 CGeom2DPoint& CA2DShape::operator[] (int const n)
 {
    // NOTE No safety check
    return m_VPoints[n];
 }
-
 
 void CA2DShape::Clear(void)
 {
@@ -55,7 +54,6 @@ int CA2DShape::nGetSize(void) const
 {
    return static_cast<int>(m_VPoints.size());
 }
-
 
 // void CA2DShape::InsertAtFront(double const dX, double const dY)
 // {
@@ -82,7 +80,6 @@ void CA2DShape::AppendIfNotAlready(double const dX, double const dY)
    else if (m_VPoints.back() != &PtIn)
       m_VPoints.push_back(PtIn);
 }
-
 
 CGeom2DPoint* CA2DShape::pPtBack(void)
 {
@@ -122,14 +119,12 @@ CGeom2DPoint* CA2DShape::pPtBack(void)
 //    return dLength;
 // }
 
-
 vector<CGeom2DPoint>* CA2DShape::pPtVGetPoints(void)
 {
    return &m_VPoints;
 }
 
-
-//! Computes the centroid of this 2D polygon (which may be outside, if this is a concave the polygon). From http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+//! Computes the centroid of this 2D polygon (which may be outside, if this is a concave polygon). From http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 CGeom2DPoint CA2DShape::PtGetCentroid(void)
 {
    int nVertexCount = static_cast<int>(m_VPoints.size());
@@ -161,8 +156,7 @@ CGeom2DPoint CA2DShape::PtGetCentroid(void)
    return (CGeom2DPoint(dCentroidX, dCentroidY));
 }
 
-
-//! Reverses the sequence of pointsw in this 2D polygon
+//! Reverses the sequence of points in this 2D polygon
 void CA2DShape::Reverse(void)
 {
    reverse(m_VPoints.begin(), m_VPoints.end());

@@ -14,13 +14,23 @@
 
 #ifndef HERMITE_H
   #define HERMITE_H
-/*==============================================================================================================================
+/*===============================================================================================================================
 
- This is hermite_cubic.h: part of a C++ library from http://people.sc.fsu.edu/~jburkardt/cpp_src/hermite_cubic/hermite_cubic.html. It demonstrates the use of cubic polynomials in the Hermite form
+This file is part of CoastalME, the Coastal Modelling Environment.
 
- r8vec_bracket3() finds the interval containing or nearest a given value
- hermite_cubic_spline_value() evaluates a Hermite cubic spline
- hermite_cubic_value() evaluates a Hermite cubic polynomial
+CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+===============================================================================================================================*//*==============================================================================================================================
+
+This is hermite_cubic.h: part of a C++ library from http://people.sc.fsu.edu/~jburkardt/cpp_src/hermite_cubic/hermite_cubic.html. It demonstrates the use of cubic polynomials in the Hermite form
+
+r8vec_bracket3() finds the interval containing or nearest a given value
+hermite_cubic_spline_value() evaluates a Hermite cubic spline
+hermite_cubic_value() evaluates a Hermite cubic polynomial
 
 ===============================================================================================================================*/
 void r8vec_bracket3(int const, double* const, double const, int*);
