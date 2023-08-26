@@ -459,7 +459,7 @@ subroutine allocate_bottom_geometry_output_size_arrays(nSize1, nSize2)
 end subroutine allocate_bottom_geometry_output_size_arrays
 
 
-#if defined ARGINOUT   
+#if defined ARGINOUT || ARGINBOTHOUT
 !===============================================================================================================================
 !
 ! Allocates and initialises the 2D arrays which are used for argument output

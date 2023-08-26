@@ -1,4 +1,4 @@
-#if defined ARGINOUT
+#if defined ARGINOUT || ARGINBOTHOUT
 !===============================================================================================================================
 !
 ! This is a wrapper for CShore which gets input from arguments which are supplied by a calling program (e.g. CoastalME), and puts output into arguments which are passed back to the calling program

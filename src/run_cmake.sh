@@ -3,10 +3,19 @@
 # Change this to change build type
 buildtype=Debug
 #buildtype=Release
-#buildtype=RelWithDebInfo
-#buildtype=MinSizeRel
+#buildtype=RelWithDebInfo        # Not yet implemented in CMakeLists.txt
+#buildtype=MinSizeRel            # Not yet implemented in CMakeLists.txt
 #buildtype=gcov
 #buildtype=Callgrind
+
+# Change this to select the CShore library type
+#cshorelibrary=STATIC
+cshorelibrary=SHARED
+
+# Change this to select CShore input/output method
+#cshoreinout=FILE
+cshoreinout=ARG
+#cshoreinout=BOTH
 
 # Always build CShore
 echo "Building all versions of the CShore library"
@@ -19,11 +28,18 @@ cd ..
 echo ""
 echo "================================================================="
 echo ""
-echo "CoastalME: starting CMake for Linux (using gcc, $buildtype build)"
+echo "CoastalME: starting CMake for Linux (using gcc, $buildtype build, $cshorelibrary CShore library, CShore input/output method=$cshoreinout)"
+echo ""
 
 rm -f CMakeCache.txt
-#cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildtype .
-cmake -DCMAKE_BUILD_TYPE=$buildtype . -G"CodeBlocks - Unix Makefiles"
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildtype -DCSHORE_LIBRARY=$cshorelibrary -DCSHORE_INOUT=$cshoreinout .
+#cmake -DCMAKE_BUILD_TYPE=$buildtype -DCSHORE_LIBRARY=$cshorelibrary -DCSHORE_INOUT=$cshoreinout . -G"CodeBlocks - Unix Makefiles"
 
 echo ""
 echo "================================================================="
+echo ""
+
+echo "Finished CMake for Linux (using gcc, $buildtype build, $cshorelibrary CShore library, CShore input/output method=$cshoreinout)"
+echo ""
+echo "================================================================="
+

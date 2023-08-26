@@ -534,7 +534,7 @@ int CSimulation::nDoParallelProfileUnconsErosion( int const nPoly, int const nCo
 
          // Subtract the two elevations
          double dElevDiff = dThisElevNow - pVdParProfileDeanElev->at(nDistSeawardFromNewCoast);
-         if ((dElevDiff > 0) && (m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())) // added the check of contiguos sea MCB
+         if ((dElevDiff > 0) && (m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())) 
          {
             // The current elevation is higher than the Dean elevation, so we have possible beach erosion (i.e. if not constrained by availability of unconsolidated sediment) here
 //             LogStream << "\tnPoly = " << nPoly << " doing DOWN-COAST, possible beach erosion = " << dElevDiff << " at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " <<  dGridCentroidYToExtCRSY(nY) << "} nCoastPoint = " << nCoastPoint << " nDistSeawardFromNewCoast = " << nDistSeawardFromNewCoast << " dThisElevNow = " << dThisElevNow << " Dean Elev = " << pVdParProfileDeanElev->at(nDistSeawardFromNewCoast) << endl;

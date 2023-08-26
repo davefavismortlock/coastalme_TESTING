@@ -1,6 +1,7 @@
 CHANGES
 
-v1.0 Initial release
+v1.0     Initial release
 
-v1.1 Revised unconsolidated sediment transport algorithm, improved logfile output, bug fix to cliff collapse, many other bug fixes (August 2023)
+v1.1     Revised unconsolidated sediment transport algorithm, improved logfile output, bug fix to cliff collapse, many other bug fixes (24 August 2023)
+v1.1.01  Bug fixes in CME and CShore (26 August 2023)
 

@@ -146,7 +146,6 @@ void CSimulation::DoAllPotentialBeachErosion(void)
 
             // Determine dThetaBr, the angle between the coastline-normal orientation and the breaking wave orientation (the direction FROM which the waves move). This tells us whether the sediment movement is up-coast (-ve) or down-coast (+ve)
             double dThetaBr = dNormalOrientation - dAvgBreakingWaveAngle;
-            // Change the value to the range 0 - 90 MCB
             if (dThetaBr > 270)
                dThetaBr = dAvgBreakingWaveAngle + 360.0 - dNormalOrientation;
             else if (dThetaBr < -270)

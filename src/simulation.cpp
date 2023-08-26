@@ -883,10 +883,10 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    AnnounceInitializing();
 
    // Misc initialization calcs
-   m_nCoastMax = COAST_LENGTH_MAX * tMax (m_nXGridMax, m_nYGridMax); // Arbitrary but probably OK
-   m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                   // MCB, in some cases the following rule doesnt work
-   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide); // Ditto
-   m_nCoastCurvatureInterval = tMax (nRound (m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2); // Ditto
+   m_nCoastMax = COAST_LENGTH_MAX * tMax(m_nXGridMax, m_nYGridMax);           // Arbitrary but probably OK
+   m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                              // MCB, in some cases the following rule doesn't work
+   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide);           // Ditto DFM: ???
+   m_nCoastCurvatureInterval = tMax(nRound(m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2);   // Ditto DFM: ???
 
    // For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn)
    m_dInmersedToBulkVolumetric = 1 / ( (m_dBeachSedimentDensity - m_dSeaWaterDensity) * (1 - m_dBeachSedimentPorosity) * m_dG);

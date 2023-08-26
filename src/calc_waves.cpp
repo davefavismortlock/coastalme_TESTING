@@ -872,7 +872,8 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       nRet = -1;
 
       // Run CShore for this profile
-      cshore(&nRet, &m_ulIter, &nProfile, &nProfile);
+      CShore(&nRet);
+//      cshore(&nRet, &m_ulIter, &nProfile, &nProfile);
 
       // Check return code for error
       if (nRet != 0)
@@ -997,8 +998,38 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       // 
       // CShoreWrapper(&lIter, &nCoast, &nProfile, &nILine, &nIProfl, &nIPerm, &nIOver, &nIWCInt, &nIRoll, &nIWind, &nITide, &nILab, &nNWave, &nNSurge, &dDX, &m_dBreakingWaveHeightDepthRatio, &VdInitTime[0], &VdTPIn[0], &VdHrmsIn[0], &VdWangIn[0], &VdTSurg[0], &VdSWLin[0], &nProfileDistXYSize, &VdProfileDistXY[0], &VdProfileZ[0], &VdFPInp[0], &nRet, &nOutSize, &VdXYDistFromCShoreOut[0], &VdFreeSurfaceStdOut[0], &VdWaveSetupOut[0], &VdSinWaveAngleRadiansOut[0], &VdFractionBreakingWavesOut[0]);
           
-      CShoreWrapper(&nILine, &nIProfl, &nIPerm, &nIOver, &nIWCInt, &nIRoll, &nIWind, &nITide, &nILab, &nNWave, &nNSurge, &dDX, &m_dBreakingWaveHeightDepthRatio, &VdInitTime[0], &VdTPIn[0], &VdHrmsIn[0], &VdWangIn[0], &VdTSurg[0], &VdSWLin[0], &nProfileDistXYSize, &VdProfileDistXY[0], &VdProfileZ[0], &VdFPInp[0], &nRet, &nOutSize, &VdXYDistFromCShoreOut[0], &VdFreeSurfaceStdOut[0], &VdWaveSetupSurgeOut[0], &VdSinWaveAngleRadiansOut[0], &VdFractionBreakingWavesOut[0]);
-
+      CShoreWrapper(&nILine,                          /* In_ILINE */
+                    &nIProfl,                         /* In_IPROFL */
+                    &nIPerm,                          /* In_IPERM */
+                    &nIOver,                          /* In_IOVER */
+                    &nIWCInt,                         /* In_IWCINT */
+                    &nIRoll,                          /* In_IROLL */
+                    &nIWind,                          /* In_IWIND */
+                    &nITide,                          /* In_ITIDE */
+                    &nILab,                           /* In_ILAB */
+                    &nNWave,                          /* In_NWAVE */
+                    &nNSurge,                         /* In_NSURG */
+                    &dDX,                             /* In_DX */
+                    &m_dBreakingWaveHeightDepthRatio, /* In_GAMMA */
+                    &VdInitTime[0],                   /* In_TWAVE */
+                    &VdTPIn[0],                       /* In_TPIN */
+                    &VdHrmsIn[0],                     /* In_HRMSIN */
+                    &VdWangIn[0],                     /* In_WANGIN */
+                    &VdTSurg[0],                      /* In_TSURG */
+                    &VdSWLin[0],                      /* In_SWLIN */
+                    &nProfileDistXYSize,              /* In_NBINP */
+                    &VdProfileDistXY[0],              /* In_XBINP */
+                    &VdProfileZ[0],                   /* In_ZBINP */
+                    &VdFPInp[0],                      /* In_FBINP */
+                    &nRet,                            /* Out_IError */
+                    &nOutSize,                        /* Out_nOutSize */
+                    &VdXYDistFromCShoreOut[0],        /* Out_XYDist */
+                    &VdFreeSurfaceStdOut[0],          /* Out_FreeSurfaceStd */
+                    &VdWaveSetupSurgeOut[0],          /* Out_WaveSetupSurge */
+                                                      /* double[] Out_StormSurge, */
+                    &VdSinWaveAngleRadiansOut[0],     /* Out_SinWaveAngleRadians */
+                    &VdFractionBreakingWavesOut[0]);  /* Out_FractionBreakingWaves */
+      
       // OK, now check for warnings and errors
       if (nOutSize < 2)
       {
@@ -1070,7 +1101,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 #endif
 
 #if defined CSHORE_BOTH
-#if !defined _WIN32
+   #if ! defined _WIN32
       if (SAVE_CSHORE_OUTPUT)
       {
          string strCommand = "./save_CShore_output.sh ";
@@ -1084,7 +1115,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          if (nRet != RTN_OK)
             return nRet;
       }
-#endif
+   #endif
 
       // Return to the CoastalME folder
       nRet = chdir(m_strCMEDir.c_str());
@@ -1098,11 +1129,21 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          int
              nX = pProfile->pPtiGetCellInProfile(nProfilePoint)->nGetX(),
              nY = pProfile->pPtiGetCellInProfile(nProfilePoint)->nGetY();
-
+             
+         // Safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         if (! isfinite(VdWaveHeight[nProfilePoint]))
+            VdWaveHeight[nProfilePoint] = 0;             
+             
          VdWaveHeight[nProfilePoint] = sqrt(8) * VdFreeSurfaceStd[nProfilePoint];
-         // assert(VdWaveHeight[nProfilePoint] >= 0);
          
-         // Safety checks: constrain to the interval -1 to +1 to keep asin() happy
+         // Another safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         if (! isfinite(VdSinWaveAngleRadians[nProfilePoint]))
+         {
+            VdSinWaveAngleRadians[nProfilePoint] = 0;
+            VdWaveHeight[nProfilePoint] = 0;
+         }
+         
+         // More safety checks: constrain to the interval -1 to +1 to keep asin() happy
          if (VdSinWaveAngleRadians[nProfilePoint] < -1)
             VdSinWaveAngleRadians[nProfilePoint] = -1;
          if (VdSinWaveAngleRadians[nProfilePoint] > 1)
@@ -1113,6 +1154,13 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
             VdWaveDirection[nProfilePoint] = dKeepWithin360(dAlpha + 90 + dFluxOrientationThis);
          else
             VdWaveDirection[nProfilePoint] = dKeepWithin360(dAlpha + 270 + dFluxOrientationThis);
+         
+         // Yet another safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         if (! isfinite(VdFractionBreakingWaves[nProfilePoint]))
+         {
+            VdFractionBreakingWaves[nProfilePoint] = 0;
+            VdWaveHeight[nProfilePoint] = 0;
+         }
 
          // if ((VdFractionBreakingWaves[nProfilePoint] >= 0.10) && (! bBreaking)) // Sometimes is possible that waves break again
          if ((VdFractionBreakingWaves[nProfilePoint] >= 0.10) && (m_dDepthOfClosure >= m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth()) && (! bBreaking))
@@ -1473,9 +1521,8 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
       }
 
       // Before we store the X-Y distance, must check that it is not the same as the previously-stored distance (if it is, we get zero-divide errors in CShore). If they are the same, skip this one
-      // TODO: Check why profile points are repeated in junction. MCB: Remove this check. It does occurs, a simple infinitesimal is added
-      // if (dProfileDistXY == dPrevDist)
-      //    continue;
+      if (bFPIsEqual(dProfileDistXY, dPrevDist, TOLERANCE))
+         continue;
 
       // Update the cell indexes, the initial cell is now the previous one
       nX1 = nX;
@@ -1500,7 +1547,8 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
       {
          if (VdProfileZ < 0)
          {
-            VdVZ->push_back(0.5);
+            VdVZ->push_back(0.5);      // DFM what is this?            
+            
             // Could not create the profile elevation vectors
             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): landward location is negative. Changing for CShore profile elevation vector " << nProfile << endl;
          }
@@ -1515,14 +1563,7 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
       }
 
       // Now store the X-Y plane distance from the start of the profile
-      if (dProfileDistXY == dPrevDist)
-      {
-         VdDistXY->push_back(dProfileDistXY + 0.001);
-      }
-      else
-      {
-         VdDistXY->push_back(dProfileDistXY);
-      }
+      VdDistXY->push_back(dProfileDistXY);
 
       // Get the landform type at each point along the profile
       double dInterventionHeight = m_pRasterGrid->m_Cell[nX][nY].dGetInterventionHeight();
@@ -1767,7 +1808,7 @@ void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int co
       // This coast point is in the active zone, so set breaking wave height, breaking wave angle, and depth of breaking for the coast point
       if (dThisBreakingWaveHeight > dThisBreakingDepth * 0.78)
       {
-         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely Cshore output wave height is not adequately reproduced due to input profile and wave properties - MCB
+         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely CShore output wave height is not adequately reproduced due to input profile and wave properties - MCB
       }
 
       // assert(dThisBreakingWaveHeight >= 0);

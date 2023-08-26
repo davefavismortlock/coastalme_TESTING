@@ -6,14 +6,19 @@
 #if defined EXE
 program CShore
 #else
-subroutine CShore(NRET)
+#if defined FILEINOUT
+subroutine CShore(NRET) bind(c, name = "CShore")
+#else
+subroutine CShore(NRET)   
 #endif
+#endif
+
    use CShoreShared
 
    implicit integer (I-N)
    implicit double precision (A-H, O-Z)   
   
-#if ! defined EXE
+#if ! defined EXE || defined FILEINOUT
    integer, intent(inout) :: NRET
 #endif
 
