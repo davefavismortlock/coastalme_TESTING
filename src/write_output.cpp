@@ -482,8 +482,8 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << m_dCliffDepositionA << "  m^(1/3)";
    OutStream << endl;
    OutStream << " Planview width of cliff deposition talus                  \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCliffDepositionPlanviewWidth << " m" << endl;
-   OutStream << " Planview length of cliff deposition talus                 \t: " << m_dCliffDepositionPlanviewLength << " m" << endl;
-   OutStream << " Height of talus at land end (fraction of cliff elevation) \t: " << m_dCliffDepositionHeightFrac << endl;
+   OutStream << " Planview length of cliff deposition talus                 \t: " << m_dCliffTalusMinDepositionLength << " m" << endl;
+   OutStream << " Min height of land-end talus (fraction of cliff elevation)\t: " << m_dMinCliffTalusHeightFrac << endl;
    OutStream << " Do riverine flooding?                                     \t: " << (m_bDoFlood ? "Y" : "N") << endl;
    if (m_bDoFlood)
    {

@@ -299,8 +299,6 @@ CSimulation::CSimulation (void)
    m_dThisIterLeftGridUnconsFine =
    m_dThisIterLeftGridUnconsSand =
    m_dThisIterLeftGridUnconsCoarse =
-   m_dThisIterSandSedLostCliffCollapse =
-   m_dThisIterCoarseSedLostCliffCollapse =
    m_dThisIterPotentialPlatformErosion =
    m_dThisIterActualPlatformErosionFineCons =
    m_dThisIterActualPlatformErosionSandCons =
@@ -324,8 +322,8 @@ CSimulation::CSimulation (void)
    m_dNotchBaseBelowSWL =
    m_dCliffDepositionA =
    m_dCliffDepositionPlanviewWidth =
-   m_dCliffDepositionPlanviewLength =
-   m_dCliffDepositionHeightFrac =
+   m_dCliffTalusMinDepositionLength =
+   m_dMinCliffTalusHeightFrac =
    m_dThisIterCliffCollapseErosionFineUncons =
    m_dThisIterCliffCollapseErosionSandUncons =
    m_dThisIterCliffCollapseErosionCoarseUncons =
@@ -615,7 +613,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
    // Deal with command-line parameters
    int nRet = nHandleCommandLineParams (nArg, pcArgv);
-
    if (nRet != RTN_OK)
       return (nRet);
 
@@ -660,7 +657,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    // Read in the basement layer (NOTE MUST HAVE THIS FILE), create the raster grid, then read in the basement DEM data to the array
    AnnounceReadBasementDEM();
    nRet = nReadRasterBasementDEM();
-
    if (nRet != RTN_OK)
       return nRet;
 
@@ -668,7 +664,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
    // Mark edge cells, as defined by the basement layer
    nRet = nMarkBoundingBoxEdgeCells();
-
    if (nRet != RTN_OK)
       return nRet;
 
@@ -712,42 +707,36 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       // Read in the initial fine unconsolidated sediment depth file(s)
       AnnounceReadInitialFineUnconsSedGIS (nLayer);
       nRet = nReadRasterGISFile (FINE_UNCONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the initial sand unconsolidated sediment depth file
       AnnounceReadInitialSandUnconsSedGIS (nLayer);
       nRet = nReadRasterGISFile (SAND_UNCONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the initial coarse unconsolidated sediment depth file
       AnnounceReadInitialCoarseUnconsSedGIS (nLayer);
       nRet = nReadRasterGISFile (COARSE_UNCONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the initial fine consolidated sediment depth file
       AnnounceReadInitialFineConsSedGIS (nLayer);
       nRet = nReadRasterGISFile (FINE_CONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the initial sand consolidated sediment depth file
       AnnounceReadInitialSandConsSedGIS (nLayer);
       nRet = nReadRasterGISFile (SAND_CONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the initial coarse consolidated sediment depth file
       AnnounceReadInitialCoarseConsSedGIS (nLayer);
       nRet = nReadRasterGISFile (COARSE_CONS_RASTER, nLayer);
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -755,7 +744,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    // Read in the initial suspended sediment depth file
    AnnounceReadInitialSuspSedGIS();
    nRet = nReadRasterGISFile (SUSP_SED_RASTER, 0);
-
    if (nRet != RTN_OK)
       return (nRet);
 
@@ -764,7 +752,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    {
       AnnounceReadLGIS();
       nRet = nReadRasterGISFile (LANDFORM_RASTER, 0);
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -774,13 +761,11 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    {
       AnnounceReadICGIS();
       nRet = nReadRasterGISFile (INTERVENTION_CLASS_RASTER, 0);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       AnnounceReadIHGIS();
       nRet = nReadRasterGISFile (INTERVENTION_HEIGHT_RASTER, 0);
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -790,7 +775,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    {
       AnnounceReadTideData();
       nRet = nReadTideDataFile();
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -798,7 +782,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    // Read in the erosion potential shape function data
    AnnounceReadSCAPEShapeFunctionFile();
    nRet = nReadShapeFunctionFile();
-
    if (nRet != RTN_OK)
       return (nRet);
 
@@ -818,7 +801,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Read in vector points
       nRet = nReadVectorGISFile (DEEP_WATER_WAVE_STATIONS_VEC);
-
       if (nRet != RTN_OK)
          return (nRet);
 
@@ -829,7 +811,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Read in time series values, and initialize the vector which stores each timestep's deep water wave height, orientation and period
       nRet = nReadWaveStationTimeSeriesFile (nWaveStations);
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -842,13 +823,11 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Read in vector points for sediment input events
       nRet = nReadVectorGISFile (SEDIMENT_INPUT_EVENT_LOCATION_VEC);
-
       if (nRet != RTN_OK)
          return (nRet);
 
       // Read in the time series values for sediment input events
       nRet = nReadSedimentInputEventTimeSeriesFile();
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -861,7 +840,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Read in vector points for sediment input events
       nRet = nReadVectorGISFile (FLOOD_LOCATION_VEC);
-
       if (nRet != RTN_OK)
          return (nRet);
    }
@@ -869,7 +847,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    // Open the main output
    OutStream.open (m_strOutFile.c_str(), ios::out | ios::trunc);
 
-   if (!OutStream)
+   if (! OutStream)
    {
       // Error, cannot open Out file
       cerr << ERR << "cannot open " << m_strOutFile << " for output" << endl;
@@ -945,25 +923,21 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Check to see if there is a new intervention in place: if so, update it on the RasterGrid array
       nRet = nUpdateIntervention();
-
       if (nRet != RTN_OK)
          return nRet;
 
       // Calculate changes due to external forcing
       nRet = nCalcExternalForcing();
-
       if (nRet != RTN_OK)
          return nRet;
 
       // Do per-timestep intialization: set up the grid cells ready for this timestep, also initialize per-timestep totals. Note that in the first timestep, all cells -- including hinterland cells -- are given the deep water wave values TODO re. changing deep water wave values
       nRet = nInitGridAndCalcStillWaterLevel();
-
       if (nRet != RTN_OK)
          return nRet;
 
       // Next find out which cells are inundated and locate the coastline(s). This also gives to all sea cells, wave values which are the same as the deep water values. For shallow water sea cells, these wave values will be changed later, in nDoAllPropagateWaves()
       nRet = nLocateSeaAndCoasts();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -975,19 +949,16 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Locate estuaries
       nRet = nLocateAllEstuaries();
-
       if (nRet != RTN_OK)
          return nRet;
 
       // Sort out hinterland landforms
       nRet = nAssignNonCoastlineLandforms();
-
       if (nRet != RTN_OK)
          return nRet;
 
       // For each coastline, use classification rules to assign landform categories
       nRet = nAssignAllCoastalLandforms();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -997,14 +968,12 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
          m_bSedimentInputThisIter = false;
 
          nRet = nCheckForSedimentInputEvent();
-
          if (nRet != RTN_OK)
             return nRet;
       }
 
       // Create the coastline-normal profiles
       nRet = nCreateAllProfilesAndCheckForIntersection();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -1016,7 +985,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Create the coast polygons
       nRet = nCreateAllPolygons();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -1043,7 +1011,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Calculate the length of the shared normal between each polygon and the adjacent polygon(s)
       nRet = nDoPolygonSharedBoundaries();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -1075,13 +1042,11 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Give every coast point a value for deep water wave height and direction
       nRet = nSetAllCoastpointDeepWaterWaveValues();
-
       if (nRet != RTN_OK)
          return nRet;
       
       // Change the wave properties in all shallow water sea cells: propagate waves and define the active zone, also locate wave shadow zones
       nRet = nDoAllPropagateWaves();
-
       if (nRet != RTN_OK)
          return nRet;
 
@@ -1159,16 +1124,14 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       {
          // Calculate elevation change on the consolidated sediment which comprises the coastal platform
          nRet = nDoAllShorePlatFormErosion();
-
          if (nRet != RTN_OK)
             return nRet;
       }
-
+            
       if (m_bDoCliffCollapse)
       {
          // Do all cliff collapses for this timestep (if any)
          nRet = nDoAllWaveEnergyToCoastLandforms();
-
          if (nRet != RTN_OK)
             return nRet;
       }
@@ -1183,7 +1146,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
          // Do within-sediment redistribution of unconsolidated sediment, constraining potential sediment movement to give actual (i.e. supply-limited) sediment movement to/from each polygon in three size clases
          nRet = nDoAllActualBeachErosionAndDeposition();
-
          if (nRet != RTN_OK)
             return nRet;
       }
@@ -1277,6 +1239,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       if (m_bFloodSWLSetupSurgeRunupLine | m_bSetupSurgeRunupFloodMaskSave)
       {
+         // DFM What is this?
          m_nLevel = 1;
          
          nRet = nLocateFloodAndCoasts();
@@ -1327,7 +1290,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
    // Write end-of-run information to Out, Log and time-series files
    nRet = nWriteEndRunDetails();
-
    if (nRet != RTN_OK)
       return (nRet);
 

@@ -69,7 +69,7 @@ int CSimulation::nDoAllWaveEnergyToCoastLandforms(void)
              dWaveEnergy = dWaveErosiveForce * m_dTimeStep * 3600;
              
          // TODO DISCUSS WITH ANDRES
-         double dArbitraryConstant = 0.001;
+         double dArbitraryConstant = 1e-5;
          dWaveEnergy *= dArbitraryConstant;
 
          //          assert(isfinite(dWaveEnergy));
@@ -80,7 +80,7 @@ int CSimulation::nDoAllWaveEnergyToCoastLandforms(void)
          if (nCategory == LF_CAT_CLIFF)
          {
             // This is a cliff
-            CRWCliff*pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
+            CRWCliff* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
 
             // Calculate this-timestep cliff notch erosion (is a length in external CRS units). Only consolidated sediment can have a cliff notch
             double dNotchExtension = dWaveEnergy / m_dCliffErosionResistance;
@@ -424,7 +424,7 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
    for (int n = 0; n < m_nCliffCollapseTalusPlanviewWidth; n++)
    {
       nVWidthDistSigned[n] = nSigned++;
-      nVProfileLength[n] = nRound(m_dCliffDepositionPlanviewLength);
+      nVProfileLength[n] = nRound(m_dCliffTalusMinDepositionLength);
 //      dVToDepositPerProfile[n] = (dTotSandToDeposit + dTotCoarseToDeposit) / m_nCliffCollapseTalusPlanviewWidth;
    }
 
@@ -467,20 +467,12 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
       if ((nThisPoint < 0) || (nThisPoint > (nCoastSize - 1)))
       {
          // No, it is outside the grid
-         //          LogStream << endl << m_ulIter << ": ABANDONING PROFILE with nWidthDistSigned = " << nWidthDistSigned << endl;
-         //          LogStream << "START point " << nThisPoint << " of profile would have been outside the grid, so " << dVToDepositPerProfile[nAcross] << " exported from grid" << endl;
-         //          LogStream << "dTotSandToDeposit WAS = " << dTotSandToDeposit << " dTotCoarseToDeposit WAS = " << dTotCoarseToDeposit << endl;
-
-         // Since the start point of the profile is outside the grid, abandon this profile and add this profile's sediment to the volume exported from the grid this timestep
-         m_dThisIterSandSedLostCliffCollapse += (dVToDepositPerProfile[nAcross] * dSandProp);
-         m_dThisIterCoarseSedLostCliffCollapse += (dVToDepositPerProfile[nAcross] * dCoarseProp);
-
-         // Then remove this volume from the total still to be deposited
-         dTotSandToDeposit -= (dVToDepositPerProfile[nAcross] * dSandProp);
-         dTotCoarseToDeposit -= (dVToDepositPerProfile[nAcross] * dCoarseProp);
-         //          LogStream << "dTotSandToDeposit NOW = " << dTotSandToDeposit << " dTotCoarseToDeposit NOW = " << dTotCoarseToDeposit << endl;
-
-         continue;
+         if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
+         {                  
+            LogStream << m_ulIter << ": unable to deposit sufficient unconsolidated talus from cliff collapse, since start point of Dean profile is outside the grid, nThisPoint = " << nThisPoint << endl;
+            
+            return RTN_ERR_CLIFFDEPOSIT;
+         }
       }
 
       // OK, the start point of the deposition profile is inside the grid
@@ -491,6 +483,9 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
       // Make the start of the deposition profile the cliff cell that is marked as coast (not the cell under the smoothed vector coast, they may well be different)
       PtStart.SetX(dGridCentroidXToExtCRSX(m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPoint)->nGetX()));
       PtStart.SetY(dGridCentroidYToExtCRSY(m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPoint)->nGetY()));
+      
+      // Set the initial fraction of cliff height
+      double dCliffHeightFrac = m_dMinCliffTalusHeightFrac;
 
       // The initial seaward offset, in cells
       int nSeawardOffset = -1;
@@ -498,6 +493,32 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
       {
          // Increase the seaward offset each time round the loop
          nSeawardOffset++;
+         
+         // Has the seaward offset reached the limit?
+         if (nSeawardOffset > tMin(m_nXGridMax, m_nYGridMax)) 
+         {
+            // It has, so try again with a larger fraction of cliff height
+            nSeawardOffset = 0;
+            dCliffHeightFrac += 0.1;
+            
+            // Has the cliff height reached the limit?
+            if (dCliffHeightFrac > 1)
+            {
+               // It has, so try again with a longer planview deposition length
+               nVProfileLength[nAcross] += 10;     // TODO make this a named constant
+               
+               nSeawardOffset = 0;
+               dCliffHeightFrac = m_dMinCliffTalusHeightFrac;
+            }
+               
+            // Safety check: has the planview deposition length reached the limit?
+            if (nVProfileLength[nAcross] > tMin(m_nXGridMax, m_nYGridMax))               
+            {
+               LogStream << m_ulIter << ": Unable to deposit sufficient unconsolidated talus from cliff collapse, nSeawardOffset = " << nSeawardOffset << " dCliffHeightFrac = " << dCliffHeightFrac << " nVProfileLength[nAcross] = " << nVProfileLength[nAcross] << endl;
+               
+               return RTN_ERR_CLIFFDEPOSIT;
+            }
+         }            
 
          // Now construct a deposition collapse profile from the start point, it is one cell longer than the specified length because it includes the cliff point in the profile. Calculate its length in external CRS units, the way it is done here is approximate but probably OK
          double dThisProfileLength = (nVProfileLength[nAcross] + nSeawardOffset + 1) * m_dCellSide;
@@ -505,47 +526,18 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
          // Get the end point of this coastline-normal line
          CGeom2DIPoint PtiEnd; // In grid CRS
          int nRtn = nGetCoastNormalEndPoint(nCoast, nThisPoint, nCoastSize, &PtStart, dThisProfileLength, &PtEnd, &PtiEnd);
-         if (nRtn != RTN_OK)
+         if (nRtn == RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID)
          {
-            if (nRtn == RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID)
-            {
-               // The end point of the deposition profile is outside the grid
-               //                LogStream << "dTotSandToDeposit WAS = " << dTotSandToDeposit << " dTotCoarseToDeposit WAS = " << dTotCoarseToDeposit << endl;
-               //                LogStream << "END point of profile would have been outside the grid, so " << dVToDepositPerProfile[nAcross] << " exported from grid" << endl;
+            LogStream << m_ulIter << ": Unable to deposit sufficient unconsolidated talus from cliff collapse, since end point of Dean profile has reached the edge of the grid with nSeawardOffset = " << nSeawardOffset << endl;
+            
+            return nRtn;
+         }
 
-               // Since the end point of the profile is outside the grid, abandon this deposition profile and add this profile's sediment to the volume exported from the grid this timestep
-               m_dThisIterSandSedLostCliffCollapse += (dVToDepositPerProfile[nAcross] * dSandProp);
-               m_dThisIterCoarseSedLostCliffCollapse += (dVToDepositPerProfile[nAcross] * dCoarseProp);
-
-               // Then remove this volume from the total still to be deposited
-               dTotSandToDeposit -= (dVToDepositPerProfile[nAcross] * dSandProp);
-               dTotCoarseToDeposit -= (dVToDepositPerProfile[nAcross] * dCoarseProp);
-               //                LogStream << "dTotSandToDeposit NOW = " << dTotSandToDeposit << " dTotCoarseToDeposit NOW = " << dTotCoarseToDeposit << endl;
-            }
-
-            if (nRtn == RTN_ERR_NO_SOLUTION_FOR_ENDPOINT)
-            {
-               // The profile has a different problem, so (if possible) move to the next deposition profile (i.e. one cell along long the coast) and try again (must add this profile's sediment to the amount remaining per profile). But if it isn't possible to move to the next deposition profile, for example if m_nCliffCollapseTalusPlanviewWidth == 1 or we are at the end of the coast, then we have a problem and will have to resort to the "catch all" solution at the end of this subroutine
-               //                for (int n = 0; n < m_nCliffCollapseTalusPlanviewWidth; n++)
-               //                {
-               //                   LogStream << dVToDepositPerProfile[n] << " ";
-               //                }
-               //                LogStream << endl;
-               //                LogStream << "Deposition per profile WAS = ";
-
-               int nWidthRemaining = m_nCliffCollapseTalusPlanviewWidth - nAcross - 1;
-               for (int n = nAcross + 1; n < m_nCliffCollapseTalusPlanviewWidth; n++)
-                  dVToDepositPerProfile[n] = (dTotSandToDeposit + dTotCoarseToDeposit) / nWidthRemaining;
-
-               //                LogStream << "Deposition per profile NOW = ";
-               //                for (int n = 0; n < m_nCliffCollapseTalusPlanviewWidth; n++)
-               //                {
-               //                   LogStream << dVToDepositPerProfile[n] << " ";
-               //                }
-               //                LogStream << endl;
-            }
-
-            break;
+         if (nRtn == RTN_ERR_NO_SOLUTION_FOR_ENDPOINT)
+         {
+            LogStream << m_ulIter << ": Unable to deposit sufficient unconsolidated talus from cliff collapse, could not find a solution for the end point of the Dean profile" << endl;
+            
+            return nRtn;
          }
 
          // OK, both the start and end points of this depoition profile are within the grid
@@ -589,7 +581,7 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
              dCliffTopElev = dVProfileNow[0],
              dCliffBaseElev = dVProfileNow[1],
              dCliffHeight = dCliffTopElev - dCliffBaseElev,
-             dTalusTopElev = dCliffBaseElev + (dCliffHeight * m_dCliffDepositionHeightFrac);
+             dTalusTopElev = dCliffBaseElev + (dCliffHeight * dCliffHeightFrac);
 
          //         LogStream << "Elevations: cliff top = " << dCliffTopElev << " cliff base = " << dCliffBaseElev << " talus top = " << dTalusTopElev << endl;
 
@@ -645,8 +637,12 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
 
          // For this planview profile, does the Dean equilibrium profile allow us to deposit all the talus sediment which we need to get rid of?
          if (dTotElevDiff >= dVToDepositPerProfile[nAcross])
+         {
             // No it doesn't, so try again with a larger seaward offset
+            // LogStream << m_ulIter << ": nSeawardOffset = " << nSeawardOffset << " dTotElevDiff = " << dTotElevDiff << " dVToDepositPerProfile[nAcross] = " << dVToDepositPerProfile[nAcross] << endl;
+            
             continue;
+         }
 
          // Yes it does
          //          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): cliff collapse at [" << VCellsUnderProfile[0].nGetX() << "][" << VCellsUnderProfile[0].nGetY() << "] = {" << dGridCentroidXToExtCRSX(VCellsUnderProfile[0].nGetX()) << ", " << dGridCentroidYToExtCRSY(VCellsUnderProfile[0].nGetY()) << "} offset SUFFICIENT with nSeawardOffset = " << nSeawardOffset << endl;
@@ -664,7 +660,10 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
          {
             // Have we deposited all that we need to?
             if ((dTotSandToDeposit + dTotCoarseToDeposit) <= 0)
+            {
+               LogStream << m_ulIter << ": (dTotSandToDeposit + dTotCoarseToDeposit) = " << (dTotSandToDeposit + dTotCoarseToDeposit)<< endl;
                break;
+            }
             
             // OK, we still have some talus left to deposit
             int
@@ -847,7 +846,8 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff*pCliff, d
          }     // All cells in this profile
          //        LogStream << endl;
          //        LogStream << "Profile done, dDepositedCheck = " << dDepositedCheck << " dRemovedCheck = " << dRemovedCheck << endl;
-
+         
+         LogStream << m_ulIter << ": XXXX" << endl;
          break;
          
       } while (true);      // The seaward offset loop

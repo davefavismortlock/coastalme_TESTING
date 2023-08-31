@@ -998,6 +998,11 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       // 
       // CShoreWrapper(&lIter, &nCoast, &nProfile, &nILine, &nIProfl, &nIPerm, &nIOver, &nIWCInt, &nIRoll, &nIWind, &nITide, &nILab, &nNWave, &nNSurge, &dDX, &m_dBreakingWaveHeightDepthRatio, &VdInitTime[0], &VdTPIn[0], &VdHrmsIn[0], &VdWangIn[0], &VdTSurg[0], &VdSWLin[0], &nProfileDistXYSize, &VdProfileDistXY[0], &VdProfileZ[0], &VdFPInp[0], &nRet, &nOutSize, &VdXYDistFromCShoreOut[0], &VdFreeSurfaceStdOut[0], &VdWaveSetupOut[0], &VdSinWaveAngleRadiansOut[0], &VdFractionBreakingWavesOut[0]);
           
+      for (int nn = 0; nn < nProfileDistXYSize; nn++)
+      {
+         LogStream << nn << "\t" << VdProfileDistXY[nn] << "\t" << VdProfileDistXY[nn] << "\t" << VdProfileZ[nn] << endl;         
+      }
+          
       CShoreWrapper(&nILine,                          /* In_ILINE */
                     &nIProfl,                         /* In_IPROFL */
                     &nIPerm,                          /* In_IPERM */
@@ -1096,8 +1101,45 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          // Not too serious, so carry on
       }
       
+      // TEST nOutsize < nOutSize occasionally
+      //assert(static_cast<int>(VdFreeSurfaceStd.size()) == nOutSize);
+      //LogStream << "VdFreeSurfaceStd.size() = " << nOutSize << " nOutSize = " << nOutSize << endl;
+      
+      for (int nn = 0; nn < static_cast<int>(VdFreeSurfaceStd.size()); nn++)
+      {
+         assert(isfinite(VdProfileDistXY[nn]));
+         
+         assert(isfinite(VdXYDistFromCShoreOut[nn]));
+         assert(isfinite(VdFreeSurfaceStdOut[nn]));      
+         assert(isfinite(VdWaveSetupSurgeOut[nn]));
+         assert(isfinite(VdSinWaveAngleRadiansOut[nn]));
+         assert(isfinite(VdFractionBreakingWavesOut[nn]));
+         
+         assert(isfinite(VdFreeSurfaceStd[nn]));
+         assert(isfinite(VdWaveSetupSurge[nn]));
+         assert(isfinite(VdSinWaveAngleRadians[nn]));
+         assert(isfinite(VdFractionBreakingWaves[nn]));
+      }
+      
       // Now interpolate the output
-      InterpolateCShoreOutput(&VdProfileDistXY, nOutSize, &VdXYDistFromCShoreOut, &VdFreeSurfaceStdOut, &VdWaveSetupSurgeOut, &VdSinWaveAngleRadiansOut, &VdFractionBreakingWavesOut, &VdFreeSurfaceStd, &VdWaveSetupSurge, &VdSinWaveAngleRadians, &VdFractionBreakingWaves); // MCB
+      InterpolateCShoreOutput(&VdProfileDistXY, nOutSize, &VdXYDistFromCShoreOut, &VdFreeSurfaceStdOut, &VdWaveSetupSurgeOut, &VdSinWaveAngleRadiansOut, &VdFractionBreakingWavesOut, &VdFreeSurfaceStd, &VdWaveSetupSurge, &VdSinWaveAngleRadians, &VdFractionBreakingWaves);
+      
+      // TEST
+      for (int nn = 0; nn < static_cast<int>(VdFreeSurfaceStd.size()); nn++)
+      {
+         assert(isfinite(VdProfileDistXY[nn]));
+         
+         assert(isfinite(VdXYDistFromCShoreOut[nn]));
+         assert(isfinite(VdFreeSurfaceStdOut[nn]));      
+         assert(isfinite(VdWaveSetupSurgeOut[nn]));
+         assert(isfinite(VdSinWaveAngleRadiansOut[nn]));
+         assert(isfinite(VdFractionBreakingWavesOut[nn]));
+         
+         assert(isfinite(VdFreeSurfaceStd[nn]));
+         assert(isfinite(VdWaveSetupSurge[nn]));
+         assert(isfinite(VdSinWaveAngleRadians[nn]));
+         assert(isfinite(VdFractionBreakingWaves[nn]));
+      }
 #endif
 
 #if defined CSHORE_BOTH
@@ -1131,8 +1173,8 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
              nY = pProfile->pPtiGetCellInProfile(nProfilePoint)->nGetY();
              
          // Safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
-         if (! isfinite(VdWaveHeight[nProfilePoint]))
-            VdWaveHeight[nProfilePoint] = 0;             
+         if (! isfinite(VdFreeSurfaceStd[nProfilePoint]))
+            VdFreeSurfaceStd[nProfilePoint] = 0;             
              
          VdWaveHeight[nProfilePoint] = sqrt(8) * VdFreeSurfaceStd[nProfilePoint];
          

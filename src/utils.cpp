@@ -1573,14 +1573,14 @@ void CSimulation::DoTimestepTotals(void)
       
       // Beach (unconsolidated sediment) lost from grid due to beach erosion and deposition, and to cliff collapse with talus going outside the grid
       LogStream << strLeft("Unconsolidated sediment lost from grid", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsFine * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsSand + m_dThisIterSandSedLostCliffCollapse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsCoarse + m_dThisIterCoarseSedLostCliffCollapse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsFine + m_dThisIterLeftGridUnconsSand + m_dThisIterSandSedLostCliffCollapse + m_dThisIterLeftGridUnconsCoarse + m_dThisIterCoarseSedLostCliffCollapse) * m_dCellArea, 3, 14)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsSand * m_dCellArea, 3, 14)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsFine + m_dThisIterLeftGridUnconsSand + m_dThisIterLeftGridUnconsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
       LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
       
       dFineTmp += (-m_dThisIterLeftGridUnconsFine * m_dCellArea);
-      dSandTmp += (-(m_dThisIterLeftGridUnconsSand + m_dThisIterSandSedLostCliffCollapse) * m_dCellArea);
-      dCoarseTmp += (-(m_dThisIterLeftGridUnconsCoarse + m_dThisIterCoarseSedLostCliffCollapse) * m_dCellArea);
+      dSandTmp += (-m_dThisIterLeftGridUnconsSand * m_dCellArea);
+      dCoarseTmp += (-m_dThisIterLeftGridUnconsCoarse * m_dCellArea);
       
       // Sediment added via input events
       LogStream << strLeft("Unconsolidated sediment added via input event(s)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisiterUnconsFineInput * m_dCellArea, 3, 14)  << "|" << endl;
@@ -1690,10 +1690,6 @@ void CSimulation::DoTimestepTotals(void)
    m_ldGTotActualFineLostBeachErosion += m_dThisIterLeftGridUnconsFine;
    m_ldGTotActualSandLostBeachErosion += m_dThisIterLeftGridUnconsSand;
    m_ldGTotActualCoarseLostBeachErosion += m_dThisIterLeftGridUnconsCoarse;
-
-   // Unconsolidated sediment lost due to cliff collapse
-   m_ldGTotSandSedLostCliffCollapse += m_dThisIterSandSedLostCliffCollapse;
-   m_ldGTotCoarseSedLostCliffCollapse += m_dThisIterCoarseSedLostCliffCollapse;
 
    // Unconsolidated sediment input event(s)
    m_ldGTotFineSedimentInput += m_dThisiterUnconsFineInput;

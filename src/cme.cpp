@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
    CSimulation *pSimulation = new CSimulation;
 
    // Run the simulation and then check how it ends
-
    int nRtn = pSimulation->nDoSimulation(argc, argv);
    pSimulation->DoSimulationEnd(nRtn);
 

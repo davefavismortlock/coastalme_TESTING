@@ -80,8 +80,6 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
    m_dThisIterBeachDepositionCoarse =
    m_dThisIterPotentialSedLostBeachErosion =
    m_dThisIterFineSedimentToSuspension =
-   m_dThisIterSandSedLostCliffCollapse =
-   m_dThisIterCoarseSedLostCliffCollapse =
    m_dThisIterCliffCollapseErosionFineUncons =
    m_dThisIterCliffCollapseErosionSandUncons =
    m_dThisIterCliffCollapseErosionCoarseUncons =

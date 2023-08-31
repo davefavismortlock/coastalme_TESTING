@@ -2501,9 +2501,9 @@ bool CSimulation::bReadRunDataFile(void)
                   break;
                }
 
-               m_dCliffDepositionPlanviewLength = strtod(strRH.c_str(), NULL);
+               m_dCliffTalusMinDepositionLength = strtod(strRH.c_str(), NULL);
 
-               if (m_dCliffDepositionPlanviewLength <= 0)
+               if (m_dCliffTalusMinDepositionLength <= 0)
                   strErr = "line " + to_string(nLine) + ": planview length of cliff deposition must be > 0";
             }
             break;
@@ -2519,9 +2519,9 @@ bool CSimulation::bReadRunDataFile(void)
                   break;
                }
 
-               m_dCliffDepositionHeightFrac = strtod(strRH.c_str(), NULL);
+               m_dMinCliffTalusHeightFrac = strtod(strRH.c_str(), NULL);
 
-               if (m_dCliffDepositionHeightFrac < 0)
+               if (m_dMinCliffTalusHeightFrac < 0)
                   strErr = "line " + to_string(nLine) + ": height of cliff collapse (as a fraction of cliff elevation) must be >= 0";
             }
             break;
