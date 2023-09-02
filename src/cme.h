@@ -239,7 +239,7 @@ int const IO_INTERVENTION_NON_STRUCT = 2;
 // Generic landform code
 int const LF_NONE = 0;
 
-// Landform category codes for cells and coast landform objects (see old source for full list, to be used eventually)
+// Landform category codes for cells and coast landform objects
 int const LF_CAT_HINTERLAND = 1;
 int const LF_CAT_SEA = 2;
 int const LF_CAT_CLIFF = 3;
@@ -480,6 +480,8 @@ int const WAVE_MODEL_CSHORE = 1;
 int const UNCONS_SEDIMENT_EQUATION_CERC = 0;
 int const UNCONS_SEDIMENT_EQUATION_KAMPHUIS = 1;
 
+int const CLIFF_COLLAPSE_LENGTH_INCREMENT = 10;       // Increment the planview length of the cliff talus Dean profile, if we have not been able to deposit enough
+
 unsigned long const MASK = 0xfffffffful;
 unsigned long const SEDINPUTEVENTERROR = -1;
 
@@ -503,15 +505,16 @@ double const CSHORE_SURGE_LEVEL = 0.0;                // Not used, but in the fu
 
 double const TOLERANCE = 1e-7;                        // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
 double const SEDIMENT_ELEV_TOLERANCE = 1e-10;         // For bFPIsEqual, used to compare depth-equivalent sediment amounts
-double const MASS_BALANCE_TOLERANCE = 1e-5;           // For bFPIsEqual, used to compare this-iteration and last-iteration sediment totals
+double const MASS_BALANCE_TOLERANCE = 1e-5;           // For bFPIsEqual, used to compare for mass balance checks
 double const STRAIGHT_COAST_MAX_DETAILED_CURVATURE = -5;
 double const STRAIGHT_COAST_MAX_SMOOTH_CURVATURE = -1;
 double const MIN_LENGTH_OF_SHADOW_ZONE_LINE = 10;     // Used in shadow line tracing
 double const MAX_LAND_LENGTH_OF_SHADOW_ZONE_LINE = 5; // Used in shadow line tracing
+double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractional height of the cliff talus Dean profile, if we have not been able to deposit enough
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1 (31 Aug 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.03 (02 Sep 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 

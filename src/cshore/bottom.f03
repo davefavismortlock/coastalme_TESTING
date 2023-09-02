@@ -51,7 +51,7 @@ subroutine BOTTOM
          DUM = XBINP(K+1,L) - XBINP(K,L)
          SLOPE(K) = (ZBINP(K+1,L) - ZBINP(K,L)) / DUM
          
-         write (*,*) "K =", K, " SLOPE(K) =", SLOPE(K)
+!          write (*,*) "K =", K, " SLOPE(K) =", SLOPE(K)
 120   end do
 
       ! No vertical wall at landward end unless IVWALL == 1 or 2

@@ -199,7 +199,7 @@ public:
     double dGetFluxOrientation(int const) const;
 
     void SetWaveEnergyAtBreaking(int const, double const);
-    double dGetWaveEnergyatBreaking(int const) const;
+    double dGetWaveEnergyAtBreaking(int const) const;
 
     void AppendCoastLandform(CACoastLandform*);
     CACoastLandform* pGetCoastLandform(int const);

@@ -920,8 +920,10 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
       string strFieldValue1;
       if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
          strFieldValue1 = "Curve";
-      else if ((nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE) || (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY))
-         strFieldValue1 = "Energy";
+      else if (nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE)
+         strFieldValue1 = "SC_Energy";
+      else if (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY)
+         strFieldValue1 = "MeanEnergy";
       else if (nDataItem == VECTOR_PLOT_BREAKING_WAVE_HEIGHT)
          strFieldValue1 = "Height";
       else if (nDataItem == VECTOR_PLOT_POLYGON_NODES)

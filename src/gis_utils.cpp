@@ -1716,7 +1716,7 @@ void CSimulation::SetRasterFileCreationDefaults(void)
 
 /*==============================================================================================================================
 
-Returns the opposite diection
+Returns the opposite direction
 
 ===============================================================================================================================*/
 int CSimulation::nGetOppositeDirection(int const nDirection)
@@ -1814,4 +1814,14 @@ CGeom2DIPoint CSimulation::PtiFindClosestCoastPoint(int const nX, int const nY)
    }
 
    return PtiCoastPoint;
+}
+
+/*==============================================================================================================================
+
+Given a length in m, this returns the rounded equivalent number of cells
+
+===============================================================================================================================*/
+int CSimulation::nConvertMetresToNumCells(double const dLen)
+{
+   return nRound(dLen / m_dCellSide);   
 }

@@ -193,7 +193,6 @@ CSimulation::CSimulation (void)
    m_nCoastMin =
    m_nNThisIterCliffCollapse =
    m_nNTotCliffCollapse =
-   m_nCliffCollapseTalusPlanviewWidth =
    m_nGlobalPolygonID =
    m_nUnconsSedimentHandlingAtGridEdges =
    m_nBeachErosionDepositionEquation =
@@ -888,17 +887,6 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       m_dAccumulatedSeaLevelChange -= m_dDeltaSWLPerTimestep;
    }
 
-   if (m_bDoCliffCollapse)
-   {
-      // Now that we know the cell size, calculate the width of a cliff collapse in cells (must be odd)
-      m_nCliffCollapseTalusPlanviewWidth = nRound (m_dCliffDepositionPlanviewWidth / m_dCellSide);
-
-      if ( (m_nCliffCollapseTalusPlanviewWidth % 2) == 0)
-         m_nCliffCollapseTalusPlanviewWidth++;
-
-      m_dCliffDepositionPlanviewWidth = m_nCliffCollapseTalusPlanviewWidth * m_dCellSide;
-   }
-
    // ===================================================== The main loop ======================================================
    // Tell the user what is happening
    AnnounceIsRunning();
@@ -931,7 +919,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       if (nRet != RTN_OK)
          return nRet;
 
-      // Do per-timestep intialization: set up the grid cells ready for this timestep, also initialize per-timestep totals. Note that in the first timestep, all cells -- including hinterland cells -- are given the deep water wave values TODO re. changing deep water wave values
+      // Do per-timestep intialization: set up the grid cells ready for this timestep, also initialize per-timestep totals. Note that in the first timestep, all cells -- including hinterland cells -- are given the deep water wave values
       nRet = nInitGridAndCalcStillWaterLevel();
       if (nRet != RTN_OK)
          return nRet;

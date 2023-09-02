@@ -126,7 +126,7 @@ bool CRWCliff::bReadyToCollapse(double const dThresholdNotchDepth) const
 }
 
 //! Increases the XY-plane length (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea
-void CRWCliff::ErodeNotch(double const dLenIn)
+void CRWCliff::DeepenErosionalNotch(double const dLenIn)
 {
    m_dNotchDepth += dLenIn;
 

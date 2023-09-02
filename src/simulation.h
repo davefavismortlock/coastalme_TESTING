@@ -197,8 +197,8 @@ private:
       m_nCoastSmoothWindow,
       m_nSavGolCoastPoly,
       m_nProfileSmoothWindow,
-      m_nCoastNormalAvgSpacing,  // In cells
-      m_nCoastCurvatureInterval, // A length, measured in coastline points
+      m_nCoastNormalAvgSpacing,           // In cells
+      m_nCoastCurvatureInterval,          // A length, measured in coastline points
       m_nNaturalCapeNormals,
       m_nGISMaxSaveDigits,
       m_nGISSave,
@@ -208,8 +208,7 @@ private:
       m_nCoastMin,
       m_nNThisIterCliffCollapse,
       m_nNTotCliffCollapse,
-      m_nCliffCollapseTalusPlanviewWidth,
-      m_nGlobalPolygonID, // There are m_nGlobalPolygonID + 1 polygons at any time (all coasts)
+      m_nGlobalPolygonID,                 // There are m_nGlobalPolygonID + 1 polygons at any time (all coasts)
       m_nUnconsSedimentHandlingAtGridEdges,
       m_nBeachErosionDepositionEquation,
       m_nMissingValue,
@@ -756,7 +755,8 @@ private:
    static double dAngleSubtended(CGeom2DIPoint const*, CGeom2DIPoint const*, CGeom2DIPoint const*);
    static int nGetOppositeDirection(int const);
    static void GetSlopeAndInterceptFromPoints(CGeom2DIPoint const*, CGeom2DIPoint const*, double&, double&);
-   CGeom2DIPoint PtiFindClosestCoastPoint(int const, int const nY);
+   CGeom2DIPoint PtiFindClosestCoastPoint(int const, int const);
+   int nConvertMetresToNumCells(double const);
 
    // Utility routines
    static void AnnounceStart(void);

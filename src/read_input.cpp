@@ -2483,9 +2483,9 @@ bool CSimulation::bReadRunDataFile(void)
                   break;
                }
 
-               double dTmp = strtod(strRH.c_str(), NULL);
+               m_dCliffDepositionPlanviewWidth = strtod(strRH.c_str(), NULL);
 
-               if (dTmp <= 0)
+               if (m_dCliffDepositionPlanviewWidth <= 0)
                   strErr = "line " + to_string(nLine) + ": planview width of cliff deposition must be > 0";
             }
             break;

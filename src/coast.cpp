@@ -621,7 +621,7 @@ void CRWCoast::SetWaveEnergyAtBreaking(int const nCoastPoint, double const dEner
    m_VdWaveEnergyAtBreaking[nCoastPoint] = dEnergy;
 }
 
-double CRWCoast::dGetWaveEnergyatBreaking(int const nCoastPoint) const
+double CRWCoast::dGetWaveEnergyAtBreaking(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdWaveEnergyAtBreaking.size()
    //    assert(isfinite(m_VdWaveEnergyAtBreaking[nCoastPoint]));
