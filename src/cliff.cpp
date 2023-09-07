@@ -36,8 +36,7 @@ using std::ios;
 //! Constructor
 CRWCliff::CRWCliff(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast, double const dCellSide, double const dNotchDepthIn, double const dNotchElevIn, double const dAccumWaveEnergyIn)
 {
-   m_bCliffCollapse      =
-   m_bAllSedimentGone    = false;
+   m_bCliffHasCollapsed  = false;
 
    pCoast                = pCoastIn;
 
@@ -58,27 +57,16 @@ CRWCliff::~CRWCliff(void)
 {
 }
 
-// bool CRWCliff::bHasCollapsed(void) const
-// {
-//    return m_bCliffCollapse;
-// }
-
-//! Sets the cliff collapse switch
-void CRWCliff::SetCliffCollapse(bool const bStatus)
+//! Returns the value of the cliff collapse switch
+bool CRWCliff::bHasCollapsed(void) const
 {
-   m_bCliffCollapse = bStatus;
+   return m_bCliffHasCollapsed;
 }
 
-//! Returns the value of the all sediment gone switch
-bool CRWCliff::bAllSedimentGone(void) const
+//! Flags the cliff as having collapsed
+void CRWCliff::SetCliffCollapsed(void)
 {
-   return m_bAllSedimentGone;
-}
-
-//! Sets the all sediment gone switch to true
-void CRWCliff::SetAllSedimentGone(void)
-{
-   m_bAllSedimentGone = true;
+   m_bCliffHasCollapsed = true;
 }
 
 //! Returns the elevation of the base of the erosional notch
@@ -93,30 +81,25 @@ void CRWCliff::SetNotchBaseElev(double const dNewElev)
    m_dNotchBaseElev = dNewElev;
 }
 
-// void CRWCliff::SetRemaining(double const dLenIn)
-// {
-//    m_dRemaining = dLenIn;
-// }
-
-//! Returns the XY-plane length (in external CRS units) of the remaining sediment on the coast cell at the elevation of the notch. Note that notch depth is not changed
+//! Returns the length (in external CRS units) of the cliff's remaining sediment 'behind' the erosional notch
 double CRWCliff::dGetRemaining(void) const
 {
    return (m_dMaxDepth - m_dNotchDepth);
 }
 
-//! Sets the depth of the erosional notch. Note that the remaining sediment on the coast cell at the elevation of the notch is not changed
+//! Sets the horizontal depth of the cliff's erosional notch
 void CRWCliff::SetNotchDepth(double const dLenIn)
 {
    m_dNotchDepth = dLenIn;
 }
 
-//! Returns the depth of the erosional notch
+//! Returns the horizontal depth of the cliff's erosional notch (the 'overhang')
 double CRWCliff::dGetNotchDepth(void) const
 {
    return m_dNotchDepth;
 }
 
-//! Returns true if the notch has reached the edge of the cell, or if the notch overhang exceeds the critical notch overhang
+//! Returns true if the horizontal depth of the erosional notch exceeds the critical notch overhang
 bool CRWCliff::bReadyToCollapse(double const dThresholdNotchDepth) const
 {
    if (m_dNotchDepth >= dThresholdNotchDepth)

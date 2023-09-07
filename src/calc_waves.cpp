@@ -882,29 +882,29 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 
          switch (nRet)
          {
-         case -1:
-            strErr = to_string(m_ulIter) + ": CShore ERROR: negative depth at the first node ";
-            break;
+            case -1:
+               strErr = to_string(m_ulIter) + ": CShore ERROR: negative depth at the first node ";
+               break;
 
-         case 2:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 2: negative value at end of landward marching computation ";
-            break;
+            case 2:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 2: negative value at end of landward marching computation ";
+               break;
 
-         case 3:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 3: large energy gradients at the first node: small waves with short period at sea boundary ";
-            break;
+            case 3:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 3: large energy gradients at the first node: small waves with short period at sea boundary ";
+               break;
 
-         case 4:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 4: zero energy at the first node ";
-            break;
+            case 4:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 4: zero energy at the first node ";
+               break;
 
-         case 5:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 5: at end of landward marching computation, insufficient water depth ";
-            break;
+            case 5:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 5: at end of landward marching computation, insufficient water depth ";
+               break;
 
-         case 7:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 7: did not reach convergence ";
-            break;
+            case 7:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 7: did not reach convergence ";
+               break;
          }
 
          strErr += "(coast " + to_string(nCoast) + " profile " + to_string(nProfile) + ")\n";
@@ -1062,29 +1062,29 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 
          switch (nRet)
          {
-         case -1:
-            strErr = to_string(m_ulIter) + ": CShore ERROR: negative depth at the first node ";
-            break;
+            case -1:
+               strErr = to_string(m_ulIter) + ": CShore ERROR: negative depth at the first node ";
+               break;
 
-         case 2:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 2: negative value at end of landward marching computation ";
-            break;
+            case 2:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 2: negative value at end of landward marching computation ";
+               break;
 
-         case 3:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 3: large energy gradients at the first node: small waves with short period at sea boundary ";
-            break;
+            case 3:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 3: large energy gradients at the first node: small waves with short period at sea boundary ";
+               break;
 
-         case 4:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 4: zero energy at the first node ";
-            break;
+            case 4:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 4: zero energy at the first node ";
+               break;
 
-         case 5:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 5: at end of landward marching computation, insufficient water depth ";
-            break;
+            case 5:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 5: at end of landward marching computation, insufficient water depth ";
+               break;
 
-         case 7:
-            strErr = to_string(m_ulIter) + ": CShore WARNING 7: did not reach convergence ";
-            break;
+            case 7:
+               strErr = to_string(m_ulIter) + ": CShore WARNING 7: did not reach convergence ";
+               break;
          }
 
          strErr += "(coast " + to_string(nCoast) + " profile " + to_string(nProfile) + " profile length " + to_string(nOutSize) + ")\n";

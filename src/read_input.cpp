@@ -2121,20 +2121,20 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 43:
-            // R (resistance to erosion) values along profile, see Walkden & Hall, 2011
+            // R (coast platform resistance to erosion) values along profile, see Walkden & Hall, 2011
             if (m_bDoCoastPlatformErosion)
             {
                // First check that this is a valid double
                if (! bIsStringValidDouble(strRH))
                {
-                  strErr = "line " + to_string(nLine) + ": invalid floating point number for R (resistance to erosion) '" + strRH + "' in " + m_strDataPathName;
+                  strErr = "line " + to_string(nLine) + ": invalid floating point number for R (coast platform resistance to erosion) '" + strRH + "' in " + m_strDataPathName;
                   break;
                }
 
                m_dR = strtod(strRH.c_str(), NULL);
 
                if (m_dR <= 0)
-                  strErr = "line " + to_string(nLine) + ": R (resistance to erosion) value must be > 0";
+                  strErr = "line " + to_string(nLine) + ": R (coast platform resistance to erosion) value must be > 0";
             }
             break;
 

@@ -741,9 +741,9 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
 
    // OK, we have a layer that can be eroded so find out how much consolidated sediment we have available on this cell
    double
-       dExistingAvailableFine = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetFine(),
-       dExistingAvailableSand = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetSand(),
-       dExistingAvailableCoarse = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetCoarse();
+       dExistingAvailableFine = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetFineDepth(),
+       dExistingAvailableSand = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetSandDepth(),
+       dExistingAvailableCoarse = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->dGetCoarseDepth();
 
    // Now partition the total lowering for this cell between the three size fractions: do this by relative erodibility
    int
@@ -769,7 +769,7 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
       dTotActualErosion += dFineEroded;
 
       // Set the value for this layer
-      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetFine(dRemaining);
+      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetFineDepth(dRemaining);
 
       // And set the changed-this-timestep switch
       m_bConsChangedThisIter[nThisLayer] = true;
@@ -790,10 +790,10 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
       dTotActualErosion += dSandEroded;
 
       // Set the new value of sand consolidated sediment depth for this layer
-      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetSand(dRemaining);
+      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetSandDepth(dRemaining);
       
       // And add this to the depth of sand unconsolidated sediment for this layer
-      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->AddSand(dSandEroded);      
+      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->AddSandDepth(dSandEroded);      
 
       // Set the changed-this-timestep switch
       m_bConsChangedThisIter[nThisLayer] = true;
@@ -814,10 +814,10 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
       dTotActualErosion += dCoarseEroded;
 
       // Set the new value of coarse consolidated sediment depth for this layer
-      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetCoarse(dRemaining);
+      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetConsolidatedSediment()->SetCoarseDepth(dRemaining);
       
       // And add this to the depth of coarse unconsolidated sediment for this layer
-      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseEroded);
+      m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nThisLayer)->pGetUnconsolidatedSediment()->AddCoarseDepth(dCoarseEroded);
 
       // Set the changed-this-timestep switch
       m_bConsChangedThisIter[nThisLayer] = true;

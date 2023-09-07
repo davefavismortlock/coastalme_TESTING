@@ -428,7 +428,7 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << "*Depth of closure                                          \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dDepthOfClosure << " m" << endl;
    OutStream << " Tide data file                                            \t: " << m_strTideDataFile << endl;
    OutStream << " Do coast platform erosion?                                \t: " << (m_bDoCoastPlatformErosion ? "Y" : "N") << endl;
-   OutStream << " R value                                                   \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dR << endl;
+   OutStream << " Coast platform resistance to erosion                      \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dR << endl;
    OutStream << " Do beach sediment transport?                              \t: " << (m_bDoBeachSedimentTransport ? "Y" : "N") << endl;
    OutStream << " Handling of beach sediment at grid edges                  \t: ";
    if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_CLOSED)
@@ -472,7 +472,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << " Sediment input time series file                           \t: " << m_strSedimentInputEventTimeSeriesFile << endl;
    }
    OutStream << " Do cliff collapse?                                        \t: " << (m_bDoCliffCollapse ? "Y" : "N") << endl;
-   OutStream << " Cliff erodibility                                         \t: " << m_dCliffErosionResistance << endl;
+   OutStream << " Cliff resistance to erosion                               \t: " << m_dCliffErosionResistance << endl;
    OutStream << " Notch overhang to initiate collapse                       \t: " << m_dNotchDepthAtCollapse << " m" << endl;
    OutStream << " Notch base below SWL                                      \t: " << m_dNotchBaseBelowSWL << " m" << endl;
    OutStream << " Scale parameter A for cliff deposition                    \t: ";

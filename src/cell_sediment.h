@@ -45,17 +45,17 @@ public:
 
    CRWCellSediment& operator= (const CRWCellSediment&);
 
-   void SetFine(double const);
-   double dGetFine(void) const;
-   void AddFine(double const);
+   void SetFineDepth(double const);
+   double dGetFineDepth(void) const;
+   void AddFineDepth(double const);
 
-   void SetSand(double const);
-   double dGetSand(void) const;
-   void AddSand(double const);
+   void SetSandDepth(double const);
+   double dGetSandDepth(void) const;
+   void AddSandDepth(double const);
 
-   void SetCoarse(double const);
-   double dGetCoarse(void) const;
-   void AddCoarse(double const);
+   void SetCoarseDepth(double const);
+   double dGetCoarseDepth(void) const;
+   void AddCoarseDepth(double const);
 
    void SetNotchFineLost(double const);
    void IncrNotchFineLost(double const);

@@ -68,56 +68,56 @@ CRWCellSediment& CRWCellSediment::operator= (const CRWCellSediment& OtherSedimen
 }
 
 // Sets this sediment layer object's fine sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
-void CRWCellSediment::SetFine(double const dNewSedDepth)
+void CRWCellSediment::SetFineDepth(double const dNewSedDepth)
 {
    m_dFine = dNewSedDepth;
 }
 
 // Returns the fine sediment depth equivalent for this sediment layer object
-double CRWCellSediment::dGetFine(void) const
+double CRWCellSediment::dGetFineDepth(void) const
 {
    return m_dFine;
 }
 
 // Adds fine sediment (depth equivalent) to this sediment layer object's fine sediment
-void CRWCellSediment::AddFine(double const dSedDepthToAdd)
+void CRWCellSediment::AddFineDepth(double const dSedDepthToAdd)
 {
    m_dFine += dSedDepthToAdd;
 }
 
 // Sets this sediment layer object's sand sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
-void CRWCellSediment::SetSand(double const dNewSedDepth)
+void CRWCellSediment::SetSandDepth(double const dNewSedDepth)
 {
    m_dSand = dNewSedDepth;
 //    assert(m_dSand >= 0);
 }
 
 // Returns the sand sediment depth equivalent for this sediment layer
-double CRWCellSediment::dGetSand(void) const
+double CRWCellSediment::dGetSandDepth(void) const
 {
    return m_dSand;
 }
 
 // Adds sand sediment (depth equivalent) to this sediment layer object's sand sediment
-void CRWCellSediment::AddSand(double const dSedDepthToAdd)
+void CRWCellSediment::AddSandDepth(double const dSedDepthToAdd)
 {
    m_dSand += dSedDepthToAdd;
 }
 
 // Sets this sediment layer object's coarse sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
-void CRWCellSediment::SetCoarse(double const dNewSedDepth)
+void CRWCellSediment::SetCoarseDepth(double const dNewSedDepth)
 {
    m_dCoarse = dNewSedDepth;
 }
 
 // Returns the coarse sediment depth equivalent for this sediment layer object
-double CRWCellSediment::dGetCoarse(void) const
+double CRWCellSediment::dGetCoarseDepth(void) const
 {
    return m_dCoarse;
 }
 
 // Adds coarse sediment (depth equivalent) to this sediment layer object's coarse sediment
-void CRWCellSediment::AddCoarse(double const dSedDepthToAdd)
+void CRWCellSediment::AddCoarseDepth(double const dSedDepthToAdd)
 {
    m_dCoarse += dSedDepthToAdd;
 }

@@ -691,11 +691,11 @@ void CGeomCell::AppendLayers(int const nLayer)
       m_VLayerAboveBasement.push_back(CRWCellLayer());
 }
 
-//! For this cell: calculates the elevation of the top of every layer, and the d50 for the topmost unconsolidated sediment layer
+//! For this cell, calculates the elevation of the top of every layer, and the d50 for the topmost unconsolidated sediment layer
 void CGeomCell::CalcAllLayerElevsAndD50(void)
 {
    m_VdAllHorizonTopElev.clear();
-   m_VdAllHorizonTopElev.push_back(m_dBasementElevation); // Elevation of top of the basement
+   m_VdAllHorizonTopElev.push_back(m_dBasementElevation);         // Elevation of top of the basement
 
    // Calculate the elevation of the top of all other layers
    int m = 0;
@@ -712,9 +712,9 @@ void CGeomCell::CalcAllLayerElevsAndD50(void)
          // This is a layer with non-zero thickness of unconsolidated sediment
          CRWCellSediment *pUnconsSedLayer = m_VLayerAboveBasement[n].pGetUnconsolidatedSediment();
          double
-             dFineProp = pUnconsSedLayer->dGetFine() / dUnconsThick,
-             dSandProp = pUnconsSedLayer->dGetSand() / dUnconsThick,
-             dCoarseProp = pUnconsSedLayer->dGetCoarse() / dUnconsThick;
+             dFineProp = pUnconsSedLayer->dGetFineDepth() / dUnconsThick,
+             dSandProp = pUnconsSedLayer->dGetSandDepth() / dUnconsThick,
+             dCoarseProp = pUnconsSedLayer->dGetCoarseDepth() / dUnconsThick;
 
          // Calculate d50 for the unconsolidated sediment
          m_dUnconsD50 = (dFineProp * m_pGrid->pGetSim()->dGetD50Fine()) + (dSandProp * m_pGrid->pGetSim()->dGetD50Sand()) + (dCoarseProp * m_pGrid->pGetSim()->dGetD50Coarse());

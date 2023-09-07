@@ -1421,215 +1421,215 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double
       {
          switch (nDataItem)
          {
-         case (RASTER_PLOT_SLICE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetLayerAtElev(dElev);
-            break;
+            case (RASTER_PLOT_SLICE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetLayerAtElev(dElev);
+               break;
 
-         case (RASTER_PLOT_LANDFORM):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory();
-            break;
+            case (RASTER_PLOT_LANDFORM):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory();
+               break;
 
-         case (RASTER_PLOT_INTERVENTION_CLASS):
-            dTmp = INT_NODATA;
-            if (m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION)
-               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFSubCategory();
-            break;
+            case (RASTER_PLOT_INTERVENTION_CLASS):
+               dTmp = INT_NODATA;
+               if (m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory() == LF_CAT_INTERVENTION)
+                  dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFSubCategory();
+               break;
 
-         case (RASTER_PLOT_INTERVENTION_HEIGHT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetInterventionHeight();
-            break;
+            case (RASTER_PLOT_INTERVENTION_HEIGHT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetInterventionHeight();
+               break;
 
-         case (RASTER_PLOT_POLYGON):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetPolygonID();
-            break;
+            case (RASTER_PLOT_POLYGON):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetPolygonID();
+               break;
 
-         case (RASTER_PLOT_BASEMENT_ELEVATION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBasementElev();
-            break;
+            case (RASTER_PLOT_BASEMENT_ELEVATION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBasementElev();
+               break;
 
-         case (RASTER_PLOT_SEDIMENT_TOP_ELEVATION_ELEV):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSedimentTopElev();
-            break;
+            case (RASTER_PLOT_SEDIMENT_TOP_ELEVATION_ELEV):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSedimentTopElev();
+               break;
 
-         case (RASTER_PLOT_OVERALL_TOP_ELEVATION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetOverallTopElev();
-            break;
+            case (RASTER_PLOT_OVERALL_TOP_ELEVATION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetOverallTopElev();
+               break;
 
-         case (RASTER_PLOT_LOCAL_SLOPE_OF_CONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetLocalConsSlope();
-            break;
+            case (RASTER_PLOT_LOCAL_SLOPE_OF_CONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetLocalConsSlope();
+               break;
 
-         case (RASTER_PLOT_SEA_DEPTH):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth();
-            break;
+            case (RASTER_PLOT_SEA_DEPTH):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth();
+               break;
 
-         case (RASTER_PLOT_AVG_SEA_DEPTH):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSeaDepth() / static_cast<double>(m_ulIter);
-            break;
+            case (RASTER_PLOT_AVG_SEA_DEPTH):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSeaDepth() / static_cast<double>(m_ulIter);
+               break;
 
-         case (RASTER_PLOT_WAVE_HEIGHT):
-            if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
-               dTmp = m_dMissingValue;
-            else
-               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
-            break;
+            case (RASTER_PLOT_WAVE_HEIGHT):
+               if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
+                  dTmp = m_dMissingValue;
+               else
+                  dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
+               break;
 
-         case (RASTER_PLOT_AVG_WAVE_HEIGHT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveHeight() / static_cast<double>(m_ulIter);
-            break;
+            case (RASTER_PLOT_AVG_WAVE_HEIGHT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveHeight() / static_cast<double>(m_ulIter);
+               break;
 
-         case (RASTER_PLOT_WAVE_ORIENTATION):
-            if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
-               dTmp = m_dMissingValue;
-            else
-               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle();
-            break;
+            case (RASTER_PLOT_WAVE_ORIENTATION):
+               if (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea())
+                  dTmp = m_dMissingValue;
+               else
+                  dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle();
+               break;
 
-         case (RASTER_PLOT_AVG_WAVE_ORIENTATION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveAngle() / static_cast<double>(m_ulIter);
-            break;
+            case (RASTER_PLOT_AVG_WAVE_ORIENTATION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveAngle() / static_cast<double>(m_ulIter);
+               break;
 
-         case (RASTER_PLOT_BEACH_PROTECTION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor();
-            if (dTmp != DBL_NODATA)
-               dTmp = 1 - dTmp; // Output the inverse, seems more intuitive
-            break;
+            case (RASTER_PLOT_BEACH_PROTECTION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor();
+               if (dTmp != DBL_NODATA)
+                  dTmp = 1 - dTmp; // Output the inverse, seems more intuitive
+               break;
 
-         case (RASTER_PLOT_POTENTIAL_PLATFORM_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetPotentialPlatformErosion();
-            break;
+            case (RASTER_PLOT_POTENTIAL_PLATFORM_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetPotentialPlatformErosion();
+               break;
 
-         case (RASTER_PLOT_ACTUAL_PLATFORM_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetActualPlatformErosion();
-            break;
+            case (RASTER_PLOT_ACTUAL_PLATFORM_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetActualPlatformErosion();
+               break;
 
-         case (RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotPotentialPlatformErosion();
-            break;
+            case (RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotPotentialPlatformErosion();
+               break;
 
-         case (RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotActualPlatformErosion();
-            break;
+            case (RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotActualPlatformErosion();
+               break;
 
-         case (RASTER_PLOT_POTENTIAL_BEACH_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetPotentialBeachErosion();
-            break;
+            case (RASTER_PLOT_POTENTIAL_BEACH_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetPotentialBeachErosion();
+               break;
 
-         case (RASTER_PLOT_ACTUAL_BEACH_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetActualBeachErosion();
-            break;
+            case (RASTER_PLOT_ACTUAL_BEACH_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetActualBeachErosion();
+               break;
 
-         case (RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotPotentialBeachErosion();
-            break;
+            case (RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotPotentialBeachErosion();
+               break;
 
-         case (RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotActualBeachErosion();
-            break;
+            case (RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotActualBeachErosion();
+               break;
 
-         case (RASTER_PLOT_BEACH_DEPOSITION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachDeposition();
-            break;
+            case (RASTER_PLOT_BEACH_DEPOSITION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachDeposition();
+               break;
 
-         case (RASTER_PLOT_TOTAL_BEACH_DEPOSITION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotBeachDeposition();
-            break;
+            case (RASTER_PLOT_TOTAL_BEACH_DEPOSITION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotBeachDeposition();
+               break;
 
-         case (RASTER_PLOT_SUSPENDED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSuspendedSediment();
-            break;
+            case (RASTER_PLOT_SUSPENDED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetSuspendedSediment();
+               break;
 
-         case (RASTER_PLOT_AVG_SUSPENDED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSuspendedSediment() / static_cast<double>(m_ulIter);
-            break;
+            case (RASTER_PLOT_AVG_SUSPENDED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSuspendedSediment() / static_cast<double>(m_ulIter);
+               break;
 
-         case (RASTER_PLOT_FINE_UNCONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetFine();
-            break;
+            case (RASTER_PLOT_FINE_UNCONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetFineDepth();
+               break;
 
-         case (RASTER_PLOT_SAND_UNCONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetSand();
-            break;
+            case (RASTER_PLOT_SAND_UNCONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetSandDepth();
+               break;
 
-         case (RASTER_PLOT_COARSE_UNCONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetCoarse();
-            break;
+            case (RASTER_PLOT_COARSE_UNCONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetUnconsolidatedSediment()->dGetCoarseDepth();
+               break;
 
-         case (RASTER_PLOT_FINE_CONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetFine();
-            break;
+            case (RASTER_PLOT_FINE_CONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetFineDepth();
+               break;
 
-         case (RASTER_PLOT_SAND_CONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetSand();
-            break;
+            case (RASTER_PLOT_SAND_CONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetSandDepth();
+               break;
 
-         case (RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetCoarse();
-            break;
+            case (RASTER_PLOT_COARSE_CONSOLIDATED_SEDIMENT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(nLayer)->pGetConsolidatedSediment()->dGetCoarseDepth();
+               break;
 
-         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
-            break;
+            case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
+               break;
 
-         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
-            break;
-            
-         case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
-            break;
-            
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseFine();
-            break;
+            case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
+               break;
+               
+            case (RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
+               break;
+               
+            case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseFine();
+               break;
 
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseSand();
-            break;
-            
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseCoarse();
-            break;
-            
-         case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
-            break;
+            case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseSand();
+               break;
+               
+            case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCliffCollapseCoarse();
+               break;
+               
+            case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
+               break;
 
-         case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition();
-            break;
+            case (RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition();
+               break;
 
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSandTalusDeposition();
-            break;
+            case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotSandTalusDeposition();
+               break;
 
-         case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCoarseTalusDeposition();
-            break;
+            case (RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetTotCoarseTalusDeposition();
+               break;
 
-         case (RASTER_PLOT_SHADOW_ZONE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetShadowZoneNumber();
-            break;
+            case (RASTER_PLOT_SHADOW_ZONE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetShadowZoneNumber();
+               break;
 
-         case (RASTER_PLOT_SHADOW_DOWNDRIFT_ZONE):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
-            break;
+            case (RASTER_PLOT_SHADOW_DOWNDRIFT_ZONE):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
+               break;
 
-         case (RASTER_PLOT_DEEP_WATER_WAVE_ORIENTATION):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
-            break;
+            case (RASTER_PLOT_DEEP_WATER_WAVE_ORIENTATION):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
+               break;
 
-         case (RASTER_PLOT_DEEP_WATER_WAVE_HEIGHT):
-            dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
-            break;
+            case (RASTER_PLOT_DEEP_WATER_WAVE_HEIGHT):
+               dTmp = m_pRasterGrid->m_Cell[nX][nY].nGetDownDriftZoneNumber();
+               break;
 
-         case (RASTER_PLOT_POLYGON_GAIN_OR_LOSS):
-            int nPoly = m_pRasterGrid->m_Cell[nX][nY].nGetPolygonID();
-            if (nPoly == INT_NODATA)
-               dTmp = m_dMissingValue;
-            else
-               dTmp = m_pVCoastPolygon[nPoly]->dGetDepositionAllUncons();
-            break;
+            case (RASTER_PLOT_POLYGON_GAIN_OR_LOSS):
+               int nPoly = m_pRasterGrid->m_Cell[nX][nY].nGetPolygonID();
+               if (nPoly == INT_NODATA)
+                  dTmp = m_dMissingValue;
+               else
+                  dTmp = m_pVCoastPolygon[nPoly]->dGetDepositionAllUncons();
+               break;
          }
 
          if (dTmp != DBL_NODATA)
@@ -1723,29 +1723,29 @@ int CSimulation::nGetOppositeDirection(int const nDirection)
 {
    switch (nDirection)
    {
-   case NORTH:
-      return SOUTH;
+      case NORTH:
+         return SOUTH;
 
-   case NORTH_EAST:
-      return SOUTH - WEST;
+      case NORTH_EAST:
+         return SOUTH - WEST;
 
-   case EAST:
-      return WEST;
+      case EAST:
+         return WEST;
 
-   case SOUTH_EAST:
-      return NORTH - WEST;
+      case SOUTH_EAST:
+         return NORTH - WEST;
 
-   case SOUTH:
-      return NORTH;
+      case SOUTH:
+         return NORTH;
 
-   case SOUTH_WEST:
-      return NORTH - EAST;
+      case SOUTH_WEST:
+         return NORTH - EAST;
 
-   case WEST:
-      return EAST;
+      case WEST:
+         return EAST;
 
-   case NORTH_WEST:
-      return SOUTH - EAST;
+      case NORTH_WEST:
+         return SOUTH - EAST;
    }
 
    // Should never get here

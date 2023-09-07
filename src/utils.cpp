@@ -2852,12 +2852,12 @@ void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const d
    if (bDeposition)
    {
       // This Dean profile is for deposition i.e. seaward displacement of the profile
-      pdVDeanProfile->at(0) = dStartCellElev; // Is cliff-top elev for cliffs
+      pdVDeanProfile->at(0) = dStartCellElev;      // Is talus-top elev for cliffs, coast elevation for coasts
       for (int n = 1; n < static_cast<int>(pdVDeanProfile->size()); n++)
       {
          if (n <= nSeawardOffset)
-            // As we extend the profile seaward, the elevation of any points coastward of the new coast point of the Dean profile are set to the elevation of the original coast point
-            pdVDeanProfile->at(n) = dDeanTopElev;
+            // As we extend the profile seaward, the elevation of any points coastward of the new coast point of the Dean profile are set to the elevation of the original coast  or the talus top (is this realistic for talus?)
+            pdVDeanProfile->at(n) = dStartCellElev;
          else
          {
             double dDistBelowTop = dA * pow(dDistFromProfileStart, DEAN_POWER);
@@ -2969,24 +2969,6 @@ Tests a reference to a string to see if it is numeric (modified from https://tfe
 bool CSimulation::bIsNumeric(string const *strIn)
 {
    return all_of(strIn->begin(), strIn->end(), isdigit);
-}
-
-/*==============================================================================================================================
-
-Real (floating point) fields in ESRI shapefiles are treated as width 24 with 15 decimal places of precision (unless an explicit width is given). If fields exceed this, then a "not successfully written. Possibly due to too larger number with respect to field width" error message is shown. This routine tests the input to see if it exceeds this limit, if so it rounds up. Modified from https://stackoverflow.com/questions/13094224/a-c-routine-to-round-a-float-to-n-significant-digits
-
-==============================================================================================================================*/
-double CSimulation::dConstrainFieldWidthForShapefile(double const dInField)
-{
-   int const SHAPEFILE_MAX_WIDTH = 24;
-   // int const SHAPEFILE_MAX_PRECISION = 15
-
-   // Avoid returning NaN due to the log10() of zero
-   if (dInField == 0.0)
-      return 0.0;
-
-   double dFactor = pow(10.0, SHAPEFILE_MAX_WIDTH - ceil(log10(fabs(dInField))));
-   return round(dInField * dFactor) / dFactor;
 }
 
 /*==============================================================================================================================

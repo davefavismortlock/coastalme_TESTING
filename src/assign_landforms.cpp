@@ -131,7 +131,7 @@ int CSimulation::nAssignAllCoastalLandforms(void)
                double
                   dAccumWaveEnergy  = 0,
                   dNotchBaseElev    = m_dThisIterSWL, // APayo March 2018 replaced m_dMinSWL by m_dThisIterSWL
-                  dNotchDepth    = 0,
+                  dNotchDepth       = 0,
                   dRemaining        = m_dCellSide;
 
                // Get the existing landform category of this cell
@@ -286,7 +286,7 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
    // What is the coastal landform here?
    CACoastLandform* pCoastLandform = m_VCoast[nCoast].pGetCoastLandform(nPoint);
    int nCategory = pCoastLandform->nGetLandFormCategory();
-
+   
    if (nCategory == LF_CAT_CLIFF)
    {
       // It's a cliff
@@ -300,11 +300,17 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
       int nX = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nPoint)->nGetX();
       int nY = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nPoint)->nGetY();
 
-      if (pCliff->bAllSedimentGone())
+      if (! pCliff->bHasCollapsed())
       {
-//         cout << m_ulIter << ": cell [" << nX << "][" << nY << "] before removing cliff, dGetVolEquivSedTopElev() = " << m_pRasterGrid->m_Cell[nX][nY].dGetVolEquivSedTopElev() << ", dGetSedimentTopElev() = " << m_pRasterGrid->m_Cell[nX][nY].dGetSedimentTopElev() << endl;
-
-         // All the sediment is gone from this cliff object via cliff collapse, so this cell is no longer a cliff
+         // The cliff has not collapsed, so store some attribute values in the cliff cell
+         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetLFSubCategory(LF_SUBCAT_CLIFF_ON_COASTLINE);
+         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchBaseElev(dNotchBaseElev);
+         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchDepth(dNotchDepth);
+         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffRemaining(dRemaining);
+      }
+      else
+      {
+         // The cliff has collapsed: all sediment above the base of the erosional notch is gone from this cliff object via cliff collapse, so this cell is no longer a cliff
          m_pRasterGrid->m_Cell[nX][nY].SetInContiguousSea();
 
          // Check the x-y extremities of the contiguous sea for the bounding box (used later in wave propagation)
@@ -328,33 +334,17 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
          if (nTopLayer == INT_NODATA)
             return RTN_ERR_NO_TOP_LAYER;
 
-         // Remove all sediment
-         for (int n = 0; n <= nTopLayer; n++)
-            m_pRasterGrid->m_Cell[nX][nY].pGetLayerAboveBasement(n)->RemoveCliff();
-
          // Update the cell's layer elevations
          m_pRasterGrid->m_Cell[nX][nY].CalcAllLayerElevsAndD50();
 
          // And update the cell's sea depth
          m_pRasterGrid->m_Cell[nX][nY].SetSeaDepth();
-
-//         cout << m_ulIter << ": cell [" << nX << "][" << nY << "] after removing cliff, dGetVolEquivSedTopElev() = " << m_pRasterGrid->m_Cell[nX][nY].dGetVolEquivSedTopElev() << ", dGetSedimentTopElev() = " << m_pRasterGrid->m_Cell[nX][nY].dGetSedimentTopElev() << endl;
-//         cout << m_ulIter << ": cell [" << nX << "][" << nY << "] is no longer a cliff" << endl << endl;
-      }
-      else
-      {
-         // Still some sediment available in this cliff object, so store the attribute values in the cell
-         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetLFSubCategory(LF_SUBCAT_CLIFF_ON_COASTLINE);
-         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchBaseElev(dNotchBaseElev);
-         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchDepth(dNotchDepth);
-         m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffRemaining(dRemaining);
-
-//          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): STILL CLIFF [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "} is still a cliff landform, dRemaining = " << dRemaining << endl;
       }
 
       // Always accumulate wave energy
       m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetAccumWaveEnergy(pCliff->dGetTotAccumWaveEnergy());
    }
+   
    else if (nCategory == LF_CAT_DRIFT)
    {
       // It's drift, so calculate D50 TODO

@@ -177,8 +177,19 @@ double CSimulation::dCalcCurvature(int const nHandedness, CGeom2DPoint const* pP
       dAreax4 = 2 * dTriangleAreax2(pPtBefore, pPtThis, pPtAfter),
       dDist1 = dGetDistanceBetween(pPtBefore, pPtThis),
       dDist2 = dGetDistanceBetween(pPtThis, pPtAfter),
-      dDist3 = dGetDistanceBetween(pPtBefore, pPtAfter),
-      dCurvature = dAreax4 / (dDist1 * dDist2 * dDist3);
+      dDist3 = dGetDistanceBetween(pPtBefore, pPtAfter);
+      
+   // Safety checks
+   if (dDist1 == 0)
+      dDist1 = 1e-3;
+
+   if (dDist2 == 0)
+      dDist2 = 1e-3;
+   
+   if (dDist3 == 0)
+      dDist3 = 1e-3;
+
+   double dCurvature = dAreax4 / (dDist1 * dDist2 * dDist3);
 
    // Reverse if left-handed
    int nShape = (nHandedness == LEFT_HANDED ? 1 : -1);

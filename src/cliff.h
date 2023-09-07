@@ -35,25 +35,21 @@ class CRWCliff : public CACoastLandform
 {
 private:
    bool
-      m_bCliffCollapse,
-      m_bAllSedimentGone;
+      m_bCliffHasCollapsed;   // Switch to say whether the cliff has just collapsed, earlier in this timestep
    double
-      m_dMaxDepth,            // The maximum depth (in external CRS units) of an erosional notch, is equal to the grid's m_dCellSide 
-      m_dNotchDepth,          // The XY-plane depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea
-      m_dNotchBaseElev;       // Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell on the side of the cell that touches the sea
+      m_dMaxDepth,            // The maximum depth (in external CRS units) of an erosional notch, this is equal to the grid's m_dCellSide 
+      m_dNotchDepth,          // The horizontal depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea
+      m_dNotchBaseElev;       // Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell, along the side of the cell that touches the sea
 
 public:
    CRWCliff(CRWCoast*, int const, int const, double const, double const, double const, double const);
    ~CRWCliff(void);
 
-   void SetCliffCollapse(bool const);
-//    bool bHasCollapsed(void) const;
-   bool bAllSedimentGone(void) const;
-   void SetAllSedimentGone(void);
+   void SetCliffCollapsed(void);
+   bool bHasCollapsed(void) const;
 
    void SetNotchBaseElev(double const);
    double dGetNotchBaseElev(void) const;
-//    void SetRemaining(double const);
    double dGetRemaining(void) const;
    void SetNotchDepth(double const);
    double dGetNotchDepth(void) const;

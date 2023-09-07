@@ -631,8 +631,8 @@ private:
    int nDoAllPropagateWaves(void);
    int nDoAllShorePlatFormErosion(void);
    int nDoAllWaveEnergyToCoastLandforms(void);
-   int nDoCliffCollapse(int const, CRWCliff*, double const, double&, double&, double&);
-   int nDoCliffCollapseDeposition(int const, CRWCliff*, double const, double const);
+   int nDoCliffCollapse(int const, CRWCliff*, double&, double&, double&, double&, double&);
+   int nDoCliffCollapseDeposition(int const, CRWCliff*, double const, double const, double const, double const);
    int nUpdateGrid(void);
 
    // Lower-level simulation routines
@@ -828,7 +828,6 @@ private:
    static double dGetStdDev(vector<double> const*);
    static void AppendEnsureNoGap(vector<CGeom2DIPoint>*, CGeom2DIPoint const*);
    static bool bIsNumeric(string const*);
-   static double dConstrainFieldWidthForShapefile(double const);
    unsigned long ulConvertToTimestep(string const*);
    void WritePolygonShareTable(int const);
    void WritePolygonPreExistingSediment(int const);

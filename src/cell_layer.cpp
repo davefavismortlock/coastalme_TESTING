@@ -43,86 +43,49 @@ CRWCellSediment* CRWCellLayer::pGetConsolidatedSediment(void)
    return &m_ConsolidatedSediment;
 }
 
-void CRWCellLayer::RemoveCliff(void)
-{
-   double
-      dNow = 0,
-      dLost = 0;
-
-   dNow  = m_UnconsolidatedSediment.dGetFine();
-   dLost = m_UnconsolidatedSediment.dGetNotchFineLost();
-   m_UnconsolidatedSediment.SetFine(tMax(dNow - dLost, 0.0));
-   m_UnconsolidatedSediment.SetNotchFineLost(0);
-
-   dNow  = m_UnconsolidatedSediment.dGetSand();
-   dLost = m_UnconsolidatedSediment.dGetNotchSandLost();
-   m_UnconsolidatedSediment.SetSand(tMax(dNow - dLost, 0.0));
-   m_UnconsolidatedSediment.SetNotchSandLost(0);
-
-   dNow  = m_UnconsolidatedSediment.dGetCoarse();
-   dLost = m_UnconsolidatedSediment.dGetNotchCoarseLost();
-   m_UnconsolidatedSediment.SetCoarse(tMax(dNow - dLost, 0.0));
-   m_UnconsolidatedSediment.SetNotchCoarseLost(0);
-
-   dNow  = m_ConsolidatedSediment.dGetFine();
-   dLost = m_ConsolidatedSediment.dGetNotchFineLost();
-   m_ConsolidatedSediment.SetFine(tMax(dNow - dLost, 0.0));
-   m_ConsolidatedSediment.SetNotchFineLost(0);
-
-   dNow  = m_ConsolidatedSediment.dGetSand();
-   dLost = m_ConsolidatedSediment.dGetNotchSandLost();
-   m_ConsolidatedSediment.SetSand(tMax(dNow - dLost, 0.0));
-   m_ConsolidatedSediment.SetNotchSandLost(0);
-
-   dNow  = m_ConsolidatedSediment.dGetCoarse();
-   dLost = m_ConsolidatedSediment.dGetNotchCoarseLost();
-   m_ConsolidatedSediment.SetCoarse(tMax(dNow - dLost, 0.0));
-   m_ConsolidatedSediment.SetNotchCoarseLost(0);
-}
-
 double CRWCellLayer::dGetFineUnconsolidatedThickness(void) const
 {
-   return m_UnconsolidatedSediment.dGetFine();
+   return m_UnconsolidatedSediment.dGetFineDepth();
 }
 
 double CRWCellLayer::dGetFineConsolidatedThickness(void) const
 {
-   return m_ConsolidatedSediment.dGetFine();
+   return m_ConsolidatedSediment.dGetFineDepth();
 }
 
 double CRWCellLayer::dGetSandUnconsolidatedThickness(void) const
 {
-   return m_UnconsolidatedSediment.dGetSand();
+   return m_UnconsolidatedSediment.dGetSandDepth();
 }
 
 double CRWCellLayer::dGetSandConsolidatedThickness(void) const
 {
-   return m_ConsolidatedSediment.dGetSand();
+   return m_ConsolidatedSediment.dGetSandDepth();
 }
 
 double CRWCellLayer::dGetCoarseUnconsolidatedThickness(void) const
 {
-   return m_UnconsolidatedSediment.dGetCoarse();
+   return m_UnconsolidatedSediment.dGetCoarseDepth();
 }
 
 double CRWCellLayer::dGetCoarseConsolidatedThickness(void) const
 {
-   return m_ConsolidatedSediment.dGetCoarse();
+   return m_ConsolidatedSediment.dGetCoarseDepth();
 }
 
 double CRWCellLayer::dGetUnconsolidatedThickness(void) const
 {
-   return (m_UnconsolidatedSediment.dGetFine() + m_UnconsolidatedSediment.dGetSand() + m_UnconsolidatedSediment.dGetCoarse());
+   return (m_UnconsolidatedSediment.dGetFineDepth() + m_UnconsolidatedSediment.dGetSandDepth() + m_UnconsolidatedSediment.dGetCoarseDepth());
 }
 
 double CRWCellLayer::dGetConsolidatedThickness(void) const
 {
-   return (m_ConsolidatedSediment.dGetFine() + m_ConsolidatedSediment.dGetSand() + m_ConsolidatedSediment.dGetCoarse());
+   return (m_ConsolidatedSediment.dGetFineDepth() + m_ConsolidatedSediment.dGetSandDepth() + m_ConsolidatedSediment.dGetCoarseDepth());
 }
 
 double CRWCellLayer::dGetTotalThickness(void) const
 {
-   return (m_UnconsolidatedSediment.dGetFine() + m_UnconsolidatedSediment.dGetSand() + m_UnconsolidatedSediment.dGetCoarse() + m_ConsolidatedSediment.dGetFine() + m_ConsolidatedSediment.dGetSand() + m_ConsolidatedSediment.dGetCoarse());
+   return (m_UnconsolidatedSediment.dGetFineDepth() + m_UnconsolidatedSediment.dGetSandDepth() + m_UnconsolidatedSediment.dGetCoarseDepth() + m_ConsolidatedSediment.dGetFineDepth() + m_ConsolidatedSediment.dGetSandDepth() + m_ConsolidatedSediment.dGetCoarseDepth());
 }
 
 double CRWCellLayer::dGetNotchUnconsolidatedLost(void) const

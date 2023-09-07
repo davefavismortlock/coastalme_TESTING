@@ -109,15 +109,15 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
 
          // Add to this cell's unconsolidated sediment
          double dFineDepth = dFineSedVol / m_dCellArea;
-         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepth);
+         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFineDepth(dFineDepth);
          m_dThisiterUnconsFineInput += dFineDepth;
 
          double dSandDepth = dSandSedVol / m_dCellArea;
-         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepth);
+         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSandDepth(dSandDepth);
          m_dThisiterUnconsSandInput += dSandDepth;
 
          double dCoarseDepth = dCoarseSedVol / m_dCellArea;
-         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepth);
+         m_pRasterGrid->m_Cell[nPointGridX][nPointGridY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarseDepth(dCoarseDepth);
          m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
          // And update the cell's total
@@ -293,13 +293,13 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
          for (unsigned int n = 0; n < nArea; n++)
          {
             // Add to this cell's unconsolidated sediment
-            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepthPerCell);
+            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFineDepth(dFineDepthPerCell);
             m_dThisiterUnconsFineInput += dFineDepth;
 
-            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepthPerCell);
+            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSandDepth(dSandDepthPerCell);
             m_dThisiterUnconsSandInput += dSandDepth;
 
-            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepthPerCell);
+            m_pRasterGrid->m_Cell[VPoints[n].nGetX()][VPoints[n].nGetY()].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarseDepth(dCoarseDepthPerCell);
             m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
             // And update the cell's total
@@ -403,15 +403,15 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
 
       // Add to this cell's unconsolidated sediment
       double dFineDepth = dFineSedVol / m_dCellArea;
-      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFine(dFineDepth);
+      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddFineDepth(dFineDepth);
       m_dThisiterUnconsFineInput += dFineDepth;
 
       double dSandDepth = dSandSedVol / m_dCellArea;
-      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSand(dSandDepth);
+      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddSandDepth(dSandDepth);
       m_dThisiterUnconsSandInput += dSandDepth;
 
       double dCoarseDepth = dCoarseSedVol / m_dCellArea;
-      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarse(dCoarseDepth);
+      m_pRasterGrid->m_Cell[nCoastX][nCoastY].pGetLayerAboveBasement(nTopLayer)->pGetUnconsolidatedSediment()->AddCoarseDepth(dCoarseDepth);
       m_dThisiterUnconsCoarseInput += dCoarseDepth;
 
       // And update the cell's total

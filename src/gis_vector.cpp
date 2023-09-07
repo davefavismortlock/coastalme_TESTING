@@ -59,26 +59,26 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
    // Set up file name and constraints
    switch (nDataItem)
    {
-   case (DEEP_WATER_WAVE_STATIONS_VEC):
-      strGISFile = m_strDeepWaterWaveStationsShapefile;
-      nMaxLayer = DEEP_WATER_WAVE_STATIONS_MAX_LAYER;
-      nNeedGeometry = DEEP_WATER_WAVE_STATIONS_POINT_GEOMETRY;
-      break;
+      case (DEEP_WATER_WAVE_STATIONS_VEC):
+         strGISFile = m_strDeepWaterWaveStationsShapefile;
+         nMaxLayer = DEEP_WATER_WAVE_STATIONS_MAX_LAYER;
+         nNeedGeometry = DEEP_WATER_WAVE_STATIONS_POINT_GEOMETRY;
+         break;
 
-   case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
-      strGISFile = m_strSedimentInputEventShapefile;
-      nMaxLayer = SEDIMENT_INPUT_EVENT_LOCATION_MAX_LAYER;
-      if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
-         nNeedGeometry = SEDIMENT_INPUT_EVENT_LOCATION_POINT_GEOMETRY;
-      else if (m_bSedimentInputAlongLine)
-         nNeedGeometry = SEDIMENT_INPUT_EVENT_LOCATION_LINE_GEOMETRY;
-      break;
+      case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
+         strGISFile = m_strSedimentInputEventShapefile;
+         nMaxLayer = SEDIMENT_INPUT_EVENT_LOCATION_MAX_LAYER;
+         if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
+            nNeedGeometry = SEDIMENT_INPUT_EVENT_LOCATION_POINT_GEOMETRY;
+         else if (m_bSedimentInputAlongLine)
+            nNeedGeometry = SEDIMENT_INPUT_EVENT_LOCATION_LINE_GEOMETRY;
+         break;
 
-   case (FLOOD_LOCATION_VEC):
-      strGISFile = m_strFloodLocationShapefile;
-      nMaxLayer = FLOOD_LOCATION_MAX_LAYER;
-      nNeedGeometry = FLOOD_LOCATION_POINT_GEOMETRY;
-      break;
+      case (FLOOD_LOCATION_VEC):
+         strGISFile = m_strFloodLocationShapefile;
+         nMaxLayer = FLOOD_LOCATION_MAX_LAYER;
+         nNeedGeometry = FLOOD_LOCATION_POINT_GEOMETRY;
+         break;
    }
 
    // Open the GDAL/OGR datasource
@@ -126,26 +126,26 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
 
          switch (nGeometry)
          {
-         case wkbPoint:
-            nThisGeometry = VEC_GEOMETRY_POINT;
-            strGeometry = "point";
-            break;
+            case wkbPoint:
+               nThisGeometry = VEC_GEOMETRY_POINT;
+               strGeometry = "point";
+               break;
 
-         case wkbLineString:
-            nThisGeometry = VEC_GEOMETRY_LINE;
-            strGeometry = "line";
-            break;
+            case wkbLineString:
+               nThisGeometry = VEC_GEOMETRY_LINE;
+               strGeometry = "line";
+               break;
 
-         case wkbPolygon:
-            nThisGeometry = VEC_GEOMETRY_POLYGON;
-            strGeometry = "polygon";
-            break;
+            case wkbPolygon:
+               nThisGeometry = VEC_GEOMETRY_POLYGON;
+               strGeometry = "polygon";
+               break;
 
-         default:
-            // NOTE may need wkbMultiLineString or similar for channel network
-            nThisGeometry = VEC_GEOMETRY_OTHER;
-            strGeometry = "other";
-            break;
+            default:
+               // NOTE may need wkbMultiLineString or similar for channel network
+               nThisGeometry = VEC_GEOMETRY_OTHER;
+               strGeometry = "other";
+               break;
          }
 
          // Have we got the expected geometry type?
@@ -155,21 +155,21 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
             string strNeedGeometry;
             switch (nNeedGeometry)
             {
-            case VEC_GEOMETRY_POINT:
-               strNeedGeometry = "point";
-               break;
+               case VEC_GEOMETRY_POINT:
+                  strNeedGeometry = "point";
+                  break;
 
-            case VEC_GEOMETRY_LINE:
-               strNeedGeometry = "line";
-               break;
+               case VEC_GEOMETRY_LINE:
+                  strNeedGeometry = "line";
+                  break;
 
-            case VEC_GEOMETRY_POLYGON:
-               strNeedGeometry = "polygon";
-               break;
+               case VEC_GEOMETRY_POLYGON:
+                  strNeedGeometry = "polygon";
+                  break;
 
-            case VEC_GEOMETRY_OTHER:
-               strNeedGeometry = "other";
-               break;
+               case VEC_GEOMETRY_OTHER:
+                  strNeedGeometry = "other";
+                  break;
             }
 
             cerr << strGeometry << " data found in " << strGISFile << ", but " << strNeedGeometry << " data is needed" << endl;
@@ -182,61 +182,61 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
          OGRLineString *pOGRLineString;
          switch (nDataItem)
          {
-         case (DEEP_WATER_WAVE_STATIONS_VEC):
-            // Point data
-            pOGRPoint = (OGRPoint *)pOGRGeometry;
-
-            // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
-            m_VdDeepWaterWaveStationX.push_back(dExtCRSXToGridX(pOGRPoint->getX()));
-            m_VdDeepWaterWaveStationY.push_back(dExtCRSYToGridY(pOGRPoint->getY()));
-            break;
-
-         case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
-            if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
-            {
+            case (DEEP_WATER_WAVE_STATIONS_VEC):
                // Point data
                pOGRPoint = (OGRPoint *)pOGRGeometry;
 
-               int
-                   nPointGridX = nRound(dExtCRSXToGridX(pOGRPoint->getX())),
-                   nPointGridY = nRound(dExtCRSYToGridY(pOGRPoint->getY()));
+               // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
+               m_VdDeepWaterWaveStationX.push_back(dExtCRSXToGridX(pOGRPoint->getX()));
+               m_VdDeepWaterWaveStationY.push_back(dExtCRSYToGridY(pOGRPoint->getY()));
+               break;
 
-               // Check point data is inside the mesh -- MCB
-               if ((nPointGridX < 0) || (nPointGridX > m_nXGridMax))
-                  return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
-
-               if ((nPointGridY < 0) || (nPointGridY > m_nYGridMax))
-                  return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
-
-               // Convert the point co-ords to grid CRS and store them
-               m_VdSedimentInputLocationX.push_back(nPointGridX);
-               m_VdSedimentInputLocationY.push_back(nPointGridY);
-            }
-            else if (m_bSedimentInputAlongLine)
-            {
-               // Line data
-               pOGRLineString = (OGRLineString *)pOGRGeometry;
-
-               nPoints = pOGRLineString->getNumPoints();
-               for (int i = 0; i < nPoints; i++)
+            case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
+               if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
                {
-                  // Convert the co-ords for each point in the line to grid CRS and store them
-                  m_VdSedimentInputLocationX.push_back(dExtCRSXToGridX(pOGRLineString->getX(i)));
-                  m_VdSedimentInputLocationY.push_back(dExtCRSYToGridY(pOGRLineString->getY(i)));
+                  // Point data
+                  pOGRPoint = (OGRPoint *)pOGRGeometry;
+
+                  int
+                     nPointGridX = nRound(dExtCRSXToGridX(pOGRPoint->getX())),
+                     nPointGridY = nRound(dExtCRSYToGridY(pOGRPoint->getY()));
+
+                  // Check point data is inside the mesh -- MCB
+                  if ((nPointGridX < 0) || (nPointGridX > m_nXGridMax))
+                     return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
+
+                  if ((nPointGridY < 0) || (nPointGridY > m_nYGridMax))
+                     return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
+
+                  // Convert the point co-ords to grid CRS and store them
+                  m_VdSedimentInputLocationX.push_back(nPointGridX);
+                  m_VdSedimentInputLocationY.push_back(nPointGridY);
                }
-            }
-            break;
+               else if (m_bSedimentInputAlongLine)
+               {
+                  // Line data
+                  pOGRLineString = (OGRLineString *)pOGRGeometry;
 
-         case (FLOOD_LOCATION_VEC):
+                  nPoints = pOGRLineString->getNumPoints();
+                  for (int i = 0; i < nPoints; i++)
+                  {
+                     // Convert the co-ords for each point in the line to grid CRS and store them
+                     m_VdSedimentInputLocationX.push_back(dExtCRSXToGridX(pOGRLineString->getX(i)));
+                     m_VdSedimentInputLocationY.push_back(dExtCRSYToGridY(pOGRLineString->getY(i)));
+                  }
+               }
+               break;
 
-            // Point data
-            pOGRPoint = (OGRPoint *)pOGRGeometry;
+            case (FLOOD_LOCATION_VEC):
 
-            // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
-            m_VdFloodLocationX.push_back(pOGRPoint->getX());
-            m_VdFloodLocationY.push_back(pOGRPoint->getY());
+               // Point data
+               pOGRPoint = (OGRPoint *)pOGRGeometry;
 
-            break;
+               // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
+               m_VdFloodLocationX.push_back(pOGRPoint->getX());
+               m_VdFloodLocationY.push_back(pOGRPoint->getY());
+
+               break;
          }
 
          // Now get the attributes of this feature
@@ -248,64 +248,64 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
 
          switch (nDataItem)
          {
-         case (DEEP_WATER_WAVE_STATIONS_VEC):
-            // First get the station ID
-            nFieldIndex = pOGRFeatureDefn->GetFieldIndex(DEEP_WATER_WAVE_STATION_ID.c_str());
-            if (nFieldIndex == -1)
-            {
-               // Can't find this field in the vector file
-               cerr << ERR << "cannot find " << DEEP_WATER_WAVE_STATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
-               return RTN_ERR_VECTOR_FILE_READ;
-            }
+            case (DEEP_WATER_WAVE_STATIONS_VEC):
+               // First get the station ID
+               nFieldIndex = pOGRFeatureDefn->GetFieldIndex(DEEP_WATER_WAVE_STATION_ID.c_str());
+               if (nFieldIndex == -1)
+               {
+                  // Can't find this field in the vector file
+                  cerr << ERR << "cannot find " << DEEP_WATER_WAVE_STATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
+                  return RTN_ERR_VECTOR_FILE_READ;
+               }
 
-            // Get the Station ID for this point
-            nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
-            m_VnDeepWaterWaveStationID.push_back(nID);
+               // Get the Station ID for this point
+               nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
+               m_VnDeepWaterWaveStationID.push_back(nID);
 
-            break;
+               break;
 
-         case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
-            // First get the station ID
-            nFieldIndex = pOGRFeatureDefn->GetFieldIndex(SEDIMENT_INPUT_EVENT_LOCATION_ID.c_str());
-            if (nFieldIndex == -1)
-            {
-               // Can't find this field in the vector file
-               cerr << ERR << "cannot find " << SEDIMENT_INPUT_EVENT_LOCATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
-               return RTN_ERR_VECTOR_FILE_READ;
-            }
+            case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
+               // First get the station ID
+               nFieldIndex = pOGRFeatureDefn->GetFieldIndex(SEDIMENT_INPUT_EVENT_LOCATION_ID.c_str());
+               if (nFieldIndex == -1)
+               {
+                  // Can't find this field in the vector file
+                  cerr << ERR << "cannot find " << SEDIMENT_INPUT_EVENT_LOCATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
+                  return RTN_ERR_VECTOR_FILE_READ;
+               }
 
-            // Get the Station ID for this point (note that we read it as an integer, not caring what type of field is actually in the shapefile)
-            nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
+               // Get the Station ID for this point (note that we read it as an integer, not caring what type of field is actually in the shapefile)
+               nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
 
-            if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
-               // Save the ID for the point
-               m_VnSedimentInputLocationID.push_back(nID);
-
-            else if (m_bSedimentInputAlongLine)
-            {
-               // Save the ID for every point in the line
-               for (int i = 0; i < nPoints; i++)
+               if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
+                  // Save the ID for the point
                   m_VnSedimentInputLocationID.push_back(nID);
-            }
 
-            break;
+               else if (m_bSedimentInputAlongLine)
+               {
+                  // Save the ID for every point in the line
+                  for (int i = 0; i < nPoints; i++)
+                     m_VnSedimentInputLocationID.push_back(nID);
+               }
 
-         case (FLOOD_LOCATION_VEC):
-            // First get the station ID
-            nFieldIndex = pOGRFeatureDefn->GetFieldIndex(FLOOD_LOCATION_ID.c_str());
-            if (nFieldIndex == -1)
-            {
-               // Can't find this field in the vector file
-               cerr << ERR << "cannot find " << FLOOD_LOCATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
-               return RTN_ERR_VECTOR_FILE_READ;
-            }
+               break;
 
-            // Get the Station ID for this point (note that we read it as an integer, not caring what type of field is actually in the shapefile)
-            nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
+            case (FLOOD_LOCATION_VEC):
+               // First get the station ID
+               nFieldIndex = pOGRFeatureDefn->GetFieldIndex(FLOOD_LOCATION_ID.c_str());
+               if (nFieldIndex == -1)
+               {
+                  // Can't find this field in the vector file
+                  cerr << ERR << "cannot find " << FLOOD_LOCATION_ID << " field in " << strGISFile << ": " << CPLGetLastErrorMsg() << endl;
+                  return RTN_ERR_VECTOR_FILE_READ;
+               }
 
-            // Save the ID for the point
-            m_VnFloodLocationID.push_back(nID);
-            break;
+               // Get the Station ID for this point (note that we read it as an integer, not caring what type of field is actually in the shapefile)
+               nID = pOGRFeature->GetFieldAsInteger(nFieldIndex);
+
+               // Save the ID for the point
+               m_VnFloodLocationID.push_back(nID);
+               break;
          }
       }
 
@@ -316,23 +316,23 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
    // Save some info, to be shown in the text output
    switch (nDataItem)
    {
-   case (DEEP_WATER_WAVE_STATIONS_VEC):
-      m_strOGRDWWVDriverCode = pOGRDataSource->GetDriverName();
-      m_strOGRDWWVDataType = "integer";
-      m_strOGRDWWVGeometry = strGeometry;
-      break;
+      case (DEEP_WATER_WAVE_STATIONS_VEC):
+         m_strOGRDWWVDriverCode = pOGRDataSource->GetDriverName();
+         m_strOGRDWWVDataType = "integer";
+         m_strOGRDWWVGeometry = strGeometry;
+         break;
 
-   case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
-      m_strOGRSedInputDriverCode = pOGRDataSource->GetDriverName();
-      m_strOGRSedInputGeometry = "integer";
-      m_strOGRSedInputDataType = strGeometry;
-      break;
+      case (SEDIMENT_INPUT_EVENT_LOCATION_VEC):
+         m_strOGRSedInputDriverCode = pOGRDataSource->GetDriverName();
+         m_strOGRSedInputGeometry = "integer";
+         m_strOGRSedInputDataType = strGeometry;
+         break;
 
-   case (FLOOD_LOCATION_VEC):
-      m_strOGRFloodDriverCode = pOGRDataSource->GetDriverName();
-      m_strOGRFloodGeometry = "integer";
-      m_strOGRFloodDataType = strGeometry;
-      break;
+      case (FLOOD_LOCATION_VEC):
+         m_strOGRFloodDriverCode = pOGRDataSource->GetDriverName();
+         m_strOGRFloodGeometry = "integer";
+         m_strOGRFloodDataType = strGeometry;
+         break;
    }
 
    // Clean up: get rid of the data source object
@@ -354,94 +354,94 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
 
    switch (nDataItem)
    {
-   case (VECTOR_PLOT_COAST):
-      strFilePathName.append(VECTOR_COAST_NAME);
-      strstrFileName << VECTOR_COAST_NAME;
-      break;
+      case (VECTOR_PLOT_COAST):
+         strFilePathName.append(VECTOR_COAST_NAME);
+         strstrFileName << VECTOR_COAST_NAME;
+         break;
 
-   case (VECTOR_PLOT_NORMALS):
-      strFilePathName.append(VECTOR_NORMALS_NAME);
-      strstrFileName << VECTOR_NORMALS_NAME;
-      break;
+      case (VECTOR_PLOT_NORMALS):
+         strFilePathName.append(VECTOR_NORMALS_NAME);
+         strstrFileName << VECTOR_NORMALS_NAME;
+         break;
 
-   case (VECTOR_PLOT_INVALID_NORMALS):
-      strFilePathName.append(VECTOR_INVALID_NORMALS_NAME);
-      break;
+      case (VECTOR_PLOT_INVALID_NORMALS):
+         strFilePathName.append(VECTOR_INVALID_NORMALS_NAME);
+         break;
 
-   case (VECTOR_PLOT_COAST_CURVATURE):
-      strFilePathName.append(VECTOR_COAST_CURVATURE_NAME);
-      break;
+      case (VECTOR_PLOT_COAST_CURVATURE):
+         strFilePathName.append(VECTOR_COAST_CURVATURE_NAME);
+         break;
 
-   case (VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT):
-      strFilePathName.append(VECTOR_WAVE_ANGLE_AND_HEIGHT_NAME);
-      break;
+      case (VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT):
+         strFilePathName.append(VECTOR_WAVE_ANGLE_AND_HEIGHT_NAME);
+         break;
 
-   case (VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT):
-      strFilePathName.append(VECTOR_AVG_WAVE_ANGLE_AND_HEIGHT_NAME);
-      break;
+      case (VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT):
+         strFilePathName.append(VECTOR_AVG_WAVE_ANGLE_AND_HEIGHT_NAME);
+         break;
 
-   case (VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE):
-      strFilePathName.append(VECTOR_WAVE_ENERGY_SINCE_COLLAPSE_NAME);
-      break;
+      case (VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE):
+         strFilePathName.append(VECTOR_WAVE_ENERGY_SINCE_COLLAPSE_NAME);
+         break;
 
-   case (VECTOR_PLOT_MEAN_WAVE_ENERGY):
-      strFilePathName.append(VECTOR_MEAN_WAVE_ENERGY_NAME);
-      break;
+      case (VECTOR_PLOT_MEAN_WAVE_ENERGY):
+         strFilePathName.append(VECTOR_MEAN_WAVE_ENERGY_NAME);
+         break;
 
-   case (VECTOR_PLOT_BREAKING_WAVE_HEIGHT):
-      strFilePathName.append(VECTOR_BREAKING_WAVE_HEIGHT_NAME);
-      break;
+      case (VECTOR_PLOT_BREAKING_WAVE_HEIGHT):
+         strFilePathName.append(VECTOR_BREAKING_WAVE_HEIGHT_NAME);
+         break;
 
-   case (VECTOR_PLOT_POLYGON_NODES):
-      strFilePathName.append(VECTOR_POLYGON_NODES_NAME);
-      break;
+      case (VECTOR_PLOT_POLYGON_NODES):
+         strFilePathName.append(VECTOR_POLYGON_NODES_NAME);
+         break;
 
-   case (VECTOR_PLOT_POLYGON_BOUNDARY):
-      strFilePathName.append(VECTOR_POLYGON_BOUNDARY_NAME);
-      break;
+      case (VECTOR_PLOT_POLYGON_BOUNDARY):
+         strFilePathName.append(VECTOR_POLYGON_BOUNDARY_NAME);
+         break;
 
-   case (VECTOR_PLOT_CLIFF_NOTCH_SIZE):
-      strFilePathName.append(VECTOR_CLIFF_NOTCH_SIZE_NAME);
-      break;
+      case (VECTOR_PLOT_CLIFF_NOTCH_SIZE):
+         strFilePathName.append(VECTOR_CLIFF_NOTCH_SIZE_NAME);
+         break;
 
-   case (VECTOR_PLOT_SHADOW_BOUNDARY):
-      strFilePathName.append(VECTOR_SHADOW_BOUNDARY_NAME);
-      break;
+      case (VECTOR_PLOT_SHADOW_BOUNDARY):
+         strFilePathName.append(VECTOR_SHADOW_BOUNDARY_NAME);
+         break;
 
-   case (VECTOR_PLOT_DOWNDRIFT_BOUNDARY):
-      strFilePathName.append(VECTOR_DOWNDRIFT_BOUNDARY_NAME);
-      break;
+      case (VECTOR_PLOT_DOWNDRIFT_BOUNDARY):
+         strFilePathName.append(VECTOR_DOWNDRIFT_BOUNDARY_NAME);
+         break;
 
-   case (VECTOR_PLOT_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT):
-      strFilePathName.append(VECTOR_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT_NAME);
-      break;
+      case (VECTOR_PLOT_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT):
+         strFilePathName.append(VECTOR_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT_NAME);
+         break;
 
-   case (VECTOR_PLOT_WAVE_SETUP):
-      strFilePathName.append(VECTOR_WAVE_SETUP_NAME);
-      break;
+      case (VECTOR_PLOT_WAVE_SETUP):
+         strFilePathName.append(VECTOR_WAVE_SETUP_NAME);
+         break;
 
-   case (VECTOR_PLOT_STORM_SURGE):
-      strFilePathName.append(VECTOR_STORM_SURGE_NAME);
-      break;
+      case (VECTOR_PLOT_STORM_SURGE):
+         strFilePathName.append(VECTOR_STORM_SURGE_NAME);
+         break;
 
-   case (VECTOR_PLOT_RUN_UP):
-      strFilePathName.append(VECTOR_RUN_UP_NAME);
-      break;
+      case (VECTOR_PLOT_RUN_UP):
+         strFilePathName.append(VECTOR_RUN_UP_NAME);
+         break;
 
-   case (VECTOR_PLOT_FLOOD_LINE):
-      strFilePathName.append(VECTOR_FLOOD_LINE_NAME);
-      strstrFileName << VECTOR_FLOOD_LINE_NAME;
-      break;
+      case (VECTOR_PLOT_FLOOD_LINE):
+         strFilePathName.append(VECTOR_FLOOD_LINE_NAME);
+         strstrFileName << VECTOR_FLOOD_LINE_NAME;
+         break;
 
-      // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE):
-      //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME);
-      //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME;
-      //    break;
+         // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_LINE):
+         //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME);
+         //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_LINE_NAME;
+         //    break;
 
-      // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE):
-      //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME);
-      //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME;
-      //    break;
+         // case (VECTOR_PLOT_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE):
+         //    strFilePathName.append(VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME);
+         //    strstrFileName << VECTOR_FLOOD_SWL_SETUP_SURGE_RUNUP_LINE_NAME;
+         //    break;
    }
 
    // Append the 'save number' to the filename, and prepend zeros to the save number
@@ -501,12 +501,12 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    string strType = "unknown";
 
    // Now create the output layer
-   // OGRLayer *pOGRLayer = pGDALDataSet->CreateLayer(strFilePathNameNoExt.c_str(), &OGRSpatialRef, eGType, m_papszGDALVectorOptions);
-   if (EQUAL(m_strVectorGISOutFormat.c_str(), "geojson"))
-   {
-      CPLSetConfigOption("GDAL_VALIDATE_CREATION_OPTIONS", "NO");
-      m_papszGDALVectorOptions = CSLSetNameValue(m_papszGDALVectorOptions, "COORDINATE_PRECISION", "2");
-   }
+   // // OGRLayer *pOGRLayer = pGDALDataSet->CreateLayer(strFilePathNameNoExt.c_str(), &OGRSpatialRef, eGType, m_papszGDALVectorOptions);
+   // if (EQUAL(m_strVectorGISOutFormat.c_str(), "geojson"))
+   // {
+   //    CPLSetConfigOption("GDAL_VALIDATE_CREATION_OPTIONS", "NO");
+   //    m_papszGDALVectorOptions = CSLSetNameValue(m_papszGDALVectorOptions, "COORDINATE_PRECISION", "2");
+   // }
 
    OGRLayer *pOGRLayer = pGDALDataSet->CreateLayer(strstrFileName.str().c_str(), &OGRSpatialRef, eGType, m_papszGDALVectorOptions);
 
@@ -517,593 +517,670 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
       return false;
    }
 
+   // Need to switch off OGR error messages here, since real (floating point) fields in ESRI shapefiles are treated as width 24 with 15 decimal places of precision (unless an explicit width is given). If fields exceed this, then a "not successfully written. Possibly due to too larger number with respect to field width" error message is shown. Get this to fail silently
+   CPLPushErrorHandler(CPLQuietErrorHandler); 
+   
    switch (nDataItem)
    {
-   case (VECTOR_PLOT_COAST):
-   {
-      eGType = wkbLineString;
-      strType = "line";
-
-      // The layer has been created, so create an integer-numbered value (the number of the coast object) for the multi-line
-      string strFieldValue1 = "Coast";
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+      case (VECTOR_PLOT_COAST):
       {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         eGType = wkbLineString;
+         strType = "line";
 
-      // OK, now do features
-      OGRLineString OGRls;
-
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         // Create a feature object, one per coast
-         OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-         // Set the feature's attribute (the coast number)
-         pOGRFeature->SetField(strFieldValue1.c_str(), i);
-
-         // Now attach a geometry to the feature object
-         for (int j = 0; j < m_VCoast[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
-            //  In external CRS
-            OGRls.addPoint(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
-
-         pOGRFeature->SetGeometry(&OGRls);
-
-         // Create the feature in the output layer
-         if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-         {
-            cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
-            return false;
-         }
-
-         // Tidy up: empty the line string and get rid of the feature object
-         OGRls.empty();
-         OGRFeature::DestroyFeature(pOGRFeature);
-      }
-
-      break;
-   }
-   case (VECTOR_PLOT_FLOOD_LINE):
-   {
-      eGType = wkbLineString;
-      strType = "line";
-
-      // The layer has been created, so create an integer-numbered value (the number of the coast object) for the multi-line
-      string strFieldValue1 = "NMR";
-      string strFieldValue2 = "tiempo";
-      string strFieldValue3 = "surge_mm";
-      // string strFieldValue4 = "eta-surge(mm)";
-      string strFieldValue4 = "runup_mm";
-
-      // Create a feature with general properties
-      // OGRLineString OGRls;
-      // OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-      // Testing coordinate system
-      // if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      // {
-      //    cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-      //         << CPLGetLastErrorMsg() << endl;
-      //    return false;
-      // }
-      // if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      // {
-      //    cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-      //         << CPLGetLastErrorMsg() << endl;
-      //    return false;
-      // }
-
-      // pOGRFeature->SetGeometry(&OGRls);
-      // Create the feature in the output layer
-      // if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-      // {
-      //    cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " in " << strFilePathName << "\n"
-      //         << CPLGetLastErrorMsg() << endl;
-      //    return false;
-      // }
-      // OGRFeature::DestroyFeature(pOGRFeature);
-      // Create a feature object, one per coast
-
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
-      OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
-      OGRFieldDefn OGRField3(strFieldValue3.c_str(), OFTInteger64);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now do features
-      OGRLineString OGR2ls;
-      // for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurge.size()); i++)
-      // {
-      //    OGRFeature *pOGR2Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-      //    pOGR2Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-      //    pOGR2Feature->SetField(strFieldValue2.c_str(), m_ulIter);
-      //    int setup_level = int(m_dThisIterDiffWaveSetupWaterLevel * 1000);
-      //    pOGR2Feature->SetField(strFieldValue3.c_str(), setup_level);
-      //    // Set the feature's attribute (the coast number)
-      //    // Now attach a geometry to the feature object
-      //    for (int j = 0; j < m_VFloodWaveSetup[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
-      //    {
-      //       //  In external CRS
-      //       // Add SWL + wave setup line
-      //       OGR2ls.addPoint(m_VFloodWaveSetup[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetup[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
-      //    }
-
-      //    pOGR2Feature->SetGeometry(&OGR2ls);
-      //    OGR2ls.empty();
-
-      //    // Create the feature in the output layer
-      //    if (pOGRLayer->CreateFeature(pOGR2Feature) != OGRERR_NONE)
-      //    {
-      //       cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
-      //            << CPLGetLastErrorMsg() << endl;
-      //       return false;
-      //    }
-
-      //    // Tidy up: empty the line string and get rid of the feature object
-      //    // OGRls.empty();
-      //    OGRFeature::DestroyFeature(pOGR2Feature);
-      // }
-      if (m_bFloodSWLSetupSurgeLine)
-      {
-         // Create a feature object, one per coast
-         OGRFeature *pOGR3Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-         OGRFieldDefn OGRField6(strFieldValue1.c_str(), OFTReal);
-         OGRFieldDefn OGRField7(strFieldValue2.c_str(), OFTReal);
-         OGRFieldDefn OGRField4(strFieldValue3.c_str(), OFTInteger64);
-         if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
+         // The layer has been created, so create an integer-numbered value (the number of the coast object) for the multi-line
+         string strFieldValue1 = "Coast";
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
          {
             cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
+               << CPLGetLastErrorMsg() << endl;
             return false;
          }
-         if (pOGRLayer->CreateField(&OGRField7) != OGRERR_NONE)
+
+         // OK, now do features
+         OGRLineString OGRls;
+
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
+         {
+            // Create a feature object, one per coast
+            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+            // Set the feature's attribute (the coast number)
+            pOGRFeature->SetField(strFieldValue1.c_str(), i);
+
+            // Now attach a geometry to the feature object
+            for (int j = 0; j < m_VCoast[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+               //  In external CRS
+               OGRls.addPoint(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
+
+            pOGRFeature->SetGeometry(&OGRls);
+
+            // Create the feature in the output layer
+            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+
+            // Tidy up: empty the line string and get rid of the feature object
+            OGRls.empty();
+            OGRFeature::DestroyFeature(pOGRFeature);
+         }
+
+         break;
+      }
+   
+      case (VECTOR_PLOT_FLOOD_LINE):
+      {
+         eGType = wkbLineString;
+         strType = "line";
+
+         // The layer has been created, so create an integer-numbered value (the number of the coast object) for the multi-line
+         string strFieldValue1 = "NMR";
+         string strFieldValue2 = "tiempo";
+         string strFieldValue3 = "surge_mm";
+         // string strFieldValue4 = "eta-surge(mm)";
+         string strFieldValue4 = "runup_mm";
+
+         // Create a feature with general properties
+         // OGRLineString OGRls;
+         // OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+         // Testing coordinate system
+         // if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         // {
+         //    cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+         //         << CPLGetLastErrorMsg() << endl;
+         //    return false;
+         // }
+         // if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
+         // {
+         //    cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+         //         << CPLGetLastErrorMsg() << endl;
+         //    return false;
+         // }
+
+         // pOGRFeature->SetGeometry(&OGRls);
+         // Create the feature in the output layer
+         // if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+         // {
+         //    cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " in " << strFilePathName << "\n"
+         //         << CPLGetLastErrorMsg() << endl;
+         //    return false;
+         // }
+         // OGRFeature::DestroyFeature(pOGRFeature);
+         // Create a feature object, one per coast
+
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
+         OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
+         OGRFieldDefn OGRField3(strFieldValue3.c_str(), OFTInteger64);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
          {
             cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+         if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now do features
+         OGRLineString OGR2ls;
+         // for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurge.size()); i++)
+         // {
+         //    OGRFeature *pOGR2Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+         //    pOGR2Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
+         //    pOGR2Feature->SetField(strFieldValue2.c_str(), m_ulIter);
+         //    int setup_level = int(m_dThisIterDiffWaveSetupWaterLevel * 1000);
+         //    pOGR2Feature->SetField(strFieldValue3.c_str(), setup_level);
+         //    // Set the feature's attribute (the coast number)
+         //    // Now attach a geometry to the feature object
+         //    for (int j = 0; j < m_VFloodWaveSetup[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+         //    {
+         //       //  In external CRS
+         //       // Add SWL + wave setup line
+         //       OGR2ls.addPoint(m_VFloodWaveSetup[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetup[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
+         //    }
+
+         //    pOGR2Feature->SetGeometry(&OGR2ls);
+         //    OGR2ls.empty();
+
+         //    // Create the feature in the output layer
+         //    if (pOGRLayer->CreateFeature(pOGR2Feature) != OGRERR_NONE)
+         //    {
+         //       cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
+         //            << CPLGetLastErrorMsg() << endl;
+         //       return false;
+         //    }
+
+         //    // Tidy up: empty the line string and get rid of the feature object
+         //    // OGRls.empty();
+         //    OGRFeature::DestroyFeature(pOGR2Feature);
+         // }
+         if (m_bFloodSWLSetupSurgeLine)
+         {
+            // Create a feature object, one per coast
+            OGRFeature *pOGR3Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+            OGRFieldDefn OGRField6(strFieldValue1.c_str(), OFTReal);
+            OGRFieldDefn OGRField7(strFieldValue2.c_str(), OFTReal);
+            OGRFieldDefn OGRField4(strFieldValue3.c_str(), OFTInteger64);
+            if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+            if (pOGRLayer->CreateField(&OGRField7) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+            if (pOGRLayer->CreateField(&OGRField4) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 4 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+
+            // OK, now do features
+            OGRLineString OGR3ls;
+            for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurge.size()); i++)
+            {
+
+               pOGR3Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
+               pOGR3Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
+               int surge_level = int(m_dThisIterDiffWaveSetupSurgeWaterLevel * 1000);
+               pOGR3Feature->SetField(strFieldValue3.c_str(), surge_level);
+               // Set the feature's attribute (the coast number)
+               // Now attach a geometry to the feature object
+               for (int j = 0; j < m_VFloodWaveSetupSurge[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+               {
+                  //  In external CRS
+                  // Add SWL + wave setup + storm surge line
+                  OGR3ls.addPoint(m_VFloodWaveSetupSurge[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetupSurge[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
+               }
+
+               pOGR3Feature->SetGeometry(&OGR3ls);
+               OGR3ls.empty();
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGR3Feature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Tidy up: empty the line string and get rid of the feature object
+               // OGRls.empty();
+               OGRFeature::DestroyFeature(pOGR3Feature);
+            }
+         }
+         if (m_bFloodSWLSetupSurgeRunupLine)
+         {
+            // Create a feature object, one per coast
+            OGRFeature *pOGR4Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+            OGRFieldDefn OGRField8(strFieldValue1.c_str(), OFTReal);
+            OGRFieldDefn OGRField9(strFieldValue2.c_str(), OFTReal);
+            OGRFieldDefn OGRField5(strFieldValue4.c_str(), OFTInteger64);
+            if (pOGRLayer->CreateField(&OGRField8) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+            if (pOGRLayer->CreateField(&OGRField9) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+            if (pOGRLayer->CreateField(&OGRField5) != OGRERR_NONE)
+            {
+               cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
+                  << CPLGetLastErrorMsg() << endl;
+               return false;
+            }
+            // OK, now do features
+            OGRLineString OGR4ls;
+            for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurgeRunup.size()); i++)
+            {
+               pOGR4Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
+               pOGR4Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
+               int runup_level = int(m_dThisIterDiffWaveSetupSurgeRunupWaterLevel * 1000);
+               pOGR4Feature->SetField(strFieldValue4.c_str(), runup_level);
+
+               // Set the feature's attribute (the coast number)
+               // Now attach a geometry to the feature object
+               for (int j = 0; j < m_VFloodWaveSetupSurgeRunup[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+               {
+                  //  In external CRS
+                  // Add SWL + wave setup + surge + runup line
+                  OGR4ls.addPoint(m_VFloodWaveSetupSurgeRunup[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetupSurgeRunup[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
+               }
+
+               pOGR4Feature->SetGeometry(&OGR4ls);
+               OGR4ls.empty();
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGR4Feature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Tidy up: empty the line string and get rid of the feature object
+               // OGRls.empty();
+               OGRFeature::DestroyFeature(pOGR4Feature);
+            }
+         }
+         // OGRls.empty();
+
+         break;
+      }
+
+      case (VECTOR_PLOT_NORMALS):
+      case (VECTOR_PLOT_INVALID_NORMALS):
+      {
+         eGType = wkbLineString;
+         strType = "line";
+
+         // The layer has been created, so create an integer-numbered value (the number of the normal) associated with the line
+         string strFieldValue1 = "Normal";
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // Also create other integer-numbered values for the category codes of the coastline-normalprofile
+         string
+            strFieldValue2 = "StartCoast",
+            strFieldValue3 = "EndCoast",
+            strFieldValue4 = "HitLand",
+            strFieldValue5 = "HitCoast",
+            strFieldValue6 = "HitNormal";
+         OGRFieldDefn
+            OGRField2(strFieldValue2.c_str(), OFTInteger),
+            OGRField3(strFieldValue3.c_str(), OFTInteger),
+            OGRField4(strFieldValue4.c_str(), OFTInteger),
+            OGRField5(strFieldValue5.c_str(), OFTInteger),
+            OGRField6(strFieldValue6.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+         if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
             return false;
          }
          if (pOGRLayer->CreateField(&OGRField4) != OGRERR_NONE)
          {
             cerr << ERR << "cannot create " << strType << " attribute field 4 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
-            return false;
-         }
-
-         // OK, now do features
-         OGRLineString OGR3ls;
-         for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurge.size()); i++)
-         {
-
-            pOGR3Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-            pOGR3Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
-            int surge_level = int(m_dThisIterDiffWaveSetupSurgeWaterLevel * 1000);
-            pOGR3Feature->SetField(strFieldValue3.c_str(), surge_level);
-            // Set the feature's attribute (the coast number)
-            // Now attach a geometry to the feature object
-            for (int j = 0; j < m_VFloodWaveSetupSurge[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
-            {
-               //  In external CRS
-               // Add SWL + wave setup + storm surge line
-               OGR3ls.addPoint(m_VFloodWaveSetupSurge[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetupSurge[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
-            }
-
-            pOGR3Feature->SetGeometry(&OGR3ls);
-            OGR3ls.empty();
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGR3Feature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Tidy up: empty the line string and get rid of the feature object
-            // OGRls.empty();
-            OGRFeature::DestroyFeature(pOGR3Feature);
-         }
-      }
-      if (m_bFloodSWLSetupSurgeRunupLine)
-      {
-         // Create a feature object, one per coast
-         OGRFeature *pOGR4Feature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-         OGRFieldDefn OGRField8(strFieldValue1.c_str(), OFTReal);
-         OGRFieldDefn OGRField9(strFieldValue2.c_str(), OFTReal);
-         OGRFieldDefn OGRField5(strFieldValue4.c_str(), OFTInteger64);
-         if (pOGRLayer->CreateField(&OGRField8) != OGRERR_NONE)
-         {
-            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
-            return false;
-         }
-         if (pOGRLayer->CreateField(&OGRField9) != OGRERR_NONE)
-         {
-            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
+               << CPLGetLastErrorMsg() << endl;
             return false;
          }
          if (pOGRLayer->CreateField(&OGRField5) != OGRERR_NONE)
          {
-            cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
-                 << CPLGetLastErrorMsg() << endl;
+            cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue5 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
             return false;
          }
-         // OK, now do features
-         OGRLineString OGR4ls;
-         for (int i = 0; i < static_cast<int>(m_VFloodWaveSetupSurgeRunup.size()); i++)
+         if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
          {
-            pOGR4Feature->SetField(strFieldValue1.c_str(), m_dThisIterSWL);
-            pOGR4Feature->SetField(strFieldValue2.c_str(), static_cast<double>(m_bGISSaveDigitsSequential ? m_nGISSave : m_ulIter));
-            int runup_level = int(m_dThisIterDiffWaveSetupSurgeRunupWaterLevel * 1000);
-            pOGR4Feature->SetField(strFieldValue4.c_str(), runup_level);
-
-            // Set the feature's attribute (the coast number)
-            // Now attach a geometry to the feature object
-            for (int j = 0; j < m_VFloodWaveSetupSurgeRunup[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
-            {
-               //  In external CRS
-               // Add SWL + wave setup + surge + runup line
-               OGR4ls.addPoint(m_VFloodWaveSetupSurgeRunup[i].pPtGetCoastlinePointExtCRS(j)->dGetX(), m_VFloodWaveSetupSurgeRunup[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
-            }
-
-            pOGR4Feature->SetGeometry(&OGR4ls);
-            OGR4ls.empty();
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGR4Feature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Tidy up: empty the line string and get rid of the feature object
-            // OGRls.empty();
-            OGRFeature::DestroyFeature(pOGR4Feature);
+            cerr << ERR << "cannot create " << strType << " attribute field 6 '" << strFieldValue6 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
-      }
-      // OGRls.empty();
 
-      break;
-   }
+         // OK, now create features
+         OGRLineString OGRls;
 
-   case (VECTOR_PLOT_NORMALS):
-   case (VECTOR_PLOT_INVALID_NORMALS):
-   {
-      eGType = wkbLineString;
-      strType = "line";
-
-      // The layer has been created, so create an integer-numbered value (the number of the normal) associated with the line
-      string strFieldValue1 = "Normal";
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // Also create other integer-numbered values for the category codes of the coastline-normalprofile
-      string
-          strFieldValue2 = "StartCoast",
-          strFieldValue3 = "EndCoast",
-          strFieldValue4 = "HitLand",
-          strFieldValue5 = "HitCoast",
-          strFieldValue6 = "HitNormal";
-      OGRFieldDefn
-          OGRField2(strFieldValue2.c_str(), OFTInteger),
-          OGRField3(strFieldValue3.c_str(), OFTInteger),
-          OGRField4(strFieldValue4.c_str(), OFTInteger),
-          OGRField5(strFieldValue5.c_str(), OFTInteger),
-          OGRField6(strFieldValue6.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField4) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 4 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField5) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue5 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-      if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 6 '" << strFieldValue6 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now create features
-      OGRLineString OGRls;
-
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         for (int j = 0; j < m_VCoast[i].nGetNumProfiles(); j++)
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
          {
-            CGeomProfile *pProfile = m_VCoast[i].pGetProfile(j);
-
-            if (((nDataItem == VECTOR_PLOT_NORMALS) && (pProfile->bOKIncStartAndEndOfCoast())) || ((nDataItem == VECTOR_PLOT_INVALID_NORMALS) && (!pProfile->bOKIncStartAndEndOfCoast())))
+            for (int j = 0; j < m_VCoast[i].nGetNumProfiles(); j++)
             {
-               // Create a feature object, one per profile
+               CGeomProfile *pProfile = m_VCoast[i].pGetProfile(j);
+
+               if (((nDataItem == VECTOR_PLOT_NORMALS) && (pProfile->bOKIncStartAndEndOfCoast())) || ((nDataItem == VECTOR_PLOT_INVALID_NORMALS) && (!pProfile->bOKIncStartAndEndOfCoast())))
+               {
+                  // Create a feature object, one per profile
+                  OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+                  // Set the feature's attributes
+                  pOGRFeature->SetField(strFieldValue1.c_str(), j);
+                  pOGRFeature->SetField(strFieldValue2.c_str(), 0);
+                  pOGRFeature->SetField(strFieldValue3.c_str(), 0);
+                  pOGRFeature->SetField(strFieldValue4.c_str(), 0);
+                  pOGRFeature->SetField(strFieldValue5.c_str(), 0);
+                  pOGRFeature->SetField(strFieldValue6.c_str(), 0);
+                  if (pProfile->bStartOfCoast())
+                     pOGRFeature->SetField(strFieldValue2.c_str(), 1);
+                  if (pProfile->bEndOfCoast())
+                     pOGRFeature->SetField(strFieldValue3.c_str(), 1);
+                  if (pProfile->bHitLand())
+                     pOGRFeature->SetField(strFieldValue4.c_str(), 1);
+                  if (pProfile->bHitCoast())
+                     pOGRFeature->SetField(strFieldValue5.c_str(), 1);
+                  if (pProfile->bHitAnotherProfile())
+                     pOGRFeature->SetField(strFieldValue6.c_str(), 1);
+
+                  // Now attach a geometry to the feature object
+                  for (int k = 0; k < pProfile->nGetProfileSize(); k++)
+                     OGRls.addPoint(pProfile->pPtGetPointInProfile(k)->dGetX(), pProfile->pPtGetPointInProfile(k)->dGetY());
+
+                  pOGRFeature->SetGeometry(&OGRls);
+                  OGRls.empty();
+
+                  // Create the feature in the output layer
+                  if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+                  {
+                     cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " and profile " << j << " in " << strFilePathName << "\n"
+                        << CPLGetLastErrorMsg() << endl;
+                     return false;
+                  }
+
+                  // Tidy up: get rid of the feature object
+                  OGRFeature::DestroyFeature(pOGRFeature);
+               }
+            }
+         }
+
+         break;
+      }
+
+      case (VECTOR_PLOT_COAST_CURVATURE):
+      case (VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE):
+      case (VECTOR_PLOT_MEAN_WAVE_ENERGY):
+      case (VECTOR_PLOT_BREAKING_WAVE_HEIGHT):
+      case (VECTOR_PLOT_POLYGON_NODES):
+      case (VECTOR_PLOT_WAVE_SETUP):
+      case (VECTOR_PLOT_STORM_SURGE):
+      case (VECTOR_PLOT_RUN_UP):
+      case (VECTOR_PLOT_CLIFF_NOTCH_SIZE):
+      {
+         eGType = wkbPoint;
+         strType = "point";
+
+         // The layer has been created, so create a real-numbered value associated with each point
+         string strFieldValue1;
+         if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
+            strFieldValue1 = "Curve";
+         else if (nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE)
+            strFieldValue1 = "SC_Energy";
+         else if (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY)
+            strFieldValue1 = "MeanEnergy";
+         else if (nDataItem == VECTOR_PLOT_BREAKING_WAVE_HEIGHT)
+            strFieldValue1 = "Height";
+         else if (nDataItem == VECTOR_PLOT_POLYGON_NODES)
+            strFieldValue1 = "Node";
+         else if (nDataItem == VECTOR_PLOT_CLIFF_NOTCH_SIZE)
+            strFieldValue1 = "Notch";
+         else if (nDataItem == VECTOR_PLOT_WAVE_SETUP)
+            strFieldValue1 = "Wavesetup";
+         else if (nDataItem == VECTOR_PLOT_STORM_SURGE)
+            strFieldValue1 = "Stormsurge";
+         else if (nDataItem == VECTOR_PLOT_RUN_UP)
+            strFieldValue1 = "Runup";
+
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now create features
+         OGRLineString OGRls;
+         OGRMultiLineString OGRmls;
+         OGRPoint OGRPt;
+
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
+         {
+            for (int j = 0; j < m_VCoast[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+            {
+               // Create a feature object, one per coastline point
                OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
 
-               // Set the feature's attributes
-               pOGRFeature->SetField(strFieldValue1.c_str(), j);
-               pOGRFeature->SetField(strFieldValue2.c_str(), 0);
-               pOGRFeature->SetField(strFieldValue3.c_str(), 0);
-               pOGRFeature->SetField(strFieldValue4.c_str(), 0);
-               pOGRFeature->SetField(strFieldValue5.c_str(), 0);
-               pOGRFeature->SetField(strFieldValue6.c_str(), 0);
-               if (pProfile->bStartOfCoast())
-                  pOGRFeature->SetField(strFieldValue2.c_str(), 1);
-               if (pProfile->bEndOfCoast())
-                  pOGRFeature->SetField(strFieldValue3.c_str(), 1);
-               if (pProfile->bHitLand())
-                  pOGRFeature->SetField(strFieldValue4.c_str(), 1);
-               if (pProfile->bHitCoast())
-                  pOGRFeature->SetField(strFieldValue5.c_str(), 1);
-               if (pProfile->bHitAnotherProfile())
-                  pOGRFeature->SetField(strFieldValue6.c_str(), 1);
+               // Set the feature's geometry (in external CRS)
+               OGRPt.setX(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetX());
+               OGRPt.setY(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
+               pOGRFeature->SetGeometry(&OGRPt);
 
-               // Now attach a geometry to the feature object
-               for (int k = 0; k < pProfile->nGetProfileSize(); k++)
-                  OGRls.addPoint(pProfile->pPtGetPointInProfile(k)->dGetX(), pProfile->pPtGetPointInProfile(k)->dGetY());
+               if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
+               {
+                  double dCurvature = m_VCoast[i].dGetDetailedCurvature(j);
+                  if (dCurvature == DBL_NODATA)
+                     continue;
 
-               pOGRFeature->SetGeometry(&OGRls);
-               OGRls.empty();
+                  // Set the feature's attribute
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dCurvature);
+               }
+               else if (nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE)
+               {
+                  // Set the feature's attribute
+                  if (m_VCoast[i].pGetCoastLandform(j) == NULL)
+                     pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
+                  else
+                     pOGRFeature->SetField(strFieldValue1.c_str(), m_VCoast[i].pGetCoastLandform(j)->dGetTotAccumWaveEnergy());
+               }
+               else if (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY)
+               {
+                  // Set the feature's attribute
+                  if (m_VCoast[i].pGetCoastLandform(j) == NULL)
+                     pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
+                  else
+                  {
+                     double dEnergy = m_VCoast[i].pGetCoastLandform(j)->dGetTotAccumWaveEnergy();
+                     dEnergy *= 24;
+                     dEnergy /= m_dSimElapsed; // Is in energy units per day
+
+                     pOGRFeature->SetField(strFieldValue1.c_str(), dEnergy);
+                  }
+               }
+               else if (nDataItem == VECTOR_PLOT_BREAKING_WAVE_HEIGHT)
+               {
+                  // Set the feature's attribute
+                  double dHeight = m_VCoast[i].dGetBreakingWaveHeight(j);
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dHeight);
+               }
+               else if (nDataItem == VECTOR_PLOT_WAVE_SETUP)
+               {
+                  // Set the feature's attribute
+                  double dWaveSetupSurge = m_VCoast[i].dGetWaveSetupSurge(j);
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dWaveSetupSurge);
+               }
+               // else if (nDataItem == VECTOR_PLOT_STORM_SURGE)
+               // {
+               //    // Set the feature's attribute
+               //    double dStormSurge = m_VCoast[i].dGetStormSurge(j);
+               //    pOGRFeature->SetField(strFieldValue1.c_str(), dStormSurge);
+               // }
+               else if (nDataItem == VECTOR_PLOT_RUN_UP)
+               {
+                  // Set the feature's attribute
+                  double dRunUp = m_VCoast[i].dGetRunUp(j);
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dRunUp);
+               }
+               else if (nDataItem == VECTOR_PLOT_POLYGON_NODES)
+               {
+                  int nNode = m_VCoast[i].nGetPolygonNode(j);
+                  if (nNode == INT_NODATA)
+                     continue;
+
+                  // Set the feature's attribute
+                  pOGRFeature->SetField(strFieldValue1.c_str(), nNode);
+               }
+               else if (nDataItem == VECTOR_PLOT_CLIFF_NOTCH_SIZE)
+               {
+                  CACoastLandform *pCoastLandform = m_VCoast[i].pGetCoastLandform(j);
+                  if (pCoastLandform == NULL)
+                     pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
+                  else
+                  {
+                     int nCategory = pCoastLandform->nGetLandFormCategory();
+                     double dNotchDepth = 0.0;
+
+                     if (nCategory == LF_CAT_CLIFF)
+                     {
+                        CRWCliff*pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
+
+                        // Get attribute values from the cliff object
+                        dNotchDepth = pCliff->dGetNotchDepth();
+                     }
+
+                     // Set the feature's attribute
+                     pOGRFeature->SetField(strFieldValue1.c_str(), dNotchDepth);
+                  }
+               }
 
                // Create the feature in the output layer
                if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
                {
-                  cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << " for coast " << i << " and profile " << j << " in " << strFilePathName << "\n"
-                       << CPLGetLastErrorMsg() << endl;
+                  cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for coast " << i << " point " << j << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
                   return false;
                }
 
-               // Tidy up: get rid of the feature object
+               // Get rid of the feature object
                OGRFeature::DestroyFeature(pOGRFeature);
             }
          }
+
+         break;
       }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_COAST_CURVATURE):
-   case (VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE):
-   case (VECTOR_PLOT_MEAN_WAVE_ENERGY):
-   case (VECTOR_PLOT_BREAKING_WAVE_HEIGHT):
-   case (VECTOR_PLOT_POLYGON_NODES):
-   case (VECTOR_PLOT_WAVE_SETUP):
-   case (VECTOR_PLOT_STORM_SURGE):
-   case (VECTOR_PLOT_RUN_UP):
-   case (VECTOR_PLOT_CLIFF_NOTCH_SIZE):
-   {
-      eGType = wkbPoint;
-      strType = "point";
-
-      // The layer has been created, so create a real-numbered value associated with each point
-      string strFieldValue1;
-      if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
-         strFieldValue1 = "Curve";
-      else if (nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE)
-         strFieldValue1 = "SC_Energy";
-      else if (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY)
-         strFieldValue1 = "MeanEnergy";
-      else if (nDataItem == VECTOR_PLOT_BREAKING_WAVE_HEIGHT)
-         strFieldValue1 = "Height";
-      else if (nDataItem == VECTOR_PLOT_POLYGON_NODES)
-         strFieldValue1 = "Node";
-      else if (nDataItem == VECTOR_PLOT_CLIFF_NOTCH_SIZE)
-         strFieldValue1 = "Notch";
-      else if (nDataItem == VECTOR_PLOT_WAVE_SETUP)
-         strFieldValue1 = "Wavesetup";
-      else if (nDataItem == VECTOR_PLOT_STORM_SURGE)
-         strFieldValue1 = "Stormsurge";
-      else if (nDataItem == VECTOR_PLOT_RUN_UP)
-         strFieldValue1 = "Runup";
-
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+      case (VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT):
       {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         eGType = wkbPoint;
+         strType = "point";
 
-      // OK, now create features
-      OGRLineString OGRls;
-      OGRMultiLineString OGRmls;
-      OGRPoint OGRPt;
+         // The layer has been created, so create real-numbered values associated with each point
+         string
+            strFieldValue1 = "Angle",
+            strFieldValue2 = "Height";
 
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         for (int j = 0; j < m_VCoast[i].pLGetCoastlineExtCRS()->nGetSize(); j++)
+         // Create the first field
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
          {
-            // Create a feature object, one per coastline point
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
 
-            // Set the feature's geometry (in external CRS)
-            OGRPt.setX(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetX());
-            OGRPt.setY(m_VCoast[i].pPtGetCoastlinePointExtCRS(j)->dGetY());
-            pOGRFeature->SetGeometry(&OGRPt);
+         // Create the second field
+         OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
 
-            if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
-            {
-               double dCurvature = m_VCoast[i].dGetDetailedCurvature(j);
-               if (dCurvature == DBL_NODATA)
-                  continue;
+         // OK, now create features
+         OGRLineString OGRls;
+         OGRMultiLineString OGRmls;
+         OGRPoint OGRPt;
 
-               // Set the feature's attribute
-               pOGRFeature->SetField(strFieldValue1.c_str(), dCurvature);
-            }
-            else if (nDataItem == VECTOR_PLOT_WAVE_ENERGY_SINCE_COLLAPSE)
+         for (int nX = 0; nX < m_nXGridMax; nX++)
+         {
+            for (int nY = 0; nY < m_nYGridMax; nY++)
             {
-               // Set the feature's attribute
-               if (m_VCoast[i].pGetCoastLandform(j) == NULL)
-                  pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
-               else
-                  pOGRFeature->SetField(strFieldValue1.c_str(), dConstrainFieldWidthForShapefile(m_VCoast[i].pGetCoastLandform(j)->dGetTotAccumWaveEnergy()));
-            }
-            else if (nDataItem == VECTOR_PLOT_MEAN_WAVE_ENERGY)
-            {
-               // Set the feature's attribute
-               if (m_VCoast[i].pGetCoastLandform(j) == NULL)
-                  pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
-               else
+               // Only output a value if the cell is a sea cell which is not in the active zone (wave height and angle values are meaningless if in the active zone)
+               if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (! m_pRasterGrid->m_Cell[nX][nY].bIsInActiveZone()))
                {
-                  double dEnergy = m_VCoast[i].pGetCoastLandform(j)->dGetTotAccumWaveEnergy();
-                  dEnergy *= 24;
-                  dEnergy /= m_dSimElapsed; // Is in energy units per day
+                  // Create a feature object, one per sea cell
+                  OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
 
-                  pOGRFeature->SetField(strFieldValue1.c_str(), dConstrainFieldWidthForShapefile(dEnergy));
-               }
-            }
-            else if (nDataItem == VECTOR_PLOT_BREAKING_WAVE_HEIGHT)
-            {
-               // Set the feature's attribute
-               double dHeight = m_VCoast[i].dGetBreakingWaveHeight(j);
-               pOGRFeature->SetField(strFieldValue1.c_str(), dHeight);
-            }
-            else if (nDataItem == VECTOR_PLOT_WAVE_SETUP)
-            {
-               // Set the feature's attribute
-               double dWaveSetupSurge = m_VCoast[i].dGetWaveSetupSurge(j);
-               pOGRFeature->SetField(strFieldValue1.c_str(), dWaveSetupSurge);
-            }
-            // else if (nDataItem == VECTOR_PLOT_STORM_SURGE)
-            // {
-            //    // Set the feature's attribute
-            //    double dStormSurge = m_VCoast[i].dGetStormSurge(j);
-            //    pOGRFeature->SetField(strFieldValue1.c_str(), dStormSurge);
-            // }
-            else if (nDataItem == VECTOR_PLOT_RUN_UP)
-            {
-               // Set the feature's attribute
-               double dRunUp = m_VCoast[i].dGetRunUp(j);
-               pOGRFeature->SetField(strFieldValue1.c_str(), dRunUp);
-            }
-            else if (nDataItem == VECTOR_PLOT_POLYGON_NODES)
-            {
-               int nNode = m_VCoast[i].nGetPolygonNode(j);
-               if (nNode == INT_NODATA)
-                  continue;
+                  // Set the feature's geometry (in external CRS)
+                  OGRPt.setX(dGridCentroidXToExtCRSX(nX));
+                  OGRPt.setY(dGridCentroidYToExtCRSY(nY));
+                  pOGRFeature->SetGeometry(&OGRPt);
 
-               // Set the feature's attribute
-               pOGRFeature->SetField(strFieldValue1.c_str(), nNode);
-            }
-            else if (nDataItem == VECTOR_PLOT_CLIFF_NOTCH_SIZE)
-            {
-               CACoastLandform *pCoastLandform = m_VCoast[i].pGetCoastLandform(j);
-               if (pCoastLandform == NULL)
-                  pOGRFeature->SetField(strFieldValue1.c_str(), DBL_NODATA);
-               else
-               {
-                  int nCategory = pCoastLandform->nGetLandFormCategory();
-                  double dNotchDepth = 0.0;
+                  double
+                     dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle(),
+                     dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
 
-                  if (nCategory == LF_CAT_CLIFF)
+                  if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA))
+                     continue;
+
+                  // Set the feature's attributes
+                  pOGRFeature->SetField(strFieldValue1.c_str(), dOrientation);
+                  pOGRFeature->SetField(strFieldValue2.c_str(), dHeight);
+
+                  // Create the feature in the output layer
+                  if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
                   {
-                     CRWCliff*pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
-
-                     // Get attribute values from the cliff object
-                     dNotchDepth = pCliff->dGetNotchDepth();
+                     cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for cell [" << nX << "][" << nY << "] in " << strFilePathName << "\n"
+                        << CPLGetLastErrorMsg() << endl;
+                     return false;
                   }
 
-                  // Set the feature's attribute
-                  pOGRFeature->SetField(strFieldValue1.c_str(), dNotchDepth);
+                  // Get rid of the feature object
+                  OGRFeature::DestroyFeature(pOGRFeature);
                }
             }
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for coast " << i << " point " << j << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Get rid of the feature object
-            OGRFeature::DestroyFeature(pOGRFeature);
          }
+
+         break;
       }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_WAVE_ANGLE_AND_HEIGHT):
-   {
-      eGType = wkbPoint;
-      strType = "point";
-
-      // The layer has been created, so create real-numbered values associated with each point
-      string
-          strFieldValue1 = "Angle",
-          strFieldValue2 = "Height";
-
-      // Create the first field
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+      case (VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT):
       {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         eGType = wkbPoint;
+         strType = "point";
 
-      // Create the second field
-      OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         // The layer has been created, so create real-numbered values associated with each point
+         string
+            strFieldValue1 = "Angle",
+            strFieldValue2 = "Height";
 
-      // OK, now create features
-      OGRLineString OGRls;
-      OGRMultiLineString OGRmls;
-      OGRPoint OGRPt;
-
-      for (int nX = 0; nX < m_nXGridMax; nX++)
-      {
-         for (int nY = 0; nY < m_nYGridMax; nY++)
+         // Create the first field
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
          {
-            // Only output a value if the cell is a sea cell which is not in the active zone (wave height and angle values are meaningless if in the active zone)
-            if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (! m_pRasterGrid->m_Cell[nX][nY].bIsInActiveZone()))
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // Create the second field
+         OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now create features
+         OGRLineString OGRls;
+         OGRMultiLineString OGRmls;
+         OGRPoint OGRPt;
+
+         for (int nX = 0; nX < m_nXGridMax; nX++)
+         {
+            for (int nY = 0; nY < m_nYGridMax; nY++)
             {
                // Create a feature object, one per sea cell
                OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
@@ -1114,8 +1191,8 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                pOGRFeature->SetGeometry(&OGRPt);
 
                double
-                   dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle(),
-                   dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
+                  dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveAngle() / static_cast<double>(m_ulIter),
+                  dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight() / static_cast<double>(m_ulIter);
 
                if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA))
                   continue;
@@ -1128,7 +1205,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
                {
                   cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for cell [" << nX << "][" << nY << "] in " << strFilePathName << "\n"
-                       << CPLGetLastErrorMsg() << endl;
+                     << CPLGetLastErrorMsg() << endl;
                   return false;
                }
 
@@ -1136,365 +1213,294 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                OGRFeature::DestroyFeature(pOGRFeature);
             }
          }
+
+         break;
       }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_AVG_WAVE_ANGLE_AND_HEIGHT):
-   {
-      eGType = wkbPoint;
-      strType = "point";
-
-      // The layer has been created, so create real-numbered values associated with each point
-      string
-          strFieldValue1 = "Angle",
-          strFieldValue2 = "Height";
-
-      // Create the first field
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+      case (VECTOR_PLOT_POLYGON_BOUNDARY):
       {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         eGType = wkbPolygon;
+         strType = "polygon";
 
-      // Create the second field
-      OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
+         // The layer has been created, so create two integer-numbered values (the number of the polygon object, and the number of the coast point which is the polygon's node) for the polygon
+         string
+            strFieldValue1 = "Polygon",
+            strFieldValue2 = "CoastNode",
+            strFieldValue3 = "TotSedChng",
+            strFieldValue4 = "FinSedChng",
+            strFieldValue5 = "SndSedChng",
+            strFieldValue6 = "CrsSedChng";
 
-      // OK, now create features
-      OGRLineString OGRls;
-      OGRMultiLineString OGRmls;
-      OGRPoint OGRPt;
-
-      for (int nX = 0; nX < m_nXGridMax; nX++)
-      {
-         for (int nY = 0; nY < m_nYGridMax; nY++)
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
          {
-            // Create a feature object, one per sea cell
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-            // Set the feature's geometry (in external CRS)
-            OGRPt.setX(dGridCentroidXToExtCRSX(nX));
-            OGRPt.setY(dGridCentroidYToExtCRSY(nY));
-            pOGRFeature->SetGeometry(&OGRPt);
-
-            double
-                dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveAngle() / static_cast<double>(m_ulIter),
-                dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight() / static_cast<double>(m_ulIter);
-
-            if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA))
-               continue;
-
-            // Set the feature's attributes
-            pOGRFeature->SetField(strFieldValue1.c_str(), dOrientation);
-            pOGRFeature->SetField(strFieldValue2.c_str(), dHeight);
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for cell [" << nX << "][" << nY << "] in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Get rid of the feature object
-            OGRFeature::DestroyFeature(pOGRFeature);
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
-      }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_POLYGON_BOUNDARY):
-   {
-      eGType = wkbPolygon;
-      strType = "polygon";
-
-      // The layer has been created, so create two integer-numbered values (the number of the polygon object, and the number of the coast point which is the polygon's node) for the polygon
-      string
-          strFieldValue1 = "Polygon",
-          strFieldValue2 = "CoastNode",
-          strFieldValue3 = "TotSedChng",
-          strFieldValue4 = "FinSedChng",
-          strFieldValue5 = "SndSedChng",
-          strFieldValue6 = "CrsSedChng";
-
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      OGRFieldDefn OGRField3(strFieldValue3.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      OGRFieldDefn OGRField4(strFieldValue4.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField4) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 4 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      OGRFieldDefn OGRField5(strFieldValue5.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField5) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue5 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      OGRFieldDefn OGRField6(strFieldValue6.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 6 '" << strFieldValue6 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now do features
-      OGRLineString OGRls;
-
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         for (int j = 0; j < m_VCoast[i].nGetNumPolygons(); j++)
+         OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
          {
-            // Create a feature object, one per polygon
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-            CGeomCoastPolygon *pPolygon = m_VCoast[i].pGetPolygon(j);
-
-            // Set the feature's attributes
-            pOGRFeature->SetField(strFieldValue1.c_str(), j);
-            pOGRFeature->SetField(strFieldValue2.c_str(), pPolygon->nGetNodeCoastPoint());
-            pOGRFeature->SetField(strFieldValue3.c_str(), pPolygon->dGetDepositionAllUncons());
-            pOGRFeature->SetField(strFieldValue4.c_str(), pPolygon->dGetDepositionUnconsFine());
-            pOGRFeature->SetField(strFieldValue5.c_str(), pPolygon->dGetDepositionUnconsSand());
-            pOGRFeature->SetField(strFieldValue6.c_str(), pPolygon->dGetDepositionUnconsCoarse());
-
-            // Now attach a geometry to the feature object
-            for (int n = 0; n < pPolygon->nGetBoundarySize(); n++)
-               //  In external CRS
-               OGRls.addPoint(pPolygon->pPtGetBoundaryPoint(n)->dGetX(), pPolygon->pPtGetBoundaryPoint(n)->dGetY());
-
-            pOGRFeature->SetGeometry(&OGRls);
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for coast " << i << " polygon " << j << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Tidy up: empty the line string and get rid of the feature object
-            OGRls.empty();
-            OGRFeature::DestroyFeature(pOGRFeature);
+            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
-      }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_SHADOW_BOUNDARY):
-   {
-      eGType = wkbLineString;
-      strType = "line";
-
-      // Create an integer-numbered value (the number of the shadow boundary line object) for the multi-line
-      string strFieldValue1 = "ShadowLine";
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now do features
-      OGRLineString OGRls;
-
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         for (int j = 0; j < m_VCoast[i].nGetNumShadowBoundaries(); j++)
+         OGRFieldDefn OGRField3(strFieldValue3.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField3) != OGRERR_NONE)
          {
-            // Create a feature object, one per coast
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-            // Set the feature's attribute (the shadow boundary line number)
-            pOGRFeature->SetField(strFieldValue1.c_str(), j);
-
-            // Now attach a geometry to the feature object
-            CGeomLine LShadow = *m_VCoast[i].pGetShadowBoundary(j);
-            for (int nn = 0; nn < LShadow.nGetSize(); nn++)
-               OGRls.addPoint(LShadow.dGetXAt(nn), LShadow.dGetYAt(nn));
-
-            pOGRFeature->SetGeometry(&OGRls);
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << j << " for coast " << i << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Tidy up: empty the line string and get rid of the feature object
-            OGRls.empty();
-            OGRFeature::DestroyFeature(pOGRFeature);
+            cerr << ERR << "cannot create " << strType << " attribute field 3 '" << strFieldValue3 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
-      }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_DOWNDRIFT_BOUNDARY):
-   {
-      eGType = wkbLineString;
-      strType = "line";
-
-      // Create an integer-numbered value (the number of the downdrift boundary line object) for the multi-line
-      string strFieldValue1 = "DdriftLine";
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now do features
-      OGRLineString OGRls;
-
-      for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
-      {
-         for (int j = 0; j < m_VCoast[i].nGetNumShadowDowndriftBoundaries(); j++)
+         OGRFieldDefn OGRField4(strFieldValue4.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField4) != OGRERR_NONE)
          {
-            // Create a feature object, one per coast
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-            // Set the feature's attribute (the downdrift boundary line number)
-            pOGRFeature->SetField(strFieldValue1.c_str(), j);
-
-            // Now attach a geometry to the feature object
-            CGeomLine LDowndrift = *m_VCoast[i].pGetShadowDowndriftBoundary(j);
-            for (int nn = 0; nn < LDowndrift.nGetSize(); nn++)
-               OGRls.addPoint(LDowndrift.dGetXAt(nn), LDowndrift.dGetYAt(nn));
-
-            pOGRFeature->SetGeometry(&OGRls);
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << j << " for coast " << i << " in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Tidy up: empty the line string and get rid of the feature object
-            OGRls.empty();
-            OGRFeature::DestroyFeature(pOGRFeature);
+            cerr << ERR << "cannot create " << strType << " attribute field 4 '" << strFieldValue4 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
-      }
 
-      break;
-   }
-
-   case (VECTOR_PLOT_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT):
-   {
-      eGType = wkbPoint;
-      strType = "point";
-
-      // The layer has been created, so create real-numbered values associated with each point
-      string
-          strFieldValue1 = "Angle",
-          strFieldValue2 = "Height";
-
-      // Create the first field
-      OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // Create the second field
-      OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
-      if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
-      {
-         cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
-              << CPLGetLastErrorMsg() << endl;
-         return false;
-      }
-
-      // OK, now create features
-      OGRLineString OGRls;
-      OGRMultiLineString OGRmls;
-      OGRPoint OGRPt;
-
-      for (int nX = 0; nX < m_nXGridMax; nX++)
-      {
-         for (int nY = 0; nY < m_nYGridMax; nY++)
+         OGRFieldDefn OGRField5(strFieldValue5.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField5) != OGRERR_NONE)
          {
-            // Create a feature object, one per cell (does this whether the sea is a sea cell or a land cell)
-            OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
-
-            // Set the feature's geometry (in external CRS)
-            OGRPt.setX(dGridCentroidXToExtCRSX(nX));
-            OGRPt.setY(dGridCentroidYToExtCRSY(nY));
-            pOGRFeature->SetGeometry(&OGRPt);
-
-            double
-                dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveAngle(),
-                dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveHeight();
-
-            if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA) || (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
-               continue;
-
-            // Set the feature's attributes
-            pOGRFeature->SetField(strFieldValue1.c_str(), dOrientation);
-            pOGRFeature->SetField(strFieldValue2.c_str(), dHeight);
-
-            // Create the feature in the output layer
-            if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
-            {
-               cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for cell [" << nX << "][" << nY << "] in " << strFilePathName << "\n"
-                    << CPLGetLastErrorMsg() << endl;
-               return false;
-            }
-
-            // Get rid of the feature object
-            OGRFeature::DestroyFeature(pOGRFeature);
+            cerr << ERR << "cannot create " << strType << " attribute field 5 '" << strFieldValue5 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
          }
+
+         OGRFieldDefn OGRField6(strFieldValue6.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField6) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 6 '" << strFieldValue6 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now do features
+         OGRLineString OGRls;
+
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
+         {
+            for (int j = 0; j < m_VCoast[i].nGetNumPolygons(); j++)
+            {
+               // Create a feature object, one per polygon
+               OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+               CGeomCoastPolygon *pPolygon = m_VCoast[i].pGetPolygon(j);
+
+               // Set the feature's attributes
+               pOGRFeature->SetField(strFieldValue1.c_str(), j);
+               pOGRFeature->SetField(strFieldValue2.c_str(), pPolygon->nGetNodeCoastPoint());
+               pOGRFeature->SetField(strFieldValue3.c_str(), pPolygon->dGetDepositionAllUncons());
+               pOGRFeature->SetField(strFieldValue4.c_str(), pPolygon->dGetDepositionUnconsFine());
+               pOGRFeature->SetField(strFieldValue5.c_str(), pPolygon->dGetDepositionUnconsSand());
+               pOGRFeature->SetField(strFieldValue6.c_str(), pPolygon->dGetDepositionUnconsCoarse());
+
+               // Now attach a geometry to the feature object
+               for (int n = 0; n < pPolygon->nGetBoundarySize(); n++)
+                  //  In external CRS
+                  OGRls.addPoint(pPolygon->pPtGetBoundaryPoint(n)->dGetX(), pPolygon->pPtGetBoundaryPoint(n)->dGetY());
+
+               pOGRFeature->SetGeometry(&OGRls);
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for coast " << i << " polygon " << j << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Tidy up: empty the line string and get rid of the feature object
+               OGRls.empty();
+               OGRFeature::DestroyFeature(pOGRFeature);
+            }
+         }
+
+         break;
       }
-      break;
-   }
+
+      case (VECTOR_PLOT_SHADOW_BOUNDARY):
+      {
+         eGType = wkbLineString;
+         strType = "line";
+
+         // Create an integer-numbered value (the number of the shadow boundary line object) for the multi-line
+         string strFieldValue1 = "ShadowLine";
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now do features
+         OGRLineString OGRls;
+
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
+         {
+            for (int j = 0; j < m_VCoast[i].nGetNumShadowBoundaries(); j++)
+            {
+               // Create a feature object, one per coast
+               OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+               // Set the feature's attribute (the shadow boundary line number)
+               pOGRFeature->SetField(strFieldValue1.c_str(), j);
+
+               // Now attach a geometry to the feature object
+               CGeomLine LShadow = *m_VCoast[i].pGetShadowBoundary(j);
+               for (int nn = 0; nn < LShadow.nGetSize(); nn++)
+                  OGRls.addPoint(LShadow.dGetXAt(nn), LShadow.dGetYAt(nn));
+
+               pOGRFeature->SetGeometry(&OGRls);
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << j << " for coast " << i << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Tidy up: empty the line string and get rid of the feature object
+               OGRls.empty();
+               OGRFeature::DestroyFeature(pOGRFeature);
+            }
+         }
+
+         break;
+      }
+
+      case (VECTOR_PLOT_DOWNDRIFT_BOUNDARY):
+      {
+         eGType = wkbLineString;
+         strType = "line";
+
+         // Create an integer-numbered value (the number of the downdrift boundary line object) for the multi-line
+         string strFieldValue1 = "DdriftLine";
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTInteger);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now do features
+         OGRLineString OGRls;
+
+         for (int i = 0; i < static_cast<int>(m_VCoast.size()); i++)
+         {
+            for (int j = 0; j < m_VCoast[i].nGetNumShadowDowndriftBoundaries(); j++)
+            {
+               // Create a feature object, one per coast
+               OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+               // Set the feature's attribute (the downdrift boundary line number)
+               pOGRFeature->SetField(strFieldValue1.c_str(), j);
+
+               // Now attach a geometry to the feature object
+               CGeomLine LDowndrift = *m_VCoast[i].pGetShadowDowndriftBoundary(j);
+               for (int nn = 0; nn < LDowndrift.nGetSize(); nn++)
+                  OGRls.addPoint(LDowndrift.dGetXAt(nn), LDowndrift.dGetYAt(nn));
+
+               pOGRFeature->SetGeometry(&OGRls);
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create  " << strType << " feature " << strPlotTitle << j << " for coast " << i << " in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Tidy up: empty the line string and get rid of the feature object
+               OGRls.empty();
+               OGRFeature::DestroyFeature(pOGRFeature);
+            }
+         }
+
+         break;
+      }
+
+      case (VECTOR_PLOT_DEEP_WATER_WAVE_ANGLE_AND_HEIGHT):
+      {
+         eGType = wkbPoint;
+         strType = "point";
+
+         // The layer has been created, so create real-numbered values associated with each point
+         string
+            strFieldValue1 = "Angle",
+            strFieldValue2 = "Height";
+
+         // Create the first field
+         OGRFieldDefn OGRField1(strFieldValue1.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField1) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 1 '" << strFieldValue1 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // Create the second field
+         OGRFieldDefn OGRField2(strFieldValue2.c_str(), OFTReal);
+         if (pOGRLayer->CreateField(&OGRField2) != OGRERR_NONE)
+         {
+            cerr << ERR << "cannot create " << strType << " attribute field 2 '" << strFieldValue2 << "' in " << strFilePathName << "\n"
+               << CPLGetLastErrorMsg() << endl;
+            return false;
+         }
+
+         // OK, now create features
+         OGRLineString OGRls;
+         OGRMultiLineString OGRmls;
+         OGRPoint OGRPt;
+
+         for (int nX = 0; nX < m_nXGridMax; nX++)
+         {
+            for (int nY = 0; nY < m_nYGridMax; nY++)
+            {
+               // Create a feature object, one per cell (does this whether the sea is a sea cell or a land cell)
+               OGRFeature *pOGRFeature = OGRFeature::CreateFeature(pOGRLayer->GetLayerDefn());
+
+               // Set the feature's geometry (in external CRS)
+               OGRPt.setX(dGridCentroidXToExtCRSX(nX));
+               OGRPt.setY(dGridCentroidYToExtCRSY(nY));
+               pOGRFeature->SetGeometry(&OGRPt);
+
+               double
+                  dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveAngle(),
+                  dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveHeight();
+
+               if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA) || (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
+                  continue;
+
+               // Set the feature's attributes
+               pOGRFeature->SetField(strFieldValue1.c_str(), dOrientation);
+               pOGRFeature->SetField(strFieldValue2.c_str(), dHeight);
+
+               // Create the feature in the output layer
+               if (pOGRLayer->CreateFeature(pOGRFeature) != OGRERR_NONE)
+               {
+                  cerr << ERR << "cannot create " << strType << " feature " << strPlotTitle << " for cell [" << nX << "][" << nY << "] in " << strFilePathName << "\n"
+                     << CPLGetLastErrorMsg() << endl;
+                  return false;
+               }
+
+               // Get rid of the feature object
+               OGRFeature::DestroyFeature(pOGRFeature);
+            }
+         }
+         break;
+      }
    }
 
+   CPLPopErrorHandler();
+   
    // Get rid of the dataset object
    GDALClose(pGDALDataSet);
 

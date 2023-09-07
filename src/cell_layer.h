@@ -61,7 +61,6 @@ public:
 
    double dGetNotchUnconsolidatedLost(void) const;
    double dGetNotchConsolidatedLost(void) const;
-   void RemoveCliff(void);
 
 //    double dGetVolSedFraction(void) const;
    void SetVolSedFraction(double const);
