@@ -627,9 +627,9 @@ CGeom2DPoint CSimulation::PtGetPerpendicular(CGeom2DPoint const *PtStart, CGeom2
        dYLen = PtNext->dGetY() - PtStart->dGetY(),
        dLength;
 
-   if (dXLen == 0)
+   if (bFPIsEqual(dXLen, 0.0, TOLERANCE))
       dLength = dYLen;
-   else if (dYLen == 0)
+   else if (bFPIsEqual(dYLen, 0.0, TOLERANCE))
       dLength = dXLen;
    else
       dLength = hypot(dXLen, dYLen);
@@ -664,9 +664,9 @@ CGeom2DIPoint CSimulation::PtiGetPerpendicular(CGeom2DIPoint const *PtiStart, CG
        dYLen = PtiNext->nGetY() - PtiStart->nGetY(),
        dLength;
 
-   if (dXLen == 0)
+   if (bFPIsEqual(dXLen, 0.0, TOLERANCE))
       dLength = dYLen;
-   else if (dYLen == 0)
+   else if (bFPIsEqual(dYLen, 0.0, TOLERANCE))
       dLength = dXLen;
    else
       dLength = hypot(dXLen, dYLen);
@@ -701,9 +701,9 @@ CGeom2DIPoint CSimulation::PtiGetPerpendicular(int const nStartX, int const nSta
        dYLen = nNextY - nStartY,
        dLength;
 
-   if (dXLen == 0)
+   if (bFPIsEqual(dXLen, 0.0, TOLERANCE))
       dLength = dYLen;
-   else if (dYLen == 0)
+   else if (bFPIsEqual(dYLen, 0.0, TOLERANCE))
       dLength = dXLen;
    else
       dLength = hypot(dXLen, dYLen);
@@ -760,7 +760,7 @@ bool CSimulation::bCheckRasterGISOutputFormat(void)
       m_strRasterGISOutFormat = m_strGDALBasementDEMDriverCode;
 
    // Load the raster GDAL driver
-   GDALDriver *pDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
+   GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
    if (NULL == pDriver)
    {
       // Can't load raster GDAL driver. Incorrectly specified?
@@ -894,7 +894,7 @@ Checks whether the selected vector OGR driver supports file creation etc.
 bool CSimulation::bCheckVectorGISOutputFormat(void)
 {
    // Load the vector GDAL driver (NOTE this assumes that GDALAllRegister() has already been called)
-   GDALDriver *pDriver = GetGDALDriverManager()->GetDriverByName(m_strVectorGISOutFormat.c_str());
+   GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName(m_strVectorGISOutFormat.c_str());
    if (NULL == pDriver)
    {
       // Can't load vector GDAL driver. Incorrectly specified?
@@ -1491,7 +1491,7 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double
 
             case (RASTER_PLOT_BEACH_PROTECTION):
                dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor();
-               if (dTmp != DBL_NODATA)
+               if (! bFPIsEqual(dTmp, DBL_NODATA, TOLERANCE))
                   dTmp = 1 - dTmp; // Output the inverse, seems more intuitive
                break;
 
@@ -1632,7 +1632,7 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double
                break;
          }
 
-         if (dTmp != DBL_NODATA)
+         if (! bFPIsEqual(dTmp, DBL_NODATA, TOLERANCE))
          {
             if (dTmp > dMax)
                dMax = dTmp;

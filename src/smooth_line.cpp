@@ -538,7 +538,7 @@ void LULinearSolve(Matrix const A, int const N, int const nIndexArray[], double 
       if (II != 0)
          for (int J = II; J < I; J++)
             SUM -= A[I][J] * B[J];
-      else if (SUM != 0.0)
+      else if (! bFPIsEqual(SUM, 0.0, TOLERANCE))
          II = I;
       B[I] = SUM;
    }

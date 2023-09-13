@@ -201,17 +201,13 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
       {
          int nPoly = nVVPolyAndAdjacent[n][0];
          
-         double
-            dSandDeposited = 0,
-            dCoarseDeposited = 0;         
-         
          // Do deposition first: does this polygon have coarse deposition?
          double dCoarseDepositionTarget = m_VCoast[nCoast].pGetPolygon(nPoly)->dGetDepositionUnconsCoarse();
          
          if (dCoarseDepositionTarget > 0)
          {
             // Yes, so do deposition of coarse sediment: calculate a net increase in depth of coarse-sized unconsolidated sediment on the cells within the polygon. Note that some cells may decrease in elevation (i.e. have some coarse-sized sediment erosion) however
-            
+            double dCoarseDeposited = 0;
             nRet = nDoUnconsDepositionOnPolygon(nCoast, nPoly, TEXTURE_COARSE, dCoarseDepositionTarget, dCoarseDeposited);
             if (nRet != RTN_OK)
                return nRet; 
@@ -229,7 +225,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
          if (dSandDepositionTarget > 0)
          {
             // Yes, so do deposition of sand sediment: calculate a net increase in depth of sand-sized unconsolidated sediment on the cells within the polygon. Note that some cells may decrease in elevation (i.e. have some sand-sized sediment erosion) however
-            
+            double dSandDeposited = 0;
             nRet = nDoUnconsDepositionOnPolygon(nCoast, nPoly, TEXTURE_SAND, dSandDepositionTarget, dSandDeposited);
             if (nRet != RTN_OK)
                return nRet; 
@@ -242,11 +238,6 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
          }
          
          // Now do erosion
-         double
-            dFineEroded = 0,
-            dSandEroded = 0,
-            dCoarseEroded = 0;
-                     
          double dPotentialErosion = -m_VCoast[nCoast].pGetPolygon(nPoly)->dGetPotentialErosion();
          if (dPotentialErosion > 0)
          {
@@ -262,6 +253,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                double dFineErosionTarget = tMin(dFinePotentialErosion, dExistingUnconsFine);
                               
                // OK, do the supply-limited erosion of fine sediment
+               double dFineEroded = 0;
                nRet = nDoUnconsErosionOnPolygon(nCoast, nPoly, TEXTURE_FINE, dFineErosionTarget, dFineEroded);
                if (nRet != RTN_OK)
                   return nRet;
@@ -278,7 +270,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
             
             // Is there any sand-sized sediment on this polygon?
             double dExistingUnconsSand = m_VCoast[nCoast].pGetPolygon(nPoly)->dGetStoredUnconsSand();
-            
+            double dSandEroded = 0;            
             if (dExistingUnconsSand > 0)
             {
                // There is: so crudely partition this potential value for this size class by erodibility, the result will almost always be much greater than actual (supply limited) erosion
@@ -294,7 +286,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                   m_dThisIterDepositionSandDiff = 0;            
                }
                
-               // OK, do the supply-limited erosion of sand sediment            
+               // OK, do the supply-limited erosion of sand sediment
                nRet = nDoUnconsErosionOnPolygon(nCoast, nPoly, TEXTURE_SAND, dSandErosionTarget, dSandEroded);
                if (nRet != RTN_OK)
                   return nRet;
@@ -311,7 +303,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
             
             // Is there any coarse sediment on this polygon?
             double dExistingUnconsCoarse = m_VCoast[nCoast].pGetPolygon(nPoly)->dGetStoredUnconsCoarse();
-            
+            double dCoarseEroded = 0;
             if (dExistingUnconsCoarse > 0)
             {
                // There is: so crudely partition this potential value for this size class by erodibility, the result will almost always be much greater than actual (supply limited) erosion
@@ -327,7 +319,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
                   m_dThisIterDepositionCoarseDiff = 0;            
                }
             
-               // OK, do the supply-limited erosion of coarse sediment            
+               // OK, do the supply-limited erosion of coarse sediment
                nRet = nDoUnconsErosionOnPolygon(nCoast, nPoly, TEXTURE_COARSE, dCoarseErosionTarget, dCoarseEroded);
                if (nRet != RTN_OK)
                   return nRet;

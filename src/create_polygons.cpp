@@ -310,10 +310,16 @@ void CSimulation::MarkPolygonCells(void)
             int j = i+1;
             if (i == nSize-2)       // We must ignore the duplicated node point
                j = 0;
+            
             CGeom2DPoint
                PtThis = *pPolygon->pPtGetBoundaryPoint(i),
-               PtNext = *pPolygon->pPtGetBoundaryPoint(j),
-               PtBuffer = PtGetPerpendicular(&PtThis, &PtNext, m_dCellSide, nHand);
+               PtNext = *pPolygon->pPtGetBoundaryPoint(j);
+               
+            // Safety check
+            if (PtThis == PtNext)
+               continue;
+               
+            CGeom2DPoint PtBuffer = PtGetPerpendicular(&PtThis, &PtNext, m_dCellSide, nHand);
 
             PtVInnerBuffer.push_back(PtBuffer);
          }
@@ -336,7 +342,7 @@ void CSimulation::MarkPolygonCells(void)
          }
 
          // Safety check (PtFindPointInPolygon() returns CGeom2DPoint(DBL_NODATA, DBL_NODATA) if it cannot find a valid start point)
-         if (PtStart.dGetX() == DBL_NODATA)
+         if (bFPIsEqual(PtStart.dGetX(), DBL_NODATA, TOLERANCE))
          {
             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << ERR << "could not find a flood fill start point for coast " << nCoast << ", polygon " << nPoly << endl;
             break;

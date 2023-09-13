@@ -106,7 +106,7 @@ int CSimulation::nReadRasterBasementDEM(void)
    }
 
    // CoastalME can only handle rasters that are oriented N-S and W-E. (If you need to work with a raster that is oriented differently,m then rotate it before running CoastalME). So here we check whether row rotation (m_dGeoTransform[2]) and column rotation (m_dGeoTransform[4]) are both zero. See https://gdal.org/tutorials/geotransforms_tut.html
-   if ((m_dGeoTransform[2] != 0.0) || (m_dGeoTransform[4] != 0.0))
+   if ((! bFPIsEqual(m_dGeoTransform[2], 0.0, TOLERANCE)) || (! bFPIsEqual(m_dGeoTransform[4], 0.0, TOLERANCE)))
    {
       // Error: not oriented NS and W-E
       cerr << ERR << m_strInitialBasementDEMFile << " is not oriented N-S and W-E. Row rotation = " << m_dGeoTransform[2] << " and column rotation = " << m_dGeoTransform[4] << endl;
@@ -163,7 +163,7 @@ int CSimulation::nReadRasterBasementDEM(void)
    double dMissingValue = pGDALBand->GetNoDataValue(); // Will fail for some formats
    CPLPopErrorHandler();
 
-   if (dMissingValue != m_dMissingValue)
+   if (! bFPIsEqual(dMissingValue, m_dMissingValue, TOLERANCE))
    {
       cerr << "   " << NOTE << "NODATA value in " << m_strInitialBasementDEMFile << " is " << dMissingValue << "\n         instead using CoastalME's default floating-point NODATA value " << m_dMissingValue << endl;
    }
@@ -719,7 +719,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
          dMissingValue = pGDALBand->GetNoDataValue(); // Note will fail for some formats
          CPLPopErrorHandler();
 
-         if (dMissingValue != m_dMissingValue)
+         if (! bFPIsEqual(dMissingValue, m_dMissingValue, TOLERANCE))
          {
             cerr << "   " << NOTE << "NODATA value in " << strGISFile << " is " << dMissingValue << "\n         instead using CoastalME's default floating-point NODATA value " << m_dMissingValue << endl;
          }
@@ -1218,8 +1218,8 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
       strFilePathName.append(m_strGDALRasterOutputDriverExtension);
    }
 
-   GDALDriver *pDriver;
-   GDALDataset *pDataSet;
+   GDALDriver* pDriver;
+   GDALDataset* pDataSet;
    if (m_bGDALCanCreate)
    {
       // The user-requested raster driver supports the Create() method
@@ -1267,7 +1267,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
                 << CPLGetLastErrorMsg() << endl;
 
    // Allocate memory for a 1D array, to hold the floating point raster band data for GDAL
-   double *pdRaster = new double[m_ulNumCells];
+   double* pdRaster = new double[m_ulNumCells];
    if (NULL == pdRaster)
    {
       // Error, can't allocate memory
@@ -1366,7 +1366,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
             case (RASTER_PLOT_BEACH_PROTECTION):
                dTmp = m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor();
 
-               if (dTmp == DBL_NODATA)
+               if (bFPIsEqual(dTmp, DBL_NODATA, TOLERANCE))
                   dTmp = m_dMissingValue;
                else
                   dTmp = 1 - dTmp; // Output the inverse, seems more intuitive
@@ -1549,7 +1549,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
 
             case (RASTER_PLOT_LANDFORM):
                dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFCategory();
-               if ((dTmp == LF_CAT_DRIFT) || (dTmp == LF_CAT_CLIFF))
+               if ((static_cast<int>(dTmp) == LF_CAT_DRIFT) || (static_cast<int>(dTmp) == LF_CAT_CLIFF))
                   dTmp = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->nGetLFSubCategory();
                break;
 
@@ -1614,7 +1614,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
          // If necessary, scale this value
          if (bScaleOutput)
          {
-            if (dTmp == DBL_NODATA)
+            if (bFPIsEqual(dTmp, DBL_NODATA, TOLERANCE))
                dTmp = 0; // TODO Improve this
             else
                dTmp = dRound(static_cast<double>(m_lGDALMinCanWrite) + (dRangeScale * (dTmp - dDataMin)));
@@ -1836,13 +1836,12 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    CPLPushErrorHandler(CPLQuietErrorHandler);   // Needed to get next line to fail silently, if it fails
    pBand->SetCategoryNames(papszCategoryNames); // Not supported for some GIS formats
    CPLPopErrorHandler();
-
+   
    // Now write the data
    if (CE_Failure == pBand->RasterIO(GF_Write, 0, 0, m_nXGridMax, m_nYGridMax, pdRaster, m_nXGridMax, m_nYGridMax, GDT_Float64, 0, 0, NULL))
    {
       // Write error, better error message
-      cerr << ERR << "cannot write data for " << m_strRasterGISOutFormat << " file named " << strFilePathName << "\n"
-           << CPLGetLastErrorMsg() << endl;
+      cerr << ERR << "cannot write data for " << m_strRasterGISOutFormat << " file named " << strFilePathName << "\n" << CPLGetLastErrorMsg() << endl;
       delete[] pdRaster;
       return false;
    }

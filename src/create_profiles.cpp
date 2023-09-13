@@ -399,12 +399,11 @@ void CSimulation::CreateRestOfNormalProfiles(int const nCoast, int &nProfile, in
       int nPossibleNodePoint = prVCurvature->at(n).first;
 
       // Search the coastline for other normals (and also the beginning or end of the coastline) on either side of this potential node point. Do this search in alternate directions, first down-coast (i.e. in increasing coastline point order) then back up-coast (in decreasing coast point order)
-      int nProfileDist = 0;
       for (int nDirection = DIRECTION_DOWNCOAST; nDirection <= DIRECTION_UPCOAST; nDirection++)
       {
          // Calculate the profile spacing, this will vary if we have a random factor but will be the same in both up-coast and down-coast directions
          //             nProfileDist = tMax(m_nCoastNormalAvgSpacing, static_cast<int>(nProfileToNodeSpacing * (1 + (dGetRand0Gaussian() * m_dCoastNormalRandSpaceFact))));
-         nProfileDist = nProfileToNodeSpacing * (1 + static_cast<int>(abs(dGetRand0Gaussian() * m_dCoastNormalRandSpaceFact)));
+         int nProfileDist = nProfileToNodeSpacing * (1 + static_cast<int>(abs(dGetRand0Gaussian() * m_dCoastNormalRandSpaceFact)));
 
          // TODO Assume that the above is the profile spacing on straight bits of coast. Try gradually increasing the profile spacing with increasing concavity, and decreasing the profile spacing with increasing convexity. Could use a Michaelis-Menten S-curve relationship
          //          double fReN = pow(NowCell[nX][nY].dGetReynolds(m_dNu), m_dDepN);
@@ -557,10 +556,11 @@ int CSimulation::nCreateProfile(int const nCoast, int const nProfileStartPoint, 
 
    CGeom2DPoint PtEnd;   // In external CRS
    CGeom2DIPoint PtiEnd; // In grid CRS
-   if (nGetCoastNormalEndPoint(nCoast, nProfileStartPoint, nCoastSize, &PtStart, m_dCoastNormalLength, &PtEnd, &PtiEnd) != RTN_OK)
+   int nRet = nGetCoastNormalEndPoint(nCoast, nProfileStartPoint, nCoastSize, &PtStart, m_dCoastNormalLength, &PtEnd, &PtiEnd);
+   if (nRet == RTN_ERR_NO_SOLUTION_FOR_ENDPOINT)
    {
       // Could not solve end-point equation, so forget about this profile
-      return RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID;
+      return nRet;      
    }
 
    int
@@ -866,7 +866,8 @@ int CSimulation::nGetCoastNormalEndPoint(int const nCoast, int const nStartCoast
       pPtEnd->SetY(dGridCentroidYToExtCRSY(pPtiEnd->nGetY()));
 
       //       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): changed endpoint for profile, is now [" << PtiEnd.nGetX() << "][" << PtiEnd.nGetY() << "] = {" << pPtEnd->dGetX() << ", " << pPtEnd->dGetY() << "}. The profile starts at coastline point " << nStartCoastPoint << " = {" << pPtStart->dGetX() << ", " << pPtStart->dGetY() << "}" << endl;
-      //       return RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID;
+      
+      return RTN_ERR_PROFILE_ENDPOINT_AT_GRID_EDGE;
    }
 
    return RTN_OK;
@@ -1225,11 +1226,11 @@ bool CSimulation::bCheckForIntersection(CGeomProfile *const pVProfile1, CGeomPro
              dTmp = 0;
 
          dTmp = -dDiffX2 * dDiffY1 + dDiffX1 * dDiffY2;
-         if (dTmp != 0)
+         if (! bFPIsEqual(dTmp, 0.0, TOLERANCE))
             dS = (-dDiffY1 * (dX1 - dX3) + dDiffX1 * (dY1 - dY3)) / dTmp;
 
          dTmp = -dDiffX2 * dDiffY1 + dDiffX1 * dDiffY2;
-         if (dTmp != 0)
+         if (! bFPIsEqual(dTmp, 0.0, TOLERANCE))
             dT = (dDiffX2 * (dY1 - dY3) - dDiffY2 * (dX1 - dX3)) / dTmp;
 
          if (dS >= 0 && dS <= 1 && dT >= 0 && dT <= 1)
@@ -1405,7 +1406,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
           dYEnd = dExtCRSYToGridY(PtVSegment[1].dGetY());
           
       // Safety check
-      if ((dXStart == dXEnd) && (dYStart == dYEnd))
+      if (bFPIsEqual(dXStart, dXEnd, TOLERANCE) && bFPIsEqual(dYStart, dYEnd, TOLERANCE))
          continue;
 
       // Interpolate between cells by a simple DDA line algorithm, see http://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm) Note that Bresenham's algorithm gave occasional gaps
@@ -1456,7 +1457,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
                   bHitCoast = true;
                   pProfile->SetHitCoast(true);
 
-                  if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+                  if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): profile " << nProfile << " is invalid, hit coast at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
 
                   return;
@@ -1469,7 +1470,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
                   bHitCoast = true;
                   pProfile->SetHitCoast(true);
 
-                  if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+                  if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): profile " << nProfile << " is invalid, hit coast at [" << nX << "][" << nY + 1 << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY + 1) << "}" << endl;
 
                   return;

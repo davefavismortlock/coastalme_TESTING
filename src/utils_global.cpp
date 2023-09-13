@@ -136,7 +136,7 @@ string strDblRight(double const dX, int const nDigits, int const nWidth, bool bS
    ss.fill(' ');
    ss.width(nWidth-1);
    
-   if ((dX == 0) && (! bShowZero))
+   if (bFPIsEqual(dX, 0.0, TOLERANCE) && (! bShowZero))
    {
       ss << "-";      
    }

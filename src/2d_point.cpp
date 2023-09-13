@@ -85,7 +85,16 @@ void CGeom2DPoint::operator= (CGeom2DPoint* pPt)
 //! Compares two CGeom2DPoint objects for equality
 bool CGeom2DPoint::operator== (CGeom2DPoint* pPt) const
 {
-   if ((pPt->dGetX() == dX) && (pPt->dGetY() == dY))
+   if ((bFPIsEqual(pPt->dGetX(), dX, TOLERANCE)) && (bFPIsEqual(pPt->dGetY(), dY, TOLERANCE)))
+      return true;
+
+   return false;
+}
+
+//! Compares two CGeom2DPoint objects for equality
+bool CGeom2DPoint::operator== (CGeom2DPoint pPt) const
+{
+   if ((bFPIsEqual(pPt.dGetX(), dX, TOLERANCE)) && (bFPIsEqual(pPt.dGetY(), dY, TOLERANCE)))
       return true;
 
    return false;
@@ -94,7 +103,7 @@ bool CGeom2DPoint::operator== (CGeom2DPoint* pPt) const
 //! Compares two CGeom2DPoint objects for inequality
 bool CGeom2DPoint::operator!= (CGeom2DPoint* pPt) const
 {
-   if ((pPt->dGetX() != dX) || (pPt->dGetY() != dY))
+   if ((! bFPIsEqual(pPt->dGetX(), dX, TOLERANCE)) || (! bFPIsEqual(pPt->dGetY(), dY, TOLERANCE)))
       return true;
 
    return false;

@@ -674,7 +674,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    //    // DEBUG CODE =================================================
 
    // If we are using the default cell spacing, then now that we know the size of the raster cells, we can set the size of profile spacing in m
-   if (m_dCoastNormalAvgSpacing == 0)
+   if (bFPIsEqual(m_dCoastNormalAvgSpacing, 0.0, TOLERANCE))
       m_dCoastNormalAvgSpacing = MIN_PROFILE_SPACING * m_dCellSide;
    else
    {
@@ -881,7 +881,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    m_dThisIterSWL = m_dOrigSWL;
 
    // If SWL changes during the simulation, calculate the per-timestep increment (could be -ve)
-   if (m_dFinalSWL != m_dOrigSWL)
+   if (! bFPIsEqual(m_dFinalSWL, m_dOrigSWL, TOLERANCE))
    {
       m_dDeltaSWLPerTimestep = (m_dTimeStep * (m_dFinalSWL - m_dOrigSWL)) / m_dSimDuration;
       m_dAccumulatedSeaLevelChange -= m_dDeltaSWLPerTimestep;

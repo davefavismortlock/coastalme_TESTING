@@ -476,7 +476,7 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Notch overhang to initiate collapse                       \t: " << m_dNotchDepthAtCollapse << " m" << endl;
    OutStream << " Notch base below SWL                                      \t: " << m_dNotchBaseBelowSWL << " m" << endl;
    OutStream << " Scale parameter A for cliff deposition                    \t: ";
-   if (m_dCliffDepositionA == 0)
+   if (bFPIsEqual(m_dCliffDepositionA, 0.0, TOLERANCE))
       OutStream << "auto";
    else
       OutStream << m_dCliffDepositionA << "  m^(1/3)";
@@ -562,7 +562,7 @@ bool CSimulation::bWritePerTimestepResults(void)
 
    // Output average sea depth (m) per sea cell =================================================================================
    OutStream << resetiosflags(ios::floatfield);
-   OutStream << std::fixed << setprecision(3);
+   OutStream << std::fixed << setprecision(2);
    double dAvgSeaDepth = m_dThisIterTotSeaDepth / static_cast<double>(m_ulThisIterNumSeaCells);
    OutStream << setw(6) << dAvgSeaDepth;
    OutStream << " ";
@@ -572,10 +572,11 @@ bool CSimulation::bWritePerTimestepResults(void)
    OutStream << setw(6) << 100 * static_cast<double>(m_ulThisIterNumPotentialPlatformErosionCells) / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Output per-timestep potential shore platform erosion in m (average for all sea cells)
+   OutStream << std::fixed << setprecision(1);
    OutStream << setw(6) << 1000 * m_dThisIterPotentialPlatformErosion / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Output per-timestep potential shore platform erosion in m (average for all cells with potential shore platform erosion)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
    if (m_ulThisIterNumPotentialPlatformErosionCells > 0)
       OutStream << setw(6) << 1000 * m_dThisIterPotentialPlatformErosion / static_cast<double>(m_ulThisIterNumPotentialPlatformErosionCells);
    else
@@ -586,18 +587,19 @@ bool CSimulation::bWritePerTimestepResults(void)
    OutStream << setw(6) << 100 * static_cast<double>(m_ulThisIterNumActualPlatformErosionCells) / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Output per-timestep actual shore platform erosion in m (average for all sea cells)
+   OutStream << std::fixed << setprecision(1);
    double dThisIterActualPlatformErosion = m_dThisIterActualPlatformErosionFineCons + m_dThisIterActualPlatformErosionSandCons + m_dThisIterActualPlatformErosionCoarseCons;
    OutStream << setw(6) << 1000 * dThisIterActualPlatformErosion / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Output per-timestep actual shore platform erosion in m (average for all cells with actual shore platform erosion)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
    if (m_ulThisIterNumActualPlatformErosionCells > 0)
       OutStream << setw(5) << 1000 * dThisIterActualPlatformErosion / static_cast<double>(m_ulThisIterNumActualPlatformErosionCells);
    else
       OutStream << setw(5) << SPACE;
 
    // Output per-timestep actual shore platform erosion in m (average for all sea cells)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
 
    if (m_dThisIterActualPlatformErosionFineCons > 0)
       OutStream << setw(4) << 1000 * m_dThisIterActualPlatformErosionFineCons / static_cast<double>(m_ulThisIterNumSeaCells);
@@ -630,7 +632,7 @@ bool CSimulation::bWritePerTimestepResults(void)
       OutStream << setw(6) << dTmp;
 
    // Output per-timestep potential beach erosion in m (average for all cells with potential beach erosion)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
    if (m_ulThisIterNumPotentialBeachErosionCells > 0)
    {
       dTmp = 1000 * m_dThisIterPotentialBeachErosion / static_cast<double>(m_ulThisIterNumPotentialBeachErosionCells);
@@ -654,14 +656,14 @@ bool CSimulation::bWritePerTimestepResults(void)
    OutStream << setw(6) << 1000 * dThisIterActualBeachErosion / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Per-iteration actual beach erosion in m (average for all cells with actual beach erosion)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
    if (m_ulThisIterNumActualBeachErosionCells > 0)
       OutStream << setw(7) << 1000 * dThisIterActualBeachErosion / static_cast<double>(m_ulThisIterNumActualBeachErosionCells);
    else
       OutStream << setw(7) << SPACE;
 
    // Per-iteration actual beach erosion in m (average for all sea cells)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
 
    if (m_dThisIterBeachErosionFine > 0)
       OutStream << setw(4) << 1000 * m_dThisIterBeachErosionFine / static_cast<double>(m_ulThisIterNumSeaCells);
@@ -679,6 +681,7 @@ bool CSimulation::bWritePerTimestepResults(void)
       OutStream << setw(4) << SPACE;
 
    // Output the this-timestep % of sea cells with beach deposition =============================================================
+   OutStream << std::fixed << setprecision(0);
    OutStream << setw(7) << 100 * static_cast<double>(m_ulThisIterNumBeachDepositionCells) / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Per-iteration beach deposition in m (average for all sea cells)
@@ -686,14 +689,14 @@ bool CSimulation::bWritePerTimestepResults(void)
    OutStream << setw(6) << 1000 * dThisIterBeachDeposition / static_cast<double>(m_ulThisIterNumSeaCells);
 
    // Per-iteration beach deposition in m (average for all cells with beach deposition)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
    if (m_ulThisIterNumBeachDepositionCells > 0)
       OutStream << setw(9) << 1000 * dThisIterBeachDeposition / static_cast<double>(m_ulThisIterNumBeachDepositionCells);
    else
       OutStream << setw(9) << SPACE;
 
    // Per-iteration beach deposition in m (average for all sea cells)
-   OutStream << std::fixed << setprecision(0);
+   OutStream << std::fixed << setprecision(1);
 
    if (m_dThisIterBeachDepositionSand > 0)
       OutStream << setw(4) << 1000 * m_dThisIterBeachDepositionSand / static_cast<double>(m_ulThisIterNumSeaCells);
@@ -705,8 +708,8 @@ bool CSimulation::bWritePerTimestepResults(void)
    else
       OutStream << setw(4) << SPACE;
 
-   // Per-iteration sediment input in m
-   OutStream << std::fixed << setprecision(0);
+   // Output the this-timestep sediment input in m ==============================================================================
+   OutStream << std::fixed << setprecision(1);
 
    if (m_dThisiterUnconsFineInput > 0)
       OutStream << setw(4) << m_dThisiterUnconsFineInput;
@@ -723,8 +726,8 @@ bool CSimulation::bWritePerTimestepResults(void)
    else
       OutStream << setw(4) << SPACE;
 
-   // Per-iteration cliff collapse erosion (both cons and uncons) in m (average for all coast cells) ===========================================================
-   OutStream << std::fixed << setprecision(0);
+   // Per-iteration cliff collapse erosion (both cons and uncons) in m (average for all coast cells) ============================
+   OutStream << std::fixed << setprecision(1);
 
    if ((m_dThisIterCliffCollapseErosionFineUncons + m_dThisIterCliffCollapseErosionFineCons) > 0)
       OutStream << setw(4) << 1000 * (m_dThisIterCliffCollapseErosionFineUncons + m_dThisIterCliffCollapseErosionFineCons) / static_cast<double>(m_ulThisIterNumCoastCells);
@@ -1719,13 +1722,13 @@ void CSimulation::WritePolygonActualMovement(int const nCoast, vector<vector<int
       bShowZeroSand = false,
       bShowZeroCoarse = false;
    
-   if (dTmpFineErosion != 0)
+   if (! bFPIsEqual(dTmpFineErosion, 0.0, TOLERANCE))
       bShowZeroFine = true;
 
-   if (dTmpSandErosion!= 0)
+   if (! bFPIsEqual(dTmpSandErosion, 0.0, TOLERANCE))
       bShowZeroSand = true;
 
-   if (dTmpCoarseErosion != 0)
+   if (! bFPIsEqual(dTmpCoarseErosion, 0.0, TOLERANCE))
       bShowZeroCoarse = true;
 
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;

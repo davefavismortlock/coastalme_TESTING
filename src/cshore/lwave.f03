@@ -88,6 +88,10 @@ subroutine LWAVE(J, L, WD, QDISP)
       WKPSIN = WKP*STHETA(1)
    else
       STHETA(J) = WKPSIN/WKP
+      
+      ! DFM safety check
+      if (STHETA(J) > 1) STHETA(J) = 1
+      
       THETA = DASIN(STHETA(J))
       CTHETA(J) = DCOS(THETA)
    endif

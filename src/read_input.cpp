@@ -2196,7 +2196,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                if (m_dD50Fine < 0)
                   strErr = "line " + to_string(nLine) + ": median particle size of fine sediment must be > 0";
-               else if (m_dD50Fine == 0)
+               else if (bFPIsEqual(m_dD50Fine, 0.0, TOLERANCE))
                   // Use default value
                   m_dD50Fine = D50_FINE_DEFAULT;
             }
@@ -2217,7 +2217,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                if (m_dD50Sand < 0)
                   strErr = "line " + to_string(nLine) + ": median particle size of sand sediment must be > 0";
-               else if (m_dD50Sand == 0)
+               else if (bFPIsEqual(m_dD50Sand, 0.0, TOLERANCE))
                   // Use default value
                   m_dD50Sand = D50_SAND_DEFAULT;
             }
@@ -2238,7 +2238,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                if (m_dD50Coarse < 0)
                   strErr = "line " + to_string(nLine) + ": median particle size of coarse sediment must be > 0";
-               else if (m_dD50Coarse == 0)
+               else if (bFPIsEqual(m_dD50Coarse, 0.0, TOLERANCE))
                   // Use default value
                   m_dD50Coarse = D50_COARSE_DEFAULT;
             }
@@ -2739,7 +2739,7 @@ bool CSimulation::bReadRunDataFile(void)
             // Spacing of coastline normals (m)
             m_dCoastNormalAvgSpacing = strtod(strRH.c_str(), NULL);
 
-            if (m_dCoastNormalAvgSpacing == 0)
+            if (bFPIsEqual(m_dCoastNormalAvgSpacing, 0.0, TOLERANCE))
                m_nCoastNormalAvgSpacing = MIN_PROFILE_SPACING; // In cells, we will set m_dCoastNormalAvgSpacing later when we know m_dCellSide
             else if (m_dCoastNormalAvgSpacing < 0)
                strErr = "line " + to_string(nLine) + ": spacing of coastline normals must be > 0";
@@ -3273,7 +3273,7 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
                if (dThisIter <= 0)
                   strErr = "line " + to_string(nLine) + ": timestep must be > 0";
 
-               if (dThisIter != m_dTimeStep)
+               if (! bFPIsEqual(dThisIter, m_dTimeStep, TOLERANCE))
                   strErr = "line " + to_string(nLine) + ": timestep must be the same as the simulation timestep";
 
                break;

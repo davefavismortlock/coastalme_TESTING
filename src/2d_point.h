@@ -44,6 +44,7 @@ public:
 
    void operator= (CGeom2DPoint*);
    bool operator== (CGeom2DPoint*) const;
+   bool operator== (CGeom2DPoint) const;
    bool operator!= (CGeom2DPoint*) const;
 };
 #endif // C2DPOINT_H

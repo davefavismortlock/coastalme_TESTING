@@ -411,7 +411,7 @@ int const RTN_ERR_VECTOR_FILE_WRITE = 21;
 int const RTN_ERR_TIMESERIES_FILE_WRITE = 22;
 int const RTN_ERR_LINETOGRID = 23;
 int const RTN_ERR_PROFILESPACING = 24;
-int const RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID = 25;
+int const RTN_ERR_PROFILE_ENDPOINT_AT_GRID_EDGE = 25;
 int const RTN_ERR_PROFILE_ENDPOINT_IS_INLAND = 26;
 int const RTN_ERR_NO_SOLUTION_FOR_ENDPOINT = 27;
 int const RTN_ERR_PROFILE_END_INSUFFICIENT_DEPTH = 28;
@@ -514,7 +514,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.04 (07 Sep 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.05 (13 Sep 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
@@ -982,12 +982,18 @@ template <class T>
 bool bFPIsEqual(const T d1, const T d2, const T dEpsilon)
 {
    // Since the accuracy of floating-point numbers varies with their magnitude, we must compare them by using an accuracy threshold which is relative to the magnitude of the two numbers being compared. This is a blend of an example from Knuth's 'The Art of Computer Programming. Volume 1. Fundamental Algorithms' and a posting dated 18 Nov 93 by rmartin@rcmcon.com (Robert Martin), archived in cpp_tips
+   
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
    if ((0 == d1) && (tAbs(d2) < dEpsilon))
       return true;
+   
    else if ((0 == d2) && (tAbs(d1) < dEpsilon))
       return true;
+   
    else
       return ((tAbs(d1 - d2) < (dEpsilon * tAbs(d1))) ? true : false);
+#pragma GCC diagnostic pop
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

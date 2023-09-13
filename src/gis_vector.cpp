@@ -969,7 +969,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                if (nDataItem == VECTOR_PLOT_COAST_CURVATURE)
                {
                   double dCurvature = m_VCoast[i].dGetDetailedCurvature(j);
-                  if (dCurvature == DBL_NODATA)
+                  if (bFPIsEqual(dCurvature, DBL_NODATA, TOLERANCE))
                      continue;
 
                   // Set the feature's attribute
@@ -1121,7 +1121,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                      dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle(),
                      dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
 
-                  if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA))
+                  if (bFPIsEqual(dHeight, DBL_NODATA, TOLERANCE) || bFPIsEqual(dOrientation, DBL_NODATA, TOLERANCE))
                      continue;
 
                   // Set the feature's attributes
@@ -1194,7 +1194,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                   dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetTotWaveAngle() / static_cast<double>(m_ulIter),
                   dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight() / static_cast<double>(m_ulIter);
 
-               if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA))
+               if (bFPIsEqual(dHeight, DBL_NODATA, TOLERANCE) || bFPIsEqual(dOrientation, DBL_NODATA, TOLERANCE))
                   continue;
 
                // Set the feature's attributes
@@ -1476,7 +1476,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
                   dOrientation = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveAngle(),
                   dHeight = m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveHeight();
 
-               if ((dHeight == DBL_NODATA) || (dOrientation == DBL_NODATA) || (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
+               if (bFPIsEqual(dHeight, DBL_NODATA, TOLERANCE) || bFPIsEqual(dOrientation, DBL_NODATA, TOLERANCE) || (! m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()))
                   continue;
 
                // Set the feature's attributes

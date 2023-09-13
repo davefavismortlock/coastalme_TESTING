@@ -1208,12 +1208,9 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
                if (nThisLayer != NO_NONZERO_THICKNESS_LAYERS)
                {
                   // We still have at least one layer left with non-zero thickness (i.e. we are not down to basement), and the cell's current elevation is higher than the Dean equilibrium profile elevation. So do some beach erosion on this cell (Note: we are in nDoUnconsDepositionOnPolygon() still)
-                  double
-                     dSandRemoved = 0,
-                     dCoarseRemoved = 0;
-                  
                   if (nTexture == TEXTURE_SAND)
                   {
+                     double dSandRemoved = 0;
                      ErodeCellBeachSedimentSupplyLimited(nX, nY, nThisLayer, TEXTURE_SAND, -dElevDiff, dSandRemoved);
                      
                      // Update totals for this parallel profile
@@ -1229,6 +1226,7 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
                   }
                   else if (nTexture == TEXTURE_COARSE)
                   {
+                     double dCoarseRemoved = 0;
                      ErodeCellBeachSedimentSupplyLimited(nX, nY, nThisLayer, TEXTURE_COARSE, -dElevDiff, dCoarseRemoved);
                      
                      // Update totals for this parallel profile                     
@@ -1674,12 +1672,9 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
                   if (nThisLayer != NO_NONZERO_THICKNESS_LAYERS)
                   {
                      // We still have at least one layer left with non-zero thickness (i.e. we are not down to basement), and the cell's current elevation is higher than the Dean equilibrium profile elevation. So do some beach erosion on this cell (Note: we are in nDoUnconsDepositionOnPolygon() still)
-                     double
-                        dSandRemoved = 0,
-                        dCoarseRemoved = 0;
-                     
                      if (nTexture == TEXTURE_SAND)
                      {
+                        double dSandRemoved = 0;
                         ErodeCellBeachSedimentSupplyLimited(nX, nY, nThisLayer, TEXTURE_SAND, -dElevDiff, dSandRemoved);
                         
                         // Update total for this parallel profile
@@ -1695,6 +1690,7 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
                      }
                      else if (nTexture == TEXTURE_COARSE)
                      {
+                        double dCoarseRemoved = 0;
                         ErodeCellBeachSedimentSupplyLimited(nX, nY, nThisLayer, TEXTURE_COARSE, -dElevDiff, dCoarseRemoved);
                         
                         // Update total for this parallel profile                     

@@ -177,7 +177,7 @@ double CSimulation::dGetRand0Gaussian(void)
          dV2 = 2 * dGetRand0d1()-1;             // ditto
          dRsq = dV1 * dV1 + dV2 * dV2;
       }
-      while (dRsq >= 1 || 0 == dRsq);           // if they are not, try again
+      while ((dRsq >= 1) || bFPIsEqual(dRsq, 0.0, TOLERANCE));           // if they are not, try again
 
       dFac = sqrt(-2 * log(dRsq)/dRsq);
 

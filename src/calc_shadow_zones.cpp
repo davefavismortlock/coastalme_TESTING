@@ -177,7 +177,7 @@ int CSimulation::nDoAllShadowZones(void)
 
                   // If this coast point is in the active zone, use the breaking wave orientation, otherwise use the deep water wave orientation
                   double dWaveAngle;
-                  if (m_VCoast[nCoast].dGetDepthOfBreaking(nShadowZoneBoundaryEndPoint) == DBL_NODATA)
+                  if (bFPIsEqual(m_VCoast[nCoast].dGetDepthOfBreaking(nShadowZoneBoundaryEndPoint), DBL_NODATA, TOLERANCE))
                      // Not in active zone
                      dWaveAngle = m_VCoast[nCoast].dGetCoastDeepWaterWaveAngle(nShadowZoneBoundaryEndPoint);
                   else
@@ -237,7 +237,7 @@ int CSimulation::nDoAllShadowZones(void)
 
                   // If this coast point is in the active zone, use the breaking wave orientation, otherwise use the deep water wave orientation
                   double dWaveAngle;
-                  if (m_VCoast[nCoast].dGetDepthOfBreaking(nShadowZoneBoundaryEndPoint) == DBL_NODATA)
+                  if (bFPIsEqual(m_VCoast[nCoast].dGetDepthOfBreaking(nShadowZoneBoundaryEndPoint), DBL_NODATA, TOLERANCE))
                      // Not in active zone
                      dWaveAngle = m_VCoast[nCoast].dGetCoastDeepWaterWaveAngle(nShadowZoneBoundaryEndPoint);
                   else
@@ -314,7 +314,7 @@ int CSimulation::nDoAllShadowZones(void)
 
          // If this coast point is in the active zone, start with the breaking wave orientation, otherwise use the deep water wave orientation
          double dPrevWaveAngle;
-         if (m_VCoast[nCoast].dGetDepthOfBreaking(nStartPoint) == DBL_NODATA)
+         if (bFPIsEqual(m_VCoast[nCoast].dGetDepthOfBreaking(nStartPoint), DBL_NODATA, TOLERANCE))
          {
             // Not in active zone
             dPrevWaveAngle = m_VCoast[nCoast].dGetCoastDeepWaterWaveAngle(nStartPoint);
@@ -366,7 +366,7 @@ int CSimulation::nDoAllShadowZones(void)
                   }
                }
 
-               if (dPrevWaveAngle == DBL_NODATA)
+               if (bFPIsEqual(dPrevWaveAngle, DBL_NODATA, TOLERANCE))
                {
                   //                   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): dPrevWaveAngle == DBL_NODATA for cell [" << nXPrev << "][" << nYPrev << "] = {" << dGridCentroidXToExtCRSX(nXPrev) << ", " << dGridCentroidYToExtCRSY(nYPrev) << "}" << endl;
 
@@ -1220,7 +1220,7 @@ void CSimulation::ProcessDownDriftCell(int const nX, int const nY, int const nTr
 {
    // Get the pre-existing (i.e. shore-parallel) wave height
    double dWaveHeight = m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight();
-   if (dWaveHeight == DBL_NODATA)
+   if (bFPIsEqual(dWaveHeight, DBL_NODATA, TOLERANCE))
    {
       // Is not a sea cell
       //       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "} ignored, not a sea cell" << endl;

@@ -137,7 +137,7 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
       }
    }
 
-   if (dMaxConvexDetailed == 0)
+   if (bFPIsEqual(dMaxConvexDetailed, 0.0, TOLERANCE))
    {
       // We have a straight-line coast, so set the point of maximum detailed convexity at the coast mid-point
       nMaxConvexDetailedCoastPoint =
@@ -180,13 +180,13 @@ double CSimulation::dCalcCurvature(int const nHandedness, CGeom2DPoint const* pP
       dDist3 = dGetDistanceBetween(pPtBefore, pPtAfter);
       
    // Safety checks
-   if (dDist1 == 0)
+   if (bFPIsEqual(dDist1, 0.0, TOLERANCE))
       dDist1 = 1e-3;
 
-   if (dDist2 == 0)
+   if (bFPIsEqual(dDist2, 0.0, TOLERANCE))
       dDist2 = 1e-3;
-   
-   if (dDist3 == 0)
+
+   if (bFPIsEqual(dDist3, 0.0, TOLERANCE))
       dDist3 = 1e-3;
 
    double dCurvature = dAreax4 / (dDist1 * dDist2 * dDist3);

@@ -102,7 +102,7 @@ void CSimulation::FindAllSeaCells(void)
           nY = m_VEdgeCell[n].nGetY();
 
       // if ((m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
-      if ((m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
+      if ((m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
 
          // This edge cell is below SWL and sea depth remains set to zero
          FloodFillSea(nX, nY);
@@ -132,7 +132,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
           nX = Pti.nGetX(),
           nY = Pti.nGetY();
 
-      while ((nX >= 0) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
+      while ((nX >= 0) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
          nX--;
 
       nX++;
@@ -141,7 +141,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
           bSpanAbove = false,
           bSpanBelow = false;
 
-      while ((nX < m_nXGridMax) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth() == 0))
+      while ((nX < m_nXGridMax) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
       {
          // Set the sea depth for this cell
          m_pRasterGrid->m_Cell[nX][nY].SetSeaDepth();
@@ -171,7 +171,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
          // Update count
          m_ulThisIterNumSeaCells++;
 
-         if ((! bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY - 1].dGetSeaDepth() == 0))
+         if ((! bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY - 1].dGetSeaDepth(), 0.0, TOLERANCE)))
          {
             PtiStack.push(CGeom2DIPoint(nX, nY - 1));
             bSpanAbove = true;
@@ -181,7 +181,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
             bSpanAbove = false;
          }
 
-         if ((! bSpanBelow) && (nY < m_nYGridMax - 1) && (m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()) && (m_pRasterGrid->m_Cell[nX][nY + 1].dGetSeaDepth() == 0))
+         if ((! bSpanBelow) && (nY < m_nYGridMax - 1) && (m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY + 1].dGetSeaDepth(), 0.0, TOLERANCE)))
          {
             PtiStack.push(CGeom2DIPoint(nX, nY + 1));
             bSpanBelow = true;
@@ -200,8 +200,8 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    // strOutFile += to_string(m_ulIter);
    // strOutFile += ".tif";
 
-   // GDALDriver *pDriver = GetGDALDriverManager()->GetDriverByName("gtiff");
-   // GDALDataset *pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
+   // GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName("gtiff");
+   // GDALDataset* pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
    // pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
    // pDataSet->SetGeoTransform(m_dGeoTransform);
    // double *pdRaster = new double[m_nXGridMax * m_nYGridMax];
@@ -227,8 +227,8 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    // strOutFile += to_string(m_ulIter);
    // strOutFile += ".tif";
 
-   // GDALDriver *pDriver = GetGDALDriverManager()->GetDriverByName("gtiff");
-   // GDALDataset *pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
+   // GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName("gtiff");
+   // GDALDataset* pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
    // pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
    // pDataSet->SetGeoTransform(m_dGeoTransform);
    // double *pdRaster = new double[m_nXGridMax * m_nYGridMax];

@@ -1801,7 +1801,7 @@ void CSimulation::CalcTime(double const dRunLength)
    // Reset CPU count for last time
    DoCPUClockReset();
 
-   if (m_dCPUClock != -1)
+   if (! bFPIsEqual(m_dCPUClock, -1.0, TOLERANCE))
    {
       // Calculate CPU time in secs
       double dDuration = m_dCPUClock / CLOCKS_PER_SEC;
@@ -2371,8 +2371,8 @@ string CSimulation::strGetErrorText(int const nErr)
    case RTN_ERR_NO_SOLUTION_FOR_ENDPOINT:
       strErr = "no solution when finding end point for coastline-normal line";
       break;
-   case RTN_ERR_PROFILE_ENDPOINT_IS_OFFGRID:
-      strErr = "end point for coastline-normal line is off the grid";
+   case RTN_ERR_PROFILE_ENDPOINT_AT_GRID_EDGE:
+      strErr = "end point for coastline-normal line is at the grid edge";
       break;
    case RTN_ERR_PROFILE_ENDPOINT_IS_INLAND:
       strErr = "end point for coastline-normal line is not in the contiguous sea";
@@ -2889,6 +2889,7 @@ double CSimulation::dSubtractProfiles(vector<double> const *pdVFirstProfile, vec
 {
    double dTotElevDiff = 0;
 
+   // NOTE this assumes that all three vectors are of equal length
    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
    {
       if (pbVIsValid->at(n))

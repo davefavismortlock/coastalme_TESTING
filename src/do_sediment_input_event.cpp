@@ -168,17 +168,19 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
 
          if (nCoastHand == LEFT_HANDED)
             nPerpHand = RIGHT_HANDED;
-
-         vector<int> VnCentrePointsXOffset, VnCentrePointsYOffset;
+         
          vector<CGeom2DIPoint> VPoints;
 
-         // if size of plume is smaller than a cell size, choose the current coast point
+         // If size of plume is smaller than a cell, choose the current coast point
          if (nHalfWidth == 0)
          {
             VPoints.push_back(PtiCoastPoint);
          }
          else
          {
+            // It is larger than a cell
+            vector<int> VnCentrePointsXOffset, VnCentrePointsYOffset;
+            
             for (int m = 0; m < nHalfWidth; m++)
             {
                if (m == 0)
@@ -255,23 +257,23 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
                   }
                }
             }
-         }
 
-         // // DEBUG CODE ===============================================
-         //       LogStream << endl;
-         //       unsigned int m = 0;
-         //       for (unsigned int n = 0; n < VPoints.size(); n++)
-         //       {
-         //          LogStream << "[" << VPoints[n].nGetX() << ", " << VPoints[n].nGetY() << "] ";
-         //          m++;
-         //          if (m == VnCentrePointsXOffset.size() + 1)
-         //          {
-         //             LogStream << endl;
-         //             m = 0;
-         //          }
-         //       }
-         //       LogStream << endl;
-         // // DEBUG CODE ===============================================
+            // // DEBUG CODE ===============================================
+            //       LogStream << endl;
+            //       unsigned int m = 0;
+            //       for (unsigned int n = 0; n < VPoints.size(); n++)
+            //       {
+            //          LogStream << "[" << VPoints[n].nGetX() << ", " << VPoints[n].nGetY() << "] ";
+            //          m++;
+            //          if (m == VnCentrePointsXOffset.size() + 1)
+            //          {
+            //             LogStream << endl;
+            //             m = 0;
+            //          }
+            //       }
+            //       LogStream << endl;
+            // // DEBUG CODE ===============================================
+         }
 
          // OK we now know which cells are part of the sediment block, and so will receive sediment input. Next calculate the volume per cell
          double

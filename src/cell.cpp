@@ -415,7 +415,7 @@ double CGeomCell::dGetBasementElev(void) const
 //! Returns true if this cells's basement data is NODATA, is needed for irregularly-shaped DEMs
 bool CGeomCell::bBasementElevIsMissingValue(void) const
 {
-   if (m_dBasementElevation == m_pGrid->pGetSim()->CSimulation::dGetMissingValue())
+   if (bFPIsEqual(m_dBasementElevation, m_pGrid->pGetSim()->CSimulation::dGetMissingValue(), TOLERANCE))
       return true;
 
    return false;

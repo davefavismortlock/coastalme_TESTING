@@ -136,11 +136,11 @@ int CSimulation::nCalcPotentialPlatformErosionOnProfile(int const nCoast, int co
 
    // Get the breaking depth for this profile from the coastline point
    double dDepthOfBreaking = m_VCoast[nCoast].dGetDepthOfBreaking(nCoastPoint);
-   if (dDepthOfBreaking == DBL_NODATA)
+   if (bFPIsEqual(dDepthOfBreaking, DBL_NODATA, TOLERANCE))
       // This profile is not in the active zone, so no platform erosion here
       return RTN_OK;
    
-   if (dDepthOfBreaking == 0)
+   if (bFPIsEqual(dDepthOfBreaking, 0.0, TOLERANCE))
    {
       // Safety check, altho' this shouldn't happen
       if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
@@ -416,7 +416,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
       //       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): from profile " << nProfile << ", doing potential platform erosion " << (nDirection == DIRECTION_DOWNCOAST ? "down" : "up") << "-coast, dist from profile = " <<  nDistFromProfile << endl;
 
       double const dDepthOfBreaking = m_VCoast[nCoast].dGetDepthOfBreaking(nThisPointOnCoast);
-      if (dDepthOfBreaking == DBL_NODATA)
+      if (bFPIsEqual(dDepthOfBreaking, DBL_NODATA, TOLERANCE))
       {
          // This parallel profile is not in the active zone, so no platform erosion here. Move on to the next point along the coastline in this direction
 // if (m_nLogFileDetail == LOG_FILE_HIGH_DETAIL)
@@ -621,7 +621,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
          double dSCAPEHorizDist = dVParSCAPEXY[i + 1] - dVParSCAPEXY[i];
          
          // Safety check
-         if (dSCAPEHorizDist == 0)
+         if (bFPIsEqual(dSCAPEHorizDist, 0.0, TOLERANCE))
             continue;
              
          double
@@ -718,7 +718,7 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
 
    // Get the beach protection factor, which quantifies the extent to which unconsolidated sediment on the shore platform (beach) protects the shore platform
    double const dBeachProtectionFactor = m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor();
-   if (dBeachProtectionFactor == 0)
+   if (bFPIsEqual(dBeachProtectionFactor, 0.0, TOLERANCE))
       // The beach is sufficiently thick to prevent any platform erosion (or we are down to basement)
       return;
 
@@ -1048,8 +1048,8 @@ Calculates the (inverse) beach protection factor as in SCAPE: 0 is fully protect
 double CSimulation::dCalcBeachProtectionFactor(int const nX, int const nY, double const dBreakingWaveHeight)
 {
    // Safety check
-   if (dBreakingWaveHeight == DBL_NODATA)
-      return 0.0;
+   if (bFPIsEqual(dBreakingWaveHeight, DBL_NODATA, TOLERANCE))
+      return 0;
 
    // We are considering the unconsolidated sediment (beach) of the topmost layer that has non-zero thickness
    int nThisLayer = m_pRasterGrid->m_Cell[nX][nY].nGetTopNonZeroLayerAboveBasement();
@@ -1058,12 +1058,12 @@ double CSimulation::dCalcBeachProtectionFactor(int const nX, int const nY, doubl
    if (nThisLayer == INT_NODATA)
    {
       cerr << ERR << "no sediment layer in dCalcBeachProtectionFactor()" << endl;
-      return 0.0;
+      return 0;
    }
 
    if (nThisLayer == NO_NONZERO_THICKNESS_LAYERS)
       // There are no layers with non-zero thickness left (i.e. we are down to basement) so no beach protection
-      return 0.0;
+      return 0;
 
    // In SCAPE, 0.23 * the significant breaking wave height is assumed to be the maximum depth of beach that waves can penetrate to erode a platform. For depths less than this, the beach protective ability is assumed to vary linearly
    double
@@ -1090,7 +1090,7 @@ void CSimulation::FillInBeachProtectionHoles(void)
    {
       for (int nY = 0; nY < m_nYGridMax; nY++)
       {
-         if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor() == DBL_NODATA))
+         if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetBeachProtectionFactor(), DBL_NODATA, TOLERANCE)))
          {
             // This is a sea cell, and it has an initialized beach protection value. So look at its N-S and W-E neighbours
             int
@@ -1103,7 +1103,7 @@ void CSimulation::FillInBeachProtectionHoles(void)
             // North
             nXTmp = nX;
             nYTmp = nY - 1;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor() != DBL_NODATA))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor(), DBL_NODATA, TOLERANCE)))
             {
                nAdjacent++;
                dBeachProtection += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor();
@@ -1112,7 +1112,7 @@ void CSimulation::FillInBeachProtectionHoles(void)
             // East
             nXTmp = nX + 1;
             nYTmp = nY;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor() != DBL_NODATA))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor(), DBL_NODATA, TOLERANCE)))
             {
                nAdjacent++;
                dBeachProtection += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor();
@@ -1121,7 +1121,7 @@ void CSimulation::FillInBeachProtectionHoles(void)
             // South
             nXTmp = nX;
             nYTmp = nY + 1;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor() != DBL_NODATA))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor(), DBL_NODATA, TOLERANCE)))
             {
                nAdjacent++;
                dBeachProtection += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor();
@@ -1130,7 +1130,7 @@ void CSimulation::FillInBeachProtectionHoles(void)
             // West
             nXTmp = nX - 1;
             nYTmp = nY;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor() != DBL_NODATA))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor(), DBL_NODATA, TOLERANCE)))
             {
                nAdjacent++;
                dBeachProtection += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor();
@@ -1157,7 +1157,7 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
    {
       for (int nY = 0; nY < m_nYGridMax; nY++)
       {
-         if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (m_pRasterGrid->m_Cell[nX][nY].dGetPotentialPlatformErosion() == 0))
+         if ((m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetPotentialPlatformErosion(), 0.0, TOLERANCE)))
          {
             // This is a sea cell, it has a zero potential platform erosion value. So look at its N-S and W-E neighbours
             int
@@ -1170,7 +1170,7 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
             // North
             nXTmp = nX;
             nYTmp = nY - 1;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion() != 0))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion(), 0.0, TOLERANCE)))
             {
                nAdjacent++;
                dPotentialPlatformErosion += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion();
@@ -1179,7 +1179,7 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
             // East
             nXTmp = nX + 1;
             nYTmp = nY;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion() != 0))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion(), 0.0, TOLERANCE)))
             {
                nAdjacent++;
                dPotentialPlatformErosion += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion();
@@ -1188,7 +1188,7 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
             // South
             nXTmp = nX;
             nYTmp = nY + 1;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion() != 0))
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion(), 0.0, TOLERANCE)))
             {
                nAdjacent++;
                dPotentialPlatformErosion += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion();
@@ -1197,12 +1197,11 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
             // West
             nXTmp = nX - 1;
             nYTmp = nY;
-            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetBeachProtectionFactor() != DBL_NODATA))
-               if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion() != 0))
-               {
-                  nAdjacent++;
-                  dPotentialPlatformErosion += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion();
-               }
+            if ((bIsWithinValidGrid(nXTmp, nYTmp)) && (! bFPIsEqual(m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion(), 0.0, TOLERANCE)))
+            {
+               nAdjacent++;
+               dPotentialPlatformErosion += m_pRasterGrid->m_Cell[nXTmp][nYTmp].dGetPotentialPlatformErosion();
+            }
 
             // If this sea cell has four neighbours with non-zero potential platform erosion values, then assume that it should not have a zero potential platform erosion value. Set it to the average of its neighbours
             if (nAdjacent == 4)
