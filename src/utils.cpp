@@ -83,7 +83,7 @@ using std::inner_product;
 Handles command-line parameters
 
 ==============================================================================================================================*/
-int CSimulation::nHandleCommandLineParams(int nArg, char *pcArgv[])
+int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
 {
    for (int i = 1; i < nArg; i++)
    {
@@ -184,7 +184,7 @@ void CSimulation::StartClock(void)
 Finds the folder (directory) in which the CoastalME executable is located
 
 ==============================================================================================================================*/
-bool CSimulation::bFindExeDir(char *pcArg)
+bool CSimulation::bFindExeDir(char const* pcArg)
 {
    string strTmp;
    char szBuf[BUF_SIZE] = "";
@@ -2674,7 +2674,7 @@ string CSimulation::strTrim(string const *strIn)
    size_t nPos = strTmp.find_last_not_of(" \t");
 
    if (nPos != string::npos)
-      strTmp = strTmp.substr(0, nPos + 1);
+      strTmp.resize(nPos+1);
 
    // Trim leading spaces
    nPos = strTmp.find_first_not_of(" \t");

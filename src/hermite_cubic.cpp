@@ -92,7 +92,7 @@ using std::ios;
 //    is the closest to TVAL; it either contains TVAL, or else TVAL
 //    lies outside the interval [ T[0], T[N-1] ].
 //
-void r8vec_bracket3(int const n, double* const t, double const tval, int* left)
+void r8vec_bracket3(int const n, double const* t, double const tval, int* left)
 {
   int high;
   int low;
@@ -274,7 +274,7 @@ void r8vec_bracket3(int const n, double* const t, double const tval, int* left)
 //    Output, double F[N], D[N], S[N], T[N], the value and first
 //    three derivatives of the Hermite cubic at X.
 //
-void hermite_cubic_value (double const x1, double const f1, double const d1, double const x2, double const f2, double const d2, int const n, double* const x, double* f, double* d, double* s, double* t)
+void hermite_cubic_value(double const x1, double const f1, double const d1, double const x2, double const f2, double const d2, int const n, double const* x, double* f, double* d, double* s, double* t)
 {
   double c2;
   double c3;

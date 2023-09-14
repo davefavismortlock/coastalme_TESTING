@@ -65,7 +65,7 @@ bool CSimulation::bReadIniFile(void)
    InStream.open(strFilePathName.c_str(), ios::in);
 
    // Did it open OK?
-   if (!InStream.is_open())
+   if (! InStream.is_open())
    {
       // Error: cannot open .ini file for input
       cerr << ERR << "cannot open " << strFilePathName << " for input" << endl;
@@ -107,7 +107,7 @@ bool CSimulation::bReadIniFile(void)
          }
 
          // Strip off leading portion (the bit up to and including the colon)
-         string strRH = strRec.substr(nPos + 1);
+         string strRH = strRec.erase(0, nPos+1);
 
          // Remove leading whitespace
          strRH = strTrimLeft(&strRH);
@@ -115,11 +115,11 @@ bool CSimulation::bReadIniFile(void)
          // Look for a trailing comment, if found then terminate string at that point and trim off any trailing whitespace
          nPos = strRH.rfind(QUOTE1);
          if (nPos != string::npos)
-            strRH = strRH.substr(0, nPos + 1);
+            strRH.resize(nPos);
 
          nPos = strRH.rfind(QUOTE2);
          if (nPos != string::npos)
-            strRH = strRH.substr(0, nPos + 1);
+            strRH.resize(nPos);
 
          // Remove trailing whitespace
          strRH = strTrimRight(&strRH);
@@ -253,7 +253,7 @@ bool CSimulation::bReadRunDataFile(void)
          }
 
          // Strip off leading portion (the bit up to and including the colon)
-         string strRH = strRec.substr(nPos + 1);
+         string strRH = strRec.erase(0, nPos+1);
 
          // Remove leading whitespace after the colon
          strRH = strTrimLeft(&strRH);
@@ -267,14 +267,14 @@ bool CSimulation::bReadRunDataFile(void)
             nPos = strRH.rfind(QUOTE1);
             if (nPos != string::npos)
             {
-               strRH = strRH.substr(0, nPos);
+               strRH.resize(nPos);
                bFound = true;
             }
 
             nPos = strRH.rfind(QUOTE2);
             if (nPos != string::npos)
             {
-               strRH = strRH.substr(0, nPos);
+               strRH.resize(nPos);
                bFound = true;
             }
 
@@ -390,7 +390,7 @@ bool CSimulation::bReadRunDataFile(void)
             }
 
             // Cut off rh bit of string
-            strRH = strRH.substr(0, nPos + 1);
+            strRH.resize(nPos);
 
             // Remove trailing spaces
             strRH = strTrimRight(&strRH);
@@ -422,7 +422,7 @@ bool CSimulation::bReadRunDataFile(void)
             }
 
             // cut off rh bit of string
-            strRH = strRH.substr(0, nPos + 1);
+            strRH.resize(nPos);
 
             // remove trailing spaces
             strRH = strTrimRight(&strRH);
@@ -465,7 +465,7 @@ bool CSimulation::bReadRunDataFile(void)
             }
 
             // Cut off rh bit of string
-            strRH = strRH.substr(0, nPos + 1);
+            strRH.resize(nPos);
 
             // Remove trailing spaces
             strRH = strTrimRight(&strRH);
@@ -1958,50 +1958,47 @@ bool CSimulation::bReadRunDataFile(void)
 
          case 36:
             // Deep water wave height (m) or a file of point vectors giving deep water wave height (m) and orientation (for units, see below)
-            if (isdigit(strRH.at(0))) // If this starts with a number then is a single value, otherwise is a filename. Note that filename must not start with number
-            {
-               // Just one value of wave height for all deep water cells, first check that this is a valid double
-               if (! bIsStringValidDouble(strRH))
-               {
-                  strErr = "line " + to_string(nLine) + ": invalid floating point number for deep water wave height '" + strRH + "' in " + m_strDataPathName;
-                  break;
-               }
-
-               m_bSingleDeepWaterWaveValues = true;
-               m_bHaveWaveStationData = false;
-
-               m_dAllCellsDeepWaterWaveHeight = strtod(strRH.c_str(), NULL);
-
-               if (m_dAllCellsDeepWaterWaveHeight <= 0)
-                  strErr = "line " + to_string(nLine) + ": deep water wave height must be > 0";
-            }
+            if (strRH.empty())
+               strErr = "line " + to_string(nLine) + ": deep water wave height in " + m_strDataPathName + " must be either a number or a filename (filename must not start with a number)";
             else
             {
-               // We are reading deep water wave height and deep water wave orientation from two files. This first file is a point shape file with the location of the buoys and integer ID for each one
-               m_bHaveWaveStationData = true;
-
-               if (strRH.empty())
+               if (isdigit(strRH.at(0))) // If this starts with a number then is a single value, otherwise is a filename. Note that filename must not start with number
                {
-                  strErr = "line " + to_string(nLine) + ": deep water wave height must be either a number or a filename (filename must not start with a number)";
-                  break;
-               }
+                  // Just one value of wave height for all deep water cells, first check that this is a valid double
+                  if (! bIsStringValidDouble(strRH))
+                  {
+                     strErr = "line " + to_string(nLine) + ": invalid floating point number for deep water wave height '" + strRH + "' in " + m_strDataPathName;
+                     break;
+                  }
 
-#ifdef _WIN32
-               // For Windows, make sure has backslashes, not Unix-style slashes
-               strRH = pstrChangeToBackslash(&strRH);
-#endif
+                  m_bSingleDeepWaterWaveValues = true;
+                  m_bHaveWaveStationData = false;
 
-               // Now check for leading slash, or leading Unix home dir symbol, or occurrence of a drive letter
-               if ((strRH[0] == PATH_SEPARATOR) || (strRH[0] == TILDE) || (strRH[1] == COLON))
-               {
-                  // It has an absolute path, so use it 'as is'
-                  m_strDeepWaterWaveStationsShapefile = strRH;
+                  m_dAllCellsDeepWaterWaveHeight = strtod(strRH.c_str(), NULL);
+
+                  if (m_dAllCellsDeepWaterWaveHeight <= 0)
+                     strErr = "line " + to_string(nLine) + ": deep water wave height must be > 0";
                }
                else
                {
-                  // It has a relative path, so prepend the CoastalME dir
-                  m_strDeepWaterWaveStationsShapefile = m_strCMEDir;
-                  m_strDeepWaterWaveStationsShapefile.append(strRH);
+                  // We are reading deep water wave height and deep water wave orientation from two files. This first file is a point shape file with the location of the buoys and integer ID for each one
+                  m_bHaveWaveStationData = true;
+#ifdef _WIN32
+                  // For Windows, make sure has backslashes, not Unix-style slashes
+                  strRH = pstrChangeToBackslash(&strRH);
+#endif
+                  // Now check for leading slash, or leading Unix home dir symbol, or occurrence of a drive letter
+                  if ((strRH[0] == PATH_SEPARATOR) || (strRH[0] == TILDE) || (strRH[1] == COLON))
+                  {
+                     // It has an absolute path, so use it 'as is'
+                     m_strDeepWaterWaveStationsShapefile = strRH;
+                  }
+                  else
+                  {
+                     // It has a relative path, so prepend the CoastalME dir
+                     m_strDeepWaterWaveStationsShapefile = m_strCMEDir;
+                     m_strDeepWaterWaveStationsShapefile.append(strRH);
+                  }
                }
             }
             break;
@@ -3174,11 +3171,11 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
             // Look for a trailing comment, if found then terminate string at that point and trim off any trailing whitespace
             nPos = strRH.rfind(QUOTE1);
             if (nPos != string::npos)
-               strRH = strRH.substr(0, nPos + 1);
+               strRH.resize(nPos);
 
             nPos = strRH.rfind(QUOTE2);
             if (nPos != string::npos)
-               strRH = strRH.substr(0, nPos + 1);
+               strRH.resize(nPos);
 
             // Remove trailing whitespace
             strRH = strTrimRight(&strRH);
@@ -3256,7 +3253,7 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
                }
 
                // Cut off rh bit of string
-               strRH = strRH.substr(0, nPos + 1);
+               strRH.resize(nPos);
 
                // Remove trailing spaces
                strRH = strTrimRight(&strRH);

@@ -82,7 +82,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
    }
 
    // Open the GDAL/OGR datasource
-   GDALDataset *pOGRDataSource = (GDALDataset *)GDALOpenEx(strGISFile.c_str(), GDAL_OF_VECTOR, NULL, NULL, NULL);
+   GDALDataset* pOGRDataSource = static_cast<GDALDataset*>(GDALOpenEx(strGISFile.c_str(), GDAL_OF_VECTOR, NULL, NULL, NULL));
    if (pOGRDataSource == NULL)
    {
       // Can't open file (note will already have sent GDAL error message to stdout)
@@ -178,13 +178,13 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
 
          // The geometry type is OK, so process the geometry data
          int nPoints = 0;
-         OGRPoint *pOGRPoint;
-         OGRLineString *pOGRLineString;
+         OGRPoint* pOGRPoint;
+         OGRLineString* pOGRLineString;
          switch (nDataItem)
          {
             case (DEEP_WATER_WAVE_STATIONS_VEC):
                // Point data
-               pOGRPoint = (OGRPoint *)pOGRGeometry;
+               pOGRPoint = static_cast<OGRPoint*>(pOGRGeometry);
 
                // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
                m_VdDeepWaterWaveStationX.push_back(dExtCRSXToGridX(pOGRPoint->getX()));
@@ -195,7 +195,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                if (m_bSedimentInputAtPoint || m_bSedimentInputAtCoast)
                {
                   // Point data
-                  pOGRPoint = (OGRPoint *)pOGRGeometry;
+                  pOGRPoint = static_cast<OGRPoint*>(pOGRGeometry);
 
                   int
                      nPointGridX = nRound(dExtCRSXToGridX(pOGRPoint->getX())),
@@ -215,7 +215,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                else if (m_bSedimentInputAlongLine)
                {
                   // Line data
-                  pOGRLineString = (OGRLineString *)pOGRGeometry;
+                  pOGRLineString = static_cast<OGRLineString*>(pOGRGeometry);
 
                   nPoints = pOGRLineString->getNumPoints();
                   for (int i = 0; i < nPoints; i++)
@@ -230,7 +230,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
             case (FLOOD_LOCATION_VEC):
 
                // Point data
-               pOGRPoint = (OGRPoint *)pOGRGeometry;
+               pOGRPoint = static_cast<OGRPoint*>(pOGRGeometry);
 
                // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
                m_VdFloodLocationX.push_back(pOGRPoint->getX());

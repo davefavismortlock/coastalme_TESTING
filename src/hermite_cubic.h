@@ -33,9 +33,9 @@ hermite_cubic_spline_value() evaluates a Hermite cubic spline
 hermite_cubic_value() evaluates a Hermite cubic polynomial
 
 ===============================================================================================================================*/
-void r8vec_bracket3(int const, double* const, double const, int*);
+void r8vec_bracket3(int const, double const*, double const, int*);
 
-void hermite_cubic_value(double const, double const, double const, double const, double const, double const, int const, double* const, double* const, double* const, double* const, double* const);
+void hermite_cubic_value(double const, double const, double const, double const, double const, double const, int const, double const*, double* const, double* const, double* const, double* const);
 
 void hermite_cubic_spline_value(int const, double* const, double* const, double* const, int const, double* const, double*, double*, double*, double*);
 

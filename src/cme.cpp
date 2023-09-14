@@ -32,7 +32,7 @@ You should have received a copy of the GNU General Public License along with thi
 CoastalME's main function
 
 ===============================================================================================================================*/
-int main(int argc, char *argv[])
+int main(int argc, char const* argv[])
 {
    // This is to check for first appearance in NaN when debugging (comment out, otherwise)
    feenableexcept(FE_INVALID | FE_OVERFLOW);

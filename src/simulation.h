@@ -586,7 +586,7 @@ private:
 
 private:
    // Input and output routines
-   static int nHandleCommandLineParams(int, char *[]);
+   static int nHandleCommandLineParams(int, char const* []);
    bool bReadIniFile(void);
    bool bReadRunDataFile(void);
    bool bOpenLogFile(void);
@@ -785,7 +785,7 @@ private:
    static void AnnounceIsRunning(void);
    static void AnnounceSimEnd(void);
    void StartClock(void);
-   bool bFindExeDir(char*);
+   bool bFindExeDir(char const*);
    bool bTimeToQuit(void);
    static int nDoTimeUnits(string const*);
    int nDoSimulationTimeMultiplier(string const*);
@@ -896,7 +896,7 @@ public:
    double dGetD50Coarse(void) const;
 
    //! Runs the simulation
-   int nDoSimulation(int, char *[]);
+   int nDoSimulation(int, char const* []);
 
    //! Carries out end-of-simulation tidying (error messages etc.)
    void DoSimulationEnd(int const);

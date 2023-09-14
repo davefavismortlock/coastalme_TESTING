@@ -649,7 +649,7 @@ int CSimulation::nDoAllShadowZones(void)
                // Could not find start point for flood fill. How serious we judge this to be depends on the length of the shadow zone line
                if (nShadowLineLen < MAX_LEN_SHADOW_LINE_TO_IGNORE)
                {
-                  if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+                  if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << WARN << "could not find start point for flood fill of shadow zone " << nZone << " but continuing simulation because this is a small shadow zone (shadow line length = " << nShadowLineLen << " cells)" << endl;
 
                   continue;
@@ -703,7 +703,7 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
          // Safety check
          if (! bIsWithinValidGrid(&PtiFloodFillStart))
          {
-            if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+            if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << ERR << "start point [" << PtiFloodFillStart.nGetX() << "][" << PtiFloodFillStart.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiFloodFillStart.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiFloodFillStart.nGetY()) << "} for flood fill of shadow zone is outside grid" << endl;
 
             return RTN_ERR_SHADOW_ZONE_FLOOD_FILL_NOGRID;

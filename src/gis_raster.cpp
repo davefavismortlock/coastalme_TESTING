@@ -55,7 +55,7 @@ Reads a raster DEM of basement elevation data to the Cell array
 int CSimulation::nReadRasterBasementDEM(void)
 {
    // Use GDAL to create a dataset object, which then opens the DEM file
-   GDALDataset *pGDALDataset = (GDALDataset *)GDALOpen(m_strInitialBasementDEMFile.c_str(), GA_ReadOnly);
+   GDALDataset* pGDALDataset = static_cast<GDALDataset*>(GDALOpen(m_strInitialBasementDEMFile.c_str(), GA_ReadOnly));
    if (NULL == pGDALDataset)
    {
       // Can't open file (note will already have sent GDAL error message to stdout)
@@ -523,7 +523,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
    if (! strGISFile.empty())
    {
       // We do have a filename, so use GDAL to create a dataset object, which then opens the GIS file
-      GDALDataset *pGDALDataset = (GDALDataset *)GDALOpen(strGISFile.c_str(), GA_ReadOnly);
+      GDALDataset* pGDALDataset = static_cast<GDALDataset*>(GDALOpen(strGISFile.c_str(), GA_ReadOnly));
       if (NULL == pGDALDataset)
       {
          // Can't open file (note will already have sent GDAL error message to stdout)

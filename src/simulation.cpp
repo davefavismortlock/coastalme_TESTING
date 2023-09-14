@@ -592,7 +592,7 @@ double CSimulation::dGetD50Coarse (void) const
 The nDoSimulation member function of CSimulation sets up and runs the simulation
 
 ==============================================================================================================================*/
-int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
+int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
 {
 #ifdef RANDCHECK
    CheckRand();
@@ -607,7 +607,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
    StartClock();
 
    // Find out the folder in which the CoastalME executable sits, in order to open the .ini file (they are assumed to be in the same folder)
-   if (! bFindExeDir (pcArgv[0]))
+   if (! bFindExeDir(pcArgv[0]))
       return (RTN_ERR_CMEDIR);
 
    // Deal with command-line parameters
@@ -908,7 +908,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
          LogStream << "TIMESTEP " << m_ulIter << " ================================================================================================" << endl << endl;
       
       LogStream << std::fixed << setprecision(3);
-
+      
       // Check to see if there is a new intervention in place: if so, update it on the RasterGrid array
       nRet = nUpdateIntervention();
       if (nRet != RTN_OK)
@@ -928,7 +928,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
       nRet = nLocateSeaAndCoasts();
       if (nRet != RTN_OK)
          return nRet;
-
+      
       if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << endl;
 
@@ -970,7 +970,7 @@ int CSimulation::nDoSimulation (int nArg, char *pcArgv[])
 
       // Tell the user how the simulation is progressing
       AnnounceProgress();
-
+      
       // Create the coast polygons
       nRet = nCreateAllPolygons();
       if (nRet != RTN_OK)
