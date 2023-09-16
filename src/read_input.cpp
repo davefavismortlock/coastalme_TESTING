@@ -490,7 +490,7 @@ bool CSimulation::bReadRunDataFile(void)
                   m_dUSaveTime[m_nUSave++] = strtod(strRH.substr(0, nPos).c_str(), NULL) * dMult; // convert to hours
 
                   // Trim off the number and remove leading whitespace
-                  strRH = strRH.substr(nPos, strRH.size() - nPos);
+                  strRH.erase(0, nPos);
                   strRH = strTrimLeft(&strRH);
 
                   // Now look for another space
@@ -547,7 +547,7 @@ bool CSimulation::bReadRunDataFile(void)
                do
                {
                   // Trim off the part before the first space then remove leading whitespace
-                  strRH = strRH.substr(nPos, strRH.size() - nPos);
+                  strRH.erase(0, nPos);
                   strRH = strTrimLeft(&strRH);
 
                   // Put the number into the array
@@ -1574,7 +1574,7 @@ bool CSimulation::bReadRunDataFile(void)
                   {
                      do
                      {
-                        if (!(getline(InStream, strRec)))
+                        if (! getline(InStream, strRec))
                         {
                            cerr << ERR << "premature end of file in " << m_strDataPathName << endl;
                            return false;
@@ -1593,13 +1593,13 @@ bool CSimulation::bReadRunDataFile(void)
                      if (nPos == string::npos)
                      {
                         // Error: badly formatted (no colon)
-                        cerr << ERR << "on line " << to_string(nLine) << ": badly formatted (no ':') in " << m_strDataPathName << endl
-                             << strRec << endl;
+                        cerr << ERR << "on line " << to_string(nLine) << ": badly formatted (no ':') in " << m_strDataPathName << endl << strRec << endl;
                         return false;
                      }
 
                      // Strip off leading portion (the bit up to and including the colon)
                      strRH = strRec.substr(nPos + 1);
+// ERROR                     strRH.resize(nPos);
 
                      // Remove leading whitespace after the colon
                      strRH = strTrimLeft(&strRH);
@@ -1607,11 +1607,11 @@ bool CSimulation::bReadRunDataFile(void)
                      // Look for a trailing comment, if found then terminate string at that point and trim off any trailing whitespace
                      nPos = strRH.rfind(QUOTE1);
                      if (nPos != string::npos)
-                        strRH = strRH.substr(0, nPos);
+                        strRH.resize(nPos);
 
                      nPos = strRH.rfind(QUOTE2);
                      if (nPos != string::npos)
-                        strRH = strRH.substr(0, nPos);
+                        strRH.resize(nPos);
 
                      // Trim trailing spaces
                      strRH = strTrimRight(&strRH);

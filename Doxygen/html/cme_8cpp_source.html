@@ -92,7 +92,7 @@ $(function() {
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">CoastalME&#39;s main function</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"></span> </div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">===============================================================================================================================*/</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="cme_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">   35</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="cme_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="cme_8cpp.html#abf9e6b7e6f15df4b525a2e7705ba3089">   35</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="cme_8cpp.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> <span class="keyword">const</span>* argv[])</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>   <span class="comment">// This is to check for first appearance in NaN when debugging (comment out, otherwise)</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>   feenableexcept(FE_INVALID | FE_OVERFLOW);</div>
@@ -104,26 +104,25 @@ $(function() {
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>   <a class="code hl_class" href="class_c_simulation.html">CSimulation</a> *pSimulation = <span class="keyword">new</span> <a class="code hl_class" href="class_c_simulation.html">CSimulation</a>;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>   <span class="comment">// Run the simulation and then check how it ends</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>   <span class="keywordtype">int</span> nRtn = pSimulation-&gt;<a class="code hl_function" href="class_c_simulation.html#ac72a34bfb2593d1aa861240ac243962f">nDoSimulation</a>(argc, argv);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>   pSimulation-&gt;<a class="code hl_function" href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">DoSimulationEnd</a>(nRtn);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>   <span class="comment">// Get rid of the CSimulation object and close files</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>   <span class="keyword">delete</span> pSimulation;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>   <span class="comment">// Go back to the OS</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>   <span class="keywordflow">return</span> nRtn;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>}</div>
-<div class="ttc" id="aclass_c_simulation_html"><div class="ttname"><a href="class_c_simulation.html">CSimulation</a></div><div class="ttdoc">This class runs CoastalME simulations.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00062">simulation.h:63</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a290e03f0de390277b14298711a5d34ca"><div class="ttname"><a href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">CSimulation::DoSimulationEnd</a></div><div class="ttdeci">void DoSimulationEnd(int const)</div><div class="ttdoc">Carries out end-of-simulation tidying (error messages etc.)</div><div class="ttdef"><b>Definition:</b> <a href="utils_8cpp_source.html#l02496">utils.cpp:2496</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_ac72a34bfb2593d1aa861240ac243962f"><div class="ttname"><a href="class_c_simulation.html#ac72a34bfb2593d1aa861240ac243962f">CSimulation::nDoSimulation</a></div><div class="ttdeci">int nDoSimulation(int, char *[])</div><div class="ttdoc">Runs the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00598">simulation.cpp:598</a></div></div>
-<div class="ttc" id="acme_8cpp_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="cme_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="cme_8cpp_source.html#l00035">cme.cpp:35</a></div></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>   <span class="keywordtype">int</span> nRtn = pSimulation-&gt;<a class="code hl_function" href="class_c_simulation.html#a71288b0bcd20fa2c58d31614b9a66805">nDoSimulation</a>(argc, argv);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>   pSimulation-&gt;<a class="code hl_function" href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">DoSimulationEnd</a>(nRtn);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>   <span class="comment">// Get rid of the CSimulation object and close files</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>   <span class="keyword">delete</span> pSimulation;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>   <span class="comment">// Go back to the OS</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>   <span class="keywordflow">return</span> nRtn;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+<div class="ttc" id="aclass_c_simulation_html"><div class="ttname"><a href="class_c_simulation.html">CSimulation</a></div><div class="ttdoc">This class runs CoastalME simulations.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00065">simulation.h:66</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a290e03f0de390277b14298711a5d34ca"><div class="ttname"><a href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">CSimulation::DoSimulationEnd</a></div><div class="ttdeci">void DoSimulationEnd(int const)</div><div class="ttdoc">Carries out end-of-simulation tidying (error messages etc.)</div><div class="ttdef"><b>Definition:</b> <a href="utils_8cpp_source.html#l02492">utils.cpp:2492</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a71288b0bcd20fa2c58d31614b9a66805"><div class="ttname"><a href="class_c_simulation.html#a71288b0bcd20fa2c58d31614b9a66805">CSimulation::nDoSimulation</a></div><div class="ttdeci">int nDoSimulation(int, char const *[])</div><div class="ttdoc">Runs the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00595">simulation.cpp:595</a></div></div>
+<div class="ttc" id="acme_8cpp_html_abf9e6b7e6f15df4b525a2e7705ba3089"><div class="ttname"><a href="cme_8cpp.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a></div><div class="ttdeci">int main(int argc, char const *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="cme_8cpp_source.html#l00035">cme.cpp:35</a></div></div>
 <div class="ttc" id="acme_8h_html"><div class="ttname"><a href="cme_8h.html">cme.h</a></div><div class="ttdoc">This file contains global definitions for CoastalME.</div></div>
 <div class="ttc" id="asimulation_8h_html"><div class="ttname"><a href="simulation_8h.html">simulation.h</a></div><div class="ttdoc">Contains CSimulation definitions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 23 2023 16:22:19 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
+Generated on Sat Sep 16 2023 21:08:24 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
 </small></address>
 </body>
 </html>

@@ -1475,9 +1475,6 @@ void CSimulation::WritePolygonSedimentBeforeMovement(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;      
    
    double
-      dFine = 0,
-      dSand = 0,
-      dCoarse = 0,
       dTmpTot = 0,
       dTmpFineTot = 0,
       dTmpSandTot = 0,
@@ -1485,9 +1482,9 @@ void CSimulation::WritePolygonSedimentBeforeMovement(int const nCoast)
    
    for (unsigned int n = 0; n < m_pVCoastPolygon.size(); n++)
    {
-      dFine = m_pVCoastPolygon[n]->dGetStoredUnconsFine();
-      dSand = m_pVCoastPolygon[n]->dGetStoredUnconsSand();
-      dCoarse = m_pVCoastPolygon[n]->dGetStoredUnconsCoarse();
+      double dFine = m_pVCoastPolygon[n]->dGetStoredUnconsFine();
+      double dSand = m_pVCoastPolygon[n]->dGetStoredUnconsSand();
+      double dCoarse = m_pVCoastPolygon[n]->dGetStoredUnconsCoarse();
       
       LogStream << strIntRight(m_pVCoastPolygon[n]->nGetGlobalID(), 14) << "|" << strIntRight(nCoast, 14) << "|" << strIntRight(m_pVCoastPolygon[n]->nGetCoastID(), 14) << "|" << strDblRight((dFine + dSand + dCoarse) * m_dCellArea, 3, 14) << "|" << strDblRight(dFine * m_dCellArea, 3, 14) << "|" <<  strDblRight(dSand * m_dCellArea, 3, 14) << "|" << strDblRight(dCoarse * m_dCellArea, 3, 14) << "|" << endl;
       

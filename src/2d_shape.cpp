@@ -34,22 +34,26 @@ CA2DShape::~CA2DShape(void)
 {
 }
 
+//! Operator [] to return one point of this 2D shape
 CGeom2DPoint& CA2DShape::operator[] (int const n)
 {
    // NOTE No safety check
    return m_VPoints[n];
 }
 
+//! Clears this 2D shape
 void CA2DShape::Clear(void)
 {
    m_VPoints.clear();
 }
 
+//! Resizes the vector which represents this 2D shape
 void CA2DShape::Resize(int const nSize)
 {
    m_VPoints.resize(nSize);
 }
 
+// Returns the number of elements in this 2D shape
 int CA2DShape::nGetSize(void) const
 {
    return static_cast<int>(m_VPoints.size());
@@ -60,16 +64,19 @@ int CA2DShape::nGetSize(void) const
 //    m_VPoints.insert(m_VPoints.begin(), CGeom2DPoint(dX, dY));
 // }
 
+//! Appends a point to this 2D shape
 void CA2DShape::Append(CGeom2DPoint const* pPtNew)
 {
    m_VPoints.push_back(*pPtNew);
 }
 
+//! Appends a point to this 2D shape
 void CA2DShape::Append(double const dX, double const dY)
 {
    m_VPoints.push_back(CGeom2DPoint(dX, dY));
 }
 
+//! Appends a point to this 2D shape only if it isn't already in the shape vector
 void CA2DShape::AppendIfNotAlready(double const dX, double const dY)
 {
    CGeom2DPoint PtIn(dX, dY);
@@ -81,6 +88,7 @@ void CA2DShape::AppendIfNotAlready(double const dX, double const dY)
       m_VPoints.push_back(PtIn);
 }
 
+//! Returns the last element of this 2D shape 
 CGeom2DPoint* CA2DShape::pPtBack(void)
 {
    return &m_VPoints.back();
@@ -119,6 +127,7 @@ CGeom2DPoint* CA2DShape::pPtBack(void)
 //    return dLength;
 // }
 
+//! Returns the address of the vector which represents this 2D shape 
 vector<CGeom2DPoint>* CA2DShape::pPtVGetPoints(void)
 {
    return &m_VPoints;
@@ -156,7 +165,7 @@ CGeom2DPoint CA2DShape::PtGetCentroid(void)
    return (CGeom2DPoint(dCentroidX, dCentroidY));
 }
 
-//! Reverses the sequence of points in this 2D polygon
+//! Reverses the sequence of points in the vector which represents this 2D polygon
 void CA2DShape::Reverse(void)
 {
    reverse(m_VPoints.begin(), m_VPoints.end());

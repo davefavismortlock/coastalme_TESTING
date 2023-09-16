@@ -1,4 +1,6 @@
 <map id="CGeomCell::bBasementElevIsMissingValue" name="CGeomCell::bBasementElevIsMissingValue">
-<area shape="rect" id="node1" title="Returns true if this cells&#39;s basement data is NODATA, is needed for irregularly&#45;shaped DEMs." alt="" coords="5,5,211,47"/>
-<area shape="rect" id="node2" href="$class_c_geom_raster_grid.html#aff5a9a55da1ea07c6d4834a533d790c0" title=" " alt="" coords="259,13,461,39"/>
+<area shape="rect" id="node1" title="Returns true if this cells&#39;s basement data is NODATA, is needed for irregularly&#45;shaped DEMs." alt="" coords="5,23,211,65"/>
+<area shape="rect" id="node2" href="$cme_8h.html#a61afa8560a3b39c80657661a1d8f76ab" title=" " alt="" coords="313,5,407,32"/>
+<area shape="rect" id="node4" href="$class_c_geom_raster_grid.html#aff5a9a55da1ea07c6d4834a533d790c0" title=" " alt="" coords="259,56,461,83"/>
+<area shape="rect" id="node3" href="$cme_8h.html#ae3b6dc50cfc97050529faa5e0bd66136" title=" " alt="" coords="509,5,560,32"/>
 </map>

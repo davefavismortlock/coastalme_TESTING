@@ -1,10 +1,10 @@
 <map id="CGeomProfile" name="CGeomProfile">
-<area shape="rect" id="node1" title="Geometry class used to represent coast profile objects." alt="" coords="5,1656,265,2437"/>
-<area shape="rect" id="node2" href="$class_c_geom_multi_line.html" title="Geometry class used to represent co&#45;incident lines (for profiles/polygon&#45;to&#45;polygon boundaries)" alt="" coords="12,1119,259,1607"/>
-<area shape="rect" id="node3" href="$class_c_geom_line.html" title="Geometry class used to represent 2D vector line objects." alt="" coords="69,860,202,1069"/>
-<area shape="rect" id="node4" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="46,543,225,811"/>
-<area shape="rect" id="node5" title=" " alt="" coords="25,403,245,480"/>
-<area shape="rect" id="node6" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="9,145,155,340"/>
-<area shape="rect" id="node7" title=" " alt="" coords="180,204,309,281"/>
+<area shape="rect" id="node1" title="Geometry class used to represent coast profile objects." alt="" coords="5,1671,265,2452"/>
+<area shape="rect" id="node2" href="$class_c_geom_multi_line.html" title="Geometry class used to represent co&#45;incident lines (for profiles/polygon&#45;to&#45;polygon boundaries)" alt="" coords="12,1133,259,1621"/>
+<area shape="rect" id="node3" href="$class_c_geom_line.html" title="Geometry class used to represent 2D vector line objects." alt="" coords="69,875,202,1084"/>
+<area shape="rect" id="node4" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="46,557,225,825"/>
+<area shape="rect" id="node5" title=" " alt="" coords="25,417,245,495"/>
+<area shape="rect" id="node6" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="9,145,155,355"/>
+<area shape="rect" id="node7" title=" " alt="" coords="180,211,309,289"/>
 <area shape="rect" id="node8" title=" " alt="" coords="225,5,264,83"/>
 </map>

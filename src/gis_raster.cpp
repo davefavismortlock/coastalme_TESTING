@@ -1968,12 +1968,14 @@ int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vec
       {
          int nXValid = 0;
 
-         // Unfortunately, GDALGridCreate(() outputs NaNs when the polygon are far from regular. So check for these
+         // Safety check: unfortunately, GDALGridCreate(() outputs NaNs and other crazy values when the polygon are far from regular. So check for these
          for (unsigned int n = 0; n < VdOutX.size(); n++)
          {
             if (! isfinite(VdOutX[n]))
-               VdOutX[n] = m_dMissingValue; // VdOutX[n - 1]; // VdOutX[n - 1]; // m_dMissingValue; // MCB: if not valid, assign the nearest better than mean value of the whole mesh
-            else
+               VdOutX[n] = m_dMissingValue;
+            else if (fabs(VdOutX[n]) > 1e10)
+               VdOutX[n] = m_dMissingValue;               
+            else   
             {
                dXAvg += VdOutX[n];
                nXValid++;
@@ -1986,11 +1988,13 @@ int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vec
       {
          int nYValid = 0;
 
-         // Unfortunately, GDALGridCreate(() outputs NaNs when the polygon are far from regular. So check for these
+         // Safety check: unfortunately, GDALGridCreate(() outputs NaNs and other crazy values when the polygon are far from regular. So check for these
          for (unsigned int n = 0; n < VdOutY.size(); n++)
          {
             if (! isfinite(VdOutY[n]))
-               VdOutY[n] = m_dMissingValue; // VdOutY[n - 1]; // VdOutY[n - 1]; // m_dMissingValue; // MCB: if not valid, assign the nearest better than mean value of the whole mesh;
+               VdOutY[n] = m_dMissingValue;
+            else if (fabs(VdOutY[n]) > 1e10)
+               VdOutY[n] = m_dMissingValue;               
             else
             {
                dYAvg += VdOutY[n];

@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['hermite_5fcubic_5fspline_5fvalue_0',['hermite_cubic_spline_value',['../hermite__cubic_8cpp.html#ad696aa5baaf487b32cc0c3afdecd2b4b',1,'hermite_cubic_spline_value(int const nn, double *const xn, double *const fn, double *const dn, int const n, double *const x, double *f, double *d, double *s, double *t):&#160;hermite_cubic.cpp'],['../hermite__cubic_8h.html#a060c34f6fa4ebf4d1b001b6607b0eef5',1,'hermite_cubic_spline_value(int const, double *const, double *const, double *const, int const, double *const, double *, double *, double *, double *):&#160;hermite_cubic.cpp']]],
-  ['hermite_5fcubic_5fvalue_1',['hermite_cubic_value',['../hermite__cubic_8cpp.html#ad6739d8142dde6c646aea7cdad3071f0',1,'hermite_cubic_value(double const x1, double const f1, double const d1, double const x2, double const f2, double const d2, int const n, double *const x, double *f, double *d, double *s, double *t):&#160;hermite_cubic.cpp'],['../hermite__cubic_8h.html#a3d84179ab28f8d7042b42ddfda3ce67b',1,'hermite_cubic_value(double const, double const, double const, double const, double const, double const, int const, double *const, double *const, double *const, double *const, double *const):&#160;hermite_cubic.cpp']]]
+  ['incrbeachdeposition_0',['IncrBeachDeposition',['../class_c_geom_cell.html#a394f6357bbfb8858e7150698dbab2213',1,'CGeomCell']]],
+  ['incrcliffcollapseerosion_1',['IncrCliffCollapseErosion',['../class_c_geom_cell.html#acf18e3be7dbcd423dffa226e22da81ab',1,'CGeomCell']]],
+  ['incrnotchcoarselost_2',['IncrNotchCoarseLost',['../class_c_r_w_cell_sediment.html#aa04835e6620e8cffe3893aeaab77b123',1,'CRWCellSediment']]],
+  ['incrnotchfinelost_3',['IncrNotchFineLost',['../class_c_r_w_cell_sediment.html#a2847af8b4324b05ae56d0b33bfc28fcb',1,'CRWCellSediment']]],
+  ['incrnotchsandlost_4',['IncrNotchSandLost',['../class_c_r_w_cell_sediment.html#a7e2941dfdbccae9bb38dc80227d6d009',1,'CRWCellSediment']]],
+  ['inctotaccumwaveenergy_5',['IncTotAccumWaveEnergy',['../class_c_a_coast_landform.html#ac850dc100a259660040b3b29c86a5057',1,'CACoastLandform']]],
+  ['initcell_6',['InitCell',['../class_c_geom_cell.html#a23ee007a2e5cfae10b8c36e5008e5a0e',1,'CGeomCell']]],
+  ['insertlinesegment_7',['InsertLineSegment',['../class_c_geom_multi_line.html#ab995e6f50eee7b4c9ec53b0c223abf1b',1,'CGeomMultiLine']]]
 ];

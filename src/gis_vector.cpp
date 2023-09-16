@@ -461,7 +461,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    strstrFileName << ststrTmp.str();
 
    // Make a copy of the filename without any extension
-   string strFilePathNameNoExt = strFilePathName;
+   // string strFilePathNameNoExt = strFilePathName;
 
    // If desired, append an extension
    if (! m_strOGRVectorOutputExtension.empty())

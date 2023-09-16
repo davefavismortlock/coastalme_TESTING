@@ -6,4 +6,7 @@ CHANGES
 1.1.01   Bug fixes in CME and CShore (26 August 2023)
 1.1.02   Improved cliff collapse deposition (31 August 2023)
 1.1.03   Bug fixes (2 September 2023)
-1.1.04   More changes to cliff collapse deposition, fixed some wave bugs, Removed un-needed OGR error messages (7 September 2023)
+1.1.04   Changed cliff collapse deposition, fixed wave bugs, removed un-needed OGR error messages (7 September 2023)
+1.1.05   More changes to cliff collapse deposition, fixed -Wfloat-equal warnings, added more sefety checks to CME and CShore (13 September 2023)
+1.1.06   Tidying (14 September 2023)
+1.1.07   Minor bug fixes (16 September 2023)

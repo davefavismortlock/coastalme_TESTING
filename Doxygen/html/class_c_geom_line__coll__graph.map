@@ -1,8 +1,8 @@
 <map id="CGeomLine" name="CGeomLine">
-<area shape="rect" id="node1" title="Geometry class used to represent 2D vector line objects." alt="" coords="65,860,199,1069"/>
-<area shape="rect" id="node2" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="43,543,221,811"/>
-<area shape="rect" id="node3" title=" " alt="" coords="22,403,242,480"/>
-<area shape="rect" id="node4" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="5,145,152,340"/>
-<area shape="rect" id="node5" title=" " alt="" coords="177,204,306,281"/>
+<area shape="rect" id="node1" title="Geometry class used to represent 2D vector line objects." alt="" coords="65,875,199,1084"/>
+<area shape="rect" id="node2" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="43,557,221,825"/>
+<area shape="rect" id="node3" title=" " alt="" coords="22,417,242,495"/>
+<area shape="rect" id="node4" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="5,145,152,355"/>
+<area shape="rect" id="node5" title=" " alt="" coords="177,211,306,289"/>
 <area shape="rect" id="node6" title=" " alt="" coords="222,5,261,83"/>
 </map>

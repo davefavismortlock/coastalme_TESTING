@@ -41,6 +41,9 @@ using std::string;
 #include <utility>
 using std::pair;
 
+#include <stack>
+using std::stack;
+
 #include <gdal_priv.h>
 
 #include "line.h"

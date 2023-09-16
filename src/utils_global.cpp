@@ -168,20 +168,20 @@ string strIntRight(int const nX, int const nWidth)
 
 /*==============================================================================================================================
 
-Centre-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+Centre-aligns string or char within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
 
 ==============================================================================================================================*/
 string strCentre(string const strIn, int const nWidth) 
 {
    stringstream ss, spaces;
-   int nPadding = nWidth - static_cast<int>(strIn.size());    // Count excess room to pad
+   int nPadding = nWidth - static_cast<int>(strIn.size());       // Count excess room to pad
    
    for (int i = 0; i < nPadding / 2; ++i)
       spaces << " ";
 
-   ss << spaces.str() << strIn << spaces.str();       // Format with padding
+   ss << spaces.str() << strIn << spaces.str();                  // Format with padding
    
-   if (nPadding > 0 && nPadding % 2 != 0)             // If odd number, add one space
+   if (nPadding > 0 && nPadding % 2 != 0)                         // If odd number, add one space
       ss << " ";
    
    return ss.str();

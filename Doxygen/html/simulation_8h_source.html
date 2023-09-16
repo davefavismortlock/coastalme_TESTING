@@ -98,300 +98,300 @@ $(function() {
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">using </span>std::pair;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;gdal_priv.h&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="line_8h.html">line.h</a>&quot;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="i__line_8h.html">i_line.h</a>&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;stack&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">using </span>std::stack;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &lt;gdal_priv.h&gt;</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;inc/cshore.h&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">int</span> <span class="keyword">const</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">   52</a></span>   <a class="code hl_variable" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a> = 2,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">   53</a></span>   <a class="code hl_variable" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a> = 100000;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_raster_grid.html">CGeomRasterGrid</a>; <span class="comment">// Forward declarations</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">class </span><a class="code hl_class" href="class_c_r_w_coast.html">CRWCoast</a>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_profile.html">CGeomProfile</a>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_coast_polygon.html">CGeomCoastPolygon</a>;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">class </span><a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">class </span><a class="code hl_class" href="class_c_sed_input_event.html">CSedInputEvent</a>;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_c_simulation.html">   62</a></span><span class="keyword">class </span><a class="code hl_class" href="class_c_simulation.html">CSimulation</a></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>   <span class="keywordtype">bool</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>      m_bHaveFineSediment,</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>      m_bHaveSandSediment,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>      m_bHaveCoarseSediment,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>      m_bRasterGISSaveAll,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>      m_bVectorGISSaveAll,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>      m_bBasementElevSave,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>      m_bSedimentTopSurfSave,</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      m_bTopSurfSave,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      m_bSliceSave,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      m_bSeaDepthSave,</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      m_bAvgSeaDepthSave,</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      m_bWaveHeightSave,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      m_bAvgWaveHeightSave,</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      m_bWaveAngleSave,</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      m_bAvgWaveAngleSave,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      m_bWaveAngleAndHeightSave,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      m_bAvgWaveAngleAndHeightSave,</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      m_bDeepWaterWaveAngleAndHeightSave,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      m_bWaveEnergySinceCollapseSave,</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      m_bMeanWaveEnergySave,</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      m_bBreakingWaveHeightSave,</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      m_bBeachProtectionSave,</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      m_bPotentialPlatformErosionSave,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      m_bActualPlatformErosionSave,</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      m_bTotalPotentialPlatformErosionSave,</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      m_bTotalActualPlatformErosionSave,</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>      m_bPotentialBeachErosionSave,</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      m_bActualBeachErosionSave,</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      m_bTotalPotentialBeachErosionSave,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      m_bTotalActualBeachErosionSave,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      m_bBeachDepositionSave,</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      m_bTotalBeachDepositionSave,</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      m_bLandformSave,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      m_bLocalSlopeSave,</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>      m_bInterventionClassSave,</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>      m_bInterventionHeightSave,</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      m_bSuspSedSave,</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      m_bAvgSuspSedSave,</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      m_bFineUnconsSedSave,</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      m_bSandUnconsSedSave,</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      m_bCoarseUnconsSedSave,</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>      m_bFineConsSedSave,</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      m_bSandConsSedSave,</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      m_bCoarseConsSedSave,</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      m_bRasterCoastlineSave,</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      m_bRasterNormalSave,</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      m_bDistWeightSave,</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      m_bActiveZoneSave,</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      m_bCliffCollapseSave,</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      m_bTotCliffCollapseSave,</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      m_bCliffCollapseDepositionSave,</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      m_bTotCliffCollapseDepositionSave,</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      m_bRasterPolygonSave,</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      m_bPotentialPlatformErosionMaskSave,</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      m_bSeaMaskSave,</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      m_bBeachMaskSave,</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      m_bShadowZoneCodesSave,</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>      m_bDeepWaterWaveAngleSave,</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      m_bDeepWaterWaveHeightSave,</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      m_bDeepWaterWavePeriodSave,</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>      m_bPolygonUnconsSedUpOrDownDrift,</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>      m_bPolygonUnconssedGainOrLoss,</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>      m_bSaveRegular,</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>      m_bCoastSave,</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>      m_bNormalsSave,</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>      m_bInvalidNormalsSave,</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      m_bCoastCurvatureSave,</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      m_bPolygonNodeSave,</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      m_bPolygonBoundarySave,</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      m_bCliffNotchSave,</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      m_bShadowBoundarySave,</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>      m_bShadowDowndriftBoundarySave,</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>      m_bSeaAreaTSSave,</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>      m_bStillWaterLevelTSSave,</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>      m_bActualPlatformErosionTSSave,</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>      m_bCliffCollapseErosionTSSave,</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      m_bCliffCollapseDepositionTSSave,</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      m_bCliffCollapseNetTSSave,</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      m_bBeachErosionTSSave,</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      m_bBeachDepositionTSSave,</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      m_bBeachSedimentChangeNetTSSave,</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      m_bSuspSedTSSave,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      m_bFloodSetupSurgeTSSave,</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      m_bFloodSetupSurgeRunupTSSave,</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      m_bSaveGISThisIter,</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      m_bOutputProfileData,</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      m_bOutputParallelProfileData,</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      m_bOutputLookUpData,</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>      m_bOmitSearchNorthEdge,</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      m_bOmitSearchSouthEdge,</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      m_bOmitSearchWestEdge,</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      m_bOmitSearchEastEdge,</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>      m_bErodeShorePlatformAlternateDirection,</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      m_bDoCoastPlatformErosion,</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>      m_bDoCliffCollapse,</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>      m_bDoBeachSedimentTransport,</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>      m_bGDALCanCreate,</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>      m_bGDALCanWriteFloat,</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>      m_bGDALCanWriteInt32,</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>      m_bScaleRasterOutput,</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>      m_bWorldFile,</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>      m_bSingleDeepWaterWaveValues,</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>      m_bHaveWaveStationData,</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>      m_bSedimentInput,</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>      m_bSedimentInputAtPoint,</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>      m_bSedimentInputAtCoast,</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      m_bSedimentInputAlongLine,</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>      m_bSedimentInputEventSave,</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>      m_bSedimentInputThisIter,</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      m_bDoFlood,</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      m_bWaveSetupSave,</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>      m_bStormSurgeSave,</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      m_bRunUpSave,</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      m_bSetupSurgeFloodMaskSave,</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>      m_bSetupSurgeRunupFloodMaskSave,</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>      m_bRasterWaveFloodLineSave,</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>      m_bVectorWaveFloodLineSave,</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      m_bFloodLocation,</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>      m_bFloodSWLSetupLine,</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>      m_bFloodSWLSetupSurgeLine,</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      m_bFloodSWLSetupSurgeRunupLine,</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>      m_bGISSaveDigitsSequential;</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>   <span class="keywordtype">char</span> **m_papszGDALRasterOptions;</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>   <span class="keywordtype">char</span> **m_papszGDALVectorOptions;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="line_8h.html">line.h</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="i__line_8h.html">i_line.h</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;inc/cshore.h&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keywordtype">int</span> <span class="keyword">const</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">   55</a></span>   <a class="code hl_variable" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a> = 2,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">   56</a></span>   <a class="code hl_variable" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a> = 100000;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_raster_grid.html">CGeomRasterGrid</a>; <span class="comment">// Forward declarations</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">class </span><a class="code hl_class" href="class_c_r_w_coast.html">CRWCoast</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_profile.html">CGeomProfile</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">class </span><a class="code hl_class" href="class_c_geom_coast_polygon.html">CGeomCoastPolygon</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">class </span><a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">class </span><a class="code hl_class" href="class_c_sed_input_event.html">CSedInputEvent</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="class_c_simulation.html">   65</a></span><span class="keyword">class </span><a class="code hl_class" href="class_c_simulation.html">CSimulation</a></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>   <span class="keywordtype">bool</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>      m_bHaveFineSediment,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>      m_bHaveSandSediment,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>      m_bHaveCoarseSediment,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>      m_bRasterGISSaveAll,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      m_bVectorGISSaveAll,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      m_bBasementElevSave,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      m_bSedimentTopSurfSave,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      m_bTopSurfSave,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      m_bSliceSave,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      m_bSeaDepthSave,</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      m_bAvgSeaDepthSave,</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      m_bWaveHeightSave,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      m_bAvgWaveHeightSave,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      m_bWaveAngleSave,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      m_bAvgWaveAngleSave,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      m_bWaveAngleAndHeightSave,</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      m_bAvgWaveAngleAndHeightSave,</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      m_bDeepWaterWaveAngleAndHeightSave,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      m_bWaveEnergySinceCollapseSave,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      m_bMeanWaveEnergySave,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      m_bBreakingWaveHeightSave,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      m_bBeachProtectionSave,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      m_bPotentialPlatformErosionSave,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>      m_bActualPlatformErosionSave,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      m_bTotalPotentialPlatformErosionSave,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      m_bTotalActualPlatformErosionSave,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      m_bPotentialBeachErosionSave,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      m_bActualBeachErosionSave,</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      m_bTotalPotentialBeachErosionSave,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      m_bTotalActualBeachErosionSave,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      m_bBeachDepositionSave,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>      m_bTotalBeachDepositionSave,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>      m_bLandformSave,</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      m_bLocalSlopeSave,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      m_bInterventionClassSave,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      m_bInterventionHeightSave,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      m_bSuspSedSave,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      m_bAvgSuspSedSave,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>      m_bFineUnconsSedSave,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      m_bSandUnconsSedSave,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      m_bCoarseUnconsSedSave,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      m_bFineConsSedSave,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      m_bSandConsSedSave,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      m_bCoarseConsSedSave,</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      m_bRasterCoastlineSave,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      m_bRasterNormalSave,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      m_bDistWeightSave,</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      m_bActiveZoneSave,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      m_bCliffCollapseSave,</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      m_bTotCliffCollapseSave,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      m_bCliffCollapseDepositionSave,</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      m_bTotCliffCollapseDepositionSave,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      m_bRasterPolygonSave,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      m_bPotentialPlatformErosionMaskSave,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>      m_bSeaMaskSave,</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      m_bBeachMaskSave,</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      m_bShadowZoneCodesSave,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>      m_bDeepWaterWaveAngleSave,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>      m_bDeepWaterWaveHeightSave,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>      m_bDeepWaterWavePeriodSave,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>      m_bPolygonUnconsSedUpOrDownDrift,</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>      m_bPolygonUnconssedGainOrLoss,</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>      m_bSaveRegular,</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      m_bCoastSave,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      m_bNormalsSave,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      m_bInvalidNormalsSave,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      m_bCoastCurvatureSave,</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      m_bPolygonNodeSave,</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>      m_bPolygonBoundarySave,</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>      m_bCliffNotchSave,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>      m_bShadowBoundarySave,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>      m_bShadowDowndriftBoundarySave,</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>      m_bSeaAreaTSSave,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      m_bStillWaterLevelTSSave,</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      m_bActualPlatformErosionTSSave,</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      m_bCliffCollapseErosionTSSave,</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      m_bCliffCollapseDepositionTSSave,</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      m_bCliffCollapseNetTSSave,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      m_bBeachErosionTSSave,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      m_bBeachDepositionTSSave,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      m_bBeachSedimentChangeNetTSSave,</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      m_bSuspSedTSSave,</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      m_bFloodSetupSurgeTSSave,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      m_bFloodSetupSurgeRunupTSSave,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      m_bSaveGISThisIter,</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>      m_bOutputProfileData,</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      m_bOutputParallelProfileData,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      m_bOutputLookUpData,</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      m_bOmitSearchNorthEdge,</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>      m_bOmitSearchSouthEdge,</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      m_bOmitSearchWestEdge,</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>      m_bOmitSearchEastEdge,</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>      m_bErodeShorePlatformAlternateDirection,</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>      m_bDoCoastPlatformErosion,</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>      m_bDoCliffCollapse,</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>      m_bDoBeachSedimentTransport,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>      m_bGDALCanCreate,</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>      m_bGDALCanWriteFloat,</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>      m_bGDALCanWriteInt32,</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>      m_bScaleRasterOutput,</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>      m_bWorldFile,</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>      m_bSingleDeepWaterWaveValues,</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>      m_bHaveWaveStationData,</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      m_bSedimentInput,</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>      m_bSedimentInputAtPoint,</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>      m_bSedimentInputAtCoast,</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      m_bSedimentInputAlongLine,</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      m_bSedimentInputEventSave,</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>      m_bSedimentInputThisIter,</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      m_bDoFlood,</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      m_bWaveSetupSave,</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>      m_bStormSurgeSave,</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>      m_bRunUpSave,</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>      m_bSetupSurgeFloodMaskSave,</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      m_bSetupSurgeRunupFloodMaskSave,</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>      m_bRasterWaveFloodLineSave,</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>      m_bVectorWaveFloodLineSave,</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      m_bFloodLocation,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>      m_bFloodSWLSetupLine,</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      m_bFloodSWLSetupSurgeLine,</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>      m_bFloodSWLSetupSurgeRunupLine,</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>      m_bGISSaveDigitsSequential;</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>   <span class="keywordtype">int</span></div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      m_nXGridMax,</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>      m_nYGridMax,</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>      m_nLayers,</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>      m_nCoastSmooth,</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>      m_nCoastSmoothWindow,</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      m_nSavGolCoastPoly,</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>      m_nProfileSmoothWindow,</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>      m_nCoastNormalAvgSpacing,  <span class="comment">// In cells</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>      m_nCoastCurvatureInterval, <span class="comment">// A length, measured in coastline points</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>      m_nNaturalCapeNormals,</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      m_nGISMaxSaveDigits,</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>      m_nGISSave,</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>      m_nUSave,</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      m_nThisSave,</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      m_nCoastMax,</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      m_nCoastMin,</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      m_nNThisIterCliffCollapse,</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      m_nNTotCliffCollapse,</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      m_nCliffCollapseTalusPlanviewWidth,</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      m_nGlobalPolygonID, <span class="comment">// There are m_nGlobalPolygonID + 1 polygons at any time (all coasts)</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      m_nUnconsSedimentHandlingAtGridEdges,</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      m_nBeachErosionDepositionEquation,</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      m_nMissingValue,</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      m_nXMinBoundingBox,</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      m_nXMaxBoundingBox,</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      m_nYMinBoundingBox,</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>      m_nYMaxBoundingBox,</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      m_nWavePropagationModel,</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      m_nSimStartSec,</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      m_nSimStartMin,</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      m_nSimStartHour,</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      m_nSimStartDay,</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      m_nSimStartMonth,</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      m_nSimStartYear,</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>      m_nDeepWaterWaveDataNTimeSteps,</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>      m_nLogFileDetail,</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>      m_nRunUpEquation;</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>   GDALDataType</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>      m_GDALWriteIntDataType,</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      m_GDALWriteFloatDataType;</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>   <span class="keywordtype">long</span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>      m_lGDALMaxCanWrite,</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>      m_lGDALMinCanWrite;</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>      m_ulIter,</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>      m_ulTotTimestep,</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>      m_ulRandSeed[<a class="code hl_variable" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a>],</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>      m_ulNumCells,</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>      m_ulThisIterNumSeaCells,</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>      m_ulThisIterNumCoastCells,</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      m_ulThisIterNumPotentialPlatformErosionCells,</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>      m_ulThisIterNumActualPlatformErosionCells,</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>      m_ulThisIterNumPotentialBeachErosionCells,</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>      m_ulThisIterNumActualBeachErosionCells,</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>      m_ulThisIterNumBeachDepositionCells,</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      m_ulTotPotentialPlatformErosionOnProfiles,</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      m_ulTotPotentialPlatformErosionBetweenProfiles,</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      m_ulMissingValueBasementCells;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>   <span class="keywordtype">double</span></div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>      m_dDurationUnitsMult,</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>      m_dNorthWestXExtCRS,</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>      m_dNorthWestYExtCRS,</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>      m_dSouthEastXExtCRS,</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>      m_dSouthEastYExtCRS,</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      m_dExtCRSGridArea,</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      m_dCellSide,                                              <span class="comment">// Length of cell side (in external CRS units)</span></div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>      m_dCellArea,                                              <span class="comment">// Area of cell  (in external CRS units)</span></div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>      m_dCellDiagonal,                                          <span class="comment">// Length of cell&#39;s diagonal (in external CRS units)</span></div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>      m_dInvCellSide,                                           <span class="comment">// Inverse of m_dCellSide</span></div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      m_dInvCellDiagonal,                                       <span class="comment">// Inverse of m_dCellDiagonal</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>      m_dSimDuration,                                           <span class="comment">// Duration of simulation, in hours</span></div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>      m_dTimeStep,</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>      m_dSimElapsed,                                            <span class="comment">// Time simulated so far, in hours</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      m_dRegularSaveTime,</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      m_dRegularSaveInterval,</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>      m_dUSaveTime[<a class="code hl_variable" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a>],</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>      m_dClkLast,                                               <span class="comment">// Last value returned by clock()</span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>      m_dCPUClock,                                              <span class="comment">// Total elapsed CPU time</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>      m_dGeoTransform[6],</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>      m_dSeaWaterDensity,</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>      m_dOrigSWL,</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      m_dFinalSWL,</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      m_dDeltaSWLPerTimestep,</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>      m_dThisIterSWL,</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      m_dThisIterDiffTotWaterLevel,</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      m_dThisIterDiffWaveSetupWaterLevel,</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      m_dThisIterDiffWaveSetupSurgeWaterLevel,</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      m_dThisIterDiffWaveSetupSurgeRunupWaterLevel,</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>      m_dAccumulatedSeaLevelChange,</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>      m_dMinSWL,</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>      m_dMaxSWL,</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>      m_dBreakingWaveHeight,</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>      m_dC_0,                                                   <span class="comment">// Deep water wave speed (m/s)</span></div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>      m_dL_0,                                                   <span class="comment">// Deep water wave length (m)</span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>      m_dWaveDepthRatioForWaveCalcs,</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>      m_dBreakingWaveHeightDepthRatio,</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>      m_dAllCellsDeepWaterWaveHeight,</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>      m_dAllCellsDeepWaterWaveAngle,</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>      m_dAllCellsDeepWaterWavePeriod,</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>      m_dMaxUserInputWaveHeight,</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>      m_dMaxUserInputWavePeriod,                                <span class="comment">// Used to constrain depth of closure</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>      m_dR,</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>      m_dD50Fine,</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>      m_dD50Sand,</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      m_dD50Coarse,</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>      m_dBeachSedimentDensity,</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>      m_dBeachSedimentPorosity,</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>      m_dFineErodibility,</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>      m_dSandErodibility,</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>      m_dCoarseErodibility,</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>      m_dFineErodibilityNormalized,</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>      m_dSandErodibilityNormalized,</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>      m_dCoarseErodibilityNormalized,</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>      m_dKLS,</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>      m_dKamphuis,</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>      m_dG,</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>      m_dInmersedToBulkVolumetric,</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>      m_dDepthOfClosure,</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>      m_dCoastNormalAvgSpacing,                                 <span class="comment">// In m</span></div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>      m_dCoastNormalLength,</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>      m_dThisIterTotSeaDepth,</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>      m_dThisIterPotentialPlatformErosion,</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>      m_dThisIterActualPlatformErosionFineCons,</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>      m_dThisIterActualPlatformErosionSandCons,</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>      m_dThisIterActualPlatformErosionCoarseCons,</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>      m_dThisIterPotentialBeachErosion,</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>      m_dThisIterBeachErosionFine,</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>      m_dThisIterBeachErosionSand,</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>      m_dThisIterBeachErosionCoarse,</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>      m_dThisIterBeachDepositionSand,</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>      m_dThisIterBeachDepositionCoarse,</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>      m_dThisIterFineSedimentToSuspension,</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>      m_dThisIterPotentialSedLostBeachErosion,</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      m_dThisIterLeftGridUnconsFine,</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>      m_dThisIterLeftGridUnconsSand,</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>      m_dThisIterLeftGridUnconsCoarse,</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>      m_dThisIterCliffCollapseFineErodedDuringDeposition,</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>      m_dThisIterCliffCollapseSandErodedDuringDeposition,</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>      m_dThisIterCliffCollapseCoarseErodedDuringDeposition,</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>      m_dThisIterSandSedLostCliffCollapse,</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>      m_dThisIterCoarseSedLostCliffCollapse,</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>   <span class="keywordtype">char</span> **m_papszGDALRasterOptions;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>   <span class="keywordtype">char</span> **m_papszGDALVectorOptions;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>   <span class="keywordtype">int</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>      m_nXGridMax,</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>      m_nYGridMax,</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      m_nLayers,</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>      m_nCoastSmooth,</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>      m_nCoastSmoothWindow,</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>      m_nSavGolCoastPoly,</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>      m_nProfileSmoothWindow,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      m_nCoastNormalAvgSpacing,           <span class="comment">// In cells</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>      m_nCoastCurvatureInterval,          <span class="comment">// A length, measured in coastline points</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>      m_nNaturalCapeNormals,</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      m_nGISMaxSaveDigits,</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      m_nGISSave,</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      m_nUSave,</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      m_nThisSave,</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      m_nCoastMax,</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      m_nCoastMin,</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      m_nNThisIterCliffCollapse,</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      m_nNTotCliffCollapse,</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      m_nGlobalPolygonID,                 <span class="comment">// There are m_nGlobalPolygonID + 1 polygons at any time (all coasts)</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      m_nUnconsSedimentHandlingAtGridEdges,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      m_nBeachErosionDepositionEquation,</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      m_nMissingValue,</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      m_nXMinBoundingBox,</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>      m_nXMaxBoundingBox,</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      m_nYMinBoundingBox,</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      m_nYMaxBoundingBox,</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      m_nWavePropagationModel,</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      m_nSimStartSec,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      m_nSimStartMin,</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      m_nSimStartHour,</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      m_nSimStartDay,</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>      m_nSimStartMonth,</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>      m_nSimStartYear,</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>      m_nDeepWaterWaveDataNTimeSteps,</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>      m_nLogFileDetail,</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>      m_nRunUpEquation;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>   GDALDataType</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>      m_GDALWriteIntDataType,</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>      m_GDALWriteFloatDataType;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>   <span class="keywordtype">long</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>      m_lGDALMaxCanWrite,</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>      m_lGDALMinCanWrite;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>      m_ulIter,</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>      m_ulTotTimestep,</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>      m_ulRandSeed[<a class="code hl_variable" href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a>],</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>      m_ulNumCells,</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      m_ulThisIterNumSeaCells,</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>      m_ulThisIterNumCoastCells,</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>      m_ulThisIterNumPotentialPlatformErosionCells,</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>      m_ulThisIterNumActualPlatformErosionCells,</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>      m_ulThisIterNumPotentialBeachErosionCells,</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      m_ulThisIterNumActualBeachErosionCells,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      m_ulThisIterNumBeachDepositionCells,</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      m_ulTotPotentialPlatformErosionOnProfiles,</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      m_ulTotPotentialPlatformErosionBetweenProfiles,</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>      m_ulMissingValueBasementCells;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>   <span class="keywordtype">double</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>      m_dDurationUnitsMult,</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>      m_dNorthWestXExtCRS,</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>      m_dNorthWestYExtCRS,</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      m_dSouthEastXExtCRS,</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      m_dSouthEastYExtCRS,</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>      m_dExtCRSGridArea,</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>      m_dCellSide,                                              <span class="comment">// Length of cell side (in external CRS units)</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>      m_dCellArea,                                              <span class="comment">// Area of cell  (in external CRS units)</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      m_dCellDiagonal,                                          <span class="comment">// Length of cell&#39;s diagonal (in external CRS units)</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>      m_dInvCellSide,                                           <span class="comment">// Inverse of m_dCellSide</span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>      m_dInvCellDiagonal,                                       <span class="comment">// Inverse of m_dCellDiagonal</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>      m_dSimDuration,                                           <span class="comment">// Duration of simulation, in hours</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>      m_dTimeStep,</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      m_dSimElapsed,                                            <span class="comment">// Time simulated so far, in hours</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>      m_dRegularSaveTime,</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>      m_dRegularSaveInterval,</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>      m_dUSaveTime[<a class="code hl_variable" href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a>],</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>      m_dClkLast,                                               <span class="comment">// Last value returned by clock()</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>      m_dCPUClock,                                              <span class="comment">// Total elapsed CPU time</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>      m_dGeoTransform[6],</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      m_dSeaWaterDensity,</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>      m_dOrigSWL,</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>      m_dFinalSWL,</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      m_dDeltaSWLPerTimestep,</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      m_dThisIterSWL,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      m_dThisIterDiffTotWaterLevel,</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      m_dThisIterDiffWaveSetupWaterLevel,</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>      m_dThisIterDiffWaveSetupSurgeWaterLevel,</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>      m_dThisIterDiffWaveSetupSurgeRunupWaterLevel,</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>      m_dAccumulatedSeaLevelChange,</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>      m_dMinSWL,</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>      m_dMaxSWL,</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>      m_dBreakingWaveHeight,</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>      m_dC_0,                                                   <span class="comment">// Deep water wave speed (m/s)</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>      m_dL_0,                                                   <span class="comment">// Deep water wave length (m)</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>      m_dWaveDepthRatioForWaveCalcs,</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>      m_dBreakingWaveHeightDepthRatio,</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>      m_dAllCellsDeepWaterWaveHeight,</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>      m_dAllCellsDeepWaterWaveAngle,</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>      m_dAllCellsDeepWaterWavePeriod,</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>      m_dMaxUserInputWaveHeight,</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>      m_dMaxUserInputWavePeriod,                                <span class="comment">// Used to constrain depth of closure</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>      m_dR,</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      m_dD50Fine,</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>      m_dD50Sand,</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>      m_dD50Coarse,</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>      m_dBeachSedimentDensity,</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>      m_dBeachSedimentPorosity,</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>      m_dFineErodibility,</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>      m_dSandErodibility,</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>      m_dCoarseErodibility,</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>      m_dFineErodibilityNormalized,</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>      m_dSandErodibilityNormalized,</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>      m_dCoarseErodibilityNormalized,</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>      m_dKLS,</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>      m_dKamphuis,</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>      m_dG,</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>      m_dInmersedToBulkVolumetric,</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>      m_dDepthOfClosure,</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>      m_dCoastNormalAvgSpacing,                                 <span class="comment">// In m</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>      m_dCoastNormalLength,</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>      m_dThisIterTotSeaDepth,</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>      m_dThisIterPotentialPlatformErosion,</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>      m_dThisIterActualPlatformErosionFineCons,</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>      m_dThisIterActualPlatformErosionSandCons,</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>      m_dThisIterActualPlatformErosionCoarseCons,</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>      m_dThisIterPotentialBeachErosion,</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>      m_dThisIterBeachErosionFine,</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>      m_dThisIterBeachErosionSand,</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>      m_dThisIterBeachErosionCoarse,</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>      m_dThisIterBeachDepositionSand,</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>      m_dThisIterBeachDepositionCoarse,</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      m_dThisIterFineSedimentToSuspension,</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>      m_dThisIterPotentialSedLostBeachErosion,</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>      m_dThisIterLeftGridUnconsFine,</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>      m_dThisIterLeftGridUnconsSand,</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>      m_dThisIterLeftGridUnconsCoarse,</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>      m_dThisIterCliffCollapseFineErodedDuringDeposition,</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>      m_dThisIterCliffCollapseSandErodedDuringDeposition,</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>      m_dThisIterCliffCollapseCoarseErodedDuringDeposition,</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>      m_dThisIterDepositionSandDiff,</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>      m_dThisIterDepositionCoarseDiff,</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>      m_dDepthOverDBMax,                                        <span class="comment">// Used in erosion potential look-up function</span></div>
@@ -404,8 +404,8 @@ $(function() {
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>      m_dNotchBaseBelowSWL,</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>      m_dCliffDepositionA,</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>      m_dCliffDepositionPlanviewWidth,</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>      m_dCliffDepositionPlanviewLength,</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>      m_dCliffDepositionHeightFrac,</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>      m_dCliffTalusMinDepositionLength,</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>      m_dMinCliffTalusHeightFrac,</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>      m_dThisIterCliffCollapseErosionFineUncons,</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>      m_dThisIterCliffCollapseErosionSandUncons,</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>      m_dThisIterCliffCollapseErosionCoarseUncons,</div>
@@ -646,7 +646,7 @@ $(function() {
 <div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span> </div>
 <div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span><span class="keyword">private</span>:</div>
 <div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>   <span class="comment">// Input and output routines</span></div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>   <span class="keyword">static</span> <span class="keywordtype">int</span> nHandleCommandLineParams(<span class="keywordtype">int</span>, <span class="keywordtype">char</span> *[]);</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>   <span class="keyword">static</span> <span class="keywordtype">int</span> nHandleCommandLineParams(<span class="keywordtype">int</span>, <span class="keywordtype">char</span> <span class="keyword">const</span>* []);</div>
 <div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>   <span class="keywordtype">bool</span> bReadIniFile(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>   <span class="keywordtype">bool</span> bReadRunDataFile(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>   <span class="keywordtype">bool</span> bOpenLogFile(<span class="keywordtype">void</span>);</div>
@@ -691,8 +691,8 @@ $(function() {
 <div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>   <span class="keywordtype">int</span> nDoAllPropagateWaves(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>   <span class="keywordtype">int</span> nDoAllShorePlatFormErosion(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>   <span class="keywordtype">int</span> nDoAllWaveEnergyToCoastLandforms(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>   <span class="keywordtype">int</span> nDoCliffCollapse(<span class="keywordtype">int</span> <span class="keyword">const</span>, <a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>*, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;);</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>   <span class="keywordtype">int</span> nDoCliffCollapseDeposition(<span class="keywordtype">int</span> <span class="keyword">const</span>, <a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>*, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>   <span class="keywordtype">int</span> nDoCliffCollapse(<span class="keywordtype">int</span> <span class="keyword">const</span>, <a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>*, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;);</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>   <span class="keywordtype">int</span> nDoCliffCollapseDeposition(<span class="keywordtype">int</span> <span class="keyword">const</span>, <a class="code hl_class" href="class_c_r_w_cliff.html">CRWCliff</a>*, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
 <div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>   <span class="keywordtype">int</span> nUpdateGrid(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span> </div>
 <div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>   <span class="comment">// Lower-level simulation routines</span></div>
@@ -815,79 +815,79 @@ $(function() {
 <div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dAngleSubtended(<a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*, <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*, <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*);</div>
 <div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>   <span class="keyword">static</span> <span class="keywordtype">int</span> nGetOppositeDirection(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
 <div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> GetSlopeAndInterceptFromPoints(<a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*, <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*, <span class="keywordtype">double</span>&amp;, <span class="keywordtype">double</span>&amp;);</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>   <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> PtiFindClosestCoastPoint(<span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span> nY);</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>   <span class="comment">// Utility routines</span></div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceStart(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>   <span class="keywordtype">void</span> AnnounceLicence(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>   <span class="keywordtype">void</span> AnnounceReadBasementDEM(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceAddLayers(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadRasterFiles(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadVectorFiles(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>   <span class="keywordtype">void</span> AnnounceReadLGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>   <span class="keywordtype">void</span> AnnounceReadICGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>   <span class="keywordtype">void</span> AnnounceReadIHGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceInitializing(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>   <span class="keywordtype">void</span> AnnounceReadInitialSuspSedGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>   <span class="keywordtype">void</span> AnnounceReadInitialFineUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>   <span class="keywordtype">void</span> AnnounceReadInitialSandUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>   <span class="keywordtype">void</span> AnnounceReadInitialCoarseUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>   <span class="keywordtype">void</span> AnnounceReadInitialFineConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>   <span class="keywordtype">void</span> AnnounceReadInitialSandConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>   <span class="keywordtype">void</span> AnnounceReadInitialCoarseConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>   <span class="keywordtype">void</span> AnnounceReadDeepWaterWaveValuesGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>   <span class="keywordtype">void</span> AnnounceReadSedimentEventInputValuesGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>   <span class="keywordtype">void</span> AnnounceReadFloodLocationGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>   <span class="keywordtype">void</span> AnnounceReadTideData(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadSCAPEShapeFunctionFile(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceAllocateMemory(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceIsRunning(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceSimEnd(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>   <span class="keywordtype">void</span> StartClock(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>   <span class="keywordtype">bool</span> bFindExeDir(<span class="keywordtype">char</span>*);</div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>   <span class="keywordtype">bool</span> bTimeToQuit(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>   <span class="keyword">static</span> <span class="keywordtype">int</span> nDoTimeUnits(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>   <span class="keywordtype">int</span> nDoSimulationTimeMultiplier(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetTimeMultiplier(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bParseDate(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;);</div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bParseTime(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;);</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>   <span class="keywordtype">void</span> DoTimestepTotals(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetBuild(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetComputerName(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>   <span class="keywordtype">void</span> DoCPUClockReset(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>   <span class="keywordtype">void</span> CalcTime(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strDispTime(<span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">bool</span> <span class="keyword">const</span>, <span class="keywordtype">bool</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strDispSimTime(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>   <span class="keywordtype">void</span> AnnounceProgress(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetErrorText(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>   <span class="keywordtype">string</span> strListRasterFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>   <span class="keywordtype">string</span> strListVectorFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>   <span class="keywordtype">string</span> strListTSFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>   <span class="keywordtype">void</span> CalcProcessStats(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>   <span class="keywordtype">void</span> CalcSavitzkyGolayCoeffs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>   <a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> LSmoothCoastSavitzkyGolay(<a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> *, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>   <a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> LSmoothCoastRunningMean(<a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> *) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>   vector&lt;double&gt; dVSmoothProfileSlope(vector&lt;double&gt;*);</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>   <span class="comment">//    vector&lt;double&gt; dVCalCGeomProfileSlope(vector&lt;CGeom2DPoint&gt;*, vector&lt;double&gt;*);</span></div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>   vector&lt;double&gt; dVSmoothProfileSavitzkyGolay(vector&lt;double&gt;*, vector&lt;double&gt;*);</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>   vector&lt;double&gt; dVSmoothProfileRunningMean(vector&lt;double&gt;*);</div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> CalcSavitzkyGolay(<span class="keywordtype">double</span>[], <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> pstrChangeToBackslash(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> pstrChangeToForwardSlash(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrim(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrimLeft(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrimRight(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strToLower(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>   <span class="comment">//  static string strToUpper(string const*);</span></div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strRemoveSubstr(<span class="keywordtype">string</span> *, <span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>   <span class="keyword">static</span> vector&lt;string&gt; *VstrSplit(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">char</span> <span class="keyword">const</span>, vector&lt;string&gt; *);</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>   <span class="keyword">static</span> vector&lt;string&gt; VstrSplit(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">char</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dCrossProduct(<span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetMean(vector&lt;double&gt; <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetStdDev(vector&lt;double&gt; <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AppendEnsureNoGap(vector&lt;CGeom2DIPoint&gt;*, <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bIsNumeric(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dConstrainFieldWidthForShapefile(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>   <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> PtiFindClosestCoastPoint(<span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>   <span class="keywordtype">int</span> nConvertMetresToNumCells(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span> </div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>   <span class="comment">// Utility routines</span></div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceStart(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>   <span class="keywordtype">void</span> AnnounceLicence(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>   <span class="keywordtype">void</span> AnnounceReadBasementDEM(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceAddLayers(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadRasterFiles(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadVectorFiles(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>   <span class="keywordtype">void</span> AnnounceReadLGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>   <span class="keywordtype">void</span> AnnounceReadICGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>   <span class="keywordtype">void</span> AnnounceReadIHGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceInitializing(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>   <span class="keywordtype">void</span> AnnounceReadInitialSuspSedGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>   <span class="keywordtype">void</span> AnnounceReadInitialFineUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>   <span class="keywordtype">void</span> AnnounceReadInitialSandUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>   <span class="keywordtype">void</span> AnnounceReadInitialCoarseUnconsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>   <span class="keywordtype">void</span> AnnounceReadInitialFineConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>   <span class="keywordtype">void</span> AnnounceReadInitialSandConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>   <span class="keywordtype">void</span> AnnounceReadInitialCoarseConsSedGIS(<span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>   <span class="keywordtype">void</span> AnnounceReadDeepWaterWaveValuesGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>   <span class="keywordtype">void</span> AnnounceReadSedimentEventInputValuesGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>   <span class="keywordtype">void</span> AnnounceReadFloodLocationGIS(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>   <span class="keywordtype">void</span> AnnounceReadTideData(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceReadSCAPEShapeFunctionFile(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceAllocateMemory(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceIsRunning(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AnnounceSimEnd(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>   <span class="keywordtype">void</span> StartClock(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>   <span class="keywordtype">bool</span> bFindExeDir(<span class="keywordtype">char</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>   <span class="keywordtype">bool</span> bTimeToQuit(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>   <span class="keyword">static</span> <span class="keywordtype">int</span> nDoTimeUnits(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>   <span class="keywordtype">int</span> nDoSimulationTimeMultiplier(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetTimeMultiplier(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bParseDate(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;);</div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bParseTime(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;, <span class="keywordtype">int</span>&amp;);</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>   <span class="keywordtype">void</span> DoTimestepTotals(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetBuild(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetComputerName(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>   <span class="keywordtype">void</span> DoCPUClockReset(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>   <span class="keywordtype">void</span> CalcTime(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strDispTime(<span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">bool</span> <span class="keyword">const</span>, <span class="keywordtype">bool</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strDispSimTime(<span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>   <span class="keywordtype">void</span> AnnounceProgress(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strGetErrorText(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>   <span class="keywordtype">string</span> strListRasterFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>   <span class="keywordtype">string</span> strListVectorFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>   <span class="keywordtype">string</span> strListTSFiles(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>   <span class="keywordtype">void</span> CalcProcessStats(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>   <span class="keywordtype">void</span> CalcSavitzkyGolayCoeffs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>   <a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> LSmoothCoastSavitzkyGolay(<a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> *, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>   <a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> LSmoothCoastRunningMean(<a class="code hl_class" href="class_c_geom_line.html">CGeomLine</a> *) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>   vector&lt;double&gt; dVSmoothProfileSlope(vector&lt;double&gt;*);</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>   <span class="comment">//    vector&lt;double&gt; dVCalCGeomProfileSlope(vector&lt;CGeom2DPoint&gt;*, vector&lt;double&gt;*);</span></div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>   vector&lt;double&gt; dVSmoothProfileSavitzkyGolay(vector&lt;double&gt;*, vector&lt;double&gt;*);</div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>   vector&lt;double&gt; dVSmoothProfileRunningMean(vector&lt;double&gt;*);</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> CalcSavitzkyGolay(<span class="keywordtype">double</span>[], <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>, <span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> pstrChangeToBackslash(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> pstrChangeToForwardSlash(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrim(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrimLeft(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strTrimRight(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strToLower(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>   <span class="comment">//  static string strToUpper(string const*);</span></div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>   <span class="keyword">static</span> <span class="keywordtype">string</span> strRemoveSubstr(<span class="keywordtype">string</span> *, <span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>   <span class="keyword">static</span> vector&lt;string&gt; *VstrSplit(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">char</span> <span class="keyword">const</span>, vector&lt;string&gt; *);</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>   <span class="keyword">static</span> vector&lt;string&gt; VstrSplit(<span class="keywordtype">string</span> <span class="keyword">const</span>*, <span class="keywordtype">char</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dCrossProduct(<span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>, <span class="keywordtype">double</span> <span class="keyword">const</span>);</div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetMean(vector&lt;double&gt; <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>   <span class="keyword">static</span> <span class="keywordtype">double</span> dGetStdDev(vector&lt;double&gt; <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> AppendEnsureNoGap(vector&lt;CGeom2DIPoint&gt;*, <a class="code hl_class" href="class_c_geom2_d_i_point.html">CGeom2DIPoint</a> <span class="keyword">const</span>*);</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>   <span class="keyword">static</span> <span class="keywordtype">bool</span> bIsNumeric(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
 <div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ulConvertToTimestep(<span class="keywordtype">string</span> <span class="keyword">const</span>*);</div>
 <div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>   <span class="keywordtype">void</span> WritePolygonShareTable(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
 <div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>   <span class="keywordtype">void</span> WritePolygonPreExistingSediment(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
@@ -945,7 +945,7 @@ $(function() {
 <div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span> </div>
 <div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>   <span class="keywordtype">double</span> <a class="code hl_function" href="class_c_simulation.html#a5356bdb1798b3397b3f19b69c62c0ddf">dGetD50Coarse</a>(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span> </div>
-<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>   <span class="keywordtype">int</span> <a class="code hl_function" href="class_c_simulation.html#ac72a34bfb2593d1aa861240ac243962f">nDoSimulation</a>(<span class="keywordtype">int</span>, <span class="keywordtype">char</span> *[]);</div>
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>   <span class="keywordtype">int</span> <a class="code hl_function" href="class_c_simulation.html#a71288b0bcd20fa2c58d31614b9a66805">nDoSimulation</a>(<span class="keywordtype">int</span>, <span class="keywordtype">char</span> <span class="keyword">const</span>* []);</div>
 <div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span> </div>
 <div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>   <span class="keywordtype">void</span> <a class="code hl_function" href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">DoSimulationEnd</a>(<span class="keywordtype">int</span> <span class="keyword">const</span>);</div>
 <div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>};</div>
@@ -959,29 +959,29 @@ $(function() {
 <div class="ttc" id="aclass_c_r_w_cliff_html"><div class="ttname"><a href="class_c_r_w_cliff.html">CRWCliff</a></div><div class="ttdoc">Real-world class used to represent the 'cliff' category of coastal landform object.</div><div class="ttdef"><b>Definition:</b> <a href="cliff_8h_source.html#l00034">cliff.h:35</a></div></div>
 <div class="ttc" id="aclass_c_r_w_coast_html"><div class="ttname"><a href="class_c_r_w_coast.html">CRWCoast</a></div><div class="ttdoc">Real-world class used to represent coastline objects.</div><div class="ttdef"><b>Definition:</b> <a href="coast_8h_source.html#l00039">coast.h:40</a></div></div>
 <div class="ttc" id="aclass_c_sed_input_event_html"><div class="ttname"><a href="class_c_sed_input_event.html">CSedInputEvent</a></div><div class="ttdoc">Class used to represent a sediment input event.</div><div class="ttdef"><b>Definition:</b> <a href="sediment__input__event_8h_source.html#l00029">sediment_input_event.h:30</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html"><div class="ttname"><a href="class_c_simulation.html">CSimulation</a></div><div class="ttdoc">This class runs CoastalME simulations.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00062">simulation.h:63</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a14f6e552115d7153571d01ce01280d90"><div class="ttname"><a href="class_c_simulation.html#a14f6e552115d7153571d01ce01280d90">CSimulation::dGetThisIterTotWaterLevel</a></div><div class="ttdeci">double dGetThisIterTotWaterLevel(void) const</div><div class="ttdoc">Returns this timestep's total water level.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00518">simulation.cpp:518</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html"><div class="ttname"><a href="class_c_simulation.html">CSimulation</a></div><div class="ttdoc">This class runs CoastalME simulations.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00065">simulation.h:66</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a14f6e552115d7153571d01ce01280d90"><div class="ttname"><a href="class_c_simulation.html#a14f6e552115d7153571d01ce01280d90">CSimulation::dGetThisIterTotWaterLevel</a></div><div class="ttdeci">double dGetThisIterTotWaterLevel(void) const</div><div class="ttdoc">Returns this timestep's total water level.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00515">simulation.cpp:515</a></div></div>
 <div class="ttc" id="aclass_c_simulation_html_a222962121613613a48f518e0c2110f21"><div class="ttname"><a href="class_c_simulation.html#a222962121613613a48f518e0c2110f21">CSimulation::LogStream</a></div><div class="ttdeci">ofstream LogStream</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00866">simulation.h:866</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a290e03f0de390277b14298711a5d34ca"><div class="ttname"><a href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">CSimulation::DoSimulationEnd</a></div><div class="ttdeci">void DoSimulationEnd(int const)</div><div class="ttdoc">Carries out end-of-simulation tidying (error messages etc.)</div><div class="ttdef"><b>Definition:</b> <a href="utils_8cpp_source.html#l02496">utils.cpp:2496</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a46f08f37407a47d10b107f77d86c13c9"><div class="ttname"><a href="class_c_simulation.html#a46f08f37407a47d10b107f77d86c13c9">CSimulation::nGetGridYMax</a></div><div class="ttdeci">int nGetGridYMax(void) const</div><div class="ttdoc">Returns the size of the grid in the Y direction.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00558">simulation.cpp:558</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a4e7ff288de047e51b653ee0ff747a492"><div class="ttname"><a href="class_c_simulation.html#a4e7ff288de047e51b653ee0ff747a492">CSimulation::dGetMissingValue</a></div><div class="ttdeci">double dGetMissingValue(void) const</div><div class="ttdoc">Returns the NODATA value.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00498">simulation.cpp:498</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a5356bdb1798b3397b3f19b69c62c0ddf"><div class="ttname"><a href="class_c_simulation.html#a5356bdb1798b3397b3f19b69c62c0ddf">CSimulation::dGetD50Coarse</a></div><div class="ttdeci">double dGetD50Coarse(void) const</div><div class="ttdoc">Returns the global d50 value for coarse sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00588">simulation.cpp:588</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a290e03f0de390277b14298711a5d34ca"><div class="ttname"><a href="class_c_simulation.html#a290e03f0de390277b14298711a5d34ca">CSimulation::DoSimulationEnd</a></div><div class="ttdeci">void DoSimulationEnd(int const)</div><div class="ttdoc">Carries out end-of-simulation tidying (error messages etc.)</div><div class="ttdef"><b>Definition:</b> <a href="utils_8cpp_source.html#l02492">utils.cpp:2492</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a46f08f37407a47d10b107f77d86c13c9"><div class="ttname"><a href="class_c_simulation.html#a46f08f37407a47d10b107f77d86c13c9">CSimulation::nGetGridYMax</a></div><div class="ttdeci">int nGetGridYMax(void) const</div><div class="ttdoc">Returns the size of the grid in the Y direction.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00555">simulation.cpp:555</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a4e7ff288de047e51b653ee0ff747a492"><div class="ttname"><a href="class_c_simulation.html#a4e7ff288de047e51b653ee0ff747a492">CSimulation::dGetMissingValue</a></div><div class="ttdeci">double dGetMissingValue(void) const</div><div class="ttdoc">Returns the NODATA value.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00495">simulation.cpp:495</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a5356bdb1798b3397b3f19b69c62c0ddf"><div class="ttname"><a href="class_c_simulation.html#a5356bdb1798b3397b3f19b69c62c0ddf">CSimulation::dGetD50Coarse</a></div><div class="ttdeci">double dGetD50Coarse(void) const</div><div class="ttdoc">Returns the global d50 value for coarse sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00585">simulation.cpp:585</a></div></div>
 <div class="ttc" id="aclass_c_simulation_html_a5f5c62e03730a145a32347457d641cad"><div class="ttname"><a href="class_c_simulation.html#a5f5c62e03730a145a32347457d641cad">CSimulation::CSimulation</a></div><div class="ttdeci">CSimulation(void)</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00048">simulation.cpp:48</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a6c774658534c73605f2f0a12f511b08a"><div class="ttname"><a href="class_c_simulation.html#a6c774658534c73605f2f0a12f511b08a">CSimulation::dGetD50Fine</a></div><div class="ttdeci">double dGetD50Fine(void) const</div><div class="ttdoc">Returns the global d50 value for fine sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00568">simulation.cpp:568</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a870fb7ffba3db6692998dcbecc37b599"><div class="ttname"><a href="class_c_simulation.html#a870fb7ffba3db6692998dcbecc37b599">CSimulation::nGetGridXMax</a></div><div class="ttdeci">int nGetGridXMax(void) const</div><div class="ttdoc">Returns the cell size.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00548">simulation.cpp:548</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_a9657f6315931bb105f99a5ff414b6dbf"><div class="ttname"><a href="class_c_simulation.html#a9657f6315931bb105f99a5ff414b6dbf">CSimulation::~CSimulation</a></div><div class="ttdeci">~CSimulation(void)</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00420">simulation.cpp:420</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_ac02c569e193c122cfb70735c8dfc43bd"><div class="ttname"><a href="class_c_simulation.html#ac02c569e193c122cfb70735c8dfc43bd">CSimulation::dGetD50Sand</a></div><div class="ttdeci">double dGetD50Sand(void) const</div><div class="ttdoc">Returns the global d50 value for sand sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00578">simulation.cpp:578</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_ac72a34bfb2593d1aa861240ac243962f"><div class="ttname"><a href="class_c_simulation.html#ac72a34bfb2593d1aa861240ac243962f">CSimulation::nDoSimulation</a></div><div class="ttdeci">int nDoSimulation(int, char *[])</div><div class="ttdoc">Runs the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00598">simulation.cpp:598</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_acf8084fc9180ae0ec41e04d8dac7c2c0"><div class="ttname"><a href="class_c_simulation.html#acf8084fc9180ae0ec41e04d8dac7c2c0">CSimulation::dGetThisIterSWL</a></div><div class="ttdeci">double dGetThisIterSWL(void) const</div><div class="ttdoc">Returns this timestep's still water level.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00508">simulation.cpp:508</a></div></div>
-<div class="ttc" id="aclass_c_simulation_html_adc13bc3c8fd4d97cb3e9d34c37ff688f"><div class="ttname"><a href="class_c_simulation.html#adc13bc3c8fd4d97cb3e9d34c37ff688f">CSimulation::dGetMaxBeachElevAboveSWL</a></div><div class="ttdeci">double dGetMaxBeachElevAboveSWL(void) const</div><div class="ttdoc">Returns the vertical tolerance for beach cells to be included in smoothing.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00528">simulation.cpp:528</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a6c774658534c73605f2f0a12f511b08a"><div class="ttname"><a href="class_c_simulation.html#a6c774658534c73605f2f0a12f511b08a">CSimulation::dGetD50Fine</a></div><div class="ttdeci">double dGetD50Fine(void) const</div><div class="ttdoc">Returns the global d50 value for fine sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00565">simulation.cpp:565</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a71288b0bcd20fa2c58d31614b9a66805"><div class="ttname"><a href="class_c_simulation.html#a71288b0bcd20fa2c58d31614b9a66805">CSimulation::nDoSimulation</a></div><div class="ttdeci">int nDoSimulation(int, char const *[])</div><div class="ttdoc">Runs the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00595">simulation.cpp:595</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a870fb7ffba3db6692998dcbecc37b599"><div class="ttname"><a href="class_c_simulation.html#a870fb7ffba3db6692998dcbecc37b599">CSimulation::nGetGridXMax</a></div><div class="ttdeci">int nGetGridXMax(void) const</div><div class="ttdoc">Returns the cell size.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00545">simulation.cpp:545</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_a9657f6315931bb105f99a5ff414b6dbf"><div class="ttname"><a href="class_c_simulation.html#a9657f6315931bb105f99a5ff414b6dbf">CSimulation::~CSimulation</a></div><div class="ttdeci">~CSimulation(void)</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00417">simulation.cpp:417</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_ac02c569e193c122cfb70735c8dfc43bd"><div class="ttname"><a href="class_c_simulation.html#ac02c569e193c122cfb70735c8dfc43bd">CSimulation::dGetD50Sand</a></div><div class="ttdeci">double dGetD50Sand(void) const</div><div class="ttdoc">Returns the global d50 value for sand sediment.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00575">simulation.cpp:575</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_acf8084fc9180ae0ec41e04d8dac7c2c0"><div class="ttname"><a href="class_c_simulation.html#acf8084fc9180ae0ec41e04d8dac7c2c0">CSimulation::dGetThisIterSWL</a></div><div class="ttdeci">double dGetThisIterSWL(void) const</div><div class="ttdoc">Returns this timestep's still water level.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00505">simulation.cpp:505</a></div></div>
+<div class="ttc" id="aclass_c_simulation_html_adc13bc3c8fd4d97cb3e9d34c37ff688f"><div class="ttname"><a href="class_c_simulation.html#adc13bc3c8fd4d97cb3e9d34c37ff688f">CSimulation::dGetMaxBeachElevAboveSWL</a></div><div class="ttdeci">double dGetMaxBeachElevAboveSWL(void) const</div><div class="ttdoc">Returns the vertical tolerance for beach cells to be included in smoothing.</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8cpp_source.html#l00525">simulation.cpp:525</a></div></div>
 <div class="ttc" id="ai__line_8h_html"><div class="ttname"><a href="i__line_8h.html">i_line.h</a></div><div class="ttdoc">Contains CGeomILine definitions.</div></div>
 <div class="ttc" id="aline_8h_html"><div class="ttname"><a href="line_8h.html">line.h</a></div><div class="ttdoc">Contains CGeomLine definitions.</div></div>
-<div class="ttc" id="asimulation_8h_html_a85c01ae87ffab98fdd1ec6fd3d0eff7b"><div class="ttname"><a href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a></div><div class="ttdeci">int const SAVEMAX</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00053">simulation.h:53</a></div></div>
-<div class="ttc" id="asimulation_8h_html_a9a16fa3bd2cdef6c1b57032795dcf9ef"><div class="ttname"><a href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a></div><div class="ttdeci">int const NRNG</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00052">simulation.h:52</a></div></div>
+<div class="ttc" id="asimulation_8h_html_a85c01ae87ffab98fdd1ec6fd3d0eff7b"><div class="ttname"><a href="simulation_8h.html#a85c01ae87ffab98fdd1ec6fd3d0eff7b">SAVEMAX</a></div><div class="ttdeci">int const SAVEMAX</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00056">simulation.h:56</a></div></div>
+<div class="ttc" id="asimulation_8h_html_a9a16fa3bd2cdef6c1b57032795dcf9ef"><div class="ttname"><a href="simulation_8h.html#a9a16fa3bd2cdef6c1b57032795dcf9ef">NRNG</a></div><div class="ttdeci">int const NRNG</div><div class="ttdef"><b>Definition:</b> <a href="simulation_8h_source.html#l00055">simulation.h:55</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 23 2023 16:22:19 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
+Generated on Sat Sep 16 2023 21:08:24 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
 </small></address>
 </body>
 </html>

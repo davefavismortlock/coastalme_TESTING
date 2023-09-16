@@ -152,7 +152,7 @@ vector<pair<int, int> >* CGeomMultiLine::pprVGetPairedCoincidentProfilesForLineS
    return &m_prVVLineSegment[nSegment];
 }
 
-//! Returns the numbers of a coincident profiles
+//! Returns the numbers of coincident profiles
 int CGeomMultiLine::nGetCoincidentProfileForLineSegment(int const nSegment, int const nCoinc) const
 {
    // NOTE No check to see if nSegment < size()
@@ -160,7 +160,7 @@ int CGeomMultiLine::nGetCoincidentProfileForLineSegment(int const nSegment, int 
    return m_prVVLineSegment[nSegment][nCoinc].first;
 }
 
-//! Returns the number of coincident profiles in a specified line segment
+//! Returns the count of coincident profiles in a specified line segment
 int CGeomMultiLine::nGetNumCoincidentProfilesInLineSegment(int const nSegment)
 {
    return static_cast<int>(m_prVVLineSegment[nSegment].size());

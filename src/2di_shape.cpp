@@ -36,32 +36,38 @@ CA2DIShape::~CA2DIShape(void)
 {
 }
 
+//! Returns one integer point from the vector which represents this 2D shape
 CGeom2DIPoint& CA2DIShape::operator[] (int const n)
 {
    // NOTE No safety check
    return m_VPoints[n];
 }
 
+//! Returns the last integer point from the vector which represents this 2D shape
 CGeom2DIPoint& CA2DIShape::Back(void)
 {
    return m_VPoints.back();
 }
 
+//! Returns the address of the vector which represents this 2D shape
 vector<CGeom2DIPoint>* CA2DIShape::pPtiVGetPoints(void)
 {
    return &m_VPoints;
 }
 
+//! Clears the vector which represents this 2D shape
 void CA2DIShape::Clear(void)
 {
    m_VPoints.clear();
 }
 
+//! Resizes the vector which represents this 2D shape
 void CA2DIShape::Resize(const int nSize)
 {
    m_VPoints.resize(nSize);
 }
 
+//! Returns the number of integer point in the vector which represents this 2D shape
 int CA2DIShape::nGetSize(void) const
 {
    return static_cast<int>(m_VPoints.size());
@@ -72,16 +78,19 @@ int CA2DIShape::nGetSize(void) const
 //    m_VPoints.insert(m_VPoints.begin(), CGeom2DIPoint(nX, nY));
 // }
 
+//! Appends a new integer point to the vector which represents this 2D shape
 void CA2DIShape::Append(CGeom2DIPoint const* pPtiNew)
 {
    m_VPoints.push_back(*pPtiNew);
 }
 
+//! Appends a new integer point to the vector which represents this 2D shape
 void CA2DIShape::Append(int const nX, int const nY)
 {
    m_VPoints.push_back(CGeom2DIPoint(nX, nY));
 }
 
+//! Appends a new integer point to the vector which represents this 2D shape, but only if the point is not already present
 void CA2DIShape::AppendIfNotAlready(int const nX, int const nY)
 {
    CGeom2DIPoint PtiIn(nX, nY);

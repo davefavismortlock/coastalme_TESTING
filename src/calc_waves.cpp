@@ -48,9 +48,6 @@ using std::remove;
 using std::reverse;
 using std::sort;
 
-#include <stack>
-using std::stack;
-
 #include "cme.h"
 #include "coast.h"
 #include "simulation.h"

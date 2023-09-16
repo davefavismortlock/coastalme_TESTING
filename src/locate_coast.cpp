@@ -132,7 +132,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
           nX = Pti.nGetX(),
           nY = Pti.nGetY();
 
-      while ((nX >= 0) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
+      while ((nX >= 0) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()))
          nX--;
 
       nX++;
@@ -141,7 +141,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
           bSpanAbove = false,
           bSpanBelow = false;
 
-      while ((nX < m_nXGridMax) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
+      while ((nX < m_nXGridMax) && (! m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY].dGetSeaDepth(), 0.0, TOLERANCE)))
       {
          // Set the sea depth for this cell
          m_pRasterGrid->m_Cell[nX][nY].SetSeaDepth();
@@ -152,8 +152,6 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
 
          // Set this sea cell to have deep water (off-shore) wave orientation and height, will change this later for cells closer to the shoreline if we have on-shore waves
          m_pRasterGrid->m_Cell[nX][nY].SetWaveValuesToDeepWaterWaveValues();
-
-         //          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "} wave height = " << m_pRasterGrid->m_Cell[nX][nY].dGetWaveHeight() << " wave angle = " << m_pRasterGrid->m_Cell[nX][nY].dGetWaveAngle() << endl;
 
          // Now sort out the x-y extremities of the contiguous sea for the bounding box (used later in wave propagation)
          if (nX < m_nXMinBoundingBox)
@@ -170,23 +168,23 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
 
          // Update count
          m_ulThisIterNumSeaCells++;
-
-         if ((! bSpanAbove) && (nY > 0) && (m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY - 1].dGetSeaDepth(), 0.0, TOLERANCE)))
+         
+         if ((! bSpanAbove) && (nY > 0) && (! m_pRasterGrid->m_Cell[nX][nY-1].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY-1].bIsInundated()))
          {
-            PtiStack.push(CGeom2DIPoint(nX, nY - 1));
+            PtiStack.push(CGeom2DIPoint(nX, nY-1));
             bSpanAbove = true;
          }
-         else if (bSpanAbove && (nY > 0) && (! m_pRasterGrid->m_Cell[nX][nY - 1].bIsInundated()))
+         else if (bSpanAbove && (nY > 0) && (! m_pRasterGrid->m_Cell[nX][nY-1].bBasementElevIsMissingValue()) && (! m_pRasterGrid->m_Cell[nX][nY-1].bIsInundated()))
          {
             bSpanAbove = false;
          }
 
-         if ((! bSpanBelow) && (nY < m_nYGridMax - 1) && (m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()) && (bFPIsEqual(m_pRasterGrid->m_Cell[nX][nY + 1].dGetSeaDepth(), 0.0, TOLERANCE)))
+         if ((! bSpanBelow) && (nY < m_nYGridMax-1) && (! m_pRasterGrid->m_Cell[nX][nY+1].bBasementElevIsMissingValue()) && (m_pRasterGrid->m_Cell[nX][nY+1].bIsInundated()))
          {
-            PtiStack.push(CGeom2DIPoint(nX, nY + 1));
+            PtiStack.push(CGeom2DIPoint(nX, nY+1));
             bSpanBelow = true;
          }
-         else if (bSpanBelow && (nY < m_nYGridMax - 1) && (! m_pRasterGrid->m_Cell[nX][nY + 1].bIsInundated()))
+         else if (bSpanBelow && (nY < m_nYGridMax-1) && (! m_pRasterGrid->m_Cell[nX][nY+1].bBasementElevIsMissingValue()) && (! m_pRasterGrid->m_Cell[nX][nY+1].bIsInundated()))
          {
             bSpanBelow = false;
          }
@@ -1085,8 +1083,8 @@ int CSimulation::FindAllInundatedCells(void)
           nY = m_VEdgeCell[n].nGetY();
 
       if ((! m_pRasterGrid->m_Cell[nX][nY].bIsCellFloodCheck()) && (m_pRasterGrid->m_Cell[nX][nY].bIsInundated()))
-      // This edge cell is below SWL and sea depth remains set to zero
       {
+         // This edge cell is below SWL and sea depth remains set to zero
          FloodFillLand(nX, nY);
       }
    }
@@ -1103,16 +1101,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
 {
    // The flood is at a user-specified location. So get the location from values read from the shapefile
    long unsigned int nLocIDs = m_VdFloodLocationX.size();
-   // double dPointGridXExtCRS = -1;
-   // double dPointGridYExtCRS = -1;
-   // int nTotPoints = 0;
-
    double dDiffTotWaterLevel = 0;
-//   double dMinDistSquare = 1e10;
-//   double dMinDiffTotWaterLevelAtCoast = 1e10;
-   // double dDistSquare = 1e10;
-   // double dCoastPointXExtCRS = 0;
-   // double dCoastPointYExtCRS = 0;
 
    double dAuxWaterLevelDiff = 0;
    if (nLocIDs == 0)
@@ -1126,7 +1115,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
             dAuxWaterLevelDiff = m_VCoast[nCoast].dGetLevel(nCoastPoint, m_nLevel);
             if (! isnan(dAuxWaterLevelDiff))
             {
-               if (abs(dAuxWaterLevelDiff) < 1) // limiting the maximum value that can be found (dAuxWaterLevelDiff != DBL_NODATA)
+               if (abs(dAuxWaterLevelDiff) < 1)       // Limiting the maximum value that can be found (dAuxWaterLevelDiff != DBL_NODATA)
                {
                   pointCounter++;
                   dDiffTotWaterLevel += dAuxWaterLevelDiff;
@@ -1220,7 +1209,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
          if (! m_pRasterGrid->m_Cell[nX][nY].bIsElevLessThanWaterLevel())
             break;
          
-         // Set flood this cell
+         // Flood this cell
          m_pRasterGrid->m_Cell[nX][nY].SetCheckFloodCell();
          m_pRasterGrid->m_Cell[nX][nY].SetInContiguousFlood();
 
