@@ -116,6 +116,9 @@ Flood-fills all sea cells starting from a given cell. The flood fill code used h
 ===============================================================================================================================*/
 void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
 {
+   // For safety check
+   int nRoundLoopMax = m_nXGridMax * m_nYGridMax;
+   
    // Create an empty stack
    stack<CGeom2DIPoint> PtiStack;
 
@@ -123,8 +126,13 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    PtiStack.push(CGeom2DIPoint(nXStart, nYStart));
 
    // Then do the flood fill loop until there are no more cell co-ords on the stack
+   int nRoundLoop = 0;
    while (! PtiStack.empty())
    {
+      // Safety check
+      if (nRoundLoop++ > nRoundLoopMax)
+         break;
+      
       CGeom2DIPoint Pti = PtiStack.top();
       PtiStack.pop();
 
@@ -1850,7 +1858,7 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
    if (nCoastSize == 0)
    {
       // Zero-length coastline, so abandon it
-      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): abandoning zero-length flood coastline from [" << nStartX << "][" << nStartY << "] = {" << dGridCentroidXToExtCRSX(nStartX) << ", " << dGridCentroidYToExtCRSY(nStartY) << "}" << endl;
 
       return RTN_ERR_TRACECOAST;
@@ -1859,7 +1867,7 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
    if (nCoastSize < m_nCoastMin)
    {
       // The vector coastline is too small, so abandon it
-      if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+      if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): ignoring temporary flood coastline from [" << nStartX << "][" << nStartY << "] = {" << dGridCentroidXToExtCRSX(nStartX) << ", " << dGridCentroidYToExtCRSY(nStartY) << "} to [" << ILTempGridCRS[nCoastSize - 1].nGetX() << "][" << ILTempGridCRS[nCoastSize - 1].nGetY() << "] = {" << dGridCentroidXToExtCRSX(ILTempGridCRS[nCoastSize - 1].nGetX()) << ", " << dGridCentroidYToExtCRSY(ILTempGridCRS[nCoastSize - 1].nGetY()) << "} since size (" << nCoastSize << ") is less than minimum (" << m_nCoastMin << ")" << endl;
 
       // Unmark these cells as coast cells

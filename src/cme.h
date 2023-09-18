@@ -483,7 +483,7 @@ int const UNCONS_SEDIMENT_EQUATION_KAMPHUIS = 1;
 int const CLIFF_COLLAPSE_LENGTH_INCREMENT = 10;       // Increment the planview length of the cliff talus Dean profile, if we have not been able to deposit enough
 
 unsigned long const MASK = 0xfffffffful;
-unsigned long const SEDINPUTEVENTERROR = -1;
+unsigned long const SEDIMENT_INPUT_EVENT_ERROR = -1;
 
 double const PI = 3.141592653589793238462643;
 
@@ -495,7 +495,7 @@ double const BEACH_PROTECTION_HB_RATIO = 0.23;        // The beach protection fa
 double const WALKDEN_HALL_PARAM_1 = 3.25;             // First param in Equation 4 from Walkden & Hall, 2005
 double const WALKDEN_HALL_PARAM_2 = 1.50;             // Second param in Equation 4 from Walkden & Hall, 2005
 
-double const DEPTH_OVER_DB_INCREMENT = 0.001;         // Depth Over DB increment for erosion potential look-up function
+double const DEPTH_OVER_DB_INCREMENT = 0.001;         // Depth over DB increment for erosion potential look-up function
 double const INVERSE_DEPTH_OVER_DB_INCREMENT = 1000;  // Inverse of the above
 double const DEAN_POWER = 2.0 / 3.0;                  // Dean profile exponent
 
@@ -514,7 +514,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.07 (16 Sep 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.08 (17 Sep 2023)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
@@ -529,7 +529,7 @@ string const DISCLAIMER6 = "Cambridge, MA 02139, USA.";
 
 string const ABOUT = "simulates the long-term behaviour of a coast. This initial version considers only simple soft cliff cross-shore effects";
 string const THANKS = "Many thanks to:\n\tManuel Cobos Budia\n\tMark Dickson\n\tJim W. Hall\n\tMartin D. Hurst\n\tMatthew Ives\n\tRobert J. Nicholls\n\tIan Townend\n\tMike J.A. Walkden";
-string const GDALDRIVERS = "GDAL drivers";
+string const GDAL_DRIVERS = "GDAL drivers";
 
 string const USAGE = "Usage: cme [OPTION]...";
 string const USAGE1 = "  --gdal             List GDAL drivers";
@@ -584,20 +584,22 @@ string const ERR = "*** ERROR ";
 string const WARN = "WARNING ";
 string const NOTE = "      Note ";
 
-string const PERITERHEAD1 =
+string const MASS_BALANCE_ERROR = "MASS BALANCE ERROR";
+
+string const PER_ITER_HEAD1 =
     "<-----ELAPSED----><-SEA-><----POTENTIAL---><----------ACTUAL-----------><----POTENTIAL----><------------ACTUAL------------><-----------ACTUAL-----------><-SEDIMENT-><--CLIFF COLLAPSE--><SUSP>";
 
-string const PERITERHEAD2 =
+string const PER_ITER_HEAD2 =
     "       TIME        DEPTH  PLATFORM EROSION        PLATFORM EROSION          BEACH EROSION            BEACH EROSION                BEACH DEPOSITION        INPUT EVENT  EROSION DEPOSITION  SED";
 
-string const PERITERHEAD3 =
+string const PER_ITER_HEAD3 =
     "Time  Hours  Years   Avg  % Sea   All  Erod % Sea   All Erod <-sea avg->  % Sea   All  Erod  % Sea   All Erodng <-sea avg->  % Sea   All  Deposit <-sea->            <-coast avg><--sea->";
-string const PERITERHEAD4 =
+string const PER_ITER_HEAD4 =
     "Step                       Area   Sea  Area  Area   Sea Area   F   S   C   Area   Sea  Area   Area   Sea   Area   F   S   C   Area   Sea     Area   S   C   F   S   C   F   S   C   S   C    F";
-string const PERITERHEAD5 =
+string const PER_ITER_HEAD5 =
     "                                  Avg   Avg         Avg  Avg                            Avg          Avg    Avg                      Avg      Avg";
 
-string const PERITERHEAD =
+string const PER_ITER_HEAD =
     "PER-ITERATION RESULTS =========================================================================================================================================================================";
 string const ENDHYDROLOGYHEAD =
     "END OF SIMULATION: HYDROLOGY ==================================================================================================================================================================";
@@ -918,11 +920,11 @@ string const TIME_SERIES_FLOOD_SETUP_SURGE_CODE = "flood_setup_surge";
 string const TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_NAME = "flood_setup_surge_runup";
 string const TIME_SERIES_FLOOD_SETUP_SURGE_RUNUP_CODE = "flood_setup_surge_runup";
 
-// CShore codes
-string const WAVEENERGYFLUX = "wave_energy_flux";
-string const WAVEHEIGHTX = "WAVEHEIGHTX.csv";
-string const WAVEHEIGHTY = "WAVEHEIGHTY.csv";
-string const ACTIVEZONE = "ACTIVEZONE.csv";
+// CShore stuff
+string const WAVE_ENERGY_FLUX = "wave_energy_flux";
+string const WAVE_HEIGHT_X_FILENAME = "wave_height_x.csv";
+string const WAVE_HEIGHT_Y_FILENAME = "wave_height_y.csv";
+string const ACTIVE_ZONE_FILENAME = "activezone.csv";
 
 //================================================ Globally-available functions =================================================
 template <class T>
@@ -997,7 +999,6 @@ bool bFPIsEqual(const T d1, const T d2, const T dEpsilon)
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 // Definitions are in utilsglobal.cpp
 double dRound(double const);
 int nRound(double const);
@@ -1021,7 +1022,7 @@ string strIntRight(int const, int const);
 string strCentre(string const, int const);
 string strRight(string const, int const);
 string strLeft(string const, int const);
-
+string strRightPerCent(double const, double const, int const); 
 #endif
 
 //================================================= debugging stuff =============================================================

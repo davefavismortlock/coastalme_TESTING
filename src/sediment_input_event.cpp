@@ -40,40 +40,48 @@ CSedInputEvent::CSedInputEvent(int const nIDIn, unsigned long const ulTimeStepIn
 {
 }
 
+//! Destructor
 CSedInputEvent::~CSedInputEvent(void)
 {
 }
 
+//! Returns the location ID
 int CSedInputEvent::nGetLocationID(void)
 {
    return m_nLocationID;
 }
 
+//! Returns the timestep of the sediment input event 
 unsigned long CSedInputEvent::ulGetEventTimeStep(void)
 {
    return m_ulEventTimeStep;
 }
 
+//! Returns the volume of fine sediment in the sediment input event
 double CSedInputEvent::dGetFineSedVol(void)
 {
    return m_dFineSedVol;
 }
 
+//! Returns the volume of sand sediment in the sediment input event
 double CSedInputEvent::dGetSandSedVol(void)
 {
    return m_dSandSedVol;
 }
 
+//! Returns the volume of coarse sediment in the sediment input event
 double CSedInputEvent::dGetCoarseSedVol(void)
 {
    return m_dCoarseSedVol;
 }
 
+//! Returns the length (in metres?) of the sediment input event
 double CSedInputEvent::dGetLen(void)
 {
    return m_dLen;
 }
 
+//! Returns the width (in metres?) of the sediment input event
 double CSedInputEvent::dGetWidth(void)
 {
    return m_dWidth;

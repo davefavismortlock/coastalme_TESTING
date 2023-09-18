@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cp cme.ini cme.ini.OLD
+
 rm -f out/test_suite/minimal_wave_angle_230/*
 cp in/test_suite/minimal_wave_angle_230/cme.ini .
 ./cme
@@ -51,3 +53,4 @@ rm -f out/test_suite/Manuel_C003_0001/*
 cp in/test_suite/Manuel_C003_0001/cme.ini .
 ./cme
 
+mv cme.ini.OLD cme.ini

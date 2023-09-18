@@ -531,16 +531,16 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << std::fixed << setprecision(3);
 
    // Write per-timestep headers to .out file
-   OutStream << PERITERHEAD << endl;
+   OutStream << PER_ITER_HEAD << endl;
    OutStream << "Sea depth in metres. All erosion and deposition values in millimetres" << endl;
    OutStream << "GISn = GIS files saved as <filename>n." << endl;
    OutStream << endl;
 
-   OutStream << PERITERHEAD1 << endl;
-   OutStream << PERITERHEAD2 << endl;
-   OutStream << PERITERHEAD3 << endl;
-   OutStream << PERITERHEAD4 << endl;
-   OutStream << PERITERHEAD5 << endl;
+   OutStream << PER_ITER_HEAD1 << endl;
+   OutStream << PER_ITER_HEAD2 << endl;
+   OutStream << PER_ITER_HEAD3 << endl;
+   OutStream << PER_ITER_HEAD4 << endl;
+   OutStream << PER_ITER_HEAD5 << endl;
 }
 
 /*===============================================================================================================================
@@ -1112,11 +1112,11 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << " GIS" << m_nGISSave << endl;
 
    // Print out run totals etc.
-   OutStream << PERITERHEAD1 << endl;
-   OutStream << PERITERHEAD2 << endl;
-   OutStream << PERITERHEAD3 << endl;
-   OutStream << PERITERHEAD4 << endl;
-   OutStream << PERITERHEAD5 << endl;
+   OutStream << PER_ITER_HEAD1 << endl;
+   OutStream << PER_ITER_HEAD2 << endl;
+   OutStream << PER_ITER_HEAD3 << endl;
+   OutStream << PER_ITER_HEAD4 << endl;
+   OutStream << PER_ITER_HEAD5 << endl;
 
    OutStream << std::fixed << setprecision(3);
    OutStream << endl
@@ -1199,7 +1199,7 @@ int CSimulation::nWriteEndRunDetails(void)
    OutStream << "Fine sediment eroded                                   = " << ldFineEroded * m_dCellArea << " m^3" << endl;
    OutStream << "Fine sediment to suspension                            = " << m_ldGTotSuspendedSediment * m_dCellArea << " m^3" << endl;
    if (! bFPIsEqual(ldFineEroded, m_ldGTotSuspendedSediment, 1.0L))
-      OutStream << "MASS BALANCE ERROR" << endl;
+      OutStream << MASS_BALANCE_ERROR << endl;
    
    long double ldSandEroded = m_ldGTotSandActualPlatformErosion + m_ldGTotCliffCollapseSand + m_ldGTotActualSandBeachErosion;
    OutStream << "Sand sediment eroded                                   = " << ldSandEroded * m_dCellArea << " m^3" << endl;
@@ -1208,7 +1208,7 @@ int CSimulation::nWriteEndRunDetails(void)
    long double ldSandLost = m_ldGTotActualSandLostBeachErosion + m_ldGTotSandSedLostCliffCollapse;
    OutStream << "Sand sediment lost from grid                           = " << ldSandLost * m_dCellArea << " m^3" << endl;
    if (! bFPIsEqual(ldSandEroded, (ldSandDeposited + ldSandLost), 1.0L))
-      OutStream << "MASS BALANCE ERROR" << endl;
+      OutStream << MASS_BALANCE_ERROR << endl;
    
    long double ldCoarseEroded = m_ldGTotCoarseActualPlatformErosion + m_ldGTotCliffCollapseCoarse + m_ldGTotActualCoarseBeachErosion;
    OutStream << "Coarse sediment eroded                                 = " << ldCoarseEroded * m_dCellArea << " m^3" << endl;
@@ -1217,7 +1217,7 @@ int CSimulation::nWriteEndRunDetails(void)
    long double ldCoarseLost = m_ldGTotActualCoarseLostBeachErosion + m_ldGTotCoarseSedLostCliffCollapse;
    OutStream << "Coarse sediment lost from grid                         = " << ldCoarseLost * m_dCellArea << " m^3" << endl;
    if (! bFPIsEqual(ldCoarseEroded, (ldCoarseDeposited + ldCoarseLost), 1.0L))
-      OutStream << "MASS BALANCE ERROR" << endl;
+      OutStream << MASS_BALANCE_ERROR << endl;
    
    OutStream << endl;
    
@@ -1719,13 +1719,13 @@ void CSimulation::WritePolygonActualMovement(int const nCoast, vector<vector<int
       bShowZeroSand = false,
       bShowZeroCoarse = false;
    
-   if (! bFPIsEqual(dTmpFineErosion, 0.0, TOLERANCE))
+   if (! bFPIsEqual(dTmpFineErosion, 0.0, MASS_BALANCE_TOLERANCE))
       bShowZeroFine = true;
 
-   if (! bFPIsEqual(dTmpSandErosion, 0.0, TOLERANCE))
+   if (! bFPIsEqual(dTmpSandErosion, 0.0, MASS_BALANCE_TOLERANCE))
       bShowZeroSand = true;
 
-   if (! bFPIsEqual(dTmpCoarseErosion, 0.0, TOLERANCE))
+   if (! bFPIsEqual(dTmpCoarseErosion, 0.0, MASS_BALANCE_TOLERANCE))
       bShowZeroCoarse = true;
 
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;

@@ -27,6 +27,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 CGeomRasterGrid* CGeomCell::m_pGrid = NULL;          // Initialise m_pGrid, the static member of CGeomCell
 
+//! Constructor
 CGeomRasterGrid::CGeomRasterGrid(CSimulation* pSimIn)
 : m_dD50Fine(0),
   m_dD50Sand(0),
@@ -36,6 +37,7 @@ CGeomRasterGrid::CGeomRasterGrid(CSimulation* pSimIn)
 {
 }
 
+//! Destructor
 CGeomRasterGrid::~CGeomRasterGrid(void)
 {
    int nXMax = m_pSim->nGetGridXMax();
@@ -47,6 +49,7 @@ CGeomRasterGrid::~CGeomRasterGrid(void)
    delete [] m_Cell;
 }
 
+//! Returns a pointer to the simulation object
 CSimulation* CGeomRasterGrid::pGetSim(void)
 {
    return m_pSim;
@@ -57,6 +60,7 @@ CSimulation* CGeomRasterGrid::pGetSim(void)
 //    return &m_Cell[nX][nY];
 // }
 
+//! Creates the 2D CGeomCell array
 int CGeomRasterGrid::nCreateGrid(void)
 {
    // Create the 2D CGeomCell array, NOTE this is faster than using 2D STL vectors

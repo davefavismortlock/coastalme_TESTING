@@ -25,6 +25,9 @@ You should have received a copy of the GNU General Public License along with thi
 #include <cmath>
 #include <cfloat>
 
+#include <cstdio>
+using std::sprintf;
+
 #include <sstream>
 using std::stringstream;
 
@@ -174,14 +177,14 @@ Centre-aligns string or char within a field of given width, pads with blank spac
 string strCentre(string const strIn, int const nWidth) 
 {
    stringstream ss, spaces;
-   int nPadding = nWidth - static_cast<int>(strIn.size());       // Count excess room to pad
+   int nPadding = nWidth - static_cast<int>(strIn.size());
    
    for (int i = 0; i < nPadding / 2; ++i)
       spaces << " ";
 
-   ss << spaces.str() << strIn << spaces.str();                  // Format with padding
+   ss << spaces.str() << strIn << spaces.str();
    
-   if (nPadding > 0 && nPadding % 2 != 0)                         // If odd number, add one space
+   if (nPadding > 0 && nPadding % 2 != 0)       // If odd number, add one space
       ss << " ";
    
    return ss.str();
@@ -195,11 +198,11 @@ Right-aligns string within a field of given width, pads with blank spaces to enf
 string strRight(string const strIn, int const nWidth) 
 {
    stringstream ss, spaces;
-   int nPadding = nWidth - static_cast<int>(strIn.size()) - 1;    // Count excess room to pad
+   int nPadding = nWidth - static_cast<int>(strIn.size()) - 1;
    for (int i = 0; i < nPadding; ++i)
       spaces << " ";
-   ss << spaces.str() << strIn;                       // Format with padding
-   ss << " ";                                         // Add a final space
+   ss << spaces.str() << strIn;
+   ss << " ";
    return ss.str();
 }
 
@@ -211,9 +214,42 @@ Left-aligns string within a field of given width, pads with blank spaces to enfo
 string strLeft(string const strIn, int const nWidth) 
 {
    stringstream ss, spaces;
-   int nPadding = nWidth - static_cast<int>(strIn.size());  // Count excess room to pad
+   int nPadding = nWidth - static_cast<int>(strIn.size());
    for (int i = 0; i < nPadding; ++i)
       spaces << " ";
-   ss << strIn << spaces.str();                       // Format with padding
+   ss << strIn << spaces.str();
+   return ss.str();
+}
+
+/*==============================================================================================================================
+
+Calculates a percentage from two numbers then, if the result is non-zero, right-aligns the result as a string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+
+==============================================================================================================================*/
+string strRightPerCent(double const d1, double const d2, int const nWidth) 
+{
+   // Are either of the inputs zero?
+   if (bFPIsEqual(d1, 0.0, TOLERANCE))
+      return string(nWidth, SPACE);
+      
+   if (bFPIsEqual(d2, 0.0, TOLERANCE))
+      return string(nWidth, SPACE);
+      
+   // Non-zero, so calculate the percentage
+   double dResult = 100 * d1 / d2;
+   
+   char cBuffer[10];
+   sprintf(cBuffer, "%+.2f", dResult);
+   string strResult = cBuffer;
+   
+   stringstream ss, spaces;
+   int nPadding = nWidth - static_cast<int>(strResult.size()) - 4;
+   for (int i = 0; i < nPadding; ++i)
+      spaces << " ";
+   ss << spaces.str();
+   ss << "(";
+   ss << strResult;
+   ss << "%)";
+   ss << " ";
    return ss.str();
 }

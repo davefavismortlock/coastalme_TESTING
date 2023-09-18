@@ -99,7 +99,7 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
       if (strArg.find("--gdal") != string::npos)
       {
          // User wants to know what GDAL raster drivers are available
-         cout << GDALDRIVERS << endl
+         cout << GDAL_DRIVERS << endl
               << endl;
 
          for (int j = 0; j < GDALGetDriverCount(); j++)
@@ -1396,10 +1396,12 @@ void CSimulation::DoTimestepTotals(void)
       // At end of timestep, get the depths of consolidated and unconsolidated sediment stored on grid (or in suspension)
       int 
          nSuspFineCells = 0,
+         nUnconsFineCells = 0,
          nUnconsSandCells = 0,
          nUnconsCoarseCells = 0;
       double 
          dStoredSuspFine = 0,
+         dStoredUnconsFine = 0,
          dStoredUnconsSand = 0,
          dStoredUnconsCoarse = 0,
          dStoredConsFine = 0,
@@ -1422,6 +1424,13 @@ void CSimulation::DoTimestepTotals(void)
                nSuspFineCells++;
             }
             
+            double dUnconsFine = m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsFineThickness();
+            if (dUnconsFine > 0)
+            {
+               dStoredUnconsFine += dUnconsFine;
+               nUnconsFineCells++;
+            }
+
             double dUnconsSand = m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsSandThickness();
             if (dUnconsSand > 0)
             {
@@ -1446,46 +1455,46 @@ void CSimulation::DoTimestepTotals(void)
       LogStream << endl;
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): consolidated sediment budget, all m^3." << endl;
 
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       // Stored consolidated sediment at start of timestep
-      LogStream << strLeft("At start of timestep " + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dStartIterConsFine * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dStartIterConsSand * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dStartIterConsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dStartIterConsFine + m_dStartIterConsSand + m_dStartIterConsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("At start of timestep " + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dStartIterConsFine * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dStartIterConsSand * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dStartIterConsCoarse * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dStartIterConsFine + m_dStartIterConsSand + m_dStartIterConsCoarse) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp += (m_dStartIterConsFine * m_dCellArea);
       dSandTmp += (m_dStartIterConsSand * m_dCellArea);
       dCoarseTmp += (m_dStartIterConsCoarse * m_dCellArea);
       
       // Shore platform erosion, consolidated sediment lost (becomes unconsolidated esediment and suspended sediment)
-      LogStream << strLeft("Consolidated sediment lost via platform erosion (becomes suspended sediment)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionFineCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("Consolidated sediment lost via platform erosion (becomes unconsolidated sediment)", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionSandCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterActualPlatformErosionFineCons + m_dThisIterActualPlatformErosionSandCons + m_dThisIterActualPlatformErosionCoarseCons) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Consolidated sediment lost via platform erosion (becomes suspended sediment)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionFineCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("Consolidated sediment lost via platform erosion (becomes unconsolidated sediment)", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionSandCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterActualPlatformErosionFineCons + m_dThisIterActualPlatformErosionSandCons + m_dThisIterActualPlatformErosionCoarseCons) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp -= (m_dThisIterActualPlatformErosionFineCons * m_dCellArea);
       dSandTmp -= (m_dThisIterActualPlatformErosionSandCons * m_dCellArea);
       dCoarseTmp -= (m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea);
 
       // Cliff collapse, consolidated sediment lost (becomes unconsolidated esediment and suspended sediment)
-      LogStream << strLeft("Consolidated sediment lost via cliff collapse (becomes suspended sediment)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionFineCons * m_dCellArea, 3, 14) << "|" << endl;
-      LogStream << strLeft("Consolidated sediment lost via cliff collapse (becomes unconsolidated sediment)", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionSandCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseErosionSandCons + m_dThisIterCliffCollapseErosionCoarseCons) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Consolidated sediment lost via cliff collapse (becomes suspended sediment)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionFineCons * m_dCellArea, 3, 29) << "|" << endl;
+      LogStream << strLeft("Consolidated sediment lost via cliff collapse (becomes unconsolidated sediment)", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionSandCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseErosionSandCons + m_dThisIterCliffCollapseErosionCoarseCons) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp -= (m_dThisIterCliffCollapseErosionFineCons * m_dCellArea);
       dSandTmp -= (m_dThisIterCliffCollapseErosionSandCons * m_dCellArea);
       dCoarseTmp -= (m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea);
       
-      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", stored consolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dStoredConsFine * m_dCellArea, 3, 14)  << "|" << endl;      
-      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dStoredConsSand * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dStoredConsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((dStoredConsFine + dStoredConsSand + dStoredConsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", stored consolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dStoredConsFine * m_dCellArea, 3, 29)  << "|" << endl;      
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dStoredConsSand * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dStoredConsCoarse * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((dStoredConsFine + dStoredConsSand + dStoredConsCoarse) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       double
          dFineError = (dStoredConsFine * m_dCellArea) - dFineTmp,
@@ -1502,31 +1511,31 @@ void CSimulation::DoTimestepTotals(void)
       
       if (! bFPIsEqual(dFineError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strFineErrMsg = "MASS BALANCE ERROR";
+         strFineErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
       if (! bFPIsEqual(dSandError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strSandErrMsg = "MASS BALANCE ERROR";
+         strSandErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
       if (! bFPIsEqual(dCoarseError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strCoarseErrMsg = "MASS BALANCE ERROR";
+         strCoarseErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
       if (bError)
-         strAllErrMsg = "MASS BALANCE ERROR";
+         strAllErrMsg = MASS_BALANCE_ERROR;
 
-      LogStream << strLeft("Consolidated sediment mass balance check (+ve means end total > start total)", 119) << "|" << strLeft("", 14) << "|" << strLeft("", 14) << "|" << endl;
-      LogStream << strLeft(strFineErrMsg, 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dFineError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strSandErrMsg, 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dSandError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strCoarseErrMsg, 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dCoarseError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strAllErrMsg, 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(dFineError + dSandError + dCoarseError, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;      
+      LogStream << strLeft("Consolidated sediment mass balance check (+ve means end total > start total)", 119) << "|" << strLeft("", 14) << "|" << strLeft("", 29) << "|" << endl;
+      LogStream << strLeft(strFineErrMsg, 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dFineError, 3, 19) << strRightPerCent(dFineError, dStoredConsFine, 10) << "|" << endl;
+      LogStream << strLeft(strSandErrMsg, 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dSandError, 3, 19) << strRightPerCent(dSandError, dStoredConsSand, 10) << "|" << endl;
+      LogStream << strLeft(strCoarseErrMsg, 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dCoarseError, 3, 19) << strRightPerCent(dCoarseError, dStoredConsCoarse, 10)  << "|" << endl;
+      LogStream << strLeft(strAllErrMsg, 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(dFineError + dSandError + dCoarseError, 3, 19) << strRightPerCent(dFineError + dSandError + dCoarseError, dStoredConsFine + dStoredConsSand + dStoredConsCoarse, 10)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;      
       LogStream << endl;
       
       // Now look at unconsolidated sediment
@@ -1536,77 +1545,80 @@ void CSimulation::DoTimestepTotals(void)
          
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): unconsolidated sediment budget, all m^3." << endl;
 
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       // Stored unconsolidated sediment, and in suspension, at start of timestep
-      LogStream << strLeft("At start of timestep " + to_string(m_ulIter) + ", sediment in suspension", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dStartIterSuspFine * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("At start of timestep" + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dStartIterUnconsSand * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dStartIterUnconsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dStartIterSuspFine + m_dStartIterUnconsSand + m_dStartIterUnconsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("At start of timestep " + to_string(m_ulIter) + ", sediment in suspension", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dStartIterSuspFine * m_dCellArea, 3, 29)  << "|" << endl;
+
+      LogStream << strLeft("At start of timestep " + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dStartIterUnconsFine * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dStartIterUnconsSand * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dStartIterUnconsCoarse * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dStartIterSuspFine + m_dStartIterUnconsSand + m_dStartIterUnconsCoarse) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
-      dFineTmp += (m_dStartIterSuspFine * m_dCellArea);
+      dFineTmp += ((m_dStartIterSuspFine + m_dStartIterUnconsFine) * m_dCellArea);
       dSandTmp += (m_dStartIterUnconsSand * m_dCellArea);
       dCoarseTmp += (m_dStartIterUnconsCoarse * m_dCellArea);
       
       // Shore platform erosion, consolidated sediment becomes unconsolidated sediment and suspended sediment
-      LogStream << strLeft("Suspended sediment derived from platform erosion on consolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionFineCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("Unconsolidated sediment derived from platform erosion of consolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionSandCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dThisIterActualPlatformErosionFineCons + m_dThisIterActualPlatformErosionSandCons + m_dThisIterActualPlatformErosionCoarseCons) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Suspended sediment derived from platform erosion of consolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionFineCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("Unconsolidated sediment derived from platform erosion of consolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionSandCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dThisIterActualPlatformErosionFineCons + m_dThisIterActualPlatformErosionSandCons + m_dThisIterActualPlatformErosionCoarseCons) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp += (m_dThisIterActualPlatformErosionFineCons * m_dCellArea);
       dSandTmp += (m_dThisIterActualPlatformErosionSandCons * m_dCellArea);
       dCoarseTmp += (m_dThisIterActualPlatformErosionCoarseCons * m_dCellArea);
 
       // Cliff collapse, consolidated sediment becomes unconsolidated sediment and suspended sediment
-      LogStream << strLeft("Suspended sediment derived from cliff collapse erosion of both consolidated and unconsolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight((m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseErosionFineUncons) * m_dCellArea, 3, 14) << "|" << endl;
-      LogStream << strLeft("Unconsolidated sediment derived from cliff collapse erosion of consolidated sediment only", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterCliffCollapseErosionSandCons  * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dThisIterCliffCollapseErosionFineUncons + m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseErosionSandCons + m_dThisIterCliffCollapseErosionCoarseCons) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Suspended sediment derived from cliff collapse erosion of consolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisIterCliffCollapseErosionFineCons * m_dCellArea, 3, 29) << "|" << endl;
+      LogStream << strLeft("Unconsolidated sediment derived from cliff collapse erosion of consolidated sediment only", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterCliffCollapseErosionSandCons  * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((m_dThisIterCliffCollapseErosionFineCons + m_dThisIterCliffCollapseErosionSandCons + m_dThisIterCliffCollapseErosionCoarseCons) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
-      dFineTmp += ((m_dThisIterCliffCollapseErosionFineUncons + m_dThisIterCliffCollapseErosionFineUncons) * m_dCellArea);
+      dFineTmp += (m_dThisIterCliffCollapseErosionFineCons * m_dCellArea);
       dSandTmp += (m_dThisIterCliffCollapseErosionSandCons  * m_dCellArea);
       dCoarseTmp += (m_dThisIterCliffCollapseErosionCoarseCons * m_dCellArea);
       
       // Beach (unconsolidated sediment) lost from grid due to beach erosion and deposition, and to cliff collapse with talus going outside the grid
-      LogStream << strLeft("Unconsolidated sediment lost from grid", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsFine * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsSand * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsFine + m_dThisIterLeftGridUnconsSand + m_dThisIterLeftGridUnconsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Unconsolidated sediment lost from grid", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsFine * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsSand * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(-m_dThisIterLeftGridUnconsCoarse * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(-(m_dThisIterLeftGridUnconsFine + m_dThisIterLeftGridUnconsSand + m_dThisIterLeftGridUnconsCoarse) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp += (-m_dThisIterLeftGridUnconsFine * m_dCellArea);
       dSandTmp += (-m_dThisIterLeftGridUnconsSand * m_dCellArea);
       dCoarseTmp += (-m_dThisIterLeftGridUnconsCoarse * m_dCellArea);
       
       // Sediment added via input events
-      LogStream << strLeft("Unconsolidated sediment added via input event(s)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisiterUnconsFineInput * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisiterUnconsSandInput * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisiterUnconsCoarseInput * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Unconsolidated sediment added via input event(s)", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(m_dThisiterUnconsFineInput * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisiterUnconsSandInput * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisiterUnconsCoarseInput * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dFineTmp += (m_dThisiterUnconsFineInput * m_dCellArea);
       dSandTmp += (m_dThisiterUnconsSandInput * m_dCellArea);
       dCoarseTmp += (m_dThisiterUnconsCoarseInput * m_dCellArea);
       
       // Any insufficient deposition?
-      LogStream << strLeft("Insufficient deposition of unconsolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterDepositionSandDiff * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterDepositionCoarseDiff * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("Insufficient deposition of unconsolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(m_dThisIterDepositionSandDiff * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(m_dThisIterDepositionCoarseDiff * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
       dSandTmp += (m_dThisIterDepositionSandDiff * m_dCellArea);
       dCoarseTmp += (m_dThisIterDepositionCoarseDiff * m_dCellArea);      
       
-      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", sediment in suspension", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dStoredSuspFine * m_dCellArea, 3, 14)  << "|" << endl;      
-      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dStoredUnconsSand * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dStoredUnconsCoarse * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((dStoredSuspFine + dStoredUnconsSand + dStoredUnconsCoarse) * m_dCellArea, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;
+      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", sediment in suspension", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dStoredSuspFine * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("At end of timestep " + to_string(m_ulIter) + ", stored unconsolidated sediment", 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dStoredUnconsFine * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dStoredUnconsSand * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dStoredUnconsCoarse * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << strLeft("", 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight((dStoredSuspFine + dStoredUnconsSand + dStoredUnconsCoarse) * m_dCellArea, 3, 29)  << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;
       
-      dFineError = (dStoredSuspFine * m_dCellArea) - dFineTmp,
+      dFineError = ((dStoredSuspFine + dStoredUnconsFine) * m_dCellArea) - dFineTmp,
       dSandError = (dStoredUnconsSand * m_dCellArea) - dSandTmp,
       dCoarseError = (dStoredUnconsCoarse * m_dCellArea) - dCoarseTmp;
 
@@ -1619,31 +1631,31 @@ void CSimulation::DoTimestepTotals(void)
       
       if (! bFPIsEqual(dFineError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strFineErrMsg = "MASS BALANCE ERROR";
+         strFineErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
       if (! bFPIsEqual(dSandError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strSandErrMsg = "MASS BALANCE ERROR";
+         strSandErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
     if (! bFPIsEqual(dCoarseError, 0.0, MASS_BALANCE_TOLERANCE))
       {
-         strCoarseErrMsg = "MASS BALANCE ERROR";
+         strCoarseErrMsg = MASS_BALANCE_ERROR;
          bError = true;
       }
       
       if (bError)
-         strAllErrMsg = "MASS BALANCE ERROR";
+         strAllErrMsg = MASS_BALANCE_ERROR;
       
-      LogStream << strLeft("Unconsolidated sediment mass balance check (+ve means end total > start total)", 119) << "|" << strLeft("", 14) << "|" << strLeft("", 14)  << "|" << endl;
-      LogStream << strLeft(strFineErrMsg, 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dFineError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strSandErrMsg, 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dSandError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strCoarseErrMsg, 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dCoarseError, 3, 14)  << "|" << endl;
-      LogStream << strLeft(strAllErrMsg, 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(dFineError + dSandError + dCoarseError, 3, 14)  << "|" << endl;
-      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(14, '-') << "|" << endl;      
+      LogStream << strLeft("Unconsolidated sediment mass balance check (+ve means iteration-end total > iteration-start total)", 119) << "|" << strLeft("", 14) << "|" << strLeft("", 29)  << "|" << endl;
+      LogStream << strLeft(strFineErrMsg, 119) << "|" << strLeft("Fine", 14) << "|" << strDblRight(dFineError, 3, 19) << strRightPerCent(dFineError, (dStoredSuspFine + dStoredUnconsFine), 10) << "|" << endl;
+      LogStream << strLeft(strSandErrMsg, 119) << "|" << strLeft("Sand", 14) << "|" << strDblRight(dSandError, 3, 19) << strRightPerCent(dSandError, dStoredUnconsSand, 10) << "|" << endl;
+      LogStream << strLeft(strCoarseErrMsg, 119) << "|" << strLeft("Coarse", 14) << "|" << strDblRight(dCoarseError, 3, 19) << strRightPerCent(dCoarseError, dStoredUnconsCoarse, 10) << "|" << endl;
+      LogStream << strLeft(strAllErrMsg, 119) << "|" << strLeft("ALL", 14) << "|" << strDblRight(dFineError + dSandError + dCoarseError, 3, 19) << strRightPerCent(dFineError + dSandError + dCoarseError, dStoredSuspFine + dStoredUnconsFine + dStoredUnconsSand + dStoredUnconsCoarse, 10) << "|" << endl;
+      LogStream << string(119, '-') << "|" << string(14, '-') << "|" << string(29, '-') << "|" << endl;      
       LogStream << endl;
    }
    
@@ -3118,14 +3130,14 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if ((VstrTmp.size() < 2) || (! bIsStringValidInt(VstrTmp[0])))
       {
          cerr << "Error in number of hours '" + strDate + "' for sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       double dHours = stod(strTrim(&VstrTmp[0]));
       if (dHours > m_dSimDuration)
       {
          cerr << "Sediment input event '" + strDate + "' occurs after end of simulation" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       ulTimeStep = static_cast<unsigned long>(dRound(dHours / m_dTimeStep));
@@ -3137,14 +3149,14 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if ((VstrTmp.size() < 2) || (! bIsStringValidInt(VstrTmp[0])))
       {
          cerr << "Error in number of days '" + strDate + "' for sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       double dHours = stod(strTrim(&VstrTmp[0])) * 24;
       if (dHours > m_dSimDuration)
       {
          cerr << "Sediment input event '" + strDate + "' occurs after end of simulation" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       ulTimeStep = static_cast<unsigned long>(dRound(dHours / m_dTimeStep));
@@ -3156,7 +3168,7 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if (VstrTmp.size() < 2)
       {
          cerr << "Error in time/date '" + strDate + "' of sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       int
@@ -3168,7 +3180,7 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if (! bParseTime(&VstrTmp[0], nHour, nMin, nSec))
       {
          cerr << "Error in time '" + VstrTmp[0] + "' of sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       int
@@ -3180,7 +3192,7 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if (! bParseDate(&VstrTmp[1], nDay, nMonth, nYear))
       {
          cerr << "Error in date '" + VstrTmp[1] + "' of sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       // This is modified from https://stackoverflow.com/questions/14218894/number-of-days-between-two-dates-c
@@ -3206,26 +3218,26 @@ unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
       if (tStart == (time_t)(-1))
       {
          cerr << "Error in simulation start time/date" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       if (tEvent == (time_t)(-1))
       {
          cerr << "Error in time/date '" + strDate + "' of sediment input event" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       double dHours = difftime(tEvent, tStart) / (60 * 60);
       if (dHours < 0)
       {
          cerr << "Sediment input event '" + strDate + "' occurs before start of simulation" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       if (dHours > m_dSimDuration)
       {
          cerr << "Sediment input event '" + strDate + "' occurs after end of simulation" << endl;
-         return SEDINPUTEVENTERROR;
+         return SEDIMENT_INPUT_EVENT_ERROR;
       }
 
       ulTimeStep = static_cast<unsigned long>(dHours / m_dTimeStep);

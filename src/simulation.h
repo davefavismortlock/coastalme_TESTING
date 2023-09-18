@@ -367,6 +367,7 @@ private:
       m_dThisiterUnconsSandInput,
       m_dThisiterUnconsCoarseInput,
       m_dStartIterSuspFine,
+      m_dStartIterUnconsFine,
       m_dStartIterUnconsSand,
       m_dStartIterUnconsCoarse,
       m_dStartIterConsFine,

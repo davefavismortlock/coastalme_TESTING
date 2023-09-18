@@ -345,6 +345,7 @@ CSimulation::CSimulation (void)
    m_dThisiterUnconsSandInput =
    m_dThisiterUnconsCoarseInput = 
    m_dStartIterSuspFine =
+   m_dStartIterUnconsFine =
    m_dStartIterUnconsSand =
    m_dStartIterUnconsCoarse = 
    m_dStartIterConsFine =
@@ -905,7 +906,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
       AnnounceProgress();
 
       if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
-         LogStream << "TIMESTEP " << m_ulIter << " ================================================================================================" << endl << endl;
+         LogStream << "TIMESTEP " << m_ulIter << " " << string(154, '=') << endl;
       
       LogStream << std::fixed << setprecision(3);
       

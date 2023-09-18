@@ -7,7 +7,7 @@
 program CShore
 #else
 #if defined FILEINOUT
-subroutine CShore(NRET) bind(c, name = "CShore")
+subroutine CShore(NRET)   ! bind(c, name = "CShore")
 #else
 subroutine CShore(NRET)   
 #endif

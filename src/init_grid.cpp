@@ -110,6 +110,7 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
    int nZeroThickness = 0;
    
    m_dStartIterSuspFine =
+   m_dStartIterUnconsFine =
    m_dStartIterUnconsSand =
    m_dStartIterUnconsCoarse =
    m_dStartIterConsFine =
@@ -145,6 +146,7 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
          m_dStartIterConsCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetTotConsCoarseThickConsiderNotch();
          
          m_dStartIterSuspFine += m_pRasterGrid->m_Cell[nX][nY].dGetSuspendedSediment();
+         m_dStartIterUnconsFine += m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsFineThickness();         
          m_dStartIterUnconsSand += m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsSandThickness();         
          m_dStartIterUnconsCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetTotUnconsCoarseThickness();
 

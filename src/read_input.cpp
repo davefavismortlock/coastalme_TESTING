@@ -3496,7 +3496,7 @@ int CSimulation::nReadSedimentInputEventTimeSeriesFile(void)
 
          // Next get the timestep at which the sediment input event occurs. This may be specified either as a relative time (i.e. a number of hours or days after the simulation start) or as an absolute time (i.e. a time/date in the format hh-mm-ss dd/mm/yyyy)
          unsigned long ulEventTimeStep = ulConvertToTimestep(&VstrTmp[1]);
-         if (ulEventTimeStep == SEDINPUTEVENTERROR)
+         if (ulEventTimeStep == SEDIMENT_INPUT_EVENT_ERROR)
          {
             strErr = "line " + to_string(nLine) + ": invalid time and/or date '" + VstrTmp[1] + "' for sediment input event in " + m_strSedimentInputEventTimeSeriesFile;
             break;

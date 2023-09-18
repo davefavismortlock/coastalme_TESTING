@@ -200,7 +200,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
          {
             if (nInlandOffset > (pUpCoastProfile->nGetNumCellsInProfile() - 1))
             {
-               if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
+               if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): reached end of up-coast profile " << nUpCoastProfile << " during down-coast erosion of unconsolidated " + strTexture + " sediment for coast " << nCoast << " polygon " << nPoly << " (nCoastPoint = " << nCoastPoint << " nInlandOffset = " << nInlandOffset << ")" << endl;
 
                bEndProfile = true;
