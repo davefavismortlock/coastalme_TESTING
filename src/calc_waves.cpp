@@ -55,11 +55,9 @@ using std::sort;
 #include "linearinterp.h"
 #include "interpolate.h"
 
-/*===============================================================================================================================
-
-Give every coast point a value for deep water wave height and direction TODO This may not be realistic, maybe better to use end-of-profile value instead (how?)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Give every coast point a value for deep water wave height and direction TODO This may not be realistic, maybe better to use end-of-profile value instead (how?)
+//===============================================================================================================================
 int CSimulation::nSetAllCoastpointDeepWaterWaveValues(void)
 {
    // For each coastline, put a value for deep water wave height and direction at each coastline point
@@ -150,11 +148,9 @@ int CSimulation::nSetAllCoastpointDeepWaterWaveValues(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Simulates wave propagation along all coastline-normal profiles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Simulates wave propagation along all coastline-normal profiles
+//===============================================================================================================================
 int CSimulation::nDoAllPropagateWaves(void)
 {
    // Set up all-profile vectors to hold the wave attribute data at every profile point on all profiles
@@ -596,11 +592,9 @@ int CSimulation::nDoAllPropagateWaves(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Calculates the angle between the wave direction and a normal to the coastline tangent. If wave direction has a component which is down-coast (i.e. in the direction with increasing coast point numbers), then the angle returned is +ve. If wave direction has a component which is up-coast (i.e. in the direction with decreasing coast point numbers), then the angle returned is -ve. If waves are in an off-shore direction, DBL_NODATA is returned
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the angle between the wave direction and a normal to the coastline tangent. If wave direction has a component which is down-coast (i.e. in the direction with increasing coast point numbers), then the angle returned is +ve. If wave direction has a component which is up-coast (i.e. in the direction with decreasing coast point numbers), then the angle returned is -ve. If waves are in an off-shore direction, DBL_NODATA is returned
+//===============================================================================================================================
 double CSimulation::dCalcWaveAngleToCoastNormal(double const dCoastAngle, double const dWaveAngle, int const nSeaHand)
 {
    double dWaveToNormalAngle = 0;
@@ -618,11 +612,9 @@ double CSimulation::dCalcWaveAngleToCoastNormal(double const dCoastAngle, double
    return dWaveToNormalAngle;
 }
 
-/*===============================================================================================================================
-
-Calculates wave properties along a coastline-normal profile using either the COVE linear wave theory approach or the external CShore model
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates wave properties along a coastline-normal profile using either the COVE linear wave theory approach or the external CShore model
+//===============================================================================================================================
 int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoastSize, int const nProfile, vector<double> *pVdX, vector<double> *pVdY, vector<double> *pVdHeightX, vector<double> *pVdHeightY, vector<bool> *pVbBreaking)
 {
    CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
@@ -1458,11 +1450,9 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 }
 
 #if defined CSHORE_FILE_INOUT
-/*===============================================================================================================================
-
-Create and write to the CShore input file
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Create and write to the CShore input file
+//===============================================================================================================================
 int CSimulation::nCreateCShoreInfile(int const nCoast, int const nProfile, int const nILine, int const nIProfl, int const nIPerm, int const nIOver, int const nIWcint, int const nIRoll, int const nIWind, int const nITide, int const nILab, int const nWave, int const nSurge, double const dX, double const dTimestep, double const dWaveInitTime, double const dWavePeriod, double const dHrms, double const dWaveAngle, double const dSurgeInitTime, double const dSurgeLevel, vector<double> const *pVdXdist, vector<double> const *pVdBottomElevation, vector<double> const *pVdWaveFriction)
 {
    // Create the CShore input file
@@ -1532,11 +1522,9 @@ int CSimulation::nCreateCShoreInfile(int const nCoast, int const nProfile, int c
 }
 #endif
 
-/*===============================================================================================================================
-
-Get profile horizontal distance and bottom elevation vectors in CShore units
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Get profile horizontal distance and bottom elevation vectors in CShore units
+//===============================================================================================================================
 int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int const nProfile, int const nProfSize, vector<double> *VdDistXY, vector<double> *VdVZ, vector<double> *VdFricF)
 {
    bool bIsBehindIntervention = false;
@@ -1639,11 +1627,9 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
 }
 
 #if defined CSHORE_FILE_INOUT
-/*==============================================================================================================================
-
-Reads a CShore output file and creates a vector holding interpolated values
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Reads a CShore output file and creates a vector holding interpolated values
+//===============================================================================================================================
 int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFilename, int const nExpectedColumns, int const nCShorecolumn, vector<double> const *pVdProfileDistXYCME, vector<double> *pVdInterpolatedValues)
 {
    // Read in the first column (contains XY distance relative to seaward limit) and CShore column from the CShore output file
@@ -1755,11 +1741,9 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
 #endif
 
 #if defined CSHORE_ARG_INOUT || CSHORE_BOTH
-/*==============================================================================================================================
-
-Interpolates CShore output
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Interpolates CShore output
+//===============================================================================================================================
 void CSimulation::InterpolateCShoreOutput(vector<double> const *pVdProfileDistXYCME, int const nOutSize, vector<double> const *pVdXYDistFromCShoreOut, vector<double> const *pVdFreeSurfaceStdCShore, vector<double> const *pVdWaveSetupSurgeCShore, vector<double> const *pVdSinWaveAngleRadiansCShore, vector<double> const *pVdFractionBreakingWavesCShore, vector<double> *pVdFreeSurfaceStdCME, vector<double> *pVdWaveSetupSurgeCME, vector<double> *pVdSinWaveAngleRadiansCME, vector<double> *pVdFractionBreakingWavesCME)
 {
    // The CShore cross-shore distance has its origin at the seaward end, so create a copy of the valid part of this which is in the CME convention (i.e. with the origin at the shoreline)
@@ -1793,11 +1777,9 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const *pVdProfileDistXY
 
 #endif
 
-/*===============================================================================================================================
-
-Modifies the wave breaking properties at coastline points of profiles within the shadow zone
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Modifies the wave breaking properties at coastline points of profiles within the shadow zone
+//===============================================================================================================================
 void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int const nCoast, int const nProfIndex)
 {
    int nProfile = m_VCoast[nCoast].nGetProfileFromAlongCoastProfileIndex(nProfIndex);
@@ -1883,11 +1865,9 @@ void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int co
    return;
 }
 
-/*===============================================================================================================================
-
-Interpolates wave properties from profiles to the coastline points between two profiles. Do this by weighting the wave properties so that they change smoothly between the two profiles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Interpolates wave properties from profiles to the coastline points between two profiles. Do this by weighting the wave properties so that they change smoothly between the two profiles
+//===============================================================================================================================
 void CSimulation::InterpolateWavePropsBetweenProfiles(int const nCoast, int const nProfIndex, int const nNumProfiles)
 {
    int nProfile = m_VCoast[nCoast].nGetProfileFromAlongCoastProfileIndex(nProfIndex);
@@ -2049,11 +2029,9 @@ void CSimulation::InterpolateWavePropsBetweenProfiles(int const nCoast, int cons
    }
 }
 
-/*===============================================================================================================================
-
-Linearly interpolates wave properties from profiles to the coastline cells between two profiles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Linearly interpolates wave properties from profiles to the coastline cells between two profiles
+//===============================================================================================================================
 void CSimulation::InterpolateWaveHeightToCoastPoints(int const nCoast)
 {
    int nCoastPoints = m_VCoast[nCoast].nGetCoastlineSize();
@@ -2092,11 +2070,9 @@ void CSimulation::InterpolateWaveHeightToCoastPoints(int const nCoast)
    }
 }
 
-/*===============================================================================================================================
-
-Calculates tangents to a coastline: the tangent is assumed to be the orientation of energy/sediment flux along a coast. The tangent is specified as an angle (in degrees) measured clockwise from north. Based on a routine by Martin Hurst
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates tangents to a coastline: the tangent is assumed to be the orientation of energy/sediment flux along a coast. The tangent is specified as an angle (in degrees) measured clockwise from north. Based on a routine by Martin Hurst
+//===============================================================================================================================
 void CSimulation::CalcCoastTangents(int const nCoast)
 {
    int nCoastSize = m_VCoast[nCoast].nGetCoastlineSize();
@@ -2172,11 +2148,9 @@ void CSimulation::CalcCoastTangents(int const nCoast)
    }
 }
 
-/*===============================================================================================================================
-
-Calculates an average d50 for each polygon. Also fills in 'holes' in active zone and wave calcs i.e. orphan cells which should have been included in the active zone but which have been omitted because of rounding problems
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates an average d50 for each polygon. Also fills in 'holes' in active zone and wave calcs i.e. orphan cells which should have been included in the active zone but which have been omitted because of rounding problems
+//===============================================================================================================================
 void CSimulation::CalcD50AndFillWaveCalcHoles(void)
 {
    vector<int> VnPolygonD50Count(m_nGlobalPolygonID + 1, 0);

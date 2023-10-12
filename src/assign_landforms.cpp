@@ -36,11 +36,9 @@ using std::endl;
 #include "drift.h"
 #include "intervention.h"
 
-/*==============================================================================================================================
-
-Each timestep, classify coastal landforms and assign a coastal landform object to every point on every coastline. If, for a given cell, the coastal landform class has not changed then it inherits values from the previous timestep
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Each timestep, classify coastal landforms and assign a coastal landform object to every point on every coastline. If, for a given cell, the coastal landform class has not changed then it inherits values from the previous timestep
+//===============================================================================================================================
 int CSimulation::nAssignAllCoastalLandforms(void)
 {
    // For each coastline, put a coastal landform at every point along the coastline
@@ -276,11 +274,9 @@ int CSimulation::nAssignAllCoastalLandforms(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-At the end of each timestep, this routine stores the attributes from a single coastal landform object in the grid cell 'under' the object, ready for the next timestep
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! At the end of each timestep, this routine stores the attributes from a single coastal landform object in the grid cell 'under' the object, ready for the next timestep
+//===============================================================================================================================
 int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
 {
    // What is the coastal landform here?
@@ -354,11 +350,9 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Each timestep, classify landforms for cells that are not on the coastline
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Each timestep, classify landforms for cells that are not on the coastline
+//===============================================================================================================================
 int CSimulation::nAssignNonCoastlineLandforms(void)
 {
    // Go through all cells in the RasterGrid array

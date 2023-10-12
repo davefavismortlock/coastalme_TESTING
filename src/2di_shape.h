@@ -35,7 +35,8 @@ using std::vector;
 class CA2DIShape
 {
 protected:
-    vector<CGeom2DIPoint> m_VPoints;
+   //! The integer points which comprise the 2D shape
+   vector<CGeom2DIPoint> m_VPoints;
 
 public:
    CA2DIShape(void);

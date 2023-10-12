@@ -1,6 +1,0 @@
-<map id="tMax" name="tMax">
-<area shape="rect" id="node1" title=" " alt="" coords="361,31,416,57"/>
-<area shape="rect" id="node2" href="$class_c_simulation.html#a71288b0bcd20fa2c58d31614b9a66805" title="Runs the simulation." alt="" coords="108,5,313,32"/>
-<area shape="rect" id="node4" href="$class_c_geom_cell.html#ab445c2aab1f807824fc4dc432fabfb72" title="Returns the depth of seawater on this cell if the sediment top is &lt; SWL, or zero." alt="" coords="117,56,304,83"/>
-<area shape="rect" id="node3" href="$cme_8cpp.html#abf9e6b7e6f15df4b525a2e7705ba3089" title=" " alt="" coords="5,5,60,32"/>
-</map>

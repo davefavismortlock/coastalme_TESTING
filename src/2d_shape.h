@@ -37,7 +37,8 @@ using std::reverse;
 class CA2DShape
 {
 protected:
-    vector<CGeom2DPoint> m_VPoints;
+   //! The points which comprise the 2D shape
+   vector<CGeom2DPoint> m_VPoints;
 
 public:
    CA2DShape(void);

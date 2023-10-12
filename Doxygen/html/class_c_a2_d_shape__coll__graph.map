@@ -1,7 +1,0 @@
-<map id="CA2DShape" name="CA2DShape">
-<area shape="rect" id="node1" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="43,557,221,825"/>
-<area shape="rect" id="node2" title=" " alt="" coords="22,417,242,495"/>
-<area shape="rect" id="node3" href="$class_c_geom2_d_point.html" title="Geometry class used to represent 2D point objects with floating&#45;point co&#45;ordinates." alt="" coords="5,145,152,355"/>
-<area shape="rect" id="node4" title=" " alt="" coords="177,211,306,289"/>
-<area shape="rect" id="node5" title=" " alt="" coords="222,5,261,83"/>
-</map>

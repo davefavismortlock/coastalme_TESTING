@@ -1,5 +1,0 @@
-<map id="CRWCellLandform::SetLFCategory" name="CRWCellLandform::SetLFCategory">
-<area shape="rect" id="node1" title="Set the landform category and initialise the sub&#45;category." alt="" coords="256,35,499,61"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#abb8893212d96778d53ae187f5ceb942b" title=" " alt="" coords="19,5,195,32"/>
-<area shape="rect" id="node3" href="$class_c_geom_cell.html#a8fe16d2a288d84522f3cf3be63e4c00e" title="Sets the landform category and subcategory for an intervention." alt="" coords="5,57,208,98"/>
-</map>

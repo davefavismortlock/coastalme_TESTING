@@ -36,12 +36,9 @@ using std::stack;
 #include "simulation.h"
 #include "coast.h"
 
-
-/*===============================================================================================================================
-
-Create polygons, and marks the polygon boundaries on the raster grid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Create polygons, and marks the polygon boundaries on the raster grid
+//===============================================================================================================================
 int CSimulation::nCreateAllPolygons(void)
 {
    // Global polygon count
@@ -215,11 +212,9 @@ int CSimulation::nCreateAllPolygons(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Puts a polygon 'joining line' (the line which is the seaward boundary of the polygon, if the polygon doesn't meet at a point) onto the raster grid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Puts a polygon 'joining line' (the line which is the seaward boundary of the polygon, if the polygon doesn't meet at a point) onto the raster grid
+//===============================================================================================================================
 void CSimulation::RasterizePolygonJoiningLine(CGeom2DPoint const* pPt1, CGeom2DPoint const* pPt2)
 {
    // The start point of the line, must convert from the external CRS to grid CRS
@@ -269,11 +264,9 @@ void CSimulation::RasterizePolygonJoiningLine(CGeom2DPoint const* pPt1, CGeom2DP
    }
 }
 
-/*===============================================================================================================================
-
-Marks cells of the raster grid that are within each coastal polygon. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Marks cells of the raster grid that are within each coastal polygon. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack) 
+//===============================================================================================================================
 void CSimulation::MarkPolygonCells(void)
 {
    // Do this for each coast
@@ -499,13 +492,9 @@ void CSimulation::MarkPolygonCells(void)
 }
 
 
-/*===============================================================================================================================
-
-For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons
-
- // TODO Will need to change this when length of coastline-normal profiles (and so polygon seaward length) is determined by depth of closure
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons TODO Will need to change this when length of coastline-normal profiles (and so polygon seaward length) is determined by depth of closure
+//===============================================================================================================================
 int CSimulation::nDoPolygonSharedBoundaries(void)
 {
    // Do this for every coast
@@ -711,13 +700,9 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Determines whether a point is within a polygon: however if the point is exactly on the edge of the polygon, then the result is indeterminate
-
-Modified from code at http://alienryderflex.com/polygon/, our thanks to Darel Rex Finley (DarelRex@gmail.com)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Determines whether a point is within a polygon: however if the point is exactly on the edge of the polygon, then the result is indeterminate. Modified from code at http://alienryderflex.com/polygon/, our thanks to Darel Rex Finley (DarelRex@gmail.com)
+//===============================================================================================================================
 bool CSimulation::bIsWithinPolygon(CGeom2DPoint const* pPtStart, vector<CGeom2DPoint> const* pPtPoints)
 {
    bool bOddNodes = false;
@@ -752,13 +737,9 @@ bool CSimulation::bIsWithinPolygon(CGeom2DPoint const* pPtStart, vector<CGeom2DP
   return bOddNodes;
 }
 
-/*===============================================================================================================================
-
-Finds a point in a polygon: is guaranteed to succeed, as every strictly closed polygon has at least one triangle that is completely contained within the polygon
-
-Derived from an algorithm at http://stackoverflow.com/questions/9797448/get-a-point-inside-the-polygon
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Finds a point in a polygon: is guaranteed to succeed, as every strictly closed polygon has at least one triangle that is completely contained within the polygon. Derived from an algorithm at http://stackoverflow.com/questions/9797448/get-a-point-inside-the-polygon
+//===============================================================================================================================
 CGeom2DPoint CSimulation::PtFindPointInPolygon(vector<CGeom2DPoint> const* pPtPoints, int const nStartPoint)
 {
    int

@@ -42,11 +42,9 @@ using std::accumulate;
 #include "coast.h"
 #include "simulation.h"
 
-/*===============================================================================================================================
-
-Determines whether the wave orientation at this point on a coast is onshore or offshore, and up-coast or down-coast
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Determines whether the wave orientation at this point on a coast is onshore or offshore, and up-coast or down-coast
+//===============================================================================================================================
 bool CSimulation::bOnOrOffShoreAndUpOrDownCoast(double const dCoastAngle, double const dWaveAngle, int const nSeaHand, bool &bDownCoast)
 {
    bool bOnShore;
@@ -68,11 +66,9 @@ bool CSimulation::bOnOrOffShoreAndUpOrDownCoast(double const dCoastAngle, double
    return bOnShore;
 }
 
-/*===============================================================================================================================
-
-Given a cell and a wave orientation, finds the 'upwave' cell
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given a cell and a wave orientation, finds the 'upwave' cell
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiFollowWaveAngle(CGeom2DIPoint const *pPtiLast, double const dWaveAngleIn, double&dCorrection)
 {
    int
@@ -138,11 +134,9 @@ CGeom2DIPoint CSimulation::PtiFollowWaveAngle(CGeom2DIPoint const *pPtiLast, dou
    return CGeom2DIPoint(nXNext, nYNext);
 }
 
-/*===============================================================================================================================
-
-Finds wave shadow zones and modifies waves in and near them. Note that where up-coast and down-coast shadow zones overlap, the effects on wave values in the overlap area is an additive decrease in wave energy. Changes to wave energy in any down-drift increased-energy zones are also additive.
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Finds wave shadow zones and modifies waves in and near them. Note that where up-coast and down-coast shadow zones overlap, the effects on wave values in the overlap area is an additive decrease in wave energy. Changes to wave energy in any down-drift increased-energy zones are also additive.
+//===============================================================================================================================
 int CSimulation::nDoAllShadowZones(void)
 {
    if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
@@ -672,11 +666,9 @@ int CSimulation::nDoAllShadowZones(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Flood fills a shadow zone from the centroid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Flood fills a shadow zone from the centroid
+//===============================================================================================================================
 int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPtiCentroid, CGeom2DIPoint const *pPtiShadowBoundaryStart, CGeom2DIPoint const *pPtiShadowBoundaryEnd)
 {
    // Is the centroid a sea cell?
@@ -796,11 +788,9 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Traverse the shadow zone, changing wave orientation and height, and the down-drift zone, changing only wave height. Do this by following the coast between the shadow boundary start point and end point, and following the downdrift boundary between the same points. At each step, trace a linking line, then move along this line and change wave properties
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Traverse the shadow zone, changing wave orientation and height, and the down-drift zone, changing only wave height. Do this by following the coast between the shadow boundary start point and end point, and following the downdrift boundary between the same points. At each step, trace a linking line, then move along this line and change wave properties
+//===============================================================================================================================
 int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone, int const nShadowBoundaryStartPoint, int const nShadowBoundaryEndPoint)
 {
    int
@@ -1211,11 +1201,9 @@ int CSimulation::nDoShadowZoneAndDownDriftZone(int const nCoast, int const nZone
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Process a single cell which is in the downdrift zone, changing its wave height
-
- ===============================================================================================================================*/
+//===============================================================================================================================
+//! Process a single cell which is in the downdrift zone, changing its wave height
+//===============================================================================================================================
 void CSimulation::ProcessDownDriftCell(int const nX, int const nY, int const nTraversed, double const dTotalToTraverse, int const nZone)
 {
    // Get the pre-existing (i.e. shore-parallel) wave height
@@ -1267,11 +1255,9 @@ void CSimulation::ProcessDownDriftCell(int const nX, int const nY, int const nTr
    //    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}, nTraversed = " << nTraversed << " dTotalToTraverse = " << dTotalToTraverse << " fraction traversed = " << nTraversed / dTotalToTraverse << endl << "m_pRasterGrid->m_Cell[" << nX << "][" << nY << "].dGetCellDeepWaterWaveHeight() = " << m_pRasterGrid->m_Cell[nX][nY].dGetCellDeepWaterWaveHeight() << " m, original dWaveHeight = " << dWaveHeight << " m, dKp = " << dKp << ", modified wave height = " << dKp * dWaveHeight << " m" << endl << endl;
 }
 
-/*===============================================================================================================================
-
-Process a single cell which is in the shadow zone, changing its wave height and orientation
-
- ===============================================================================================================================*/
+//===============================================================================================================================
+//! Process a single cell which is in the shadow zone, changing its wave height and orientation
+//===============================================================================================================================
 void CSimulation::ProcessShadowZoneCell(int const nX, int const nY, int const nShadowZoneCoastToCapeSeaHand, CGeom2DIPoint const *pPtiCoast, int const nShadowEndX, int const nShadowEndY, int const nZone)
 {
    int nZoneCode = m_pRasterGrid->m_Cell[nX][nY].nGetShadowZoneNumber();

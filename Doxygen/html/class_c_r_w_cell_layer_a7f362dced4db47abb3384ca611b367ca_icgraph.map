@@ -1,4 +1,0 @@
-<map id="CRWCellLayer::dGetSandConsolidatedThickness" name="CRWCellLayer::dGetSandConsolidatedThickness">
-<area shape="rect" id="node1" title=" " alt="" coords="271,5,541,47"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#a44d3cd9b7d56463e52cedf06e1374a80" title="Returns the total thickness of sand&#45;sized consolidated sediment on this cell, minus the depth&#45;equival..." alt="" coords="5,5,223,47"/>
-</map>

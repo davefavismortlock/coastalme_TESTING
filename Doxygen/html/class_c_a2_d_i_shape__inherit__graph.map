@@ -1,4 +1,0 @@
-<map id="CA2DIShape" name="CA2DIShape">
-<area shape="rect" id="node1" title="Abstract class, used as a base class for integer 2D objects (line, area, etc.)" alt="" coords="5,5,184,244"/>
-<area shape="rect" id="node2" href="$class_c_geom_i_line.html" title="Geometry class used to represent 2D vector integer line objects." alt="" coords="26,292,163,457"/>
-</map>

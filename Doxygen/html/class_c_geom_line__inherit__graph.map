@@ -1,6 +1,0 @@
-<map id="CGeomLine" name="CGeomLine">
-<area shape="rect" id="node1" title="Geometry class used to represent 2D vector line objects." alt="" coords="69,321,202,531"/>
-<area shape="rect" id="node3" href="$class_c_geom_multi_line.html" title="Geometry class used to represent co&#45;incident lines (for profiles/polygon&#45;to&#45;polygon boundaries)" alt="" coords="12,579,259,1067"/>
-<area shape="rect" id="node2" href="$class_c_a2_d_shape.html" title="Abstract class, used as a base class for 2D objects (line, area, etc.)" alt="" coords="46,5,225,273"/>
-<area shape="rect" id="node4" href="$class_c_geom_profile.html" title="Geometry class used to represent coast profile objects." alt="" coords="5,1115,265,1896"/>
-</map>

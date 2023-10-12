@@ -30,11 +30,9 @@ using std::cout;
 #include "cme.h"
 #include "simulation.h"
 
-/*===============================================================================================================================
-
-Calculate external forcings: change in still water level, tide level and deep water waves height, orientation and period
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculate external forcings: change in still water level, tide level and deep water waves height, orientation and period
+//===============================================================================================================================
 int CSimulation::nCalcExternalForcing(void)
 {
    // Increment SWL (note that increment may be zero)

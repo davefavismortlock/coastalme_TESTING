@@ -29,7 +29,11 @@ You should have received a copy of the GNU General Public License along with thi
 class CGeom2DIPoint
 {
 private:
-   int nX, nY;
+   //! The integer x co-ordinate
+   int nX;
+   
+   //! The integer y co-ordinate
+   int nY;
 
 public:
    CGeom2DIPoint(void);

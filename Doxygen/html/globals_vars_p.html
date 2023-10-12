@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -48,6 +52,22 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('globals_vars_p.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -66,23 +86,26 @@ $(function() {
 &#160;
 
 <h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
-<li>PATH_SEPARATOR&#160;:&#160;<a class="el" href="cme_8h.html#a4c5b3c9579465666765bc7784a4c3a37">cme.h</a></li>
-<li>PERFORMHEAD&#160;:&#160;<a class="el" href="cme_8h.html#a1b109ee1c5a3d9cac42b5bf433495d8a">cme.h</a></li>
-<li>PERITERHEAD&#160;:&#160;<a class="el" href="cme_8h.html#ae169d19faac61b7b1bf908f65a9b7be9">cme.h</a></li>
-<li>PERITERHEAD1&#160;:&#160;<a class="el" href="cme_8h.html#a115b0e36bc28bc49f1871d59ab6a2eb2">cme.h</a></li>
-<li>PERITERHEAD2&#160;:&#160;<a class="el" href="cme_8h.html#ac3972e601093db2fb98d5cc3a2041fb9">cme.h</a></li>
-<li>PERITERHEAD3&#160;:&#160;<a class="el" href="cme_8h.html#a339c9b50882ef116a22ed28af1603f78">cme.h</a></li>
-<li>PERITERHEAD4&#160;:&#160;<a class="el" href="cme_8h.html#a7c69b16b4d2afb852c1325aa552d32e7">cme.h</a></li>
-<li>PERITERHEAD5&#160;:&#160;<a class="el" href="cme_8h.html#a46390322ba8affe623161824e6181ef3">cme.h</a></li>
-<li>PI&#160;:&#160;<a class="el" href="cme_8h.html#a5d502a06fdd71825be49e07c95496b16">cme.h</a></li>
-<li>PRESS_KEY&#160;:&#160;<a class="el" href="cme_8h.html#a301e80bfcdc21b0b7939c4a487018d15">cme.h</a></li>
-<li>PROGRAM_NAME&#160;:&#160;<a class="el" href="cme_8h.html#a9136af1e87b27520ba2fda67c3a184e1">cme.h</a></li>
-<li>PROGRAM_NAME_SHORT&#160;:&#160;<a class="el" href="cme_8h.html#ad37e22683ddc3d03276375197ad72255">cme.h</a></li>
+<li>PATH_SEPARATOR&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a4c5b3c9579465666765bc7784a4c3a37">cme.h</a></li>
+<li>PER_ITER_HEAD&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a21af5c85af96436cfeea93ef4cca8d22">cme.h</a></li>
+<li>PER_ITER_HEAD1&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#aea3a64495fd2f0c7747319aa03832f66">cme.h</a></li>
+<li>PER_ITER_HEAD2&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a50271a772c31429d9808a1dde967aa01">cme.h</a></li>
+<li>PER_ITER_HEAD3&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a98206e6dbc15be866db8c4de27ffadc4">cme.h</a></li>
+<li>PER_ITER_HEAD4&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a45efcf80adae6ca45331442014443f22">cme.h</a></li>
+<li>PER_ITER_HEAD5&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#ac805c359f1c61d2dbd38aca7309aef12">cme.h</a></li>
+<li>PERFORMHEAD&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a1b109ee1c5a3d9cac42b5bf433495d8a">cme.h</a></li>
+<li>PI&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a5d502a06fdd71825be49e07c95496b16">cme.h</a></li>
+<li>PRESS_KEY&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a301e80bfcdc21b0b7939c4a487018d15">cme.h</a></li>
+<li>PROGRAM_NAME&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#a9136af1e87b27520ba2fda67c3a184e1">cme.h</a></li>
+<li>PROGRAM_NAME_SHORT&#160;:&#160;<a class="el" href="d6/d2a/cme_8h.html#ad37e22683ddc3d03276375197ad72255">cme.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Sep 16 2023 21:08:24 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Thu Oct 12 2023 11:15:59 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
 </body>
 </html>

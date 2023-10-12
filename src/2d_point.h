@@ -29,7 +29,11 @@ You should have received a copy of the GNU General Public License along with thi
 class CGeom2DPoint
 {
 private:
-   double dX, dY;
+   //! The x co-ordinate
+   double dX;
+   
+   //! The y co-ordinate
+   double dY;
 
 public:
    CGeom2DPoint(void);

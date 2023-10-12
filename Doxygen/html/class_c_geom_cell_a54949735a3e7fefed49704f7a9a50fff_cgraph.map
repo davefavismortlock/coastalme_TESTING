@@ -1,4 +1,0 @@
-<map id="CGeomCell::bIsInundated" name="CGeomCell::bIsInundated">
-<area shape="rect" id="node1" title="Returns true if the elevation of the sediment top surface for this cell (plus any intervention) is le..." alt="" coords="5,5,192,32"/>
-<area shape="rect" id="node2" href="$class_c_geom_raster_grid.html#aff5a9a55da1ea07c6d4834a533d790c0" title=" " alt="" coords="240,5,443,32"/>
-</map>

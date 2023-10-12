@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -48,6 +52,22 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('functions_~.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -66,28 +86,31 @@ $(function() {
 <div class="textblock">Here is a list of all struct and union fields with links to the structures/unions they belong to:</div>
 
 <h3><a id="index__7E" name="index__7E"></a>- ~ -</h3><ul>
-<li>~CA2DIShape()&#160;:&#160;<a class="el" href="class_c_a2_d_i_shape.html#a583e3950b7634690db3b44e86491f3de">CA2DIShape</a></li>
-<li>~CA2DShape()&#160;:&#160;<a class="el" href="class_c_a2_d_shape.html#af7f4ef9649f998b9ee84ec0f71352eff">CA2DShape</a></li>
-<li>~CACoastLandform()&#160;:&#160;<a class="el" href="class_c_a_coast_landform.html#a76a31307710b9ebb28eaa02d555d7c99">CACoastLandform</a></li>
-<li>~CGeomCell()&#160;:&#160;<a class="el" href="class_c_geom_cell.html#a6509a6d7e7e2b29860139a542e524eb9">CGeomCell</a></li>
-<li>~CGeomCoastPolygon()&#160;:&#160;<a class="el" href="class_c_geom_coast_polygon.html#a417103424c09d6cf726fafc5a530dd8b">CGeomCoastPolygon</a></li>
-<li>~CGeomILine()&#160;:&#160;<a class="el" href="class_c_geom_i_line.html#a5291f427d44524d216a8e0ab23331b0c">CGeomILine</a></li>
-<li>~CGeomLine()&#160;:&#160;<a class="el" href="class_c_geom_line.html#adc50aa4504b1605753ccc27175812158">CGeomLine</a></li>
-<li>~CGeomMultiLine()&#160;:&#160;<a class="el" href="class_c_geom_multi_line.html#a268b827f81745b1351d36995cac97ed3">CGeomMultiLine</a></li>
-<li>~CGeomProfile()&#160;:&#160;<a class="el" href="class_c_geom_profile.html#a50bb814ed8c4a6e0e2079b433db95e26">CGeomProfile</a></li>
-<li>~CGeomRasterGrid()&#160;:&#160;<a class="el" href="class_c_geom_raster_grid.html#a519180e4809f755f4b0357514c647998">CGeomRasterGrid</a></li>
-<li>~CRWCellLandform()&#160;:&#160;<a class="el" href="class_c_r_w_cell_landform.html#a3f8f8c8c720157d633db05f85698514a">CRWCellLandform</a></li>
-<li>~CRWCliff()&#160;:&#160;<a class="el" href="class_c_r_w_cliff.html#ad637979919fc4f022ab8cbd89133bad7">CRWCliff</a></li>
-<li>~CRWCoast()&#160;:&#160;<a class="el" href="class_c_r_w_coast.html#a919d155f79e72467f8dbd41688f2e108">CRWCoast</a></li>
-<li>~CRWDrift()&#160;:&#160;<a class="el" href="class_c_r_w_drift.html#ab72ffd96e57b686bed1e584ffeb287af">CRWDrift</a></li>
-<li>~CRWIntervention()&#160;:&#160;<a class="el" href="class_c_r_w_intervention.html#a26e062aa49db5e69aa7abd74dfb72171">CRWIntervention</a></li>
-<li>~CSedInputEvent()&#160;:&#160;<a class="el" href="class_c_sed_input_event.html#abaa0f9673d3508af5a6c2e14172e9664">CSedInputEvent</a></li>
-<li>~CSimulation()&#160;:&#160;<a class="el" href="class_c_simulation.html#a9657f6315931bb105f99a5ff414b6dbf">CSimulation</a></li>
+<li>~CA2DIShape()&#160;:&#160;<a class="el" href="d2/d0f/classCA2DIShape.html#a583e3950b7634690db3b44e86491f3de">CA2DIShape</a></li>
+<li>~CA2DShape()&#160;:&#160;<a class="el" href="d9/d0e/classCA2DShape.html#af7f4ef9649f998b9ee84ec0f71352eff">CA2DShape</a></li>
+<li>~CACoastLandform()&#160;:&#160;<a class="el" href="d2/de0/classCACoastLandform.html#a76a31307710b9ebb28eaa02d555d7c99">CACoastLandform</a></li>
+<li>~CGeomCell()&#160;:&#160;<a class="el" href="d1/dd9/classCGeomCell.html#a6509a6d7e7e2b29860139a542e524eb9">CGeomCell</a></li>
+<li>~CGeomCoastPolygon()&#160;:&#160;<a class="el" href="df/d45/classCGeomCoastPolygon.html#a417103424c09d6cf726fafc5a530dd8b">CGeomCoastPolygon</a></li>
+<li>~CGeomILine()&#160;:&#160;<a class="el" href="dd/dc1/classCGeomILine.html#a5291f427d44524d216a8e0ab23331b0c">CGeomILine</a></li>
+<li>~CGeomLine()&#160;:&#160;<a class="el" href="d7/dd3/classCGeomLine.html#adc50aa4504b1605753ccc27175812158">CGeomLine</a></li>
+<li>~CGeomMultiLine()&#160;:&#160;<a class="el" href="d0/d89/classCGeomMultiLine.html#a268b827f81745b1351d36995cac97ed3">CGeomMultiLine</a></li>
+<li>~CGeomProfile()&#160;:&#160;<a class="el" href="da/dae/classCGeomProfile.html#a50bb814ed8c4a6e0e2079b433db95e26">CGeomProfile</a></li>
+<li>~CGeomRasterGrid()&#160;:&#160;<a class="el" href="d6/d3e/classCGeomRasterGrid.html#a519180e4809f755f4b0357514c647998">CGeomRasterGrid</a></li>
+<li>~CRWCellLandform()&#160;:&#160;<a class="el" href="dc/d4a/classCRWCellLandform.html#a3f8f8c8c720157d633db05f85698514a">CRWCellLandform</a></li>
+<li>~CRWCliff()&#160;:&#160;<a class="el" href="d9/d8b/classCRWCliff.html#ad637979919fc4f022ab8cbd89133bad7">CRWCliff</a></li>
+<li>~CRWCoast()&#160;:&#160;<a class="el" href="d1/dbe/classCRWCoast.html#a919d155f79e72467f8dbd41688f2e108">CRWCoast</a></li>
+<li>~CRWDrift()&#160;:&#160;<a class="el" href="d0/d02/classCRWDrift.html#ab72ffd96e57b686bed1e584ffeb287af">CRWDrift</a></li>
+<li>~CRWIntervention()&#160;:&#160;<a class="el" href="d4/d51/classCRWIntervention.html#a26e062aa49db5e69aa7abd74dfb72171">CRWIntervention</a></li>
+<li>~CSedInputEvent()&#160;:&#160;<a class="el" href="db/d5f/classCSedInputEvent.html#abaa0f9673d3508af5a6c2e14172e9664">CSedInputEvent</a></li>
+<li>~CSimulation()&#160;:&#160;<a class="el" href="d1/d98/classCSimulation.html#a9657f6315931bb105f99a5ff414b6dbf">CSimulation</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Sep 16 2023 21:08:24 for CoastalME (Coastal Modelling Environment) by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Thu Oct 12 2023 11:15:59 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+  </ul>
+</div>
 </body>
 </html>

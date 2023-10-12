@@ -1,4 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_c_a2_d_i_shape.html" title="Abstract class, used as a base class for integer 2D objects (line, area, etc.)" alt="" coords="5,5,108,32"/>
-<area shape="rect" id="node2" href="$class_c_geom_i_line.html" title="Geometry class used to represent 2D vector integer line objects." alt="" coords="156,5,257,32"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="line.h" name="line.h">
-<area shape="rect" id="node1" title="Contains CGeomLine definitions." alt="" coords="106,5,165,32"/>
-<area shape="rect" id="node2" href="$2d__shape_8h.html" title="Contains CA2DShape definitions." alt="" coords="87,80,183,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,68,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="93,155,178,181"/>
-<area shape="rect" id="node5" href="$2d__point_8h.html" title="Contains CGeom2DPoint definitions." alt="" coords="202,155,293,181"/>
-</map>

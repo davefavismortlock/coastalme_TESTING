@@ -1,4 +1,0 @@
-<map id="CSimulation::dGetD50Coarse" name="CSimulation::dGetD50Coarse">
-<area shape="rect" id="node1" title="Returns the global d50 value for coarse sediment." alt="" coords="272,13,483,39"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#a1b6c61362ff510fc5b45f10e9ad10be7" title="For this cell, calculates the elevation of the top of every layer, and the d50 for the topmost uncons..." alt="" coords="5,5,224,47"/>
-</map>

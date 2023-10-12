@@ -1,6 +1,0 @@
-<map id="CRWCoast::nGetCoastPointGivenCell" name="CRWCoast::nGetCoastPointGivenCell">
-<area shape="rect" id="node1" title="Returns the coastline number given a cell, or INT_NODATA if neither this cell or any of its neighbour..." alt="" coords="5,49,204,90"/>
-<area shape="rect" id="node2" href="$class_c_a2_d_i_shape.html#a0ac5eed12e215b9ff467df5bf60767cb" title="Returns the number of integer point in the vector which represents this 2D shape." alt="" coords="255,5,423,32"/>
-<area shape="rect" id="node3" href="$class_c_geom2_d_i_point.html#af84c687b2d0be01ab41cbcc0565f4f3f" title="Returns the CGeom2DIPoint object&#39;s integer X co&#45;ordinate." alt="" coords="252,56,425,83"/>
-<area shape="rect" id="node4" href="$class_c_geom2_d_i_point.html#a4d9c20bcca90dcb9d519b664aba09cbd" title="Returns the CGeom2DIPoint object&#39;s integer Y co&#45;ordinate." alt="" coords="253,107,425,133"/>
-</map>

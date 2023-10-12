@@ -1,0 +1,7 @@
+<map id="cliff.h" name="cliff.h">
+<area shape="rect" id="node1" title="Contains CRWCliff definitions." alt="" coords="251,5,306,32"/>
+<area shape="rect" id="node2" href="$da/d3d/assign__landforms_8cpp.html" title="Assigns landform categories to coastlines and coastal cells, and to all other dryland cells." alt="" coords="5,80,155,107"/>
+<area shape="rect" id="node3" href="$d4/d3f/cliff_8cpp.html" title="CRWCliff routines." alt="" coords="179,80,247,107"/>
+<area shape="rect" id="node4" href="$d1/d93/do__cliff__collapse_8cpp.html" title="Collapses cliffs if a critical notch depth is exceeded. Then distributes both consolidated and uncons..." alt="" coords="272,80,416,107"/>
+<area shape="rect" id="node5" href="$d3/d14/gis__vector_8cpp.html" title="These functions use GDAL to read and write vector GIS files in several formats. This version will bui..." alt="" coords="440,80,547,107"/>
+</map>

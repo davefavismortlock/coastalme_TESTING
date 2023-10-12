@@ -1,4 +1,0 @@
-<map id="CRWCliff" name="CRWCliff">
-<area shape="rect" id="node1" title="Real&#45;world class used to represent the &#39;cliff&#39; category of coastal landform object." alt="" coords="19,307,214,545"/>
-<area shape="rect" id="node2" href="$class_c_a_coast_landform.html" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="5,5,228,259"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="CGeomCell::SetSeaDepth" name="CGeomCell::SetSeaDepth">
-<area shape="rect" id="node1" title="Returns the depth of seawater on this cell if the sediment top is &lt; SWL, or zero." alt="" coords="5,31,192,57"/>
-<area shape="rect" id="node2" href="$class_c_geom_raster_grid.html#aff5a9a55da1ea07c6d4834a533d790c0" title=" " alt="" coords="240,5,443,32"/>
-<area shape="rect" id="node3" href="$cme_8h.html#a7e895b460cef877dec4d12ead0c74f15" title=" " alt="" coords="314,56,369,83"/>
-</map>

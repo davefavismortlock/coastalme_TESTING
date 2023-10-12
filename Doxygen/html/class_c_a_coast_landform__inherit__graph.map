@@ -1,6 +1,0 @@
-<map id="CACoastLandform" name="CACoastLandform">
-<area shape="rect" id="node1" title="Abstract class, used as a base class for landform objects on the coastline." alt="" coords="171,5,394,259"/>
-<area shape="rect" id="node2" href="$class_c_r_w_cliff.html" title="Real&#45;world class used to represent the &#39;cliff&#39; category of coastal landform object." alt="" coords="5,307,200,545"/>
-<area shape="rect" id="node3" href="$class_c_r_w_drift.html" title="Real&#45;world class used to represent the &#39;drift&#39; category of coastal landform object." alt="" coords="224,373,341,479"/>
-<area shape="rect" id="node4" href="$class_c_r_w_intervention.html" title="Real&#45;world class used to represent the &#39;intervention&#39; category of coastal landform objects." alt="" coords="365,373,533,479"/>
-</map>

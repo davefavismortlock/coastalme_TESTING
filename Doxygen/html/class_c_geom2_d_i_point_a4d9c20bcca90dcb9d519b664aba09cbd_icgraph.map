@@ -1,7 +1,0 @@
-<map id="CGeom2DIPoint::nGetY" name="CGeom2DIPoint::nGetY">
-<area shape="rect" id="node1" title="Returns the CGeom2DIPoint object&#39;s integer Y co&#45;ordinate." alt="" coords="264,97,436,123"/>
-<area shape="rect" id="node2" href="$class_c_r_w_coast.html#a6a6af57d19c557f10dd8e80c7c856e2f" title="Returns the coastline number given a cell, or INT_NODATA if neither this cell or any of its neighbour..." alt="" coords="11,5,210,47"/>
-<area shape="rect" id="node3" href="$class_c_geom2_d_i_point.html#a0518d5d5445bdf38a0a3579c4c987cfe" title="Compares two CGeom2DIPoint objects for inequality." alt="" coords="9,71,213,98"/>
-<area shape="rect" id="node4" href="$class_c_geom2_d_i_point.html#ad4011bf75d4c3c63f2a004fa92a27e4c" title="Sets one CGeom2DIPoint object to be the same as another." alt="" coords="11,122,210,149"/>
-<area shape="rect" id="node5" href="$class_c_geom2_d_i_point.html#a73605200e36004d3d1da4a675eb2b0b5" title="Compares two CGeom2DIPoint objects for equality." alt="" coords="5,173,216,199"/>
-</map>

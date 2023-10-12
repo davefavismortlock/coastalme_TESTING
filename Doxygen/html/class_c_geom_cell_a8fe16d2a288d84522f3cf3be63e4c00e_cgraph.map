@@ -1,5 +1,0 @@
-<map id="CGeomCell::SetInterventionClass" name="CGeomCell::SetInterventionClass">
-<area shape="rect" id="node1" title="Sets the landform category and subcategory for an intervention." alt="" coords="5,27,208,69"/>
-<area shape="rect" id="node2" href="$class_c_r_w_cell_landform.html#aaf631af6cb530503a8fc676d4296ac79" title="Set the landform category and initialise the sub&#45;category." alt="" coords="256,5,499,32"/>
-<area shape="rect" id="node3" href="$class_c_r_w_cell_landform.html#af53d3fe69c297cfb0b41d03e55ed6467" title="Set the both the landform sub&#45;category, and the landform category." alt="" coords="274,57,481,98"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="CGeom2DIPoint::operator==" name="CGeom2DIPoint::operator==">
-<area shape="rect" id="node1" title="Compares two CGeom2DIPoint objects for equality." alt="" coords="5,31,216,57"/>
-<area shape="rect" id="node2" href="$class_c_geom2_d_i_point.html#af84c687b2d0be01ab41cbcc0565f4f3f" title="Returns the CGeom2DIPoint object&#39;s integer X co&#45;ordinate." alt="" coords="264,5,437,32"/>
-<area shape="rect" id="node3" href="$class_c_geom2_d_i_point.html#a4d9c20bcca90dcb9d519b664aba09cbd" title="Returns the CGeom2DIPoint object&#39;s integer Y co&#45;ordinate." alt="" coords="265,56,437,83"/>
-</map>

@@ -1,0 +1,7 @@
+<map id="coast_polygon.h" name="coast_polygon.h">
+<area shape="rect" id="node1" title="Contains CGeomCoastPolygon definitions." alt="" coords="67,5,184,32"/>
+<area shape="rect" id="node2" href="$d5/dea/2d__shape_8h.html" title="Contains CA2DShape definitions." alt="" coords="81,80,170,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,64,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="88,155,163,181"/>
+<area shape="rect" id="node5" href="$d0/dee/2d__point_8h.html" title="Contains CGeom2DPoint definitions." alt="" coords="187,155,269,181"/>
+</map>

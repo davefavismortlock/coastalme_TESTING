@@ -33,76 +33,183 @@ You should have received a copy of the GNU General Public License along with thi
 
 class CGeomCell
 {
-    friend class CSimulation;
+   friend class CSimulation;
 
 private:
-    bool
-        m_bInContiguousSea,                  // Is a sea cell, contiguous with other sea cells
-        m_bInContiguousFlood,
-        m_bIsInActiveZone,
-        m_bCoastline,
-        m_bFloodLine,
-        m_bWaveFlood,
-        m_bCheckCell,
-        m_bCheckFloodCell,
-        m_bShadowBoundary,
-        m_bPossibleCoastStartCell,
-        m_bPossibleFloodStartCell,
-        m_bFloodBySetupSurge,
-        m_bFloodBySetupSurgeRunup;
+   //! Switch to indicate if this is a sea cell, contiguous with other sea cells
+   bool m_bInContiguousSea;
 
-    int
-        m_nBoundingBoxEdge,
-        m_nPolygonID,
-        m_nCoastlineNormal,
-        m_nShadowZoneNumber,
-        m_nDownDriftZoneNumber;
+   //!
+   bool m_bInContiguousFlood;
 
-    double
-        m_dLocalConsSlope,                   // As used in erosion calcs (really just for display purposes)
-        m_dBasementElevation,                // Elevation of basement surface (m)
-        m_dSeaDepth,                         // Depth of still water (m), is zero if not inundated
-        m_dTotSeaDepth,                      // Total depth of still water (m) since beginning of simulation (used to calc average)
-        m_dWaveHeight,                       // Wave height (m)
-        m_dTotWaveHeight,                    // Total wave height (m) (used to calc average)
-        m_dWaveAngle,                        // Wave orientation
-        m_dWavePeriod,                       // Wave period (s)
-        m_dTotWaveAngle,                     // Total wave orientation  (used to calc average)
-        m_dDeepWaterWaveHeight,              // Wave height if this is a deep water cell
-        m_dDeepWaterWaveAngle,               // Wave orientation if this is a deep water cell
-        m_dDeepWaterWavePeriod,              // Wave period if this is a deep water cell
-        m_dBeachProtectionFactor,            // Only meaningful if in zone of platform erosion. 0 is fully protected, 1 = no protection
-        m_dSuspendedSediment,                // Suspended sediment as depth equivalent (m)
-        m_dTotSuspendedSediment,             // Total depth of suspended sediment (m) since simulation start (used to calc average)
-        m_dPotentialPlatformErosionThisIter, // Depth of sediment on the shore platform that could be eroded this timestep, if no supply-limitation
-        m_dTotPotentialPlatformErosion,      // Total depth of sediment eroded from the shore platform, if no supply-limitation
-        m_dActualPlatformErosionThisIter,    // Depth of sediment actually eroded from the shore platform this timestep
-        m_dTotActualPlatformErosion,         // Total depth of sediment actually eroded from the shore platform
-        m_dCliffCollapseFineThisIter,        // Depth of fine sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
-        m_dCliffCollapseSandThisIter,        // Depth of sand sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
-        m_dCliffCollapseCoarseThisIter,      // Depth of coarse sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
-        m_dTotFineCliffCollapse,             // Total depth of fine sediment (consolidated and unconsolidated) removed via cliff collapse
-        m_dTotSandCliffCollapse,             // Total depth of sand sediment (consolidated and unconsolidated) removed via cliff collapse
-        m_dTotCoarseCliffCollapse,           // Total depth of coarse sediment (consolidated and unconsolidated) removed via cliff collapse
-        m_dTalusSandDepositionThisIter,      // Depth of unconsolidated sand sediment deposited as a result of cliff collapse this timestep
-        m_dTotTalusSandDeposition,           // Total depth of unconsolidated sand sediment deposited as a result of cliff collapse
-        m_dTalusCoarseDepositionThisIter,    // Depth of unconsolidated coarse sediment deposited as a result of cliff collapse this timestep
-        m_dTotTalusCoarseDeposition,         // Total depth of unconsolidated coarse sediment deposited as a result of cliff collapse
-        m_dPotentialBeachErosionThisIter,    // Depth of unconsolidated beach sediment that could be eroded this timestep, if no supply-limitation
-        m_dTotPotentialBeachErosion,         // Total depth of unconsolidated beach sediment eroded, if no supply-limitation
-        m_dActualBeachErosionThisIter,       // Depth of unconsolidated beach sediment actually eroded this timestep
-        m_dTotActualBeachErosion,            // Total depth of unconsolidated beach sediment actually eroded
-        m_dBeachDepositionThisIter,          // Depth of unconsolidated beach sediment deposited this timestep
-        m_dTotBeachDeposition,               // Total depth of unconsolidated beach sediment deposited
-        m_dUnconsD50,                        // d50 of unconsolidated sediment on top layer with unconsolidated sediment depth > 0
-        m_dInterventionHeight;               // Height of intervention structure
+   //!
+   bool m_bIsInActiveZone;
 
-    // This cell's landform data
-    CRWCellLandform m_Landform;
+   //!
+   bool m_bCoastline;
 
-    // Initialize these as empty vectors
-    vector<CRWCellLayer> m_VLayerAboveBasement; // Number of layers NOT including the basement. Layer 0 is the lowest
-    vector<double> m_VdAllHorizonTopElev;       // Number of layer-top elevations (inc. that of the basement, which is m_VdAllHorizonTopElev[0]); size 1 greater than size of m_VLayerAboveBasement
+   //!
+   bool m_bFloodLine;
+
+   //!
+   bool m_bWaveFlood;
+
+   //!
+   bool m_bCheckCell;
+
+   //!
+   bool m_bCheckFloodCell;
+
+   //!
+   bool m_bShadowBoundary;
+
+   //!
+   bool m_bPossibleCoastStartCell;
+
+   //!
+   bool m_bPossibleFloodStartCell;
+
+   //!
+   bool m_bFloodBySetupSurge;
+
+   //!
+   bool m_bFloodBySetupSurgeRunup;
+
+   //!
+   int m_nBoundingBoxEdge;
+
+   //!
+   int m_nPolygonID;
+
+   //!
+   int m_nCoastlineNormal;
+
+   //!
+   int m_nShadowZoneNumber;
+
+   //!
+   int m_nDownDriftZoneNumber;
+
+   //! As used in erosion calcs (really just for display purposes)
+   double m_dLocalConsSlope;
+
+   //! Elevation of basement surface (m)
+   double m_dBasementElevation;
+
+   //! Depth of still water (m), is zero if not inundated
+   double m_dSeaDepth;
+
+   //! Total depth of still water (m) since beginning of simulation (used to calc average)
+   double m_dTotSeaDepth;
+
+   //! Wave height (m)
+   double m_dWaveHeight;
+
+   //! Total wave height (m) (used to calc average)
+   double m_dTotWaveHeight;
+
+   //! Wave orientation
+   double m_dWaveAngle;
+
+   //! Wave period (s)
+   double m_dWavePeriod;
+
+   //! Total wave orientation  (used to calc average)
+   double m_dTotWaveAngle;
+
+   //! Wave height if this is a deep water cell
+   double m_dDeepWaterWaveHeight;
+
+   //! Wave orientation if this is a deep water cell
+   double m_dDeepWaterWaveAngle;
+
+   //! Wave period if this is a deep water cell
+   double m_dDeepWaterWavePeriod;
+
+   //! Only meaningful if in zone of platform erosion. 0 is fully protected; 1 = no protection
+   double m_dBeachProtectionFactor;
+
+   //! Suspended sediment as depth equivalent (m)
+   double m_dSuspendedSediment;
+
+   //! Total depth of suspended sediment (m) since simulation start (used to calc average)
+   double m_dTotSuspendedSediment;
+
+   //! Depth of sediment on the shore platform that could be eroded this timestep, if no supply-limitation
+   double m_dPotentialPlatformErosionThisIter;
+
+   //! Total depth of sediment eroded from the shore platform, if no supply-limitation
+   double m_dTotPotentialPlatformErosion;
+
+   //! Depth of sediment actually eroded from the shore platform this timestep
+   double m_dActualPlatformErosionThisIter;
+
+   //! Total depth of sediment actually eroded from the shore platform
+   double m_dTotActualPlatformErosion;
+
+   //! Depth of fine sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
+   double m_dCliffCollapseFineThisIter;
+
+   //! Depth of sand sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
+   double m_dCliffCollapseSandThisIter;
+
+   //! Depth of coarse sediment (consolidated and unconsolidated) removed via cliff collapse this timestep
+   double m_dCliffCollapseCoarseThisIter;
+
+   //! Total depth of fine sediment (consolidated and unconsolidated) removed via cliff collapse
+   double m_dTotFineCliffCollapse;
+
+   //! Total depth of sand sediment (consolidated and unconsolidated) removed via cliff collapse
+   double m_dTotSandCliffCollapse;
+
+   //! Total depth of coarse sediment (consolidated and unconsolidated) removed via cliff collapse
+   double m_dTotCoarseCliffCollapse;
+
+   //! Depth of unconsolidated sand sediment deposited as a result of cliff collapse this timestep
+   double m_dTalusSandDepositionThisIter;
+
+   //! Total depth of unconsolidated sand sediment deposited as a result of cliff collapse
+   double m_dTotTalusSandDeposition;
+
+   //! Depth of unconsolidated coarse sediment deposited as a result of cliff collapse this timestep
+   double m_dTalusCoarseDepositionThisIter;
+
+   //! Total depth of unconsolidated coarse sediment deposited as a result of cliff collapse
+   double m_dTotTalusCoarseDeposition;
+
+   //! Depth of unconsolidated beach sediment that could be eroded this timestep, if no supply-limitation
+   double m_dPotentialBeachErosionThisIter;
+
+   //! Total depth of unconsolidated beach sediment eroded; if no supply-limitation
+   double m_dTotPotentialBeachErosion;
+
+   //! Depth of unconsolidated beach sediment actually eroded this timestep
+   double m_dActualBeachErosionThisIter;
+
+   //! Total depth of unconsolidated beach sediment actually eroded
+   double m_dTotActualBeachErosion;
+
+   //! Depth of unconsolidated beach sediment deposited this timestep
+   double m_dBeachDepositionThisIter;
+
+   //! Total depth of unconsolidated beach sediment deposited
+   double m_dTotBeachDeposition;
+
+   //! d50 of unconsolidated sediment on top layer with unconsolidated sediment depth > 0
+   double m_dUnconsD50;
+
+   //! Height of intervention structure
+   double m_dInterventionHeight;
+
+   //! This cell's landform data
+   CRWCellLandform m_Landform;
+
+   // Initialize these as empty vectors
+   //! Number of layers NOT including the basement. Layer 0 is the lowest
+   vector<CRWCellLayer> m_VLayerAboveBasement;
+
+   //! Number of layer-top elevations (inc. that of the basement, which is m_VdAllHorizonTopElev[0]); size 1 greater than size of m_VLayerAboveBasement
+   vector<double> m_VdAllHorizonTopElev;
 
 public:
     static CGeomRasterGrid *m_pGrid;

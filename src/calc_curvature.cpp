@@ -38,11 +38,9 @@ using std::inner_product;
 #include "simulation.h"
 #include "coast.h"
 
-/*===============================================================================================================================
-
-Calculates both detailed and smoothed curvature for every point on a coastline
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates both detailed and smoothed curvature for every point on a coastline
+//===============================================================================================================================
 void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
 {
    int nCoastSize = m_VCoast[nCoast].nGetCoastlineSize();
@@ -166,11 +164,9 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): max smoothed convexity (" << m_VCoast[nCoast].dGetSmoothCurvature(nMaxConvexSmoothedCoastPoint) << ") near vector coastline point " << nMaxConvexSmoothedCoastPoint << ", at [" << PtiMaxSmooth.nGetX() << "][" << PtiMaxSmooth.nGetY() << "] = {" << PtMaxSmooth.dGetX() << ", " << PtMaxSmooth.dGetY() << "}" << endl;
 }
 
-/*===============================================================================================================================
-
-Calculates signed Menger curvature (https://en.wikipedia.org/wiki/Menger_curvature#Definition) from three points on a line. Returns +ve values for concave, -ve for convex, and zero if the points are co-linear. Curvature is multiplied by 1000 to give easier-to-read numbers
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates signed Menger curvature (https://en.wikipedia.org/wiki/Menger_curvature#Definition) from three points on a line. Returns +ve values for concave, -ve for convex, and zero if the points are co-linear. Curvature is multiplied by 1000 to give easier-to-read numbers
+//===============================================================================================================================
 double CSimulation::dCalcCurvature(int const nHandedness, CGeom2DPoint const* pPtBefore, CGeom2DPoint const* pPtThis, CGeom2DPoint const* pPtAfter)
 {
    double

@@ -23,7 +23,6 @@ You should have received a copy of the GNU General Public License along with thi
 
 ===============================================================================================================================*/
 //#include <assert.h>
-
 #include <iostream>
 using std::cout;
 using std::cerr;
@@ -48,7 +47,6 @@ CRWCliff::CRWCliff(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast
    m_dNotchDepth         = dNotchDepthIn;
    m_dNotchBaseElev      = dNotchElevIn;
    m_dTotAccumWaveEnergy = dAccumWaveEnergyIn;
-
 //    assert(m_dRemaining >=0);
 }
 

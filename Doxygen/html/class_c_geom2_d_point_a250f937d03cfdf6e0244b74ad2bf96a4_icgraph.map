@@ -1,6 +1,0 @@
-<map id="CGeom2DPoint::dGetX" name="CGeom2DPoint::dGetX">
-<area shape="rect" id="node1" title="Returns the CGeom2DPoint object&#39;s double X co&#45;ordinate." alt="" coords="260,56,429,83"/>
-<area shape="rect" id="node2" href="$class_c_geom2_d_point.html#a1bb8d8acfa7c8a65e7f6e76bb539c48b" title="Compares two CGeom2DPoint objects for inequality." alt="" coords="9,5,209,32"/>
-<area shape="rect" id="node3" href="$class_c_geom2_d_point.html#a419469904717e25b82d9e68156af4d9b" title="Sets one CGeom2DPoint object equal to another." alt="" coords="11,56,206,83"/>
-<area shape="rect" id="node4" href="$class_c_geom2_d_point.html#a4acb2e172fb36998131b108275027633" title="Compares two CGeom2DPoint objects for equality." alt="" coords="5,107,212,133"/>
-</map>

@@ -27,11 +27,9 @@ You should have received a copy of the GNU General Public License along with thi
 
 #include <fenv.h>    // Include this to check for first appearance in NaN when debugging (comment out, otherwise)
 
-/*===============================================================================================================================
-
-CoastalME's main function
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! CoastalME's main function
+//===============================================================================================================================
 int main(int argc, char const* argv[])
 {
    // This is to check for first appearance in NaN when debugging (comment out, otherwise)

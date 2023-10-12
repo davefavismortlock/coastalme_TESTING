@@ -1,4 +1,0 @@
-<map id="CSimulation::dGetThisIterTotWaterLevel" name="CSimulation::dGetThisIterTotWaterLevel">
-<area shape="rect" id="node1" title="Returns this timestep&#39;s total water level." alt="" coords="264,5,453,47"/>
-<area shape="rect" id="node2" href="$class_c_geom_cell.html#a9f8c0e9b7d7f05cc3b17aab2356ac526" title="Returns true if the top elevation of this cell (sediment plus any intervention) is less than this ite..." alt="" coords="5,5,216,47"/>
-</map>

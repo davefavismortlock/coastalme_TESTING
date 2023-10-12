@@ -1,4 +1,0 @@
-<map id="CA2DIShape::nGetSize" name="CA2DIShape::nGetSize">
-<area shape="rect" id="node1" title="Returns the number of integer point in the vector which represents this 2D shape." alt="" coords="252,13,420,39"/>
-<area shape="rect" id="node2" href="$class_c_r_w_coast.html#a6a6af57d19c557f10dd8e80c7c856e2f" title="Returns the coastline number given a cell, or INT_NODATA if neither this cell or any of its neighbour..." alt="" coords="5,5,204,47"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="sediment_input_event.h" name="sediment_input_event.h">
-<area shape="rect" id="node1" title="Contains CSedInputEvent definitions." alt="" coords="217,5,395,32"/>
-<area shape="rect" id="node2" href="$do__sediment__input__event_8cpp.html" title="Deposits sediment onto the grid." alt="" coords="5,80,223,107"/>
-<area shape="rect" id="node3" href="$read__input_8cpp.html" title="Reads non&#45;GIS input files." alt="" coords="247,80,365,107"/>
-<area shape="rect" id="node4" href="$sediment__input__event_8cpp.html" title="CSedInputEvent routines." alt="" coords="390,80,585,107"/>
-</map>
