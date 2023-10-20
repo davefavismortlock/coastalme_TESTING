@@ -30,34 +30,45 @@ You should have received a copy of the GNU General Public License along with thi
 class CRWCellLandform
 {
 private:
-   int
-      m_nCategory,
-      m_nSubCategory,
-      m_nCoast,
-      m_nPointOnCoast;
+   //! Landform category for this cell
+   int m_nCategory;
 
-   double
-      m_dAccumWaveEnergy;
+   //! Landform subcategory for this cell
+   int m_nSubCategory;
 
-      union
+   //! Coast on which this landform sits (if any)
+   int m_nCoast;
+
+   //! Point on coast on which this landform sits (if any)
+   int m_nPointOnCoast;
+
+   //! Accumulate wave energy for this landform on this cell
+   double m_dAccumWaveEnergy;
+
+   union
+   {
+      struct
       {
-         struct
-         {
-            int m_nDummy;
-         }
-         m_sBeachData;
-
-         struct
-         {
-            double
-               m_dNotchBaseElev,
-               m_dNotchDepth,
-               m_dRemaining;
-         }
-         m_sCliffData;
-
+         //! Currently unused for all landforms except cliffs
+         int m_nDummy;
       }
-      m_uLFData;
+      m_sBeachData;
+
+      struct
+      {
+         //! Cliff notch base elevation
+         double m_dNotchBaseElev;
+
+         //! Cliff notch incised depth
+         double m_dNotchDepth;
+
+         //! Cliff notch depth remaining
+         double m_dRemaining;
+      }
+      m_sCliffData;
+
+   }
+   m_uLFData;
 
 public:
    CRWCellLandform();

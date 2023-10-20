@@ -36,18 +36,27 @@ class CSimulation;         // Ditto
 
 class CGeomRasterGrid
 {
+   //! The CSimulation class is a friend of the CGeomRasterGrid class
    friend class CSimulation;
+
+   //! The CGeomProfile is a friend of the CGeomRasterGrid class
    friend class CGeomProfile;
 
 private:
-   double
-      m_dD50Fine,
-      m_dD50Sand,
-      m_dD50Coarse;
+   //! The d50 of fine-sized  sediment
+   double m_dD50Fine;
 
+   //! The d50 of sand-sized sediment
+   double m_dD50Sand;
+
+   //! The d50 of coarse-sized sediment
+   double m_dD50Coarse;
+
+   //! A pointer to the CSimulation object
    CSimulation* m_pSim;
 
-   // NOTE seems to be faster than 2D STL vectors
+   //! The 2D array of m_Cell objects
+   // NOTE that a c-style 2D array seems to be faster than using 2D STL vectors
    CGeomCell** m_Cell;
 
 public:

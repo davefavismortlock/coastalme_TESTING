@@ -33,6 +33,7 @@ using std::find;
 #include "cme.h"
 #include "profile.h"
 
+//! Constructor with initialization list, requires one parameter (the coast point at which the profile starts)
 CGeomProfile::CGeomProfile(int const nCoastPoint)
     : m_bStartOfCoast(false),
       m_bEndOfCoast(false),
@@ -48,85 +49,102 @@ CGeomProfile::CGeomProfile(int const nCoastPoint)
 {
 }
 
+//! Destructor
 CGeomProfile::~CGeomProfile(void)
 {
 }
 
+//! Returns the coast point at which the profile starts
 int CGeomProfile::nGetNumCoastPoint(void) const
 {
    return m_nNumCoastPoint;
 }
 
+//! Sets a switch to indicate whether this is a start-of-coast profile
 void CGeomProfile::SetStartOfCoast(bool const bFlag)
 {
    m_bStartOfCoast = bFlag;
 }
 
+//! Returns the switch to indicate whether this is a start-of-coast profile
 bool CGeomProfile::bStartOfCoast(void) const
 {
    return m_bStartOfCoast;
 }
 
+//! Sets a switch to indicate whether this is an end-of-coast profile
 void CGeomProfile::SetEndOfCoast(bool const bFlag)
 {
    m_bEndOfCoast = bFlag;
 }
 
+//! Returns the switch to indicate whether this is an end-of-coast profile
 bool CGeomProfile::bEndOfCoast(void) const
 {
    return m_bEndOfCoast;
 }
 
+//! Sets a switch which indicates whether this profile has hit land
 void CGeomProfile::SetHitLand(bool const bFlag)
 {
    m_bHitLand = bFlag;
 }
 
+//! Returns the switch which indicates whether this profile has hit land
 bool CGeomProfile::bHitLand(void) const
 {
    return m_bHitLand;
 }
 
+//! Sets a switch which indicates whether this profile has hit a coast
 void CGeomProfile::SetHitCoast(bool const bFlag)
 {
    m_bHitCoast = bFlag;
 }
 
+//! Returns the switch which indicates whether this profile has hit a coast
 bool CGeomProfile::bHitCoast(void) const
 {
    return m_bHitCoast;
 }
 
+//! Sets a switch which indicates whether this profile is too short to be useful
 void CGeomProfile::SetTooShort(bool const bFlag)
 {
    m_bTooShort = bFlag;
 }
 
+//! Returns the switch which indicates whether this profile is too short to be useful
 bool CGeomProfile::bTooShort(void) const
 {
    return m_bTooShort;
 }
 
+//! Sets a switch which indicates whether this profile is truncated
 void CGeomProfile::SetTruncated(bool const bFlag)
 {
    m_bTruncated = bFlag;
 }
 
+//! Returns the switch which indicates whether this profile is truncated
 bool CGeomProfile::bTruncated(void) const
 {
    return m_bTruncated;
 }
 
+//! Sets a switch which indicates whether this profile hits another profile
 void CGeomProfile::SetHitAnotherProfile(bool const bFlag)
 {
    m_bHitAnotherProfile = bFlag;
 }
 
+//! Returns the switch which indicates whether this profile hits another profile
 bool CGeomProfile::bHitAnotherProfile(void) const
 {
    return m_bHitAnotherProfile;
 }
 
+//! Returns true if this is a problem-free profile, and is not a start-o-coast or an end-of-coast profile
 bool CGeomProfile::bProfileOK(void) const
 {
    // All profiles without problems, but not start- or end-of-coast profiles
@@ -142,6 +160,7 @@ bool CGeomProfile::bProfileOK(void) const
    return false;
 }
 
+//! Returns true if this is a problem-free profile (however it could still be a start-of-coast or an end-of-coast profile)
 bool CGeomProfile::bOKIncStartAndEndOfCoast(void) const
 {
    // All profiles without problems, including start- and end-of-coast profiles
@@ -155,6 +174,7 @@ bool CGeomProfile::bOKIncStartAndEndOfCoast(void) const
    return false;
 }
 
+//! Returns true if this is a problem-free profile (however it could still be a start-of-coast profile)
 bool CGeomProfile::bOKIncStartOfCoast(void) const
 {
    // All profiles without problems, including start-of-coast profile (but not end-of-coast profile)
@@ -169,27 +189,32 @@ bool CGeomProfile::bOKIncStartOfCoast(void) const
    return false;
 }
 
+//! Sets all points in the profile
 void CGeomProfile::SetAllPointsInProfile(vector<CGeom2DPoint> const *VNewPoints)
 {
    m_VPoints = *VNewPoints;
 }
 
+//! Sets a single point in the profile
 void CGeomProfile::SetPointInProfile(int const nPoint, double const dNewX, double const dNewY)
 {
    // NOTE No check to see if nPoint < m_VPoints,size()
    m_VPoints[nPoint] = CGeom2DPoint(dNewX, dNewY);
 }
 
+//! Appends a point to the profile
 void CGeomProfile::AppendPointInProfile(double const dNewX, double const dNewY)
 {
    m_VPoints.push_back(CGeom2DPoint(dNewX, dNewY));
 }
 
+//! Appends a point to the profile (overloaded version)
 void CGeomProfile::AppendPointInProfile(CGeom2DPoint const *pPt)
 {
    m_VPoints.push_back(*pPt);
 }
 
+//! Inserts an intersection into the profile
 bool CGeomProfile::bInsertIntersection(double const dX, double const dY, int const nSeg)
 {
    // Safety check
@@ -208,6 +233,7 @@ bool CGeomProfile::bInsertIntersection(double const dX, double const dY, int con
    return true;
 }
 
+//! Truncates the profile
 void CGeomProfile::TruncateProfile(int const nSize)
 {
    m_VPoints.resize(nSize);
@@ -227,27 +253,32 @@ void CGeomProfile::TruncateProfile(int const nSize)
 //    }
 // }
 
+//! Returns the number of points in the profile
 int CGeomProfile::nGetProfileSize(void) const
 {
    return static_cast<int>(m_VPoints.size());
 }
 
+//! Returns a single point in the profile
 CGeom2DPoint *CGeomProfile::pPtGetPointInProfile(int const n)
 {
    return &m_VPoints[n];
 }
 
+//! Returns a given point from the profile, and all points after this
 vector<CGeom2DPoint> CGeomProfile::PtVGetThisPointAndAllAfter(int const nStart)
 {
    return vector<CGeom2DPoint>(m_VPoints.begin() + nStart, m_VPoints.end());
 }
 
+//! Removes a line segment from the profile
 void CGeomProfile::RemoveLineSegment(int const nPoint)
 {
    m_VPoints.erase(m_VPoints.begin() + nPoint);
    CGeomMultiLine::RemoveLineSegment(nPoint);
 }
 
+//! Queries the profile: is the given point a profile point?
 bool CGeomProfile::bIsPointInProfile(double const dX, double const dY)
 {
    CGeom2DPoint Pt(dX, dY);
@@ -258,6 +289,7 @@ bool CGeomProfile::bIsPointInProfile(double const dX, double const dY)
       return false;
 }
 
+//! Queries the profile: is the given point a profile point? If so, then it also returns the number of the point in the profile
 bool CGeomProfile::bIsPointInProfile(double const dX, double const dY, int &nPoint)
 {
    CGeom2DPoint Pt(dX, dY);
@@ -354,12 +386,14 @@ bool CGeomProfile::bIsPointInProfile(double const dX, double const dY, int &nPoi
 //    return m_VnCoastPolyToRight[n];
 // }
 
+//! Appends a cell to the profile
 void CGeomProfile::AppendCellInProfile(CGeom2DIPoint const *pPti)
 {
    // In grid CRS
    m_VCellInProfile.push_back(*pPti);
 }
 
+//! Appends a cell to the profile (overloaded version)
 void CGeomProfile::AppendCellInProfile(int const nX, int const nY)
 {
    // In grid CRS
@@ -372,18 +406,21 @@ void CGeomProfile::AppendCellInProfile(int const nX, int const nY)
 //    m_VCellInProfile = *VNewPoints;
 // }
 
+//! Returns all cells in the profile
 vector<CGeom2DIPoint> *CGeomProfile::pPtiVGetCellsInProfile(void)
 {
    // In grid CRS
    return &m_VCellInProfile;
 }
 
+//! Returns a single cell in the profile
 CGeom2DIPoint *CGeomProfile::pPtiGetCellInProfile(int const n)
 {
    // In grid CRS NOTE No check to see if n < size()
    return &m_VCellInProfile[n];
 }
 
+//! Returns the number of cells in the profile
 int CGeomProfile::nGetNumCellsInProfile(void) const
 {
    // In grid CRS
@@ -396,12 +433,14 @@ int CGeomProfile::nGetNumCellsInProfile(void) const
 //    return &m_VCellInProfileExtCRS;
 // }
 
+//! Appends a cell (specified in the external co-ordinate system) to the profile
 void CGeomProfile::AppendCellInProfileExtCRS(double const dX, double const dY)
 {
    // In external CRS
    m_VCellInProfileExtCRS.push_back(CGeom2DPoint(dX, dY));
 }
 
+//! Appends a cell (specified in the external co-ordinate system) to the profile (overloaded version)
 void CGeomProfile::AppendCellInProfileExtCRS(CGeom2DPoint const *pPt)
 {
    // In external CRS
@@ -439,7 +478,7 @@ int CGeomProfile::nGetCellGivenDepth(CGeomRasterGrid const *pGrid, double const 
    return nIndex;
 }
 
-//! Set the deep-water wave height for this profile
+//! Sets the deep-water wave height for this profile
 void CGeomProfile::SetProfileDeepWaterWaveHeight(double const dWaveHeight)
 {
    m_dDeepWaterWaveHeight = dWaveHeight;
@@ -451,7 +490,7 @@ double CGeomProfile::dGetProfileDeepWaterWaveHeight(void) const
    return m_dDeepWaterWaveHeight;
 }
 
-//! Set the deep-water wave orientation for this profile
+//! Sets the deep-water wave orientation for this profile
 void CGeomProfile::SetProfileDeepWaterWaveAngle(double const dWaveAngle)
 {
    m_dDeepWaterWaveAngle = dWaveAngle;
@@ -463,7 +502,7 @@ double CGeomProfile::dGetProfileDeepWaterWaveAngle(void) const
    return m_dDeepWaterWaveAngle;
 }
 
-//! Set the deep-water wave Period for this profile
+//! Sets the deep-water wave Period for this profile
 void CGeomProfile::SetProfileDeepWaterWavePeriod(double const dWavePeriod)
 {
    m_dDeepWaterWavePeriod = dWavePeriod;

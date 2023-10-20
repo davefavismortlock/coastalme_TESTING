@@ -1,4 +1,4 @@
-CHANGES
+CoastalME CHANGELOG
 
 1.0     Initial release
 
@@ -12,3 +12,4 @@ CHANGES
 1.1.07  Minor bug fixes (16 September 2023)
 1.1.08  Tidying and minor bug fixes (17 September 2023)
 1.1.09  Improved Doxygen class and variable documentation (12 October 2023)
+1.1.10  More improvements to Doxygen class and variable documentation (20 October 2023)

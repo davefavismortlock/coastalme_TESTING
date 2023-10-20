@@ -29,15 +29,26 @@ You should have received a copy of the GNU General Public License along with thi
 class CSedInputEvent
 {
 private:
-   int m_nLocationID;                        // The location ID in the shapefile
-   unsigned long m_ulEventTimeStep;          // The timing of the sediment input event
-   double
-      m_dFineSedVol,                         // Volume (m3) of fine sediment
-      m_dSandSedVol,                         // Volume (m3) of sand-sized sediment
-      m_dCoarseSedVol,                       // Volume (m3) of coarse sediment
-      m_dLen,                                // The coast-normal length (m) of the sediment block
-      m_dWidth;                              // The along-coast width (m) of the sediment block
-      // m_dThick;                           // The along-coast thickness (m) of the sediment block
+   //! The location ID in the shapefile
+   int m_nLocationID;
+
+   //! The timing of the sediment input event
+   unsigned long m_ulEventTimeStep;
+
+   //! The volume (m3) of fine sediment in the sediment input event
+   double m_dFineSedVol;
+
+   //! The volume (m3) of sand sediment in the sediment input event
+   double m_dSandSedVol;
+
+   //! The volume (m3) of coarse sediment in the sediment input event
+   double m_dCoarseSedVol;
+
+   //! The coast-normal length (m) of the sediment block
+   double m_dLen;
+
+   //! The along-coast width (m) of the sediment block
+   double m_dWidth;
 
 public:
    CSedInputEvent(int const, unsigned long const, double const, double const, double const, double const, double const); //, double const);

@@ -34,6 +34,7 @@ You should have received a copy of the GNU General Public License along with thi
 class CRWDrift : public CACoastLandform
 {
 private:
+   //! The drift's d50
    double m_dD50;
 
 public:

@@ -36,32 +36,54 @@ You should have received a copy of the GNU General Public License along with thi
 class CGeomProfile : public CGeomMultiLine
 {
 private:
-   bool
-      m_bStartOfCoast,
-      m_bEndOfCoast,
-      m_bHitLand,
-      m_bHitCoast,
-      m_bTooShort,
-      m_bTruncated,
-      m_bHitAnotherProfile;
-   int
-      m_nNumCoastPoint;             // The coastline point at which this profile hits the coast (not necessarily coincident wih the profile start cell)
-   double
-      m_dDeepWaterWaveHeight,       // The wave height at the end of the profile
-      m_dDeepWaterWaveAngle,  // The wave orientation at the end of the profile
-      m_dDeepWaterWavePeriod;       // The wave period at the end of the profile
+   //! Is this a start-of-coast profile?
+   bool m_bStartOfCoast;
 
-   vector<CGeom2DIPoint>
-      m_VCellInProfile;             // In grid CRS, the integer coords of the cells 'under' this profile. NOTE Point zero is the same as 'cell marked as coastline' in coast object
+   //! Is this an end-of-coast profile?
+   bool m_bEndOfCoast;
+
+   //! Has this profile hit land?
+   bool m_bHitLand;
+
+   //! Has this profile hit a coastline?
+   bool m_bHitCoast;
+
+   //! Is this profile too short?
+   bool m_bTooShort;
+
+   //! Has this profile been truncated?
+   bool m_bTruncated;
+
+   //! Has this profile hit another profile?
+   bool m_bHitAnotherProfile;
+
+   //! The coastline point at which this profile hits the coast (not necessarily coincident wih the profile start cell)
+   int m_nNumCoastPoint;
+
+   //! The wave height at the end of the profile
+   double m_dDeepWaterWaveHeight;
+
+   //! The wave orientation at the end of the profile
+   double m_dDeepWaterWaveAngle;
+
+   //! The wave period at the end of the profile
+   double m_dDeepWaterWavePeriod;
+
+   //! In the grid CRS, the integer coordinates of the cells 'under' this profile. NOTE Point zero is the same as 'cell marked as coastline' in coast object
+   vector<CGeom2DIPoint> m_VCellInProfile;
 
    // The following have the same length as m_VCellInProfile
-   vector<CGeom2DPoint>
-      m_VCellInProfileExtCRS;       // In external CRS, the coords of cells 'under' this profile
-//    vector<bool>
-//       m_bVShared;                // Is this profile point part of a multi-line?
-   vector<int>
-      m_VnCoastPolyToLeft,          // The ID of the CoastPolygon to the left (looking seaward)
-      m_VnCoastPolyToRight;         // The ID of the CoastPolygon to the right (looking seaward)
+   //! In external CRS, the coords of cells 'under' this profile
+   vector<CGeom2DPoint> m_VCellInProfileExtCRS;
+
+   // Is this profile point part of a multi-line?
+//    vector<bool> m_bVShared;
+
+   //! The ID of the CoastPolygon to the left (looking seaward)
+   vector<int> m_VnCoastPolyToLeft;
+
+   //! The ID of the CoastPolygon to the right (looking seaward)
+   vector<int> m_VnCoastPolyToRight;
 
 public:
    explicit CGeomProfile(int const);

@@ -44,7 +44,6 @@ public:
    bool bIsPresent(int const, int const);
 
    void Display(void) override;
-
 };
 #endif // ILINE_H
 
