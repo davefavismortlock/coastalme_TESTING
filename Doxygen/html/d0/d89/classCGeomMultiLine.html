@@ -230,6 +230,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ad4d3e975f72da69900b3b469bdfea2ad"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; pair&lt; int, int &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d89/classCGeomMultiLine.html#ad4d3e975f72da69900b3b469bdfea2ad">m_prVVLineSegment</a></td></tr>
+<tr class="memdesc:ad4d3e975f72da69900b3b469bdfea2ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vector of line segments, each element is a vector of pairs. The first of the pair is a co-incident profile number, the second is that profile's 'own' line segment number.  <a href="../../d0/d89/classCGeomMultiLine.html#ad4d3e975f72da69900b3b469bdfea2ad">More...</a><br /></td></tr>
 <tr class="separator:ad4d3e975f72da69900b3b469bdfea2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
@@ -513,7 +514,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00086">86</a> of file <a class="el" href="../../db/d80/multi__line_8cpp_source.html">multi_line.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00193">CGeomProfile::bInsertIntersection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00218">CGeomProfile::bInsertIntersection()</a>.</p>
 
 </div>
 </div>
@@ -618,7 +619,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../db/d80/multi__line_8cpp_source.html">multi_line.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01163">CSimulation::bCheckForIntersection()</a>, <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00193">CGeomProfile::bInsertIntersection()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01814">CSimulation::nInsertPointIntoProfilesIfNeededThenUpdate()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01001">CSimulation::nModifyAllIntersectingProfiles()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01345">CSimulation::RasterizeProfile()</a>, and <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01992">CSimulation::TruncateProfileAndAppendNew()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01163">CSimulation::bCheckForIntersection()</a>, <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00218">CGeomProfile::bInsertIntersection()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01814">CSimulation::nInsertPointIntoProfilesIfNeededThenUpdate()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01001">CSimulation::nModifyAllIntersectingProfiles()</a>, <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01345">CSimulation::RasterizeProfile()</a>, and <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01992">CSimulation::TruncateProfileAndAppendNew()</a>.</p>
 
 </div>
 </div>
@@ -758,7 +759,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00128">128</a> of file <a class="el" href="../../db/d80/multi__line_8cpp_source.html">multi_line.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00245">CGeomProfile::RemoveLineSegment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/profile_8cpp_source.html#l00275">CGeomProfile::RemoveLineSegment()</a>.</p>
 
 </div>
 </div>
@@ -847,7 +848,9 @@ Andres Payo</dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d7c/multi__line_8h_source.html#l00039">39</a> of file <a class="el" href="../../d9/d7c/multi__line_8h_source.html">multi_line.h</a>.</p>
+<p>A vector of line segments, each element is a vector of pairs. The first of the pair is a co-incident profile number, the second is that profile's 'own' line segment number. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d7c/multi__line_8h_source.html#l00040">40</a> of file <a class="el" href="../../d9/d7c/multi__line_8h_source.html">multi_line.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00142">AddCoincidentProfileToExistingLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00134">AppendCoincidentProfileToLineSegments()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00041">AppendLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00200">bFindProfileInCoincidentProfiles()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00170">bFindProfileInCoincidentProfilesOfLastLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00219">GetMostCoastwardSharedLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00086">InsertLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00263">nFindProfilesLastSeg()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00156">nGetCoincidentProfileForLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00164">nGetNumCoincidentProfilesInLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00074">nGetNumLineSegments()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00244">nGetProf()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00250">nGetProfsLineSeg()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00149">pprVGetPairedCoincidentProfilesForLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00118">prVVGetAllLineSegAfter()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00128">RemoveLineSegment()</a>, <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00256">SetProfsLineSeg()</a>, and <a class="el" href="../../db/d80/multi__line_8cpp_source.html#l00080">TruncateLineSegments()</a>.</p>
 
@@ -863,7 +866,7 @@ Andres Payo</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../d0/d89/classCGeomMultiLine.html">CGeomMultiLine</a></li>
-    <li class="footer">Generated on Wed Oct 18 2023 11:08:50 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Oct 20 2023 16:12:48 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>
