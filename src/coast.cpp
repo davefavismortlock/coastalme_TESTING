@@ -32,6 +32,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "line.h"
 #include "i_line.h"
 
+//! Constructor with initialization list
 CRWCoast::CRWCoast(void)
     : m_nSeaHandedness(NULL_HANDED),
       m_nStartEdge(INT_NODATA),
@@ -43,6 +44,7 @@ CRWCoast::CRWCoast(void)
 {
 }
 
+//! Destructor
 CRWCoast::~CRWCoast(void)
 {
    for (unsigned int i = 0; i < m_pVLandforms.size(); i++)
@@ -52,36 +54,43 @@ CRWCoast::~CRWCoast(void)
       delete m_pVPolygon[i];
 }
 
+//! Sets the handedness of the coast
 void CRWCoast::SetSeaHandedness(int const nNewHandedness)
 {
    m_nSeaHandedness = nNewHandedness;
 }
 
+//! Gers the handedness of the coast
 int CRWCoast::nGetSeaHandedness(void) const
 {
    return m_nSeaHandedness;
 }
 
+//! Sets the coast's start edge
 void CRWCoast::SetStartEdge(int const nEdge)
 {
    m_nStartEdge = nEdge;
 }
 
+//! Gets the coast's start edge
 int CRWCoast::nGetStartEdge(void) const
 {
    return m_nStartEdge;
 }
 
+//! Sets the coast's end edge
 void CRWCoast::SetEndEdge(int const nEdge)
 {
    m_nEndEdge = nEdge;
 }
 
+//! Gets the coast's end edge
 int CRWCoast::nGetEndEdge(void) const
 {
    return m_nEndEdge;
 }
 
+//! Given the vector line of a coast initializes, initializes coastline values (curvature, breaking wave height, wave angle, and flux orientation etc.)
 void CRWCoast::SetCoastlineExtCRS(CGeomLine const *pLCoast)
 {
    m_LCoastlineExtCRS = *pLCoast;
@@ -108,9 +117,9 @@ void CRWCoast::SetCoastlineExtCRS(CGeomLine const *pLCoast)
    m_VdWaveEnergyAtBreaking = vector<double>(nLen, 0);
 }
 
+//! Appends a coastline point (in external CRS), also appends dummy values for curvature, breaking wave height, wave angle, and flux orientation
 void CRWCoast::AppendPointToCoastlineExtCRS(double const dX, double const dY)
 {
-   // Appends a coastline point (in external CRS), also appends dummy values for curvature, breaking wave height, wave angle, and flux orientation
    m_LCoastlineExtCRS.Append(dX, dY);
 
    m_VnProfileNumber.push_back(INT_NODATA);
@@ -152,11 +161,13 @@ void CRWCoast::AppendPointToCoastlineExtCRS(double const dX, double const dY)
 //    // int nLen = m_LFloodWaveSetupSurgeRunupLineExtCRS.nGetSize();
 // }
 
+//! Returns the coastline (external CRS)
 CGeomLine *CRWCoast::pLGetCoastlineExtCRS(void)
 {
    return &m_LCoastlineExtCRS;
 }
 
+//! Returns a given coast point in external CRS
 CGeom2DPoint *CRWCoast::pPtGetCoastlinePointExtCRS(int const n)
 {
    // Point is in external CRS NOTE no check to see that n is < m_LCoastlineExtCRS.Size()
@@ -186,6 +197,7 @@ CGeom2DPoint *CRWCoast::pPtGetCoastlinePointExtCRS(int const n)
 //    return &m_LFloodWaveSetupSurgeRunupExtCRS[n];
 // }
 
+//! Gets the size of the coastline
 int CRWCoast::nGetCoastlineSize(void) const
 {
    return m_LCoastlineExtCRS.nGetSize();
@@ -196,6 +208,7 @@ int CRWCoast::nGetCoastlineSize(void) const
 //    m_LCoastlineExtCRS.Display();
 // }
 
+//! Sets the co-ordinates (grid CRS) of the cells marked as coastline
 void CRWCoast::SetCoastlineGridCRS(CGeomILine const *pILCoastCells)
 {
    m_ILCellsMarkedAsCoastline = *pILCoastCells;
@@ -211,6 +224,7 @@ void CRWCoast::SetCoastlineGridCRS(CGeomILine const *pILCoastCells)
 //    m_ILCellsMarkedAsCoastline.Append(CGeom2DIPoint(nX, nY));
 // }
 
+//! Returns the co-ordinates (grid CRS) of the cells marked as coastline
 CGeom2DIPoint *CRWCoast::pPtiGetCellMarkedAsCoastline(int const n)
 {
    // NOTE No check to see if n < size()
@@ -311,86 +325,102 @@ int CRWCoast::nGetCoastPointGivenCell(CGeom2DIPoint *pPtiCell)
    return INT_NODATA;
 }
 
+//! Returns the detailed curvature for a coast point
 double CRWCoast::dGetDetailedCurvature(int const nCoastPoint) const
 {
    // NOTE no sanity check for nCoastPoint < m_VdCurvatureDetailed.Size()
    return m_VdCurvatureDetailed[nCoastPoint];
 }
 
+//! Sets the detailed curvature for a coast point
 void CRWCoast::SetDetailedCurvature(int const nCoastPoint, double const dCurvature)
 {
    // NOTE no check to see if nCoastPoint < m_VdCurvatureDetailed.size()
    m_VdCurvatureDetailed[nCoastPoint] = dCurvature;
 }
 
+//! Returns a vector of detailed curvature for all coast points
 vector<double> *CRWCoast::pVGetDetailedCurvature(void)
 {
    return &m_VdCurvatureDetailed;
 }
 
+//! Returns the smoothed curvature for a coast point
 double CRWCoast::dGetSmoothCurvature(int const nCoastPoint) const
 {
    // NOTE no sanity check for nCoastPoint < m_VdCurvatureSmooth.Size()
    return m_VdCurvatureSmooth[nCoastPoint];
 }
 
+//! Sets the smoothed curvature for a coast point
 void CRWCoast::SetSmoothCurvature(int const nCoastPoint, double const dCurvature)
 {
    // NOTE no check to see if nCoastPoint < m_VdCurvatureSmooth.size()
    m_VdCurvatureSmooth[nCoastPoint] = dCurvature;
 }
 
+//! Returns a vector of smoothed curvature for all coast points
 vector<double> *CRWCoast::pVGetSmoothCurvature(void)
 {
    return &m_VdCurvatureSmooth;
 }
 
+//! Sets the mean of the coast's detailed curvature
 void CRWCoast::SetDetailedCurvatureMean(double const dMean)
 {
    m_dCurvatureDetailedMean = dMean;
 }
 
+//! Gets the mean of the coast's detailed curvature
 double CRWCoast::dGetDetailedCurvatureMean(void) const
 {
    return m_dCurvatureDetailedMean;
 }
 
+//! Sets the standard deviation of the coast's detailed curvature
 void CRWCoast::SetDetailedCurvatureSTD(double const dSTD)
 {
    m_dCurvatureDetailedSTD = dSTD;
 }
 
+//! Gets the standard deviation of the coast's detailed curvature
 double CRWCoast::dGetDetailedCurvatureSTD(void) const
 {
    return m_dCurvatureDetailedSTD;
 }
 
+//! Sets the mean of the coast's smoothed curvature
 void CRWCoast::SetSmoothCurvatureMean(double const dMean)
 {
    m_dCurvatureSmoothMean = dMean;
 }
 
+//! Gets the mean of the coast's smoothed curvature
 double CRWCoast::dGetSmoothCurvatureMean(void) const
 {
    return m_dCurvatureSmoothMean;
 }
 
+//! Sets the standard deviation of the coast's smoothed curvature
 void CRWCoast::SetSmoothCurvatureSTD(double const dSTD)
 {
    m_dCurvatureSmoothSTD = dSTD;
 }
 
+//! Gets the standard deviation of the coast's smoothed curvature
 double CRWCoast::dGetSmoothCurvatureSTD(void) const
 {
    return m_dCurvatureSmoothSTD;
 }
 
-CGeomProfile *CRWCoast::pGetProfile(int const nProfile)
+//! Returns a pointer to a profile
+CGeomProfile* CRWCoast::pGetProfile(int const nProfile)
 {
    // NOTE No safety check that nProfile < m_VProfile.size()
    return &m_VProfile[nProfile];
 }
 
+//! Appends a profile
 void CRWCoast::AppendProfile(int const nCoastPoint, int const nProfile)
 {
    CGeomProfile Profile(nCoastPoint);
@@ -405,11 +435,13 @@ void CRWCoast::AppendProfile(int const nCoastPoint, int const nProfile)
 //    m_VProfile[nProfile].SetAllPointsInProfile(pPtVProfileNew);
 // }
 
+//! Returns the number of profiles on this coast
 int CRWCoast::nGetNumProfiles(void) const
 {
    return static_cast<int>(m_VProfile.size());
 }
 
+//! Returns true if the given coast point is the start point of a profile
 bool CRWCoast::bIsProfileStartPoint(int const nCoastPoint) const
 {
    // NOTE no sanity check for nCoastPoint < m_VnProfileNumber.Size()
@@ -419,15 +451,15 @@ bool CRWCoast::bIsProfileStartPoint(int const nCoastPoint) const
    return false;
 }
 
+//! Returns the number of the profile at the given coast point, returns INT_NODATA if there is no profile at this point
 int CRWCoast::nGetProfileNumber(int const nCoastPoint) const
 {
-   // Returns INT_NODATA if no profile at this point
    return m_VnProfileNumber[nCoastPoint];
 }
 
+//! Creates an index containing the numbers of the coastline-normal profiles in along-coast sequence
 void CRWCoast::CreateAlongCoastProfileIndex(void)
 {
-   // Creates an index containing the numbers of the coastline-normal profiles in along-coast sequence
    for (int nCoastPoint = 0; nCoastPoint < m_LCoastlineExtCRS.nGetSize(); nCoastPoint++)
    {
       if (m_VnProfileNumber[nCoastPoint] != INT_NODATA)
@@ -435,15 +467,16 @@ void CRWCoast::CreateAlongCoastProfileIndex(void)
    }
 }
 
+//! Returns the number of the coastline-normal profile which is at the given coast point in the along-coast sequence
 int CRWCoast::nGetProfileFromAlongCoastProfileIndex(int const n) const
 {
-   // Returns the number of the coastline-normal profile which is at position n in the along-coast sequence
+
    return m_VnProfileCoastIndex[n];
 }
 
+//! Returns the number of the profile which is adjacent to and down-coast from the specified profile. It returns INT_NODATA if there is no valid up-coast profile
 int CRWCoast::nGetDownCoastProfileNumber(int const nProfile) const
 {
-   // Return the number of the profile which is adjacent to and down-coast from the specified profile. It returns INT_NODATA if there is no valid up-coast profile
    for (unsigned int n = 0; n < m_VnProfileCoastIndex.size() - 1; n++)
    {
       if (nProfile == m_VnProfileCoastIndex[n])
@@ -463,57 +496,67 @@ int CRWCoast::nGetDownCoastProfileNumber(int const nProfile) const
 //    return -1;
 // }
 
+//! Sets the deep water wave height for this coast point
 void CRWCoast::SetCoastDeepWaterWaveHeight(int const nCoastPoint, double const dHeight)
 {
    // NOTE no check to see if nCoastPoint < m_VdDeepWaterWaveHeight.size()
    m_VdDeepWaterWaveHeight[nCoastPoint] = dHeight;
 }
 
+//! Gets the deep water wave height for this coast point
 double CRWCoast::dGetCoastDeepWaterWaveHeight(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdDeepWaterWaveHeight.size()
    return m_VdDeepWaterWaveHeight[nCoastPoint];
 }
 
+//! Sets the deep water wave angle for this coast point
 void CRWCoast::SetCoastDeepWaterWaveAngle(int const nCoastPoint, double const dOrientation)
 {
    // NOTE no check to see if nCoastPoint < m_VdDeepWaterWaveAngle.size()
    m_VdDeepWaterWaveAngle[nCoastPoint] = dOrientation;
 }
 
+//! Gets the deep water wave angle for this coast point
 double CRWCoast::dGetCoastDeepWaterWaveAngle(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdDeepWaterWaveAngle.size()
    return m_VdDeepWaterWaveAngle[nCoastPoint];
 }
 
+//! Sets the deep water wave period for this coast point
 void CRWCoast::SetCoastDeepWaterWavePeriod(int const nCoastPoint, double const dPeriod)
 {
    m_VdDeepWaterWavePeriod[nCoastPoint] = dPeriod;
 }
 
+//! Gets the deep water wave period for this coast point
 double CRWCoast::dGetCoastDeepWaterWavePeriod(int const nCoastPoint) const
 {
    return m_VdDeepWaterWavePeriod[nCoastPoint];
 }
 
+//! Sets the breaking wave height for this coast point
 void CRWCoast::SetBreakingWaveHeight(int const nCoastPoint, double const dHeight)
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveHeight.size()
    m_VdBreakingWaveHeight[nCoastPoint] = dHeight;
 }
 
+//! Gets the breaking wave height for this coast point
 double CRWCoast::dGetBreakingWaveHeight(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveHeight.size()
    return m_VdBreakingWaveHeight[nCoastPoint];
 }
 
+//! Sets the wave setup surge for this coast point
 void CRWCoast::SetWaveSetupSurge(int const nCoastPoint, double const dWaveSetup)
 {
    m_VdWaveSetupSurge[nCoastPoint] = dWaveSetup;
 }
 
+//! Gets the wave setup surge for this coast point
 double CRWCoast::dGetWaveSetupSurge(int const nCoastPoint) const
 {
    return m_VdWaveSetupSurge[nCoastPoint];
@@ -529,16 +572,19 @@ double CRWCoast::dGetWaveSetupSurge(int const nCoastPoint) const
 //    return m_VdStormSurge[nCoastPoint];
 // }
 
+//! Sets the wave runup for this coast point
 void CRWCoast::SetRunUp(int const nCoastPoint, double const dRunUp)
 {
    m_VdRunUp[nCoastPoint] = dRunUp;
 }
 
+//! Gets the wave runup for this coast point
 double CRWCoast::dGetRunUp(int const nCoastPoint) const
 {
    return m_VdRunUp[nCoastPoint];
 }
 
+//! Sets the wave level for this coast point
 double CRWCoast::dGetLevel(int const nCoastPoint, int const level) const
 {
    switch (level)
@@ -554,66 +600,77 @@ double CRWCoast::dGetLevel(int const nCoastPoint, int const level) const
    }
 }
 
+//! Sets the coast wave height for this coast point
 void CRWCoast::SetCoastWaveHeight(int const nCoastPoint, double const dHeight)
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveHeight.size()
    m_VdCoastWaveHeight[nCoastPoint] = dHeight;
 }
 
+//! Gets the coast wave height for this coast point
 double CRWCoast::dGetCoastWaveHeight(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveHeight.size()
    return m_VdCoastWaveHeight[nCoastPoint];
 }
 
+//! Sets the breaking wave angle for this coast point
 void CRWCoast::SetBreakingWaveAngle(int const nCoastPoint, double const dOrientation)
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveAngle.size()
    m_VdBreakingWaveAngle[nCoastPoint] = dOrientation;
 }
 
+//! Gets the breaking wave angle for this coast point
 double CRWCoast::dGetBreakingWaveAngle(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdBreakingWaveAngle.size()
    return m_VdBreakingWaveAngle[nCoastPoint];
 }
 
+//! Sets the depth of breaking for this coast point
 void CRWCoast::SetDepthOfBreaking(int const nCoastPoint, double const dDepth)
 {
    // NOTE no check to see if nCoastPoint < m_VdDepthOfBreaking.size()
    m_VdDepthOfBreaking[nCoastPoint] = dDepth;
 }
 
+//! Gets the depth of breaking for this coast point
 double CRWCoast::dGetDepthOfBreaking(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdDepthOfBreaking.size()
    return m_VdDepthOfBreaking[nCoastPoint];
 }
 
+//! Sets the breaking distance for this coast point
 void CRWCoast::SetBreakingDistance(int const nCoastPoint, int const nDist)
 {
    // NOTE no check to see if nCoastPoint < m_VnBreakingDistance.size()
    m_VnBreakingDistance[nCoastPoint] = nDist;
 }
 
+//! Gets the breaking distance for this coast point
 int CRWCoast::nGetBreakingDistance(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VnBreakingDistance.size()
    return m_VnBreakingDistance[nCoastPoint];
 }
 
+//! Sets the flux orientation for this coast point
 void CRWCoast::SetFluxOrientation(int const nCoastPoint, double const dOrientation)
 {
    // NOTE no check to see if nCoastPoint < m_VdFluxOrientation.size()
    m_VdFluxOrientation[nCoastPoint] = dOrientation;
 }
 
+//! Gets the flux orientation for this coast point
 double CRWCoast::dGetFluxOrientation(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdFluxOrientation.size()
    return m_VdFluxOrientation[nCoastPoint];
 }
 
+//! Sets the wave energy at breaking for this coast point
 void CRWCoast::SetWaveEnergyAtBreaking(int const nCoastPoint, double const dEnergy)
 {
    // NOTE no check to see if nCoastPoint < m_VdWaveEnergyAtBreaking.size()
@@ -621,6 +678,7 @@ void CRWCoast::SetWaveEnergyAtBreaking(int const nCoastPoint, double const dEner
    m_VdWaveEnergyAtBreaking[nCoastPoint] = dEnergy;
 }
 
+//! Gets the wave energy at breaking for this coast point
 double CRWCoast::dGetWaveEnergyAtBreaking(int const nCoastPoint) const
 {
    // NOTE no check to see if nCoastPoint < m_VdWaveEnergyAtBreaking.size()
@@ -628,11 +686,13 @@ double CRWCoast::dGetWaveEnergyAtBreaking(int const nCoastPoint) const
    return m_VdWaveEnergyAtBreaking[nCoastPoint];
 }
 
+//! Appends a coastal landform to this coast
 void CRWCoast::AppendCoastLandform(CACoastLandform *pCoastLandform)
 {
    m_pVLandforms.push_back(pCoastLandform);
 }
 
+//! Returns the coastal landform for a given coast point, or NULL if there is no coast landform here
 CACoastLandform *CRWCoast::pGetCoastLandform(int const nCoastPoint)
 {
    if (nCoastPoint < static_cast<int>(m_pVLandforms.size()))
@@ -641,18 +701,21 @@ CACoastLandform *CRWCoast::pGetCoastLandform(int const nCoastPoint)
    return NULL;
 }
 
+//! Sets a coast polygon node
 void CRWCoast::SetPolygonNode(int const nPoint, int const nNode)
 {
    // NOTE no check to see if nPoint < m_VnPolygonNode.size()
    m_VnPolygonNode[nPoint] = nNode;
 }
 
+//! Gets a coast polygon node
 int CRWCoast::nGetPolygonNode(int const nPoint) const
 {
    // NOTE no check to see if nPoint < m_VnPolygonNode.size()
    return m_VnPolygonNode[nPoint];
 }
 
+//! Creates a coast polygon
 void CRWCoast::CreatePolygon(int const nGlobalID, int const nCoastID, int const nCoastPoint, CGeom2DIPoint const *PtiNode, CGeom2DIPoint const *PtiAntiNode, int const nProfileUpCoast, int const nProfileDownCoast, vector<CGeom2DPoint> const *pVIn, int const nPointsUpCoastProfile, int const nPointsDownCoastProfile, int const nPointInPolygonStartPoint)
 {
    CGeomCoastPolygon *pPolygon = new CGeomCoastPolygon(nGlobalID, nCoastID, nCoastPoint, nProfileUpCoast, nProfileDownCoast, pVIn, nPointsUpCoastProfile, nPointsDownCoastProfile, PtiNode, PtiAntiNode, nPointInPolygonStartPoint);
@@ -660,55 +723,65 @@ void CRWCoast::CreatePolygon(int const nGlobalID, int const nCoastID, int const 
    m_pVPolygon.push_back(pPolygon);
 }
 
+//! Returns the number of coast polygons
 int CRWCoast::nGetNumPolygons(void) const
 {
    return static_cast<int>(m_pVPolygon.size());
 }
 
-CGeomCoastPolygon *CRWCoast::pGetPolygon(int const nPoly) const
+//! Returns a pointer to the coast polygon at a given coast point
+CGeomCoastPolygon* CRWCoast::pGetPolygon(int const nPoly) const
 {
    // NOTE no check to see if nPoint < m_VnPolygonNode.size()
    return m_pVPolygon[nPoly];
 }
 
+//! Appends to coast polygon length
 void CRWCoast::AppendPolygonLength(const double dLength)
 {
    m_VdPolygonLength.push_back(dLength);
 }
 
+//! Gets coast polygon length
 double CRWCoast::dGetPolygonLength(int const nIndex) const
 {
    // NOTE no check to see if nIndex < m_VdPolygonLength.size()
    return m_VdPolygonLength[nIndex];
 }
 
+//! Returns the number of shadow boundaries on this coast
 int CRWCoast::nGetNumShadowBoundaries(void)
 {
    return static_cast<int>(m_LShadowBoundary.size());
 }
 
+//! Appends a shadow boundary to this coast
 void CRWCoast::AppendShadowBoundary(CGeomLine const *pLBoundary)
 {
    m_LShadowBoundary.push_back(*pLBoundary);
 }
 
+//! Returns a pointer to a shadow boundary
 CGeomLine *CRWCoast::pGetShadowBoundary(int const n)
 {
    // NOTE no check to see if n < m_LShadowBoundary.size()
    return &m_LShadowBoundary[n];
 }
 
+//! Returns the number of shadow zone downdrift boundaries on this coast
 int CRWCoast::nGetNumShadowDowndriftBoundaries(void)
 {
    return static_cast<int>(m_LShadowDowndriftBoundary.size());
 }
 
+//! Appends a shadow zone downdrift boundary
 void CRWCoast::AppendShadowDowndriftBoundary(CGeomLine const *pLBoundary)
 {
    m_LShadowDowndriftBoundary.push_back(*pLBoundary);
 }
 
-CGeomLine *CRWCoast::pGetShadowDowndriftBoundary(int const n)
+//! Returns a pointer to a shadow zone downdrift boundary
+CGeomLine* CRWCoast::pGetShadowDowndriftBoundary(int const n)
 {
    // NOTE no check to see if n < m_LShadowDowndriftBoundary.size()
    return &m_LShadowDowndriftBoundary[n];

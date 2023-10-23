@@ -31,16 +31,19 @@ using std::ios;
 #include "cme.h"
 #include "line.h"
 
+//! Constructor
 CGeomLine::CGeomLine(void)
 {
 }
 
+//! Overloaded constructor with two points as parameters
 CGeomLine::CGeomLine(CGeom2DPoint const* pPt1, CGeom2DPoint const* pPt2)
 {
    m_VPoints.push_back(*pPt1);
    m_VPoints.push_back(*pPt2);
 }
 
+//! Overloaded constructor with one paramter which creates a given number of uninitialized points
 CGeomLine::CGeomLine(int const nNum)
 {
    CGeom2DPoint pPt;
@@ -49,30 +52,36 @@ CGeomLine::CGeomLine(int const nNum)
       m_VPoints.push_back(pPt);
 }
 
+//! Destructor
 CGeomLine::~CGeomLine(void)
 {
 }
 
+//! Returns the X value at a given place in the line
 double CGeomLine::dGetXAt(int const n)
 {
    return m_VPoints[n].dGetX();
 }
 
+//! Returns the Y value at a given place in the line
 double CGeomLine::dGetYAt(int const n)
 {
    return m_VPoints[n].dGetY();
 }
 
+//! Returns the point at a given place in the line
 CGeom2DPoint* CGeomLine::pPtGetAt(int const n)
 {
    return &m_VPoints[n];
 }
 
+//! Sets the X value at a given place in the line
 void CGeomLine::SetXAt(int const n, double const x)
 {
    m_VPoints[n].SetX(x);
 }
 
+//! Sets the Y value at a given place in the line
 void CGeomLine::SetYAt(int const n, double const y)
 {
    m_VPoints[n].SetY(y);
@@ -86,6 +95,7 @@ void CGeomLine::SetYAt(int const n, double const y)
 //    return false;
 // }
 
+//!
 void CGeomLine::Display(void)
 {
    cout << endl;

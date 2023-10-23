@@ -30,14 +30,26 @@ You should have received a copy of the GNU General Public License along with thi
 class CRWCellSediment
 {
 private:
-   double
-      m_dFine,                      // Depth equivalent of fine sediment in m
-      m_dNotchFineLost,             // Depth equivalent (m) of fine sediment lost via notch incision
-      m_dSand,                      // Depth equivalent of sand sediment in m
-      m_dNotchSandLost,             // Depth equivalent (m) of sand sediment lost via notch incision
-      m_dCoarse,                    // Depth equivalent of coarse sediment in m
-      m_dNotchCoarseLost,           // Depth equivalent (m) of coarse sediment lost via notch incision
-      m_dTotSedimentInput;          // Total depth (m, from all size classes) of sediment input events, since start of simulation
+   //! Depth equivalent of fine sediment in m
+   double m_dFine;
+
+   //! Depth equivalent (m) of fine sediment lost via notch incision
+   double m_dNotchFineLost;
+
+   //! Depth equivalent of sand sediment in m
+   double m_dSand;
+
+   //! Depth equivalent (m) of sand sediment lost via notch incision
+   double m_dNotchSandLost;
+
+   //! Depth equivalent of coarse sediment in m
+   double m_dCoarse;
+
+   //! Depth equivalent (m) of coarse sediment lost via notch incision
+   double m_dNotchCoarseLost;
+
+   //! Total depth (m, all size classes) of sediment input events, since start of simulation
+   double m_dTotSedimentInput;
 
 public:
    CRWCellSediment(void);

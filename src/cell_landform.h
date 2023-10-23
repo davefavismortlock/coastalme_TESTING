@@ -45,6 +45,7 @@ private:
    //! Accumulate wave energy for this landform on this cell
    double m_dAccumWaveEnergy;
 
+   //! The m_uLFData will hold landform data: currently, only cliffs are considered
    union
    {
       struct

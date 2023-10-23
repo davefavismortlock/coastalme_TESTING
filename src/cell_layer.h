@@ -38,9 +38,11 @@ private:
 //       m_dMechResistance,
 //       m_dConsolidationStatus;
 
-   CRWCellSediment
-      m_UnconsolidatedSediment,
-      m_ConsolidatedSediment;
+   //! This cell's unconsolidated sediment object
+   CRWCellSediment m_UnconsolidatedSediment;
+
+   //! This cell's consolidated sediment object
+   CRWCellSediment m_ConsolidatedSediment;
 
 public:
    CRWCellLayer(void);

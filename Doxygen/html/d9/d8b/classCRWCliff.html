@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('d9/d8b/classCRWCliff.html','../../'); 
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6e629fb69cde0a0ce49eaf59445dd28a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#a6e629fb69cde0a0ce49eaf59445dd28a">CRWCliff</a> (<a class="el" href="../../d1/dbe/classCRWCoast.html">CRWCoast</a> *, int const, int const, double const, double const, double const, double const)</td></tr>
-<tr class="memdesc:a6e629fb69cde0a0ce49eaf59445dd28a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="../../d9/d8b/classCRWCliff.html#a6e629fb69cde0a0ce49eaf59445dd28a">More...</a><br /></td></tr>
+<tr class="memdesc:a6e629fb69cde0a0ce49eaf59445dd28a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with seven parameters and an intialization list.  <a href="../../d9/d8b/classCRWCliff.html#a6e629fb69cde0a0ce49eaf59445dd28a">More...</a><br /></td></tr>
 <tr class="separator:a6e629fb69cde0a0ce49eaf59445dd28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad637979919fc4f022ab8cbd89133bad7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#ad637979919fc4f022ab8cbd89133bad7">~CRWCliff</a> (void)</td></tr>
 <tr class="memdesc:ad637979919fc4f022ab8cbd89133bad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="../../d9/d8b/classCRWCliff.html#ad637979919fc4f022ab8cbd89133bad7">More...</a><br /></td></tr>
@@ -158,12 +158,16 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a850da19bb9bd3688980b636af1e866c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#a850da19bb9bd3688980b636af1e866c2">m_bCliffHasCollapsed</a></td></tr>
+<tr class="memdesc:a850da19bb9bd3688980b636af1e866c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Switch to say whether the cliff has just collapsed, earlier in this timestep.  <a href="../../d9/d8b/classCRWCliff.html#a850da19bb9bd3688980b636af1e866c2">More...</a><br /></td></tr>
 <tr class="separator:a850da19bb9bd3688980b636af1e866c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7090ef1a32311b92a949797659139041"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#a7090ef1a32311b92a949797659139041">m_dMaxDepth</a></td></tr>
+<tr class="memdesc:a7090ef1a32311b92a949797659139041"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum depth (in external CRS units) of an erosional notch, this is equal to the grid's m_dCellSide.  <a href="../../d9/d8b/classCRWCliff.html#a7090ef1a32311b92a949797659139041">More...</a><br /></td></tr>
 <tr class="separator:a7090ef1a32311b92a949797659139041"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f6938d9d8e05d00a09487a3948d79a7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#a3f6938d9d8e05d00a09487a3948d79a7">m_dNotchDepth</a></td></tr>
+<tr class="memdesc:a3f6938d9d8e05d00a09487a3948d79a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The horizontal depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea.  <a href="../../d9/d8b/classCRWCliff.html#a3f6938d9d8e05d00a09487a3948d79a7">More...</a><br /></td></tr>
 <tr class="separator:a3f6938d9d8e05d00a09487a3948d79a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71c070efc73e32ce005c35da430a8aa6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d8b/classCRWCliff.html#a71c070efc73e32ce005c35da430a8aa6">m_dNotchBaseElev</a></td></tr>
+<tr class="memdesc:a71c070efc73e32ce005c35da430a8aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell, along the side of the cell that touches the sea.  <a href="../../d9/d8b/classCRWCliff.html#a71c070efc73e32ce005c35da430a8aa6">More...</a><br /></td></tr>
 <tr class="separator:a71c070efc73e32ce005c35da430a8aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
@@ -246,7 +250,7 @@ Andres Payo</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
+<p>Constructor with seven parameters and an intialization list. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00036">36</a> of file <a class="el" href="../../d4/d3f/cliff_8cpp_source.html">cliff.cpp</a>.</p>
 
@@ -542,6 +546,8 @@ Andres Payo</dd></dl>
 </table>
 </div><div class="memdoc">
 
+<p>Switch to say whether the cliff has just collapsed, earlier in this timestep. </p>
+
 <p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00038">38</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00059">bHasCollapsed()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00036">CRWCliff()</a>, and <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00065">SetCliffCollapsed()</a>.</p>
@@ -568,7 +574,9 @@ Andres Payo</dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00040">40</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
+<p>The maximum depth (in external CRS units) of an erosional notch, this is equal to the grid's m_dCellSide. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00041">41</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00036">CRWCliff()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00110">DeepenErosionalNotch()</a>, and <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00083">dGetRemaining()</a>.</p>
 
@@ -594,7 +602,9 @@ Andres Payo</dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00042">42</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
+<p>Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell, along the side of the cell that touches the sea. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00047">47</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00036">CRWCliff()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00071">dGetNotchBaseElev()</a>, and <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00077">SetNotchBaseElev()</a>.</p>
 
@@ -620,7 +630,9 @@ Andres Payo</dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00041">41</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
+<p>The horizontal depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../db/df0/cliff_8h_source.html#l00044">44</a> of file <a class="el" href="../../db/df0/cliff_8h_source.html">cliff.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00101">bReadyToCollapse()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00036">CRWCliff()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00110">DeepenErosionalNotch()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00095">dGetNotchDepth()</a>, <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00083">dGetRemaining()</a>, and <a class="el" href="../../d4/d3f/cliff_8cpp_source.html#l00089">SetNotchDepth()</a>.</p>
 
@@ -636,7 +648,7 @@ Andres Payo</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../d9/d8b/classCRWCliff.html">CRWCliff</a></li>
-    <li class="footer">Generated on Fri Oct 20 2023 16:12:48 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Mon Oct 23 2023 15:33:34 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

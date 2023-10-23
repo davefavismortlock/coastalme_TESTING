@@ -32,7 +32,7 @@ using std::ios;
 #include "cme.h"
 #include "cliff.h"
 
-//! Constructor
+//! Constructor with seven parameters and an intialization list
 CRWCliff::CRWCliff(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast, double const dCellSide, double const dNotchDepthIn, double const dNotchElevIn, double const dAccumWaveEnergyIn)
 {
    m_bCliffHasCollapsed  = false;

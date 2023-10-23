@@ -31,14 +31,17 @@ using std::ios;
 #include "cme.h"
 #include "i_line.h"
 
+//! Constructor
 CGeomILine::CGeomILine(void)
 {
 }
 
+//! Destructor
 CGeomILine::~CGeomILine(void)
 {
 }
 
+//! Returns the point at a given place in the line
 CGeom2DIPoint* CGeomILine::pPtiGetAt(int const n)
 {
    return &m_VPoints[n];
@@ -54,16 +57,19 @@ CGeom2DIPoint* CGeomILine::pPtiGetAt(int const n)
 //    return m_VPoints[n].nGetY();
 // }
 
+//! Sets the X value of a point at a given place in the line
 void CGeomILine::SetXAt(int const n, int const nX)
 {
    m_VPoints[n].SetX(nX);
 }
 
+//! Sets the Y value of a point at a given place in the line
 void CGeomILine::SetYAt(int const n, int const nY)
 {
    m_VPoints[n].SetY(nY);
 }
 
+//! Returns true if the point is present in the line
 bool CGeomILine::bIsPresent(int const nX, int const nY)
 {
    int nSize = static_cast<int>(m_VPoints.size());
@@ -79,6 +85,7 @@ bool CGeomILine::bIsPresent(int const nX, int const nY)
    return false;
 }
 
+//!
 void CGeomILine::Display(void)
 {
    for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)

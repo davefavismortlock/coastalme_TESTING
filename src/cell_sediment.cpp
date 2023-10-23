@@ -28,7 +28,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "cell_sediment.h"
 
 
-//! CRWCellSediment constructor, sets all internal values to zero
+//! CRWCellSediment constructor, initialization list sets all internal values to zero
 CRWCellSediment::CRWCellSediment(void)
 :  m_dFine(0),
    m_dNotchFineLost(0),
@@ -67,113 +67,113 @@ CRWCellSediment& CRWCellSediment::operator= (const CRWCellSediment& OtherSedimen
    return (*this);
 }
 
-// Sets this sediment layer object's fine sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
+//! Sets this sediment layer object's fine sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
 void CRWCellSediment::SetFineDepth(double const dNewSedDepth)
 {
    m_dFine = dNewSedDepth;
 }
 
-// Returns the fine sediment depth equivalent for this sediment layer object
+//! Returns the fine sediment depth equivalent for this sediment layer object
 double CRWCellSediment::dGetFineDepth(void) const
 {
    return m_dFine;
 }
 
-// Adds fine sediment (depth equivalent) to this sediment layer object's fine sediment
+//! Adds fine sediment (depth equivalent) to this sediment layer object's fine sediment
 void CRWCellSediment::AddFineDepth(double const dSedDepthToAdd)
 {
    m_dFine += dSedDepthToAdd;
 }
 
-// Sets this sediment layer object's sand sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
+//! Sets this sediment layer object's sand sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
 void CRWCellSediment::SetSandDepth(double const dNewSedDepth)
 {
    m_dSand = dNewSedDepth;
 //    assert(m_dSand >= 0);
 }
 
-// Returns the sand sediment depth equivalent for this sediment layer
+//! Returns the sand sediment depth equivalent for this sediment layer
 double CRWCellSediment::dGetSandDepth(void) const
 {
    return m_dSand;
 }
 
-// Adds sand sediment (depth equivalent) to this sediment layer object's sand sediment
+//! Adds sand sediment (depth equivalent) to this sediment layer object's sand sediment
 void CRWCellSediment::AddSandDepth(double const dSedDepthToAdd)
 {
    m_dSand += dSedDepthToAdd;
 }
 
-// Sets this sediment layer object's coarse sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
+//! Sets this sediment layer object's coarse sediment depth equivalent. Note no checks here to see if new equiv depth is sensible (e.g. non-negative)
 void CRWCellSediment::SetCoarseDepth(double const dNewSedDepth)
 {
    m_dCoarse = dNewSedDepth;
 }
 
-// Returns the coarse sediment depth equivalent for this sediment layer object
+//! Returns the coarse sediment depth equivalent for this sediment layer object
 double CRWCellSediment::dGetCoarseDepth(void) const
 {
    return m_dCoarse;
 }
 
-// Adds coarse sediment (depth equivalent) to this sediment layer object's coarse sediment
+//! Adds coarse sediment (depth equivalent) to this sediment layer object's coarse sediment
 void CRWCellSediment::AddCoarseDepth(double const dSedDepthToAdd)
 {
    m_dCoarse += dSedDepthToAdd;
 }
 
-// Sets the depth equivalent of fine sediment lost by notch incision
+//! Sets the depth equivalent of fine sediment lost by notch incision
 void CRWCellSediment::SetNotchFineLost(double const dDepthIn)
 {
    m_dNotchFineLost = dDepthIn;
 }
 
-// Increments the depth equivalent of fine sediment lost by notch incision
+//! Increments the depth equivalent of fine sediment lost by notch incision
 void CRWCellSediment::IncrNotchFineLost(double const dDepthIn)
 {
    m_dNotchFineLost += dDepthIn;
 //    assert(m_dNotchFineLost <= m_dFine);
 }
 
-// Gets the depth equivalent of fine sediment lost by notch incision
+//! Gets the depth equivalent of fine sediment lost by notch incision
 double CRWCellSediment::dGetNotchFineLost(void) const
 {
    return m_dNotchFineLost;
 }
 
-// Sets the depth equivalent of sand sediment lost by notch incision
+//! Sets the depth equivalent of sand sediment lost by notch incision
 void CRWCellSediment::SetNotchSandLost(double const dDepthIn)
 {
    m_dNotchSandLost = dDepthIn;
 }
 
-// Increments the depth equivalent of sand sediment lost by notch incision
+//! Increments the depth equivalent of sand sediment lost by notch incision
 void CRWCellSediment::IncrNotchSandLost(double const dDepthIn)
 {
    m_dNotchSandLost += dDepthIn;
 //    assert(m_dNotchSandLost <= m_dSand);
 }
 
-// Gets the depth equivalent of sand sediment lost by notch incision
+//! Gets the depth equivalent of sand sediment lost by notch incision
 double CRWCellSediment::dGetNotchSandLost(void) const
 {
    return m_dNotchSandLost;
 }
 
-// Sets the depth equivalent of coarse sediment lost by notch incision
+//! Sets the depth equivalent of coarse sediment lost by notch incision
 void CRWCellSediment::SetNotchCoarseLost(double const dDepthIn)
 {
    m_dNotchCoarseLost = dDepthIn;
 }
 
-// Increments the depth equivalent of coarse sediment lost by notch incision
+//! Increments the depth equivalent of coarse sediment lost by notch incision
 void CRWCellSediment::IncrNotchCoarseLost(double const dDepthIn)
 {
    m_dNotchCoarseLost += dDepthIn;
 //    assert(m_dNotchCoarseLost <= m_dCoarse);
 }
 
-// Gets the depth equivalent of coarse sediment lost by notch incision
+//! Gets the depth equivalent of coarse sediment lost by notch incision
 double CRWCellSediment::dGetNotchCoarseLost(void) const
 {
    return m_dNotchCoarseLost;

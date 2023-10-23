@@ -33,7 +33,7 @@ using std::ios;
 #include "cme.h"
 #include "drift.h"
 
-
+//! Constructor with three parameters and an intialization list
 CRWDrift::CRWDrift(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast)
 :
    m_dD50(0)
@@ -45,11 +45,12 @@ CRWDrift::CRWDrift(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast
    m_nCategory     = LF_CAT_DRIFT;
 }
 
+//! Destructor
 CRWDrift::~CRWDrift(void)
 {
 }
 
-
+//!
 void CRWDrift::Display(void)
 {
    cout << endl;

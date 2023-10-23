@@ -34,12 +34,17 @@ You should have received a copy of the GNU General Public License along with thi
 class CRWCliff : public CACoastLandform
 {
 private:
-   bool
-      m_bCliffHasCollapsed;   // Switch to say whether the cliff has just collapsed, earlier in this timestep
-   double
-      m_dMaxDepth,            // The maximum depth (in external CRS units) of an erosional notch, this is equal to the grid's m_dCellSide 
-      m_dNotchDepth,          // The horizontal depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea
-      m_dNotchBaseElev;       // Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell, along the side of the cell that touches the sea
+   //! Switch to say whether the cliff has just collapsed, earlier in this timestep
+   bool m_bCliffHasCollapsed;
+
+   //! The maximum depth (in external CRS units) of an erosional notch, this is equal to the grid's m_dCellSide
+   double m_dMaxDepth;
+
+   //! The horizontal depth (in external CRS units) of the erosional notch, measured inland from the side of the cell that touches the sea
+   double m_dNotchDepth;
+
+   //! Z-plane elevation (in external CRS units) of the base of the erosional notch. The notch is assumed to extend across the whole width of the coast cell, along the side of the cell that touches the sea
+   double m_dNotchBaseElev;
 
 public:
    CRWCliff(CRWCoast*, int const, int const, double const, double const, double const, double const);
@@ -57,7 +62,7 @@ public:
    bool bReadyToCollapse(double const) const;
    void DeepenErosionalNotch(double const);
 
-   void Display(void) override;           // Instantiates the pure virtual function in the abstract parent class, so that CRWCliff is not an abstract class. But this instatiation never gets called, which seems like a waste of time. Alternative?
+   void Display(void) override;           // Instantiates the pure virtual function in the abstract parent class, so that CRWCliff is not an abstract class. But this instantiation never gets called, which seems like a waste of time. Alternative?
 };
 #endif // CLIFF_H
 
