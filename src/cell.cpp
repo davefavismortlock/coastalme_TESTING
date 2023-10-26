@@ -26,6 +26,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "cme.h"
 #include "cell.h"
 
+//! Constructor with initialization list
 CGeomCell::CGeomCell()
     : m_bInContiguousSea(false),
       m_bInContiguousFlood(false),
@@ -82,65 +83,78 @@ CGeomCell::CGeomCell()
    m_Landform.SetLFCategory(LF_NONE);
 }
 
+//! Destructor
 CGeomCell::~CGeomCell(void)
 {
 }
 
+//! Set the edge number if this cell is an edge bounding-box cell
 void CGeomCell::SetBoundingBoxEdge(int const nDirection)
 {
    m_nBoundingBoxEdge = nDirection;
 }
 
+//! Returns the number of the bounding-box edge, or NO_DIRECTION if it is not
 int CGeomCell::nGetBoundingBoxEdge(void) const
 {
    return m_nBoundingBoxEdge;
 }
 
+//! Is this an edge bounding-box cell?
 bool CGeomCell::bIsBoundingBoxEdge(void) const
 {
    return (m_nBoundingBoxEdge != NO_DIRECTION);
 }
 
+//! Set this cell as a sea cell
 void CGeomCell::SetInContiguousSea(void)
 {
    m_bInContiguousSea = true;
 }
 
+//! Is this a sea cell?
 bool CGeomCell::bIsInContiguousSea(void) const
 {
    return m_bInContiguousSea;
 }
 
+//! Set this cell as a flood cell TODO Manuel. make this clearer
 void CGeomCell::SetInContiguousFlood(void)
 {
    m_bInContiguousFlood = true;
 }
 
+//! Set this cell as not a flood cell TODO Manuel. make this clearer
 void CGeomCell::UnSetInContiguousFlood(void)
 {
    m_bInContiguousFlood = false;
 }
 
+//! Set this cell as flood by setup surge TODO Manuel. make this clearer
 void CGeomCell::SetFloodBySetupSurge(void)
 {
    m_bFloodBySetupSurge = true;
 }
 
+//! Is this cell flood by setup surge? TODO Manuel. make this clearer
 bool CGeomCell::bIsFloodBySetupSurge(void) const
 {
    return m_bFloodBySetupSurge;
 }
 
+//! Set this cell as flood by setup surge runup TODO Manuel. make this clearer
 void CGeomCell::SetFloodBySetupSurgeRunup(void)
 {
    m_bFloodBySetupSurgeRunup = true;
 }
 
+//! Is this cell flood by setup surge runup? TODO Manuel. make this clearer
 bool CGeomCell::bIsFloodBySetupSurgeRunup(void) const
 {
    return m_bFloodBySetupSurgeRunup;
 }
 
+//! Set this cell in contiguous flood TODO Manuel. make this clearer
 bool CGeomCell::bIsInContiguousFlood(void) const
 {
    return m_bInContiguousFlood;
@@ -795,7 +809,7 @@ void CGeomCell::SetSeaDepth(void)
    m_dSeaDepth = tMax(m_pGrid->pGetSim()->CSimulation::dGetThisIterSWL() - (m_VdAllHorizonTopElev.back() + m_dInterventionHeight), 0.0);
 }
 
-//! Initialise several values for this cell
+//! Initialise values for this cell
 void CGeomCell::InitCell(void)
 {
    m_bInContiguousSea =
@@ -996,7 +1010,7 @@ void CGeomCell::AddCoarseTalusDeposition(double const dDepth)
    m_dTotTalusCoarseDeposition += dDepth;
 }
 
-//! Retuns the depth of this-timestep sand talus deposition from cliff collapse on this cell
+//! Returns the depth of this-timestep sand talus deposition from cliff collapse on this cell
 double CGeomCell::dGetThisIterCliffCollapseSandTalusDeposition(void) const
 {
    return m_dTalusSandDepositionThisIter;

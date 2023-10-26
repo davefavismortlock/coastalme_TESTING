@@ -25,6 +25,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "cme.h"
 #include "coast_landform.h"
 
+//! Constructor with initialization list
 CACoastLandform::CACoastLandform(void)
 :  m_nCoast(0),
    m_nPointOnCoast(0),
@@ -34,15 +35,18 @@ CACoastLandform::CACoastLandform(void)
 {
 }
 
+//! Destructor
 CACoastLandform::~CACoastLandform(void)
 {
 }
 
+//! Get the number of the coast on which this coast landform sits
 int CACoastLandform::nGetCoast(void) const
 {
    return m_nCoast;
 }
 
+//! Get the point on the coast on which this coast landform sits
 int CACoastLandform::nGetPointOnCoast(void) const
 {
    return m_nPointOnCoast;
@@ -53,11 +57,13 @@ int CACoastLandform::nGetPointOnCoast(void) const
 //    m_nCategory = nCategoryIn;
 // }
 
+//! Get the landform category
 int CACoastLandform::nGetLandFormCategory(void) const
 {
    return m_nCategory;
 }
 
+//! Get the grid co-ordinates of the cell on which this coast landform sits
 CGeom2DIPoint* CACoastLandform::pPtiGetCellMarkedAsLF(void) const
 {
    return pCoast->pPtiGetCellMarkedAsCoastline(m_nPointOnCoast);
@@ -68,11 +74,13 @@ CGeom2DIPoint* CACoastLandform::pPtiGetCellMarkedAsLF(void) const
 //    m_dTotAccumWaveEnergy = dWaveEnergy;
 // }
 
+//! Increment total accumulated wave energy
 void CACoastLandform::IncTotAccumWaveEnergy(double const dWaveEnergy)
 {
    m_dTotAccumWaveEnergy += dWaveEnergy;
 }
 
+//! Get total accumulated wave energy
 double CACoastLandform::dGetTotAccumWaveEnergy(void) const
 {
    return m_dTotAccumWaveEnergy;

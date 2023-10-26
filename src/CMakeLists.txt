@@ -4,7 +4,7 @@
 #
 #########################################################################################
 # Set CMake required version
-cmake_minimum_required (VERSION 3.1.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.5.0 FATAL_ERROR)
 
 #########################################################################################
 # Detect the build environment

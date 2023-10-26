@@ -27,8 +27,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "cme.h"
 #include "coast_polygon.h"
 
-
-//! Constructor with 8 parameters
+//! Constructor with 8 parameters and initialization list
 CGeomCoastPolygon::CGeomCoastPolygon(int const nGlobalID, int const nCoastID, int const nNode, int const nProfileUpCoast, int const nProfileDownCoast, vector<CGeom2DPoint> const* pVIn, int const nLastPointUpCoast, const int nLastPointDownCoast, CGeom2DIPoint const* PtiNode, CGeom2DIPoint const* PtiAntinode, int const nPointInPolygonStartPoint)
 :
 //    m_bIsPointedSeaward(true),
@@ -59,7 +58,7 @@ CGeomCoastPolygon::CGeomCoastPolygon(int const nGlobalID, int const nCoastID, in
    m_dSandFromPlatformErosion(0),
    m_dCoarseFromPlatformErosion(0),
    m_dStoredUnconsFine(0),
-   m_dStoredUnconsSand(0),           // Depth of pre-existing unconsolidated sand sediment
+   m_dStoredUnconsSand(0),
    m_dStoredUnconsCoarse(0),
    m_PtiNode(*PtiNode),
    m_PtiAntinode(*PtiAntinode)
@@ -67,10 +66,10 @@ CGeomCoastPolygon::CGeomCoastPolygon(int const nGlobalID, int const nCoastID, in
    m_VPoints = *pVIn;
 }
 
+//! Destructor
 CGeomCoastPolygon::~CGeomCoastPolygon(void)
 {
 }
-
 
 // void CGeomCoastPolygon::SetNotPointed(void)
 // {
@@ -82,23 +81,25 @@ CGeomCoastPolygon::~CGeomCoastPolygon(void)
 //    return m_bIsPointedSeaward;
 // }
 
-
+//! Set a flag to say whether sediment movement on this polygon is downcoast this iteration
 void CGeomCoastPolygon::SetDownCoastThisIter(bool const bFlag)
 {
    m_bDownCoastThisIter = bFlag;
 }
 
+//! Is sediment movement on this polygon downcoast this iteration?
 bool CGeomCoastPolygon::bDownCoastThisIter(void) const
 {
    return m_bDownCoastThisIter;
 }
 
-
+//! Get the global ID
 int CGeomCoastPolygon::nGetGlobalID(void) const
 {
    return m_nGlobalID;
 }
 
+//! Get the coast ID
 int CGeomCoastPolygon::nGetCoastID(void) const
 {
    return m_nCoastID;
@@ -109,37 +110,44 @@ int CGeomCoastPolygon::nGetCoastID(void) const
 //    m_nCoastNode = nNode;
 // }
 
+//! Get the coast node point
 int CGeomCoastPolygon::nGetNodeCoastPoint(void) const
 {
    return m_nCoastNode;
 }
 
+//! Get the grid co-ordinates of the cell on which the node sits
 CGeom2DIPoint* CGeomCoastPolygon::pPtiGetNode(void)
 {
    return &m_PtiNode;
 
 }
 
+//! Get the anti-node (raster-grid CRS) which is at other (seaward) end of the polygon from the node
 CGeom2DIPoint* CGeomCoastPolygon::pPtiGetAntiNode(void)
 {
    return &m_PtiAntinode;
 }
 
+//! Set the number of cells in the polygon
 void CGeomCoastPolygon::SetNumCellsInPolygon(int const nCells)
 {
    m_nNumCells = nCells;
 }
 
+//! Get the number of cells in the polygon
 int CGeomCoastPolygon::nGetNumCellsinPolygon(void) const
 {
    return m_nNumCells;
 }
 
+//! Return the number of the up-coast profile
 int CGeomCoastPolygon::nGetUpCoastProfile(void) const
 {
    return m_nProfileUpCoast;
 }
 
+//! Return the number of the down-coast profile
 int CGeomCoastPolygon::nGetDownCoastProfile(void) const
 {
    return m_nProfileDownCoast;
@@ -155,32 +163,38 @@ int CGeomCoastPolygon::nGetDownCoastProfile(void) const
 //    return &m_VPoints;
 // }
 
+//! Get the co-ordinates (external CRS) of a specified point on the polygon's boundary
 CGeom2DPoint* CGeomCoastPolygon::pPtGetBoundaryPoint(int const nPoint)
 {
    // NOTE no check to see if nPoint < m_VPoints.size()
    return &m_VPoints[nPoint];
 }
 
+//! Get the number of points in the polygon's boundary
 int CGeomCoastPolygon::nGetBoundarySize(void) const
 {
    return static_cast<int>(m_VPoints.size());
 }
 
+//! Return the number of points in the up-coast profile
 int CGeomCoastPolygon::nGetUpCoastProfileNumPointsUsed(void) const
 {
    return m_nProfileUpCoastNumPointsUsed;
 }
 
+//! Return the number of points in the down-coast profile
 int CGeomCoastPolygon::nGetDownCoastProfileNumPointsUsed(void) const
 {
    return m_nProfileDownCoastNumPointsUsed;
 }
 
+//! Set the volume of seawater in the coast polygon
 void CGeomCoastPolygon::SetSeawaterVolume(const double dDepth)
 {
    m_dSeawaterVolume = dDepth;
 }
 
+//! Get the volume of seawater in the coast polygon
 double CGeomCoastPolygon::dGetSeawaterVolume(void) const
 {
    return m_dSeawaterVolume;
@@ -294,71 +308,83 @@ double CGeomCoastPolygon::dGetDepositionAllUncons(void) const
    return m_dDepositionUnconsFine + m_dDepositionUnconsSand + m_dDepositionUnconsCoarse;
 }
 
+//! Sets all up-coast adjacent polygons
 void CGeomCoastPolygon::SetUpCoastAdjacentPolygons(vector<int> const* pnVPolygons)
 {
    m_VnUpCoastAdjacentPolygon = *pnVPolygons;
 }
 
+//! Gets a single up-coast adjacent polygon
 int CGeomCoastPolygon::nGetUpCoastAdjacentPolygon(int const nIndex) const
 {
 //    assert(nIndex < m_VnUpCoastAdjacentPolygon.size());
    return m_VnUpCoastAdjacentPolygon[nIndex];
 }
 
+//! Gets all up-coast adjacent polygons
 int CGeomCoastPolygon::nGetNumUpCoastAdjacentPolygons(void) const
 {
    return static_cast<int>(m_VnUpCoastAdjacentPolygon.size());
 }
 
-
+//! Sets all down-coast adjacent polygons
 void CGeomCoastPolygon::SetDownCoastAdjacentPolygons(vector<int> const* pnVPolygons)
 {
    m_VnDownCoastAdjacentPolygon = *pnVPolygons;
 }
 
+//! Gets a single down-coast adjacent polygon
 int CGeomCoastPolygon::nGetDownCoastAdjacentPolygon(int const nIndex) const
 {
 //    assert(nIndex < m_VnDownCoastAdjacentPolygon.size());
    return m_VnDownCoastAdjacentPolygon[nIndex];
 }
 
+//! Gets all down-coast adjacent polygons
 int CGeomCoastPolygon::nGetNumDownCoastAdjacentPolygons(void) const
 {
    return static_cast<int>(m_VnDownCoastAdjacentPolygon.size());
 }
 
+//! Sets the boundary shares for all up-coast adjacent polygons
 void CGeomCoastPolygon::SetUpCoastAdjacentPolygonBoundaryShares(vector<double> const* pdVShares)
 {
    m_VdUpCoastAdjacentPolygonBoundaryShare = *pdVShares;
 }
 
+//! Gets the boundary shares for all up-coast adjacent polygons
 double CGeomCoastPolygon::dGetUpCoastAdjacentPolygonBoundaryShare(int const nIndex) const
 {
    // NOTE no check to see if nIndex < m_VdUpCoastAdjacentPolygonBoundaryShare.size()
    return m_VdUpCoastAdjacentPolygonBoundaryShare[nIndex];
 }
 
+//! Sets the boundary shares for all down-coast adjacent polygons
 void CGeomCoastPolygon::SetDownCoastAdjacentPolygonBoundaryShares(vector<double> const* pdVShares)
 {
    m_VdDownCoastAdjacentPolygonBoundaryShare = *pdVShares;
 }
 
+//! Gets the boundary shares for all down-coast adjacent polygons
 double CGeomCoastPolygon::dGetDownCoastAdjacentPolygonBoundaryShare(int const nIndex) const
 {
    // NOTE no check to see if nIndex < m_VdDownCoastAdjacentPolygonBoundaryShare.size()
    return m_VdDownCoastAdjacentPolygonBoundaryShare[nIndex];
 }
 
+//! Returns the start point for a point-in-polygon search
 int CGeomCoastPolygon::nGetPointInPolygonSearchStartPoint(void) const
 {
    return m_nPointInPolygonSearchStartPoint;
 }
 
+//! Set the average d50 for unconsolidated sediment in this polygon
 void CGeomCoastPolygon::SetAvgUnconsD50(double const dD50)
 {
    m_dAvgUnconsD50 = dD50;
 }
 
+//! Get the average d50 for unconsolidated sediment in this polygon
 double CGeomCoastPolygon::dGetAvgUnconsD50(void) const
 {
    return m_dAvgUnconsD50;
@@ -373,111 +399,133 @@ void CGeomCoastPolygon::Display(void)
 //    cout.flush();
 }
 
+//! Add a circularity to this polygon
 void CGeomCoastPolygon::AddCircularity(int const nPoly)
 {
    m_VnCircularityWith.push_back(nPoly);
 }
 
+//! Get all circularities for this polygon
 vector<int> CGeomCoastPolygon::VnGetCircularities(void)
 {
    return m_VnCircularityWith;
 }
 
+//! Add to the this-iteration total of unconsolidated fine sediment from cliff collapse in this polygon
 void CGeomCoastPolygon::AddCliffCollapseErosionFine(double const dDepth)
 {
    m_dCliffCollapseErosionFine += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated fine sediment from cliff collapse in this polygon
 double CGeomCoastPolygon::dGetCliffCollapseErosionFine(void) const
 {
    return m_dCliffCollapseErosionFine;
 }
 
+//! Add to the this-iteration total of unconsolidated sand sediment from cliff collapse in this polygon
 void CGeomCoastPolygon::AddCliffCollapseErosionSand(double const dDepth)
 {
    m_dCliffCollapseErosionSand += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated sand sediment from cliff collapse in this polygon
 double CGeomCoastPolygon::dGetCliffCollapseErosionSand(void) const
 {
    return m_dCliffCollapseErosionSand;
 }
 
+//! Add to the this-iteration total of unconsolidated coarse sediment from cliff collapse in this polygon
 void CGeomCoastPolygon::AddCliffCollapseErosionCoarse(double const dDepth)
 {
    m_dCliffCollapseErosionCoarse += dDepth;
 }
 
-double CGeomCoastPolygon::dGetCliffCollapseErosionCoarse(void) const   
+//! Get the this-iteration total of unconsolidated coarse sediment from cliff collapse in this polygon
+double CGeomCoastPolygon::dGetCliffCollapseErosionCoarse(void) const
 {
    return m_dCliffCollapseErosionCoarse;
 }
 
+//! Add to the this-iteration total of unconsolidated sand sediment deposited from cliff collapse in this polygon
 void CGeomCoastPolygon::AddCliffCollapseUnconsSandDeposition(double const dDepth)
 {
    m_dCliffCollapseTalusSand += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated sand sediment deposited from cliff collapse in this polygon
 double CGeomCoastPolygon::dGetCliffCollapseUnconsSandDeposition(void) const
 {
    return m_dCliffCollapseTalusSand;
 }
 
+//! Add to the this-iteration total of unconsolidated coarse sediment deposited from cliff collapse in this polygon
 void CGeomCoastPolygon::AddCliffCollapseUnconsCoarseDeposition(double const dDepth)
 {  
    m_dCliffCollapseTalusCoarse += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated coarse sediment deposited from cliff collapse in this polygon
 double CGeomCoastPolygon::dGetCliffCollapseUnconsCoarseDeposition(void) const
 {
    return m_dCliffCollapseTalusCoarse;
 }
 
+//! Add to the this-iteration total of unconsolidated sand sediment derived from shore platform erosion in this polygon
 void CGeomCoastPolygon::AddUnconsSandFromShorePlatform(double const dDepth)
 {
    m_dSandFromPlatformErosion += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated sand sediment derived from shore platform erosion in this polygon
 double CGeomCoastPolygon::dGetUnconsSandFromShorePlatform(void) const
 {
    return m_dSandFromPlatformErosion;
 }
 
+//! Add to the this-iteration total of unconsolidated coarse sediment derived from shore platform erosion in this polygon
 void CGeomCoastPolygon::AddUnconsCoarseFromShorePlatform(double const dDepth)
 {
    m_dCoarseFromPlatformErosion += dDepth;
 }
 
+//! Get the this-iteration total of unconsolidated coarse sediment derived from shore platform erosion in this polygon
 double CGeomCoastPolygon::dGetUnconsCoarseFromShorePlatform(void) const
 {
    return m_dCoarseFromPlatformErosion;
 }
 
+//! Set the value of stored unconsolidated fine sediment stored in this polygon
 void CGeomCoastPolygon::SetStoredUnconsFine(double const dDepth)
 {
    m_dStoredUnconsFine = dDepth;
 }
 
+//! Get the value of stored unconsolidated fine sediment stored in this polygon
 double CGeomCoastPolygon::dGetStoredUnconsFine(void) const
 {
    return m_dStoredUnconsFine;
 }
 
+//! Set the value of stored unconsolidated sand sediment stored in this polygon
 void CGeomCoastPolygon::SetStoredUnconsSand(double const dDepth)
 {
    m_dStoredUnconsSand = dDepth;
 }
 
+//! Get the value of stored unconsolidated sand sediment stored in this polygon
 double CGeomCoastPolygon::dGetStoredUnconsSand(void) const
 {
    return m_dStoredUnconsSand;
 }
 
+//! Set the value of stored unconsolidated coarse sediment stored in this polygon
 void CGeomCoastPolygon::SetStoredUnconsCoarse(double const dDepth)
 {
    m_dStoredUnconsCoarse = dDepth;
 }
 
+//! Get the value of stored unconsolidated coarse sediment stored in this polygon
 double CGeomCoastPolygon::dGetStoredUnconsCoarse(void) const
 {
    return m_dStoredUnconsCoarse;

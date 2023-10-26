@@ -24,7 +24,7 @@ You should have received a copy of the GNU General Public License along with thi
 #include "2di_point.h"
 #include "cme.h"
 
-//! Constructor with no parameters (the X and Y co-ordinates of the CGeom2DIPoint object are set to zero)
+//! Constructor with no parameters (the X and Y co-ordinates of the CGeom2DIPoint object are set to zero in an initialization list)
 CGeom2DIPoint::CGeom2DIPoint(void)
 :  nX(0),
    nY(0)

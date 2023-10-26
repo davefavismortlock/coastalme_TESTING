@@ -34,12 +34,19 @@ You should have received a copy of the GNU General Public License along with thi
 class CACoastLandform
 {
 protected:
-   int
-      m_nCoast,
-      m_nPointOnCoast,
-      m_nCategory;               // Landform category code
-   double
-      m_dTotAccumWaveEnergy;     // Total accumulated wave energy since beginning of simulation
+   //! The coast number on which this coast landform sits
+   int m_nCoast;
+
+   //! The point on the coast on which this coast landform sits
+   int m_nPointOnCoast;
+
+   //! Landform category code
+   int m_nCategory;
+
+   //! Total accumulated wave energy since beginning of simulation
+   double m_dTotAccumWaveEnergy;
+
+   //! Pointer to this landform's coast
    CRWCoast* pCoast;
 
 public:
