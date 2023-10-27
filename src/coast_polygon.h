@@ -31,20 +31,38 @@ You should have received a copy of the GNU General Public License along with thi
 class CGeomCoastPolygon : public CA2DShape
 {
 private:
-   bool
-//       m_bIsPointedSeaward,                // Does the polygon meet at a point at its seaward end? (is it roughly triangular?)
-      m_bDownCoastThisIter;
+   //! Is the movement of unconsolidated sediment on this polygon down-coast during this iteration?
+   bool m_bDownCoastThisIter;
 
-   int
-      m_nGlobalID,                        // The simulation-global number of this polygon
-      m_nCoastID,                         // This-coast-only number of this polygon
-      m_nCoastNode,                       // The point on this polygon's coastline segment with maximum concave curvature, roughly at the middle of the coastline segment
-      m_nProfileUpCoast,                  // The normal profile which bounds the polygon in the up-coast direction
-      m_nProfileDownCoast,                // Ditto for the down-coast direction
-      m_nProfileUpCoastNumPointsUsed,     // The number of points from the up-coast normal which are part of this polygon (less than the normal's full length if the polygon is triangular)
-      m_nProfileDownCoastNumPointsUsed,   // Ditto for the down-coast normal
-      m_nNumCells,                        // The number of cells in the polygon
-      m_nPointInPolygonSearchStartPoint;  // The number of the vector point from which we start the point-in-polygon search
+   // Does the polygon meet at a point at its seaward end? (is it roughly triangular?)
+//   bool m_bIsPointedSeaward,
+
+   //! The simulation-global number of this polygon
+   int m_nGlobalID;
+
+   //! This-coast-only number of this polygon
+   int m_nCoastID;
+
+   //! The point on this polygon's coastline segment with maximum concave curvature, roughly at the middle of the coastline segment
+   int m_nCoastNode;
+
+   //! The normal profile which bounds the polygon in the up-coast direction
+   int m_nProfileUpCoast;
+
+   //! The normal profile which bounds the polygon in the down-coast direction
+   int m_nProfileDownCoast;
+
+   //! The number of points from the up-coast normal which are part of this polygon (less than the normal's full length if the polygon is triangular)
+   int m_nProfileUpCoastNumPointsUsed;
+
+   //! The number of points from the down-coast normal which are part of this polygon (less than the normal's full length if the polygon is triangular)
+   int m_nProfileDownCoastNumPointsUsed;
+
+   //! The number of cells in the polygon
+   int m_nNumCells;
+
+   //! The number of the vector point from which we start the point-in-polygon search
+   int m_nPointInPolygonSearchStartPoint;
       
    // Note: all sediment depths are in m, and here cover the area of a single raster cell: to convert to a volume, multiply by m_dCellArea
    double

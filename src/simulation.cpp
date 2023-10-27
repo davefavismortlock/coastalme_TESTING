@@ -936,10 +936,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
       // Tell the user how the simulation is progressing
       AnnounceProgress();
 
-      // Locate estuaries
-      nRet = nLocateAllEstuaries();
-      if (nRet != RTN_OK)
-         return nRet;
+      // Locate estuaries TODO someday...
 
       // Sort out hinterland landforms
       nRet = nAssignNonCoastlineLandforms();
