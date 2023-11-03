@@ -30,7 +30,6 @@ You should have received a copy of the GNU General Public License along with thi
 #include "cme.h"
 #include "cell.h"
 
-
 class CGeomCell;           // Forward declaration
 class CSimulation;         // Ditto
 
@@ -55,8 +54,7 @@ private:
    //! A pointer to the CSimulation object
    CSimulation* m_pSim;
 
-   //! The 2D array of m_Cell objects
-   // NOTE that a c-style 2D array seems to be faster than using 2D STL vectors
+   //! The 2D array of m_Cell objects. A c-style 2D array seems to be faster than using 2D STL vectors
    CGeomCell** m_Cell;
 
 public:

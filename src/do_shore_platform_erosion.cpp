@@ -40,11 +40,9 @@ using std::setiosflags;
 #include "simulation.h"
 #include "coast.h"
 
-/*===============================================================================================================================
-
-Does platform erosion on all coastlines by first calculating platform erosion on coastline-normal profiles, then extrapolating this to cells between the profiles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Does platform erosion on all coastlines by first calculating platform erosion on coastline-normal profiles, then extrapolating this to cells between the profiles
+//===============================================================================================================================
 int CSimulation::nDoAllShorePlatFormErosion(void)
 {
    if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
@@ -116,11 +114,9 @@ int CSimulation::nDoAllShorePlatFormErosion(void)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Calculates potential (i.e. unconstrained by available sediment) erosional lowering of the shore platform for a single coastline-normal profile, due to wave action. This routine uses a behavioural rule to modify the original surface elevation profile geometry, in which erosion rate/slope = f(d/Db) based on Walkden & Hall (2005). Originally coded in Matlab by Andres Payo
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates potential (i.e. unconstrained by available sediment) erosional lowering of the shore platform for a single coastline-normal profile, due to wave action. This routine uses a behavioural rule to modify the original surface elevation profile geometry, in which erosion rate/slope = f(d/Db) based on Walkden & Hall (2005). Originally coded in Matlab by Andres Payo
+//===============================================================================================================================
 int CSimulation::nCalcPotentialPlatformErosionOnProfile(int const nCoast, int const nProfile)
 {
    CGeomProfile *const pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
@@ -358,11 +354,9 @@ int CSimulation::nCalcPotentialPlatformErosionOnProfile(int const nCoast, int co
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Calculates potential platform erosion on cells to one side of a given coastline-normal profile, up to the next profile
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates potential platform erosion on cells to one side of a given coastline-normal profile, up to the next profile
+//===============================================================================================================================
 int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, int const nProfIndex, int const nDirection)
 {
    // Get the number of the coastline-normal profile
@@ -456,7 +450,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
       vector<CGeom2DIPoint>
           PtiVGridParProfile; // Integer coords (grid CRS) of cells under the parallel profile
       vector<CGeom2DPoint>
-          PtVExtCRSParProfile; // Co-ords (external CRS) of cells under the parallel profile
+          PtVExtCRSParProfile; // Co-ordinates (external CRS) of cells under the parallel profile
 
       ConstructParallelProfile(nProfileStartX, nProfileStartY, nParCoastX, nParCoastY, nProfSize, pProfile->pPtiVGetCellsInProfile(), &PtiVGridParProfile, &PtVExtCRSParProfile);
 
@@ -707,11 +701,9 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Calculates actual (constrained by available sediment) erosion of the consolidated shore platform on a single sea cell
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates actual (constrained by available sediment) erosion of the consolidated shore platform on a single sea cell
+//===============================================================================================================================
 void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
 {
 //    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): doing platform erosion on cell [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
@@ -969,11 +961,9 @@ void CSimulation::DoActualPlatformErosionOnCell(int const nX, int const nY)
    }
 }
 
-/*==============================================================================================================================
-
-Creates a look-up table for erosion potential, given depth over DB
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Creates a look-up table for erosion potential, given depth over DB
+//===============================================================================================================================
 bool CSimulation::bCreateErosionPotentialLookUp(vector<double> *VdDepthOverDBIn, vector<double> *VdErosionPotentialIn, vector<double> *VdErosionPotentialFirstDerivIn)
 {
    // Set up a temporary vector to hold the incremental DepthOverDB values
@@ -1023,11 +1013,9 @@ bool CSimulation::bCreateErosionPotentialLookUp(vector<double> *VdDepthOverDBIn,
    return true;
 }
 
-/*==============================================================================================================================
-
-The erosion potential lookup: it returns a value for erosion potential given a value of Depth Over DB
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! The erosion potential lookup: it returns a value for erosion potential given a value of Depth Over DB
+//===============================================================================================================================
 double CSimulation::dLookUpErosionPotential(double const dDepthOverDB) const
 {
    // If dDepthOverDB exceeds the maximum value which we calculated earlier, erosion potential is zero
@@ -1040,11 +1028,9 @@ double CSimulation::dLookUpErosionPotential(double const dDepthOverDB) const
    return dErosionPotential;
 }
 
-/*==============================================================================================================================
-
-Calculates the (inverse) beach protection factor as in SCAPE: 0 is fully protected, 1 = no protection
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the (inverse) beach protection factor as in SCAPE: 0 is fully protected, 1 = no protection
+//===============================================================================================================================
 double CSimulation::dCalcBeachProtectionFactor(int const nX, int const nY, double const dBreakingWaveHeight)
 {
    // Safety check
@@ -1079,11 +1065,9 @@ double CSimulation::dCalcBeachProtectionFactor(int const nX, int const nY, doubl
    return dFactor;
 }
 
-/*===============================================================================================================================
-
-Fills in 'holes' in the beach protection i.e. orphan cells which get omitted because of rounding problems
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Fills in 'holes' in the beach protection i.e. orphan cells which get omitted because of rounding problems
+//===============================================================================================================================
 void CSimulation::FillInBeachProtectionHoles(void)
 {
    for (int nX = 0; nX < m_nXGridMax; nX++)
@@ -1146,11 +1130,9 @@ void CSimulation::FillInBeachProtectionHoles(void)
    }
 }
 
-/*===============================================================================================================================
-
-Fills in 'holes' in the potential platform erosion i.e. orphan cells which get omitted because of rounding problems
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Fills in 'holes' in the potential platform erosion i.e. orphan cells which get omitted because of rounding problems
+//===============================================================================================================================
 void CSimulation::FillPotentialPlatformErosionHoles(void)
 {
    for (int nX = 0; nX < m_nXGridMax; nX++)
@@ -1224,11 +1206,9 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
    }
 }
 
-/*==============================================================================================================================
-
-Constructs a parallel coastline-normal profile
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Constructs a parallel coastline-normal profile
+//===============================================================================================================================
 void CSimulation::ConstructParallelProfile(int const nProfileStartX, int const nProfileStartY, int const nParCoastX, int const nParCoastY, int const nProfSize, vector<CGeom2DIPoint> *const pPtViGridProfile, vector<CGeom2DIPoint> *pPtiVGridParProfile, vector<CGeom2DPoint> *pPtVExtCRSParProfile)
 {
    // OK, we have the coastline start point for the parallel profile. Now construct a temporary profile, parallel to the coastline-normal profile, starting from this point

@@ -65,6 +65,10 @@ Update: November 2002
 There was a bug in the correction to the seeding procedure for s2. It affected the following seeds 254679140 1264751179 1519430319 2274823218 2529502358 3284895257 3539574397 (s2 < 8).
 
 ===============================================================================================================================*/
+
+//===============================================================================================================================
+//! Returns an unsigned long random number, created by Tausworthe generator 0
+//===============================================================================================================================
 unsigned long CSimulation::ulGetRand0(void)
 {
    // ulGetRand0() generates random numbers
@@ -75,7 +79,9 @@ unsigned long CSimulation::ulGetRand0(void)
    return (m_ulRState[0].s1 ^ m_ulRState[0].s2 ^ m_ulRState[0].s3);
 }
 
-
+//===============================================================================================================================
+//! Returns an unsigned long random number, created by Tausworthe generator 1
+//===============================================================================================================================
 unsigned long CSimulation::ulGetRand1(void)
 {
    // ulGetRand1() generates random numbers
@@ -86,12 +92,9 @@ unsigned long CSimulation::ulGetRand1(void)
    return (m_ulRState[1].s1 ^ m_ulRState[1].s2 ^ m_ulRState[1].s3);
 }
 
-
-/*===============================================================================================================================
-
-Each of these initializes one of the Tausworthe generators
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Initializes Tausworthe generator 0
+//===============================================================================================================================
 void CSimulation::InitRand0(unsigned long ulSeed)
 {
    if (0 == ulSeed)
@@ -116,7 +119,9 @@ void CSimulation::InitRand0(unsigned long ulSeed)
    return;
 }
 
-
+//===============================================================================================================================
+//! Initializes Tausworthe generator 1
+//===============================================================================================================================
 void CSimulation::InitRand1(unsigned long ulSeed)
 {
    if (0 == ulSeed)
@@ -141,25 +146,17 @@ void CSimulation::InitRand1(unsigned long ulSeed)
    return;
 }
 
-
-/*===============================================================================================================================
-
-Called by the RandSet routines
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Called by the RandSet routines
+//===============================================================================================================================
 unsigned long CSimulation::ulGetLCG(unsigned long const ulN)
 {
    return ((69069 * ulN) & MASK);
 }
 
-
-/*===============================================================================================================================
-
-Using ulGetRand0(), randomly samples from a unit Gaussian (normal) distribution, is routine gasdev.c in:
-
-Press, W.H., Teukolsky, S.A., Vetterling, W.T. and Flannery, B.P. (1992). Numerical Recipes in C (Second Edition), Cambridge University Press, Cambridge. 994 pp.
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Using ulGetRand0(), randomly samples from a unit Gaussian (normal) distribution, is routine gasdev.c in: Press, W.H., Teukolsky, S.A., Vetterling, W.T. and Flannery, B.P. (1992). Numerical Recipes in C (Second Edition), Cambridge University Press, Cambridge. 994 pp.
+//===============================================================================================================================
 double CSimulation::dGetRand0Gaussian(void)
 {
    static int snSet = 0;
@@ -195,14 +192,9 @@ double CSimulation::dGetRand0Gaussian(void)
    return (dRet);
 }
 
-
-/*=========================================================================================================================================
-
-Randomly swaps the elements of an integer array, so that on output nArray is a random permutation of its value on input. From p145 of:
-
-Knuth, D.E. (1997). The Art of Computer Programming. Volume 2. Seminumerical Algorithms (Third Edition), Addison-Wesley Longman, Reading MA. 762 pp.
-
-=========================================================================================================================================*/
+//===============================================================================================================================
+//! Randomly swaps the elements of an integer array, so that on output nArray is a random permutation of its value on input. From p145 of: Knuth, D.E. (1997). The Art of Computer Programming. Volume 2. Seminumerical Algorithms (Third Edition), Addison-Wesley Longman, Reading MA. 762 pp.
+//===============================================================================================================================
 void CSimulation::Rand1Shuffle(int* nArray, int nLen)
 {
    nLen--;
@@ -216,11 +208,9 @@ void CSimulation::Rand1Shuffle(int* nArray, int nLen)
 }
 
 #ifdef RANDCHECK
-/*===============================================================================================================================
-
-Outputs random numbers for checking
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Outputs random numbers for checking
+//===============================================================================================================================
 void CSimulation::CheckRand(void) const
 {
 /*
@@ -261,12 +251,9 @@ void CSimulation::CheckRand(void) const
 }
 #endif
 
-
-/*==============================================================================================================================
-
-Deterministically (i.e. using a known Z value) returns a probability from a cumulative unit Gaussian (normal) distribution. A numerical approximation to the normal distribution is used, this is from Abramowitz and Stegun's "Handbook of Mathematical Functions", Dover Publications, 1965 (originally published by the US National Bureau of Standards, 1964)
-
-==============================================================================================================================*/
+//===============================================================================================================================
+// Deterministically (i.e. using a known Z value) returns a probability from a cumulative unit Gaussian (normal) distribution. A numerical approximation to the normal distribution is used, this is from Abramowitz and Stegun's "Handbook of Mathematical Functions", Dover Publications, 1965 (originally published by the US National Bureau of Standards, 1964)
+//===============================================================================================================================
 // double CSimulation::dGetCGaussianPDF(double const dZ)
 // {
 //    double const b1 =  0.31938153;

@@ -40,13 +40,11 @@ using std::stable_sort;
 #include "simulation.h"
 #include "coast.h"
 
-/*===============================================================================================================================
+//===============================================================================================================================
 
-Function used to sort polygons before doing the polygon-to-polygon source-target pattern
+//! Function used to sort polygons before doing the polygon-to-polygon source-target pattern. For both LH and RH arguments, the first value is the polygon coast ID, the second value is the down- or up-coast direction, and subsequent numbers are adjacent polygon coastIDs in that direction. If the first argument must be ordered before the second, return true
 
-For both LH and RH arguments, the first value is the polygon coast ID, the second value is the down- or up-coast direction, and subsequent numbers are adjacent polygon coastIDs in that direction. If the first argument must be ordered before the second, return true
-
-===============================================================================================================================*/
+//===============================================================================================================================
 bool bPolygonAndAdjCompare(const vector<int>& nVLeft, const vector<int>& nVRight)
 {
    // For safety, check that the LHS polygon has at least one adjacent polygon (it should have, apart from the bad situation where just one big polygon is created)
@@ -89,11 +87,9 @@ bool bPolygonAndAdjCompare(const vector<int>& nVLeft, const vector<int>& nVRight
    return true;
 }
 
-/*===============================================================================================================================
-
-Does between-polygon and within-polygon actual (supply-limited) redistribution of transported beach sediment
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Does between-polygon and within-polygon actual (supply-limited) redistribution of transported beach sediment
+//===============================================================================================================================
 int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
 {
    for (int nCoast = 0; nCoast < static_cast<int>(m_VCoast.size()); nCoast++)
@@ -526,11 +522,9 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Update the values of pre-existing unconsolidated sediment, for all three size classes, to include unconsolidated sediment derived from platform erosion and/or cliff collapse
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Update the values of pre-existing unconsolidated sediment, for all three size classes, to include unconsolidated sediment derived from platform erosion and/or cliff collapse
+//===============================================================================================================================
 void CSimulation::AllPolygonsUpdateStoredUncons(int const nCoast)
 {
    int nNumPolygons = m_VCoast[nCoast].nGetNumPolygons();

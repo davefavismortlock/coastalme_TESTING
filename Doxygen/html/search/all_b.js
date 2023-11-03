@@ -22,14 +22,13 @@ var searchData=
   ['linearinterp_2ecpp_19',['linearinterp.cpp',['../d7/d3f/linearinterp_8cpp.html',1,'']]],
   ['linearinterp_2eh_20',['linearinterp.h',['../de/d96/linearinterp_8h.html',1,'']]],
   ['locate_5fcoast_2ecpp_21',['locate_coast.cpp',['../d5/d9e/locate__coast_8cpp.html',1,'']]],
-  ['locate_5festuaries_2ecpp_22',['locate_estuaries.cpp',['../d5/d0d/locate__estuaries_8cpp.html',1,'']]],
-  ['log_5ffile_5fhigh_5fdetail_23',['LOG_FILE_HIGH_DETAIL',['../d6/d2a/cme_8h.html#a85da1142fa4655ec66f1e391444a6d9a',1,'cme.h']]],
-  ['log_5ffile_5flow_5fdetail_24',['LOG_FILE_LOW_DETAIL',['../d6/d2a/cme_8h.html#a3970ee9b4a9eb8e84f2a6195ed2b5623',1,'cme.h']]],
-  ['log_5ffile_5fmiddle_5fdetail_25',['LOG_FILE_MIDDLE_DETAIL',['../d6/d2a/cme_8h.html#a540d8a94fc09b0b14fd8ab657445b67a',1,'cme.h']]],
-  ['logext_26',['LOGEXT',['../d6/d2a/cme_8h.html#a2ff806eefd65c1aa6d3bcb5452446f6a',1,'cme.h']]],
-  ['logstream_27',['LogStream',['../d1/d98/classCSimulation.html#a222962121613613a48f518e0c2110f21',1,'CSimulation']]],
-  ['lsmoothcoastrunningmean_28',['LSmoothCoastRunningMean',['../d1/d98/classCSimulation.html#a0a58b0bf09e1808480deb7372ac7bc6a',1,'CSimulation']]],
-  ['lsmoothcoastsavitzkygolay_29',['LSmoothCoastSavitzkyGolay',['../d1/d98/classCSimulation.html#abd1847dba2e42a2a2c8816ae56b79582',1,'CSimulation']]],
-  ['ludecomp_30',['LUDecomp',['../db/d94/smooth__line_8cpp.html#a052890a9fb707bb7ba7f322a656e258d',1,'smooth_line.cpp']]],
-  ['lulinearsolve_31',['LULinearSolve',['../db/d94/smooth__line_8cpp.html#aeb196ba521b2ba9680ffa0262d2218e9',1,'smooth_line.cpp']]]
+  ['log_5ffile_5fhigh_5fdetail_22',['LOG_FILE_HIGH_DETAIL',['../d6/d2a/cme_8h.html#a85da1142fa4655ec66f1e391444a6d9a',1,'cme.h']]],
+  ['log_5ffile_5flow_5fdetail_23',['LOG_FILE_LOW_DETAIL',['../d6/d2a/cme_8h.html#a3970ee9b4a9eb8e84f2a6195ed2b5623',1,'cme.h']]],
+  ['log_5ffile_5fmiddle_5fdetail_24',['LOG_FILE_MIDDLE_DETAIL',['../d6/d2a/cme_8h.html#a540d8a94fc09b0b14fd8ab657445b67a',1,'cme.h']]],
+  ['logext_25',['LOGEXT',['../d6/d2a/cme_8h.html#a2ff806eefd65c1aa6d3bcb5452446f6a',1,'cme.h']]],
+  ['logstream_26',['LogStream',['../d1/d98/classCSimulation.html#a222962121613613a48f518e0c2110f21',1,'CSimulation']]],
+  ['lsmoothcoastrunningmean_27',['LSmoothCoastRunningMean',['../d1/d98/classCSimulation.html#a0a58b0bf09e1808480deb7372ac7bc6a',1,'CSimulation']]],
+  ['lsmoothcoastsavitzkygolay_28',['LSmoothCoastSavitzkyGolay',['../d1/d98/classCSimulation.html#abd1847dba2e42a2a2c8816ae56b79582',1,'CSimulation']]],
+  ['ludecomp_29',['LUDecomp',['../db/d94/smooth__line_8cpp.html#a657958179024760c11643407d6fbb729',1,'smooth_line.cpp']]],
+  ['lulinearsolve_30',['LULinearSolve',['../db/d94/smooth__line_8cpp.html#a1d0a8455516f34f43c16373c1017ca1e',1,'smooth_line.cpp']]]
 ];

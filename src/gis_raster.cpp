@@ -1,7 +1,7 @@
 /*!
  *
  * \file gis_raster.cpp
- * \brief These functions use GDAL (version 2) to read and write raster GIS files in several formats
+ * \brief These functions use GDAL (at least version 2) to read and write raster GIS files in several formats
  * \details TODO A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
@@ -47,11 +47,9 @@ using std::to_string;
 #include "raster_grid.h"
 #include "coast.h"
 
-/*==============================================================================================================================
-
-Reads a raster DEM of basement elevation data to the Cell array
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Reads a raster DEM of basement elevation data to the Cell array
+//===============================================================================================================================
 int CSimulation::nReadRasterBasementDEM(void)
 {
    // Use GDAL to create a dataset object, which then opens the DEM file
@@ -215,11 +213,9 @@ int CSimulation::nReadRasterBasementDEM(void)
    return RTN_OK;
 }
 
-/*========================================================================================================================================
-
-Mark cells which are at the edge of a bounding box which represents the valid part of the grid, as defined by the basement layer. The valid part of the grid may be the whole grid, or only part of the whole grid. The bounding box may be an irregular shape (but may not have re-entrant edges): simple shapes are more likely to work correctly
-
-========================================================================================================================================*/
+//===============================================================================================================================
+//! Mark cells which are at the edge of a bounding box which represents the valid part of the grid, as defined by the basement layer. The valid part of the grid may be the whole grid, or only part of the whole grid. The bounding box may be an irregular shape (but may not have re-entrant edges): simple shapes are more likely to work correctly
+//===============================================================================================================================
 int CSimulation::nMarkBoundingBoxEdgeCells(void)
 {
    // The bounding box must touch the edge of the grid at least once on each side of the grid, so store these points. Search in a clockwise direction around the edge of the grid
@@ -452,11 +448,9 @@ int CSimulation::nMarkBoundingBoxEdgeCells(void)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Reads all other raster GIS datafiles into the RasterGrid array
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Reads all other raster GIS datafiles into the RasterGrid array
+//===============================================================================================================================
 int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
 {
    string
@@ -901,11 +895,9 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Writes GIS raster files using GDAL, using data from the RasterGrid array
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Writes GIS raster files using GDAL, using data from the RasterGrid array
+//===============================================================================================================================
 bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlotTitle, int const nLayer, double const dElev)
 {
    bool bIsInteger = false;
@@ -1883,11 +1875,9 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    return true;
 }
 
-/*===============================================================================================================================
-
-Interpolates wave properties from all profiles to all within-polygon sea cells. We use GDALGridCreate(), the library version of external utility gdal_grid, to do this
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Interpolates wave properties from all profiles to all within-polygon sea cells. We use GDALGridCreate(), the library version of external utility gdal_grid, to do this
+//===============================================================================================================================
 int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vector<double> const *pVdY, vector<double> const *pVdHeightX, vector<double> const *pVdHeightY)
 {
    int
@@ -2256,11 +2246,9 @@ int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vec
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-If the user supplies multiple deep water wave height and angle values, this routine interplates these to all cells (including dry land cells)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! If the user supplies multiple deep water wave height and angle values, this routine interplates these to all cells (including dry land cells)
+//===============================================================================================================================
 int CSimulation::nInterpolateAllDeepWaterWaveValues(void)
 {
    // Interpolate deep water height and orientation from multiple user-supplied values

@@ -862,7 +862,7 @@ CGeom2DPoint CSimulation::PtChooseEndPoint(int const nHand, CGeom2DPoint const *
 {
    CGeom2DPoint PtChosen;
 
-   // All co-ords here are in the external CRS, so the origin of the grid is the bottom left
+   // All co-ordinates here are in the external CRS, so the origin of the grid is the bottom left
    if (nHand == RIGHT_HANDED)
    {
       // The sea is to the right of the linking line. So which way is the linking line oriented? First check the N-S component
@@ -1211,11 +1211,11 @@ bool CSimulation::bCheckForIntersection(CGeomProfile *const pVProfile1, CGeomPro
 
          if (dS >= 0 && dS <= 1 && dT >= 0 && dT <= 1)
          {
-            // Collision detected, calculate intersection co-ords
+            // Collision detected, calculate intersection co-ordinates
             dXIntersect = dX1 + (dT * dDiffX1);
             dYIntersect = dY1 + (dT * dDiffY1);
 
-            // And calc the average end-point co-ords
+            // And calc the average end-point co-ordinates
             dXAvgEnd = (dX2 + dX4) / 2;
             dYAvgEnd = (dY2 + dY4) / 2;
 

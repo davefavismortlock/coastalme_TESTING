@@ -117,12 +117,7 @@ void CRWCliff::DeepenErosionalNotch(double const dLenIn)
 //    assert((m_dMaxDepth - m_dNotchDepth) >=0);
 }
 
-//! Display (dummy)
+//! Instantiates the pure virtual function in the abstract parent class, so that CRWCliff is not an abstract class
 void CRWCliff::Display(void)
 {
-   cout << endl;
-//    for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-//       cout << "[" << m_VPoints[n].dGetX() << "][" << m_VPoints[n].dGetY() << "], ";
-//    cout << endl;
-//    cout.flush();
 }

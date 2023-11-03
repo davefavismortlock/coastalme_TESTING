@@ -36,11 +36,9 @@ using std::find;
 #include "coast.h"
 #include "sediment_input_event.h"
 
-/*===============================================================================================================================
-
-Check to see if we have any sediment input events this timestep, if so then do the event(s)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Check to see if we have any sediment input events this timestep, if so then do the event(s)
+//===============================================================================================================================
 int CSimulation::nCheckForSedimentInputEvent(void)
 {
    // Go through all sediment input events, check for any this timestep
@@ -61,11 +59,9 @@ int CSimulation::nCheckForSedimentInputEvent(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Do a sediment input event
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Do a sediment input event
+//===============================================================================================================================
 int CSimulation::nDoSedimentInputEvent(int const nEvent)
 {
    // Get values for the sediment input event
@@ -95,8 +91,8 @@ int CSimulation::nDoSedimentInputEvent(int const nEvent)
          }
       }
 
-      // Should never get here
       if (nPointGridX == -1)
+         // Should never get here
          return RTN_ERR_SEDIMENT_INPUT_EVENT;
 
       // Is this sediment input event at a pre-specified point, or at a block on a coast, or along a line intersecting with a coast?

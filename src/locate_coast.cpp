@@ -50,11 +50,9 @@ using std::stack;
 #include "raster_grid.h"
 #include "coast.h"
 
-/*===============================================================================================================================
-
-First find all connected sea areas, then locate the vector coastline(s), then put these onto the raster grid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! First find all connected sea areas, then locate the vector coastline(s), then put these onto the raster grid
+//===============================================================================================================================
 int CSimulation::nLocateSeaAndCoasts(void)
 {
    // Find all connected sea cells
@@ -75,11 +73,9 @@ int CSimulation::nLocateSeaAndCoasts(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Finds and flags all sea areas which have at least one cell at a grid edge (i.e. does not flag 'inland' seas)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Finds and flags all sea areas which have at least one cell at a grid edge (i.e. does not flag 'inland' seas)
+//===============================================================================================================================
 void CSimulation::FindAllSeaCells(void)
 {
    // Go along the list of edge cells
@@ -109,11 +105,9 @@ void CSimulation::FindAllSeaCells(void)
    }
 }
 
-/*===============================================================================================================================
- 
-Flood-fills all sea cells starting from a given cell. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack)
- 
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Flood-fills all sea cells starting from a given cell. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack)
+//===============================================================================================================================
 void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
 {
    // For safety check
@@ -125,7 +119,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    // Start at the given edge cell, push this onto the stack
    PtiStack.push(CGeom2DIPoint(nXStart, nYStart));
 
-   // Then do the flood fill loop until there are no more cell co-ords on the stack
+   // Then do the flood fill loop until there are no more cell co-ordinates on the stack
    int nRoundLoop = 0;
    while (! PtiStack.empty())
    {
@@ -269,11 +263,9 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    //    LogStream << " m_nXMinBoundingBox = " << m_nXMinBoundingBox << " m_nXMaxBoundingBox = " << m_nXMaxBoundingBox << " m_nYMinBoundingBox = " << m_nYMinBoundingBox << " m_nYMaxBoundingBox = " << m_nYMaxBoundingBox << endl;
 }
 
-/*===============================================================================================================================
-
-Locates all the potential coastline start points on the edges of the raster grid, then traces vector coastline(s) from these start points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Locates all the potential coastline start points on the edges of the raster grid, then traces vector coastline(s) from these start points
+//===============================================================================================================================
 int CSimulation::nTraceAllCoasts(void)
 {
    if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
@@ -373,11 +365,9 @@ int CSimulation::nTraceAllCoasts(void)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
+//===============================================================================================================================
 int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool> *pVbTraced, vector<CGeom2DIPoint> const *pV2DIPossibleStartCell)
 {
    bool
@@ -1013,11 +1003,9 @@ int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, in
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-First find all connected sea areas, then locate the vector coastline(s), then put these onto the raster grid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! First find all connected sea areas, then locate the vector coastline(s), then put these onto the raster grid
+//===============================================================================================================================
 int CSimulation::nLocateFloodAndCoasts(void)
 {
    // Find all connected sea cells
@@ -1055,11 +1043,9 @@ int CSimulation::nLocateFloodAndCoasts(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Finds and flags all sea areas which have at least one cell at a grid edge (i.e. does not flag 'inland' seas)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Finds and flags all sea areas which have at least one cell at a grid edge (i.e. does not flag 'inland' seas)
+//===============================================================================================================================
 int CSimulation::FindAllInundatedCells(void)
 {
    for (int nX = 0; nX < m_nXGridMax; nX++)
@@ -1100,11 +1086,10 @@ int CSimulation::FindAllInundatedCells(void)
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Updated flood-fill all sea cells starting from a given cell. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack). Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! TODO DFM What does this do? Why do we need to flood fill land, when we already have a flood fill sea routine?
+//! WHAT IS THIS? Recursive Scanline 8-Way Floodfill Algorithm (floodFillScanline) Need a description Flood-fill all sea cells starting from a given cell. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack). Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected
+//===============================================================================================================================
 void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
 {
    // The flood is at a user-specified location. So get the location from values read from the shapefile
@@ -1187,7 +1172,7 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
    // Start at the given edge cell, push this onto the stack
    PtiStackFlood.push(CGeom2DIPoint(nXStart, nYStart));
 
-   // Then do the flood fill loop until there are no more cell co-ords on the stack
+   // Then do the flood fill loop until there are no more cell co-ordinates on the stack
    while (! PtiStackFlood.empty())
    {
       CGeom2DIPoint Pti = PtiStackFlood.top();
@@ -1256,11 +1241,9 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
    }
 }
 
-/*===============================================================================================================================
-
-Locates all the potential coastline start points on the edges of the raster grid, then traces vector coastline(s) from these start points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Locates all the potential coastline start points on the edges of the raster grid, then traces vector coastline(s) from these start points
+//===============================================================================================================================
 int CSimulation::nTraceAllFloodCoasts(void)
 {
    vector<bool>
@@ -1353,11 +1336,9 @@ int CSimulation::nTraceAllFloodCoasts(void)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
+//===============================================================================================================================
 int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool> *pVbTraced, vector<CGeom2DIPoint> const *pV2DIPossibleStartCell)
 {
    bool

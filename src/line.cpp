@@ -43,7 +43,7 @@ CGeomLine::CGeomLine(CGeom2DPoint const* pPt1, CGeom2DPoint const* pPt2)
    m_VPoints.push_back(*pPt2);
 }
 
-//! Overloaded constructor with one paramter which creates a given number of uninitialized points
+//! Overloaded constructor with one parameter, this creates a given number of uninitialized points
 CGeomLine::CGeomLine(int const nNum)
 {
    CGeom2DPoint pPt;
@@ -95,12 +95,7 @@ void CGeomLine::SetYAt(int const n, double const y)
 //    return false;
 // }
 
-//!
+//! Instantiates the pure virtual function in the abstract parent class, so that CGeomLine is not an abstract class
 void CGeomLine::Display(void)
 {
-   cout << endl;
-   for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-      cout << "[" << m_VPoints[n].dGetX() << "][" << m_VPoints[n].dGetY() << "], ";
-   cout << endl;
-   cout.flush();
 }

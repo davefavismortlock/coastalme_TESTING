@@ -23,6 +23,8 @@ You should have received a copy of the GNU General Public License along with thi
 
 ===============================================================================================================================*/
 #include <assert.h>
+#include <iostream>
+using std::cerr;
 
 #include "cme.h"
 #include "coast_polygon.h"
@@ -390,13 +392,9 @@ double CGeomCoastPolygon::dGetAvgUnconsD50(void) const
    return m_dAvgUnconsD50;
 }
 
+//! Instantiates the pure virtual function in the abstract parent class, so that CGeomCoastPolygon is not an abstract class
 void CGeomCoastPolygon::Display(void)
 {
-//    cout << endl;
-//    for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-//       cout << "[" << m_VPoints[n].dGetX() << "][" << m_VPoints[n].dGetY() << "], ";
-//    cout << endl;
-//    cout.flush();
 }
 
 //! Add a circularity to this polygon

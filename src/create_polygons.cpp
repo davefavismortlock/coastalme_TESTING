@@ -70,7 +70,7 @@ int CSimulation::nCreateAllPolygons(void)
                int nNodePoint = nCoastPoint - nDist;
                m_VCoast[nCoast].SetPolygonNode(nNodePoint, ++nNode);
 
-               // Get the grid CRS co-ords of the coast node
+               // Get the grid CRS co-ordinates of the coast node
                CGeom2DIPoint PtiNode = *m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nNodePoint);
 
                // Get the previous profile, also set some defaults (assuming for now that this polygon is not approximately triangular i.e. both normals do not meet)
@@ -347,7 +347,7 @@ void CSimulation::MarkPolygonCells(void)
 
 //          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): filling polygon " << nPoly << " from [" << PtiStart.nGetX() << "][" << PtiStart.nGetY() << "] = {" << dGridCentroidXToExtCRSX(PtiStart.nGetX()) << ", " << dGridCentroidYToExtCRSY(PtiStart.nGetY()) << "}" << endl;
 
-         // Then do the flood fill: loop until there are no more cell co-ords on the stack
+         // Then do the flood fill: loop until there are no more cell co-ordinates on the stack
          while (! PtiStack.empty())
          {
             CGeom2DIPoint Pti = PtiStack.top();

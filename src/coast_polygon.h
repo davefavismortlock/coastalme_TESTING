@@ -65,39 +65,84 @@ private:
    int m_nPointInPolygonSearchStartPoint;
       
    // Note: all sediment depths are in m, and here cover the area of a single raster cell: to convert to a volume, multiply by m_dCellArea
-   double
-      m_dAvgUnconsD50,                    // The average d50 of unconsolidated sediment on this polygon
-      m_dSeawaterVolume,                  // The volume (m3) of seawater within the polygon
-      m_dPotentialErosionAllUncons,       // Potential (ignoring supply-limitation) erosion (all size classes) as a depth during this timestep (-ve)
-      m_dErosionUnconsFine,               // Erosion (considering supply-limitation) of fine-sized sediment as a depth this timestep (-ve)
-      m_dErosionUnconsSand,               // Erosion (considering supply-limitation) of sand-sized sediment as a depth this timestep (-ve)
-      m_dErosionUnconsCoarse,             // Erosion (considering supply-limitation) of coarse-sized sediment as a depth this timestep (-ve)
-      m_dDepositionUnconsFine,            // Deposition of fine-sized sediment as a depth this timestep (+ve)
-      m_dDepositionUnconsSand,            // Deposition of sand-sized sediment as a depth this timestep (+ve)
-      m_dDepositionUnconsCoarse,          // Deposition of coarse-sized sediment as a depth this timestep (+ve)
-      m_dCliffCollapseErosionFine,        // Depth of eroded fine sediment from cliff collapse
-      m_dCliffCollapseErosionSand,        // Depth of eroded sand sediment from cliff collapse
-      m_dCliffCollapseErosionCoarse,      // Depth of eroded coarse sediment from cliff collapse
-      m_dCliffCollapseTalusSand,          // Depth of unconsolidated sand talus from cliff collapse
-      m_dCliffCollapseTalusCoarse,        // Depth of unconsolidated coarse talus from cliff collapse
-      m_dSandFromPlatformErosion,         // Depth of unconsolidated sand sediment from shore platform erosion
-      m_dCoarseFromPlatformErosion,       // Depth of unconsolidated coarse sediment from shore platform erosion
-      m_dStoredUnconsFine,           // Depth of pre-existing unconsolidated fine sediment
-      m_dStoredUnconsSand,           // Depth of pre-existing unconsolidated sand sediment
-      m_dStoredUnconsCoarse;         // Depth of pre-existing unconsolidated coarse sediment
 
-   CGeom2DIPoint
-      m_PtiNode,                          // Co-ords of the coast node cell (raster-grid CRS)
-      m_PtiAntinode;                      // Co-ords of the cell (raster-grid CRS) which is at other (seaward) end of the polygon
+   //! The average d50 of unconsolidated sediment on this polygon
+   double m_dAvgUnconsD50;
 
-   vector<int>
-      m_VnUpCoastAdjacentPolygon,
-      m_VnDownCoastAdjacentPolygon,
-      m_VnCircularityWith;                // If this polygon has a circular unconsolidated-sediment-movement relationship with one or more other polygons, the cost-only numbers of these polygons
+   //! The volume (m3) of seawater within the polygon
+   double m_dSeawaterVolume;
 
-   vector<double>
-      m_VdUpCoastAdjacentPolygonBoundaryShare,
-      m_VdDownCoastAdjacentPolygonBoundaryShare;
+   //! Potential (ignoring supply-limitation) erosion (all size classes) as a depth during this timestep (-ve)
+   double m_dPotentialErosionAllUncons;
+
+   //! Erosion (considering supply-limitation) of fine-sized sediment as a depth this timestep (-ve)
+   double m_dErosionUnconsFine;
+
+   //! Erosion (considering supply-limitation) of sand-sized sediment as a depth this timestep (-ve)
+   double m_dErosionUnconsSand;
+
+   //! Erosion (considering supply-limitation) of coarse-sized sediment as a depth this timestep (-ve)
+   double m_dErosionUnconsCoarse;
+
+   //! Deposition of fine-sized sediment as a depth this timestep (+ve)
+   double m_dDepositionUnconsFine;
+
+   //! Deposition of sand-sized sediment as a depth this timestep (+ve)
+   double m_dDepositionUnconsSand;
+
+   //! Deposition of coarse-sized sediment as a depth this timestep (+ve)
+   double m_dDepositionUnconsCoarse;
+
+   //! Depth of eroded fine sediment from cliff collapse
+   double m_dCliffCollapseErosionFine;
+
+   //! Depth of eroded sand sediment from cliff collapse
+   double m_dCliffCollapseErosionSand;
+
+   //! Depth of eroded coarse sediment from cliff collapse
+   double m_dCliffCollapseErosionCoarse;
+
+   //! Depth of unconsolidated sand talus from cliff collapse
+   double m_dCliffCollapseTalusSand;
+
+   //! Depth of unconsolidated coarse talus from cliff collapse
+   double m_dCliffCollapseTalusCoarse;
+
+   //! Depth of unconsolidated sand sediment from shore platform erosion
+   double m_dSandFromPlatformErosion;
+
+   //! Depth of unconsolidated coarse sediment from shore platform erosion
+   double m_dCoarseFromPlatformErosion;
+
+   //! Depth of pre-existing unconsolidated fine sediment
+   double m_dStoredUnconsFine;
+
+   //! Depth of pre-existing unconsolidated sand sediment
+   double m_dStoredUnconsSand;
+
+   //! Depth of pre-existing unconsolidated coarse sedimet
+   double m_dStoredUnconsCoarse;
+
+   //! Co-ordinates of the coast node cell (raster-grid CRS)
+   CGeom2DIPoint m_PtiNode;
+
+   //! Co-ordinates of the cell (raster-grid CRS) which is at other (seaward) end of the polygon
+   CGeom2DIPoint m_PtiAntinode;
+
+   //! The ID(s) of the up-coast adjacent polygon(s)
+   vector<int> m_VnUpCoastAdjacentPolygon;
+
+   //! The ID(s) of the down-coast adjacent polygon(s)
+   vector<int> m_VnDownCoastAdjacentPolygon;
+
+   //! If this polygon has a circular unconsolidated-sediment-movement relationship with one or more other polygons, the cost-only numbers of these polygons
+   vector<int> m_VnCircularityWith;
+
+   //! The boundary share(s) (0 to 1) with adjacent up-coast polygon(s)
+   vector<double> m_VdUpCoastAdjacentPolygonBoundaryShare;
+
+   //! The boundary share(s) (0 to 1) with adjacent up-coast polygon(s)
+   vector<double> m_VdDownCoastAdjacentPolygonBoundaryShare;
 
 public:
    CGeomCoastPolygon(int const, int const, int const, int const, int const, vector<CGeom2DPoint> const*, int const, int const, CGeom2DIPoint const*, CGeom2DIPoint const*, int const);

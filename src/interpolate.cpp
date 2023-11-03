@@ -28,11 +28,9 @@ using namespace std;
 
 #include "cme.h"
 
-/*===============================================================================================================================
-
-Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles
+//===============================================================================================================================
 double dInterpolate(vector<double> VdXdata, vector<double> VdYdata, double dX, bool bExtrapolate)
 {
    int size = static_cast<int>(VdXdata.size());
@@ -64,11 +62,9 @@ double dInterpolate(vector<double> VdXdata, vector<double> VdYdata, double dX, b
    return (dYL + ddYdX * (dX - dXL));           // Linear interpolation
 }
 
-/*===============================================================================================================================
-
-Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double
+//===============================================================================================================================
 double dInterpolate( vector<int> VnXdata, vector<double> VdYdata, int nX, bool bExtrapolate )
 {
    unsigned int nSize = static_cast<unsigned int>(VnXdata.size());
@@ -101,10 +97,8 @@ double dInterpolate( vector<int> VnXdata, vector<double> VdYdata, int nX, bool b
 
    return dYL + ddYdX * static_cast<double>(nX - nXL);               // Linear interpolation
 }
+
 //======================================================================
-
-
-
 //int main()
 //{
 //   // Original data

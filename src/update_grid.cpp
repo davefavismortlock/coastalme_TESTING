@@ -31,11 +31,9 @@ using std::endl;
 #include "raster_grid.h"
 #include "coast.h"
 
-/*===============================================================================================================================
-
-Update all cells in the raster raster grid and do some per-timestep accounting
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Update all cells in the raster raster grid and do some per-timestep accounting
+//===============================================================================================================================
 int CSimulation::nUpdateGrid(void)
 {
    // Go through all cells in the raster grid and calculate some this-timestep totals

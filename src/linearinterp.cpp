@@ -24,11 +24,9 @@ You should have received a copy of the GNU General Public License along with thi
 ==============================================================================================================================*/
 #include "linearinterp.h"
 
-/*==============================================================================================================================
-
-TODO DFM What does this do? What is it here for? Need a description
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! TODO DFM What does this do? What is it here for? Need a description
+//===============================================================================================================================
 int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
 {
    double dDist = DBL_MAX;
@@ -48,11 +46,9 @@ int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
    return nIdx;
 }
 
-/*==============================================================================================================================
-
-TODO DFM What does this do? What is it here for? Need a description. NOTE this crashes (divide by zero) if there are identical consecutive values in pVdX
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! TODO DFM What does this do? What is it here for? Need a description. NOTE this crashes (divide by zero) if there are identical consecutive values in pVdX
+//===============================================================================================================================
 vector<double> VdInterp1(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdX_new)
 {
    vector<double> VdY_new;

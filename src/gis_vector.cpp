@@ -41,11 +41,9 @@ using std::stringstream;
 #include "coast.h"
 #include "cliff.h"
 
-/*==============================================================================================================================
-
-Reads vector GIS datafiles
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Reads vector GIS datafiles using OGR
+//===============================================================================================================================
 int CSimulation::nReadVectorGISFile(int const nDataItem)
 {
    int
@@ -186,7 +184,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                // Point data
                pOGRPoint = static_cast<OGRPoint*>(pOGRGeometry);
 
-               // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
+               // Convert the wave station co-ordinates to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
                m_VdDeepWaterWaveStationX.push_back(dExtCRSXToGridX(pOGRPoint->getX()));
                m_VdDeepWaterWaveStationY.push_back(dExtCRSYToGridY(pOGRPoint->getY()));
                break;
@@ -208,7 +206,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                   if ((nPointGridY < 0) || (nPointGridY > m_nYGridMax))
                      return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
 
-                  // Convert the point co-ords to grid CRS and store them
+                  // Convert the point co-ordinates to grid CRS and store them
                   m_VdSedimentInputLocationX.push_back(nPointGridX);
                   m_VdSedimentInputLocationY.push_back(nPointGridY);
                }
@@ -220,7 +218,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                   nPoints = pOGRLineString->getNumPoints();
                   for (int i = 0; i < nPoints; i++)
                   {
-                     // Convert the co-ords for each point in the line to grid CRS and store them
+                     // Convert the co-ordinates for each point in the line to grid CRS and store them
                      m_VdSedimentInputLocationX.push_back(dExtCRSXToGridX(pOGRLineString->getX(i)));
                      m_VdSedimentInputLocationY.push_back(dExtCRSYToGridY(pOGRLineString->getY(i)));
                   }
@@ -232,7 +230,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                // Point data
                pOGRPoint = static_cast<OGRPoint*>(pOGRGeometry);
 
-               // Convert the wave station co-ords to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
+               // Convert the wave station co-ordinates to grid CRS and store them: we will use these in the spatial interpolation of deep water waves
                m_VdFloodLocationX.push_back(pOGRPoint->getX());
                m_VdFloodLocationY.push_back(pOGRPoint->getY());
 
@@ -341,11 +339,9 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Writes vector GIS files using OGR
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Writes vector GIS files using OGR
+//===============================================================================================================================
 bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlotTitle)
 {
    // Begin constructing the file name for this save

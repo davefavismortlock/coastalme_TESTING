@@ -34,13 +34,9 @@ using std::endl;
 #include "simulation.h"
 #include "coast.h"
 
-/*===============================================================================================================================
-
-Erodes unconsolidated beach sediment of one texture class on the cells within a polygon
-
-As with the estimation of actual erosion, this is done by working down the coastline and constructing profiles which are parallel to the up-coast polygon boundary; then reversing direction and going up-coast, constructing profiles parallel to the down-coast boundary. Then iteratively fit a Dean equilibrium profile until the normal's share of the change in total depth of unconsolidated sediment is accommodated under the revised profile. For erosion, this reduces the beach volume
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Erodes unconsolidated beach sediment of one texture class on the cells within a polygon. This is done by working down the coastline and constructing profiles which are parallel to the up-coast polygon boundary; then reversing direction and going up-coast, constructing profiles parallel to the down-coast boundary. Then iteratively fit a Dean equilibrium profile until the normal's share of the change in total depth of unconsolidated sediment is accommodated under the revised profile. For erosion, this reduces the beach volume
+//===============================================================================================================================
 int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, int const nTexture, double const dErosionTargetOnPolygon, double& dEroded)
 {
    string strTexture;
@@ -210,7 +206,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
             // Extend the parallel profile by one cell in the coastward direction. First get the coords of the cell that is nInlandOffset cells seaward from the existing up-coast part-profile start point
             CGeom2DIPoint PtiUpCoastTmp = *pUpCoastProfile->pPtiGetCellInProfile(nInlandOffset);
 
-            // Then get the offset between this PtiUpCoastTmp cell and the existing up-coast part-profile start point, and use the reverse of this offset to get the co-ords of the cell that extends the existing up-coast part-profile landwards
+            // Then get the offset between this PtiUpCoastTmp cell and the existing up-coast part-profile start point, and use the reverse of this offset to get the co-ordinates of the cell that extends the existing up-coast part-profile landwards
             int
                 nXUpCoastStartOffset = PtiUpCoastTmp.nGetX() - nXUpCoastProfileExistingCoastPoint,
                 nYUpCoastStartOffset = PtiUpCoastTmp.nGetY() - nYUpCoastProfileExistingCoastPoint,
@@ -230,7 +226,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
 
             CGeom2DIPoint PtiThisUpCoastStart(nXUpCoastThisStart, nYUpCoastThisStart);
 
-            // Calculate the co-ords of a possible new landwards cell for the parallel profile
+            // Calculate the co-ordinates of a possible new landwards cell for the parallel profile
             int
                 nXParNew = nXUpCoastThisStart + nXOffset,
                 nYParNew = nYUpCoastThisStart + nYOffset;
@@ -274,7 +270,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
          //             LogStream << "[" << VPtiParProfile[m].nGetX() << "][" << VPtiParProfile[m].nGetY() << "] ";
          //          LogStream << endl;
 
-         // Get the distance between the start and end of the parallel profile, in external CRS units. Note that the parallel profile co-ords are in reverse sequence
+         // Get the distance between the start and end of the parallel profile, in external CRS units. Note that the parallel profile co-ordinates are in reverse sequence
          CGeom2DPoint
              PtStart = PtGridCentroidToExt(&VPtiParProfile.back()),
              PtEnd = PtGridCentroidToExt(&VPtiParProfile[0]);
@@ -478,11 +474,9 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-This routine erodes unconsolidated beach sediment (either fine, sand, or coarse) on a parallel profile
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! This routine erodes unconsolidated beach sediment (either fine, sand, or coarse) on a parallel profile
+//===============================================================================================================================
 int CSimulation::nDoParallelProfileUnconsErosion( int const nPoly, int const nCoastPoint,  int const nCoastX, int const nCoastY, int const nTexture,  int const nInlandOffset,  int const nParProfLen, vector<CGeom2DIPoint> const *pVPtiParProfile, vector<double> const *pVdParProfileDeanElev, double&dStillToErodeOnProfile, double&dStillToErodeOnPolygon, double&dTotEroded)
 {
    for (int nDistSeawardFromNewCoast = 0; nDistSeawardFromNewCoast < nParProfLen; nDistSeawardFromNewCoast++)
@@ -650,11 +644,9 @@ int CSimulation::nDoParallelProfileUnconsErosion( int const nPoly, int const nCo
    return RTN_OK;
 }
 
-/*===============================================================================================================================
-
-Erodes the unconsolidated beach sediment on a single cell, for a single size class, and returns the depth-equivalents of sediment removed
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Erodes the unconsolidated beach sediment on a single cell, for a single size class, and returns the depth-equivalents of sediment removed
+//===============================================================================================================================
 void CSimulation::ErodeCellBeachSedimentSupplyLimited(int const nX, int const nY, int const nThisLayer, int const nTexture, double const dMaxToErode, double&dRemoved)
 {
    // Find out how much unconsolidated sediment of this size class we have available on this cell
@@ -723,13 +715,9 @@ void CSimulation::ErodeCellBeachSedimentSupplyLimited(int const nX, int const nY
    }
 }
 
-/*===============================================================================================================================
-
-Deposits unconsolidated beach sediment (sand or coarse) on the cells within a polygon
-
-As with the estimation of actual erosion, this is done by working down the coastline and constructing profiles which are parallel to the up-coast polygon boundary; then reversing direction and going up-coast, constructing profiles parallel to the down-coast boundary. Then iteratively fit a Dean equilibrium profile until the normal's share of the change in total depth of unconsolidated sediment is accommodated under the revised profile. For deposition, this adds to the beach volume
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Deposits unconsolidated beach sediment (sand or coarse) on the cells within a polygon. This is done by working down the coastline and constructing profiles which are parallel to the up-coast polygon boundary; then reversing direction and going up-coast, constructing profiles parallel to the down-coast boundary. Then iteratively fit a Dean equilibrium profile until the normal's share of the change in total depth of unconsolidated sediment is accommodated under the revised profile. For deposition, this adds to the beach volume
+//===============================================================================================================================
 int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly, int const nTexture, double dTargetToDepositOnPoly, double& dDepositedOnPoly)
 {
    string strTexture;
@@ -744,7 +732,7 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
    
    CGeomCoastPolygon *pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
-   // Get the grid cell co-ords of this polygon's up-coast and down-coast profiles
+   // Get the grid cell co-ordinates of this polygon's up-coast and down-coast profiles
    int
        nUpCoastProfile = pPolygon->nGetUpCoastProfile(),
        nDownCoastProfile = pPolygon->nGetDownCoastProfile();

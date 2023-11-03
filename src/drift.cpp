@@ -50,12 +50,7 @@ CRWDrift::~CRWDrift(void)
 {
 }
 
-//!
+//! Instantiates the pure virtual function in the abstract parent class, so that CRWDrift is not an abstract class
 void CRWDrift::Display(void)
 {
-   cout << endl;
-//    for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-//       cout << "[" << m_VPoints[n].dGetX() << "][" << m_VPoints[n].dGetY() << "], ";
-//    cout << endl;
-//    cout.flush();
 }

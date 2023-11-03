@@ -78,11 +78,9 @@ using std::inner_product;
 #include "simulation.h"
 #include "coast.h"
 
-/*==============================================================================================================================
-
-Handles command-line parameters
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Handles command-line parameters
+//===============================================================================================================================
 int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
 {
    for (int i = 1; i < nArg; i++)
@@ -143,22 +141,18 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Tells the user that we have started the simulation
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we have started the simulation
+//===============================================================================================================================
 void CSimulation::AnnounceStart(void)
 {
    cout << endl
         << PROGRAM_NAME << " for " << PLATFORM << " " << strGetBuild() << endl;
 }
 
-/*==============================================================================================================================
-
-Starts the clock ticking
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Starts the clock ticking
+//===============================================================================================================================
 void CSimulation::StartClock(void)
 {
    // First start the 'CPU time' clock ticking
@@ -179,11 +173,9 @@ void CSimulation::StartClock(void)
    m_tSysStartTime = time(nullptr);
 }
 
-/*==============================================================================================================================
-
-Finds the folder (directory) in which the CoastalME executable is located
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Finds the folder (directory) in which the CoastalME executable is located
+//===============================================================================================================================
 bool CSimulation::bFindExeDir(char const* pcArg)
 {
    string strTmp;
@@ -216,11 +208,9 @@ bool CSimulation::bFindExeDir(char const* pcArg)
    return true;
 }
 
-/*==============================================================================================================================
-
-Tells the user about the licence
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user about the licence
+//===============================================================================================================================
 void CSimulation::AnnounceLicence(void)
 {
    cout << COPYRIGHT << endl
@@ -239,11 +229,9 @@ void CSimulation::AnnounceLicence(void)
    cout << INITIALIZING_NOTICE << endl;
 }
 
-/*==============================================================================================================================
-
-Given a string containing time units, this returns the appropriate multiplier
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Given a string containing time units, this returns the appropriate multiplier
+//===============================================================================================================================
 double CSimulation::dGetTimeMultiplier(string const *strIn)
 {
    // First decide what the time units are
@@ -276,11 +264,9 @@ double CSimulation::dGetTimeMultiplier(string const *strIn)
    return 0;
 }
 
-/*==============================================================================================================================
-
-Given a string containing time units, this sets up the appropriate multiplier and display units for the simulation
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Given a string containing time units, this sets up the appropriate multiplier and display units for the simulation
+//===============================================================================================================================
 int CSimulation::nDoSimulationTimeMultiplier(string const *strIn)
 {
    // First decide what the time units are
@@ -317,11 +303,9 @@ int CSimulation::nDoSimulationTimeMultiplier(string const *strIn)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-This finds time units in a string
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! This finds time units in a string
+//===============================================================================================================================
 int CSimulation::nDoTimeUnits(string const *strIn)
 {
    if (strIn->find("hour") != string::npos)
@@ -336,11 +320,9 @@ int CSimulation::nDoTimeUnits(string const *strIn)
       return TIME_UNKNOWN;
 }
 
-/*==============================================================================================================================
-
-Opens the log file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Opens the log file
+//===============================================================================================================================
 bool CSimulation::bOpenLogFile(void)
 {
    // Open in binary mode if just checking random numbers
@@ -373,11 +355,9 @@ bool CSimulation::bOpenLogFile(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the DEM file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the DEM file
+//===============================================================================================================================
 void CSimulation::AnnounceReadBasementDEM(void) const
 {
    // Tell the user what is happening
@@ -388,52 +368,42 @@ void CSimulation::AnnounceReadBasementDEM(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now allocating memory
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now allocating memory
+//===============================================================================================================================
 void CSimulation::AnnounceAllocateMemory(void)
 {
    cout << ALLOCATE_MEMORY << endl;
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now adding layers
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now adding layers
+//===============================================================================================================================
 void CSimulation::AnnounceAddLayers(void)
 {
    // Tell the user what is happening
    cout << ADD_LAYERS << endl;
 }
 
-/*==============================================================================================================================
-
-Now reading raster GIS files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Now reading raster GIS files
+//===============================================================================================================================
 void CSimulation::AnnounceReadRasterFiles(void)
 {
    cout << READING_RASTER_FILES << endl;
 }
 
-/*==============================================================================================================================
-
-Now reading vector GIS files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Now reading vector GIS files
+//===============================================================================================================================
 void CSimulation::AnnounceReadVectorFiles(void)
 {
    cout << READING_VECTOR_FILES << endl;
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the Landscape category GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the Landscape category GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadLGIS(void) const
 {
    // Tell the user what is happening
@@ -445,11 +415,9 @@ void CSimulation::AnnounceReadLGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the Intervention class GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the Intervention class GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadICGIS(void) const
 {
    // Tell the user what is happening
@@ -461,11 +429,9 @@ void CSimulation::AnnounceReadICGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the Intervention height GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the Intervention height GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadIHGIS(void) const
 {
    // Tell the user what is happening
@@ -477,11 +443,9 @@ void CSimulation::AnnounceReadIHGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the deep water wave values GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the deep water wave values GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadDeepWaterWaveValuesGIS(void) const
 {
    // Tell the user what is happening
@@ -493,11 +457,9 @@ void CSimulation::AnnounceReadDeepWaterWaveValuesGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the sediment input events GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the sediment input events GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadSedimentEventInputValuesGIS(void) const
 {
    // Tell the user what is happening
@@ -509,11 +471,9 @@ void CSimulation::AnnounceReadSedimentEventInputValuesGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the flood location GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the flood location GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadFloodLocationGIS(void) const
 {
    // Tell the user what is happening
@@ -525,11 +485,9 @@ void CSimulation::AnnounceReadFloodLocationGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial suspended sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial suspended sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialSuspSedGIS(void) const
 {
    // Tell the user what is happening
@@ -540,11 +498,9 @@ void CSimulation::AnnounceReadInitialSuspSedGIS(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial fine unconsolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial fine unconsolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialFineUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -555,11 +511,9 @@ void CSimulation::AnnounceReadInitialFineUnconsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial sand unconsolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial sand unconsolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialSandUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -570,11 +524,9 @@ void CSimulation::AnnounceReadInitialSandUnconsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial coarse unconsolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial coarse unconsolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialCoarseUnconsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -585,11 +537,9 @@ void CSimulation::AnnounceReadInitialCoarseUnconsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial fine consolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial fine consolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialFineConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -600,11 +550,9 @@ void CSimulation::AnnounceReadInitialFineConsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial sand consolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial sand consolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialSandConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -615,11 +563,9 @@ void CSimulation::AnnounceReadInitialSandConsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now reading the initial coarse consolidated sediment depth GIS file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now reading the initial coarse consolidated sediment depth GIS file
+//===============================================================================================================================
 void CSimulation::AnnounceReadInitialCoarseConsSedGIS(int const nLayer) const
 {
    // Tell the user what is happening
@@ -630,11 +576,9 @@ void CSimulation::AnnounceReadInitialCoarseConsSedGIS(int const nLayer) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Now reading tide data file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Now reading tide data file
+//===============================================================================================================================
 void CSimulation::AnnounceReadTideData(void) const
 {
 #ifdef _WIN32
@@ -644,42 +588,34 @@ void CSimulation::AnnounceReadTideData(void) const
 #endif
 }
 
-/*==============================================================================================================================
-
-Now reading the SCAPE shape function file
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Now reading the SCAPE shape function file
+//===============================================================================================================================
 void CSimulation::AnnounceReadSCAPEShapeFunctionFile(void)
 {
    cout << READING_SCAPE_SHAPE_FUNCTION_FILE << endl;
 }
 
-/*==============================================================================================================================
-
-Tells the user that we are now initializing
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tells the user that we are now initializing
+//===============================================================================================================================
 void CSimulation::AnnounceInitializing(void)
 {
    // Tell the user what is happening
    cout << INITIALIZING << endl;
 }
 
-/*==============================================================================================================================
-
-Tell the user that the simulation is now running
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tell the user that the simulation is now running
+//===============================================================================================================================
 void CSimulation::AnnounceIsRunning(void)
 {
    cout << RUN_NOTICE << endl;
 }
 
-/*==============================================================================================================================
-
-Return a space-separated string containing the names of the raster GIS output files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Return a space-separated string containing the names of the raster GIS output files
+//===============================================================================================================================
 string CSimulation::strListRasterFiles(void) const
 {
    string strTmp;
@@ -937,11 +873,9 @@ string CSimulation::strListRasterFiles(void) const
    return strTmp;
 }
 
-/*==============================================================================================================================
-
-Return a space-separated string containing the names of the vector GIS output files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Return a space-separated string containing the names of the vector GIS output files
+//===============================================================================================================================
 string CSimulation::strListVectorFiles(void) const
 {
    string strTmp;
@@ -1050,11 +984,9 @@ string CSimulation::strListVectorFiles(void) const
    return strTmp;
 }
 
-/*==============================================================================================================================
-
-Return a space-separated string containing the names of the time series output files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Return a space-separated string containing the names of the time series output files
+//===============================================================================================================================
 string CSimulation::strListTSFiles(void) const
 {
    string strTmp;
@@ -1138,11 +1070,9 @@ string CSimulation::strListTSFiles(void) const
    return strTmp;
 }
 
-/*==============================================================================================================================
-
-The bSetUpTSFiles member function sets up the time series files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! The bSetUpTSFiles member function sets up the time series files
+//===============================================================================================================================
 bool CSimulation::bSetUpTSFiles(void)
 {
    string strTSFile;
@@ -1354,11 +1284,9 @@ bool CSimulation::bSetUpTSFiles(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-Checks to see if the simulation has gone on too long, amongst other things
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Checks to see if the simulation has gone on too long, amongst other things
+//===============================================================================================================================
 bool CSimulation::bTimeToQuit(void)
 {
    // Add timestep to the total time simulated so far
@@ -1384,11 +1312,9 @@ bool CSimulation::bTimeToQuit(void)
    return false;
 }
 
-/*==============================================================================================================================
-
-Update and print totals at the end of each timestep
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Update and print totals at the end of each timestep
+//===============================================================================================================================
 void CSimulation::DoTimestepTotals(void)
 {
    if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
@@ -1716,11 +1642,9 @@ void CSimulation::DoTimestepTotals(void)
    m_ldGTotCoarseDepositionDiff += m_dThisIterDepositionCoarseDiff;
 }
 
-/*==============================================================================================================================
-
-Returns a string, hopefully giving the name of the computer on which the simulation is running
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a string, hopefully giving the name of the computer on which the simulation is running
+//===============================================================================================================================
 string CSimulation::strGetComputerName(void)
 {
    string strComputerName;
@@ -1741,11 +1665,9 @@ string CSimulation::strGetComputerName(void)
    return strComputerName;
 }
 
-/*==============================================================================================================================
-
-Resets the CPU clock timer to prevent it 'rolling over', as can happen during long runs. This is a particularly problem under Unix systems where the value returned by clock() is defined in microseconds (for compatibility with systems that have CPU clocks with much higher resolution) i.e. CLOCKS_PER_SEC is 1000000 rather than the more usual 1000. In this case, the value returned from clock() will wrap around after accumulating only 2147 seconds of CPU time (about 36 minutes).
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Resets the CPU clock timer to prevent it 'rolling over', as can happen during long runs. This is a particularly problem under Unix systems where the value returned by clock() is defined in microseconds (for compatibility with systems that have CPU clocks with much higher resolution) i.e. CLOCKS_PER_SEC is 1000000 rather than the more usual 1000. In this case, the value returned from clock() will wrap around after accumulating only 2147 seconds of CPU time (about 36 minutes).
+//===============================================================================================================================
 void CSimulation::DoCPUClockReset(void)
 {
    if (static_cast<clock_t>(-1) == clock())
@@ -1792,22 +1714,18 @@ void CSimulation::DoCPUClockReset(void)
    m_dClkLast = dClkThis;
 }
 
-/*==============================================================================================================================
-
-Announce the end of the simulation
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Announce the end of the simulation
+//===============================================================================================================================
 void CSimulation::AnnounceSimEnd(void)
 {
    cout << endl
         << FINAL_OUTPUT << endl;
 }
 
-/*==============================================================================================================================
-
-Calculates and displays time elapsed in terms of CPU time and real time, also calculates time per timestep in terms of both CPU time and real time
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates and displays time elapsed in terms of CPU time and real time, also calculates time per timestep in terms of both CPU time and real time
+//===============================================================================================================================
 void CSimulation::CalcTime(double const dRunLength)
 {
    // Reset CPU count for last time
@@ -1877,11 +1795,9 @@ void CSimulation::CalcTime(double const dRunLength)
    }
 }
 
-/*==============================================================================================================================
-
-strDispSimTime returns a string formatted as year Julian_day hour, given a parameter in hours
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! strDispSimTime returns a string formatted as year Julian_day hour, given a parameter in hours
+//===============================================================================================================================
 string CSimulation::strDispSimTime(const double dTimeIn)
 {
    // Make sure no negative times
@@ -1928,11 +1844,9 @@ string CSimulation::strDispSimTime(const double dTimeIn)
    return strTime;
 }
 
-/*==============================================================================================================================
-
-strDispTime returns a string formatted as h:mm:ss, given a parameter in seconds, with rounding and fractions of a second if desired
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! strDispTime returns a string formatted as h:mm:ss, given a parameter in seconds, with rounding and fractions of a second if desired
+//===============================================================================================================================
 string CSimulation::strDispTime(const double dTimeIn, const bool bRound, const bool bFrac)
 {
    // Make sure no negative times
@@ -1992,11 +1906,9 @@ string CSimulation::strDispTime(const double dTimeIn, const bool bRound, const b
    return strTime;
 }
 
-/*==============================================================================================================================
-
-Returns the date and time on which the program was compiled
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the date and time on which the program was compiled
+//===============================================================================================================================
 string CSimulation::strGetBuild(void)
 {
    string strBuild("(");
@@ -2011,11 +1923,9 @@ string CSimulation::strGetBuild(void)
    return strBuild;
 }
 
-/*==============================================================================================================================
-
-Displays information regarding the progress of the simulation
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Displays information regarding the progress of the simulation
+//===============================================================================================================================
 void CSimulation::AnnounceProgress(void)
 {
    if (isatty(1))
@@ -2048,21 +1958,17 @@ void CSimulation::AnnounceProgress(void)
    }
 }
 
-/*==============================================================================================================================
-
-Calculates the Tausworthe value for the random number generator
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the Tausworthe value for the random number generator
+//===============================================================================================================================
 unsigned long CSimulation::ulGetTausworthe(unsigned long const ulS, unsigned long const ulA, unsigned long const ulB, unsigned long const ulC, unsigned long const ulD)
 {
    return (((ulS & ulC) << ulD) & MASK) ^ ((((ulS << ulA) & MASK) ^ ulS) >> ulB);
 }
 
-/*==============================================================================================================================
-
-Uses ulGetRand0() to return a double precision floating point number uniformly distributed in the range [0, 1) i.e. includes 0.0 but excludes 1.0. Based on a routine in taus.c from gsl-1.2
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Uses ulGetRand0() to return a double precision floating point number uniformly distributed in the range [0, 1) i.e. includes 0.0 but excludes 1.0. Based on a routine in taus.c from gsl-1.2
+//===============================================================================================================================
 double CSimulation::dGetRand0d1(void)
 {
    return (static_cast<double>(ulGetRand0()) / 4294967296.0);
@@ -2081,11 +1987,9 @@ double CSimulation::dGetRand0d1(void)
 //    return (nRtn);
 // }
 
-/*==============================================================================================================================
-
-Returns an integer to return a double precision floating point number uniformly distributed in the range [0, nBound) i.e. includes 0 but excludes nBound. Based on a routine in taus.c from gsl-1.2
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns an integer to return a double precision floating point number uniformly distributed in the range [0, nBound) i.e. includes 0 but excludes nBound. Based on a routine in taus.c from gsl-1.2
+//===============================================================================================================================
 int CSimulation::nGetRand1To(int const nBound)
 {
    int nRtn;
@@ -2104,11 +2008,9 @@ int CSimulation::nGetRand1To(int const nBound)
 //    return (tMax((dGetRand0Gaussian() * dStd) + dMean, 0.0));
 // }
 
-/*==============================================================================================================================
-
-This calculates and displays process statistics
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! This calculates and displays process statistics
+//===============================================================================================================================
 void CSimulation::CalcProcessStats(void)
 {
    string const NA = "Not available";
@@ -2288,11 +2190,9 @@ void CSimulation::CalcProcessStats(void)
 #endif
 }
 
-/*==============================================================================================================================
-
-Returns an error message given an error code
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns an error message given an error code
+//===============================================================================================================================
 string CSimulation::strGetErrorText(int const nErr)
 {
    string strErr;
@@ -2496,11 +2396,9 @@ string CSimulation::strGetErrorText(int const nErr)
    return strErr;
 }
 
-/*==============================================================================================================================
-
-Notifies the user that the simulation has ended, asks for keypress if necessary, and if compiled under GNU can send an email
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Notifies the user that the simulation has ended, asks for keypress if necessary, and if compiled under GNU can send an email
+//===============================================================================================================================
 void CSimulation::DoSimulationEnd(int const nRtn)
 {
    // If we don't know the time that the run ended (e.g. because it did not finish correctly), then get it now
@@ -2611,11 +2509,9 @@ void CSimulation::DoSimulationEnd(int const nRtn)
 #endif
 }
 
-/*==============================================================================================================================
-
-Changes all forward slashes in the input string to backslashes, leaving the original unchanged
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Changes all forward slashes in the input string to backslashes, leaving the original unchanged
+//===============================================================================================================================
 string CSimulation::pstrChangeToBackslash(string const *strIn)
 {
    string strOut(*strIn);
@@ -2623,11 +2519,9 @@ string CSimulation::pstrChangeToBackslash(string const *strIn)
    return strOut;
 }
 
-/*==============================================================================================================================
-
-Swaps all backslashes in the input string to forward slashes, leaving the original unchanged
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Swaps all backslashes in the input string to forward slashes, leaving the original unchanged
+//===============================================================================================================================
 string CSimulation::pstrChangeToForwardSlash(string const *strIn)
 {
    string strOut(*strIn);
@@ -2635,11 +2529,9 @@ string CSimulation::pstrChangeToForwardSlash(string const *strIn)
    return strOut;
 }
 
-/*==============================================================================================================================
-
-Trims whitespace from the left side of a string, does not change the original string
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Trims whitespace from the left side of a string, does not change the original string
+//===============================================================================================================================
 string CSimulation::strTrimLeft(string const *strIn)
 {
    // Trim leading spaces
@@ -2650,11 +2542,9 @@ string CSimulation::strTrimLeft(string const *strIn)
       return strIn->substr(nStartpos);
 }
 
-/*==============================================================================================================================
-
-Trims whitespace from the right side of a string, does not change the original string
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Trims whitespace from the right side of a string, does not change the original string
+//===============================================================================================================================
 string CSimulation::strTrimRight(string const *strIn)
 {
    string strTmp(*strIn);
@@ -2670,11 +2560,9 @@ string CSimulation::strTrimRight(string const *strIn)
       return strTmp.substr(0, nEndpos + 1);
 }
 
-/*==============================================================================================================================
-
-Trims whitespace from both sides of a string, does not change the original string
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Trims whitespace from both sides of a string, does not change the original string
+//===============================================================================================================================
 string CSimulation::strTrim(string const *strIn)
 {
    string strTmp = *strIn;
@@ -2697,11 +2585,9 @@ string CSimulation::strTrim(string const *strIn)
    return strTmp;
 }
 
-/*==============================================================================================================================
-
-Returns the lower case version of an string, leaving the original unchanged
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the lower case version of an string, leaving the original unchanged
+//===============================================================================================================================
 string CSimulation::strToLower(string const *strIn)
 {
    string strOut = *strIn;
@@ -2709,11 +2595,9 @@ string CSimulation::strToLower(string const *strIn)
    return strOut;
 }
 
-/*==============================================================================================================================
-
-Returns the upper case version of an string, leaving the original unchanged
-
-==============================================================================================================================*/
+//===============================================================================================================================
+// Returns the upper case version of an string, leaving the original unchanged
+//===============================================================================================================================
 // string CSimulation::strToUpper(string const* strIn)
 // {
 //    string strOut = *strIn;
@@ -2721,11 +2605,9 @@ Returns the upper case version of an string, leaving the original unchanged
 //    return strOut;
 // }
 
-/*==============================================================================================================================
-
-Returns a string with a substring removed, and with whitespace trimmed
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a string with a substring removed, and with whitespace trimmed
+//===============================================================================================================================
 string CSimulation::strRemoveSubstr(string *pStrIn, string const *pStrSub)
 {
    size_t nPos = pStrIn->find(*pStrSub);
@@ -2743,11 +2625,9 @@ string CSimulation::strRemoveSubstr(string *pStrIn, string const *pStrSub)
    }
 }
 
-/*==============================================================================================================================
-
-These two functions are from http://stackoverflow.com/questions/236129/split-a-string-in-c They implement (approximately) Python's split() function. This first version puts the results into a pre-constructed string vector. It ignores empty items
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! From http://stackoverflow.com/questions/236129/split-a-string-in-c They implement (approximately) Python's split() function. This first version puts the results into a pre-constructed string vector. It ignores empty items
+//===============================================================================================================================
 vector<string> *CSimulation::VstrSplit(string const *s, char const delim, vector<string> *elems)
 {
    stringstream ss(*s);
@@ -2760,11 +2640,9 @@ vector<string> *CSimulation::VstrSplit(string const *s, char const delim, vector
    return elems;
 }
 
-/*==============================================================================================================================
-
-This second version returns a new string vector (it calls the first version)
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! From http://stackoverflow.com/questions/236129/split-a-string-in-c They implement (approximately) Python's split() function. This second version returns a new string vector (it calls the first version)
+//===============================================================================================================================
 vector<string> CSimulation::VstrSplit(string const *s, char const delim)
 {
    vector<string> elems;
@@ -2772,22 +2650,18 @@ vector<string> CSimulation::VstrSplit(string const *s, char const delim)
    return elems;
 }
 
-/*==============================================================================================================================
-
-Calculates the vector cross product of three points
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the vector cross product of three points
+//===============================================================================================================================
 double CSimulation::dCrossProduct(double const dX1, double const dY1, double const dX2, double const dY2, double const dX3, double const dY3)
 {
    // Based on code at http://debian.fmi.uni-sofia.bg/~sergei/cgsr/docs/clockwise.htm
    return (dX2 - dX1) * (dY3 - dY2) - ((dY2 - dY1) * (dX3 - dX2));
 }
 
-/*==============================================================================================================================
-
-Calculates the mean of a pointer to a vector of doubles
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the mean of a pointer to a vector of doubles
+//===============================================================================================================================
 double CSimulation::dGetMean(vector<double> const *pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
@@ -2795,11 +2669,9 @@ double CSimulation::dGetMean(vector<double> const *pV)
    return dMean;
 }
 
-/*==============================================================================================================================
-
-Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
+//===============================================================================================================================
 double CSimulation::dGetStdDev(vector<double> const *pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
@@ -2811,11 +2683,9 @@ double CSimulation::dGetStdDev(vector<double> const *pV)
    return dStdDev;
 }
 
-/*==============================================================================================================================
-
-Appends a CGeom2DIPoint to a vector<CGeom2DIPoint>, making sure that the new end point touches the previous end point i.e. that there is no gap between the two points
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Appends a CGeom2DIPoint to a vector<CGeom2DIPoint>, making sure that the new end point touches the previous end point i.e. that there is no gap between the two points
+//===============================================================================================================================
 void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint> *pVPtiPoints, CGeom2DIPoint const *pPti)
 {
    int
@@ -2852,11 +2722,9 @@ void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint> *pVPtiPoints, CGeom2DI
    pVPtiPoints->push_back(CGeom2DIPoint(nX, nY));
 }
 
-/*==============================================================================================================================
-
-Calculates a Dean equilibrium profile h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the Dean profile at a distance y from the landward start of the profile
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculates a Dean equilibrium profile h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the Dean profile at a distance y from the landward start of the profile
+//===============================================================================================================================
 void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const dInc, double const dDeanTopElev, double const dA, bool const bDeposition, int const nSeawardOffset, double const dStartCellElev)
 {
    double dDistFromProfileStart = 0;
@@ -2892,11 +2760,9 @@ void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const d
    }
 }
 
-/*==============================================================================================================================
-
-Calculate the total elevation difference between every point in two elevation profiles (first profile - second profile)
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculate the total elevation difference between every point in two elevation profiles (first profile - second profile)
+//===============================================================================================================================
 double CSimulation::dSubtractProfiles(vector<double> const *pdVFirstProfile, vector<double> const *pdVSecondProfile, vector<bool> const *pbVIsValid)
 {
    double dTotElevDiff = 0;
@@ -2937,11 +2803,9 @@ double CSimulation::dSubtractProfiles(vector<double> const *pdVFirstProfile, vec
    return dTotElevDiff;
 }
 
-/*==============================================================================================================================
-
-Calculate the depth of closure
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Calculate the depth of closure
+//===============================================================================================================================
 void CSimulation::CalcDepthOfClosure(void)
 {
    double
@@ -2974,21 +2838,17 @@ void CSimulation::CalcDepthOfClosure(void)
    m_dDepthOfClosure = (1.75 * dDeepWaterWaveHeight) - (57.9 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 }
 
-/*==============================================================================================================================
-
-Tests a reference to a string to see if it is numeric (modified from https://tfetimes.com/c-determine-if-a-string-is-numeric/)
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Tests a reference to a string to see if it is numeric (modified from https://tfetimes.com/c-determine-if-a-string-is-numeric/)
+//===============================================================================================================================
 bool CSimulation::bIsNumeric(string const *strIn)
 {
    return all_of(strIn->begin(), strIn->end(), isdigit);
 }
 
-/*==============================================================================================================================
-
-Parses a date string into days, months, and years, and checks each of them
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Parses a date string into days, months, and years, and checks each of them
+//===============================================================================================================================
 bool CSimulation::bParseDate(string const *strDate, int &nDay, int &nMonth, int &nYear)
 {
    vector<string> VstrTmp = VstrSplit(strDate, SLASH);
@@ -3047,11 +2907,9 @@ bool CSimulation::bParseDate(string const *strDate, int &nDay, int &nMonth, int 
    return true;
 }
 
-/*==============================================================================================================================
-
-Parses a time string into hours, minutes, and seconds, and checks each of them
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Parses a time string into hours, minutes, and seconds, and checks each of them
+//===============================================================================================================================
 bool CSimulation::bParseTime(string const *strTime, int &nHour, int &nMin, int &nSec)
 {
    vector<string> VstrTmp = VstrSplit(strTime, DASH);
@@ -3110,11 +2968,9 @@ bool CSimulation::bParseTime(string const *strTime, int &nHour, int &nMin, int &
    return true;
 }
 
-/*==============================================================================================================================
-
-For sediment input events, parses a string that may be relative (a number of hours or days after the start of the simulation), or absolute (a time/date in the format hh-mm-ss dd/mm/yyyy). Returns the timestep in which the sediment input event occurs
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! For sediment input events, parses a string that may be relative (a number of hours or days after the start of the simulation), or absolute (a time/date in the format hh-mm-ss dd/mm/yyyy). Returns the timestep in which the sediment input event occurs
+//===============================================================================================================================
 unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
 {
    unsigned long ulTimeStep = 0;

@@ -41,11 +41,9 @@ using std::endl;
 #include "simulation.h"
 #include "raster_grid.h"
 
-/*===============================================================================================================================
-
-At the beginning of each timestep: initialize the raster grid; clear all coastlines, profiles, and polygons; and initialize some per-timestep accounting variables
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! At the beginning of each timestep: initialize the raster grid; clear all coastlines, profiles, and polygons; and initialize some per-timestep accounting variables
+//===============================================================================================================================
 int CSimulation::nInitGridAndCalcStillWaterLevel(void)
 {
    // Clear all vector coastlines, profiles, and polygons

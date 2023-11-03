@@ -85,10 +85,7 @@ bool CGeomILine::bIsPresent(int const nX, int const nY)
    return false;
 }
 
-//!
+//! Instantiates the pure virtual function in the abstract parent class, so that CGeomILine is not an abstract class
 void CGeomILine::Display(void)
 {
-   for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-      cout << "[" << m_VPoints[n].nGetX() << "][" << m_VPoints[n].nGetY() << "], " << endl;
-   cout.flush();
 }

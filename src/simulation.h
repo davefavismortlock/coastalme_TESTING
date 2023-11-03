@@ -642,7 +642,7 @@ private:
    void FindAllSeaCells(void);
    int FindAllInundatedCells(void);
    void FloodFillSea(int const, int const);
-   void FloodFillLand(int const, int const); // Recursive Scanline 8-Way Floodfill Algorithm (floodFillScanline)
+   void FloodFillLand(int const, int const);
    int nTraceCoastLine(unsigned int const, int const, int const, vector<bool>*, vector<CGeom2DIPoint> const*);
    int nTraceAllCoasts(void);
    int nTraceFloodCoastLine(unsigned int const, int const, int const, vector<bool>*, vector<CGeom2DIPoint> const*);

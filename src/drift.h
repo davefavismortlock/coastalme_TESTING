@@ -41,7 +41,7 @@ public:
    CRWDrift(CRWCoast*, int const, int const);
    ~CRWDrift(void);
 
-   void Display(void) override;           // Instantiates the pure virtual function in the abstract parent class, so that CRWDrift is not an abstract class. But this instatiation never gets called, which seems like a waste of time. Alternative?
+   void Display(void) override;
 };
 #endif // DRIFT_H
 

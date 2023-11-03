@@ -62,7 +62,7 @@ public:
    bool bReadyToCollapse(double const) const;
    void DeepenErosionalNotch(double const);
 
-   void Display(void) override;           // Instantiates the pure virtual function in the abstract parent class, so that CRWCliff is not an abstract class. But this instantiation never gets called, which seems like a waste of time. Alternative?
+   void Display(void) override;
 };
 #endif // CLIFF_H
 

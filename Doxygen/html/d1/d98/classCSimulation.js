@@ -177,7 +177,6 @@ var classCSimulation =
     [ "nInterpolateAllDeepWaterWaveValues", "d1/d98/classCSimulation.html#a9337c4f436285f27b9361f4e4eb5939d", null ],
     [ "nInterpolateWavesToPolygonCells", "d1/d98/classCSimulation.html#a5e3b5134f2c34bdb81312ab8f3a0faf1", null ],
     [ "nLandformToGrid", "d1/d98/classCSimulation.html#af9de548b92fa5739286fd1bb9329e732", null ],
-    [ "nLocateAllEstuaries", "d1/d98/classCSimulation.html#a42fee330e7dee98885d9b27efc176eee", null ],
     [ "nLocateFloodAndCoasts", "d1/d98/classCSimulation.html#a26b2ea24d39d2037f72ce5c96624a56c", null ],
     [ "nLocateSeaAndCoasts", "d1/d98/classCSimulation.html#abd588662ecc6a3ee8f2847fd7ea67724", null ],
     [ "nMarkBoundingBoxEdgeCells", "d1/d98/classCSimulation.html#ae713fb743a2a041d9c31a0bc8ff8107c", null ],

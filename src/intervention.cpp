@@ -33,7 +33,7 @@ using std::ios;
 #include "cme.h"
 #include "intervention.h"
 
-//! Constructor
+//! Constructor with three parameters
 CRWIntervention::CRWIntervention(CRWCoast* pCoastIn, int const nCoast, int const nPointOnCoast)
 {
    pCoast = pCoastIn;
@@ -48,12 +48,7 @@ CRWIntervention::~CRWIntervention(void)
 {
 }
 
-//! Display (dummy)
+//! Instantiates the pure virtual function in the abstract parent class, so that CRWIntervention is not an abstract class
 void CRWIntervention::Display(void)
 {
-   cout << endl;
-//    for (int n = 0; n < static_cast<int>(m_VPoints.size()); n++)
-//       cout << "[" << m_VPoints[n].dGetX() << "][" << m_VPoints[n].dGetY() << "], ";
-//    cout << endl;
-//    cout.flush();
 }

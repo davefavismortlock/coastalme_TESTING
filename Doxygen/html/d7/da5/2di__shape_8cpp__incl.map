@@ -1,6 +1,0 @@
-<map id="2di_shape.cpp" name="2di_shape.cpp">
-<area shape="rect" id="node1" title="Abstract class, used as a base class for integer 2D objects (line, area, etc.)" alt="" coords="23,5,129,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,155,64,181"/>
-<area shape="rect" id="node3" href="$d1/d2c/2di__shape_8h.html" title="Contains CA2DShape definitions." alt="" coords="73,80,165,107"/>
-<area shape="rect" id="node4" href="$d2/d66/2di__point_8h.html" title="Contains CGeom2DIPoint definitions." alt="" coords="88,155,173,181"/>
-</map>

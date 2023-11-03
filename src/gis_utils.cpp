@@ -1,8 +1,24 @@
 /*!
  *
  * \file gis_utils.cpp
- * \brief Various GIS-related functions, requires GDAL version 2
+ * \brief Various GIS-related functions, requires GDAL
  * \details TODO A more detailed description of these routines.
+
+ Note re. co-ordinate systems used
+
+ 1. In the raster CRS, cell[0][0] is at the top left (NW) corner of the grid. Raster grid co-oordinate [0][0] is actually the top left (NW) corner of this cell.
+
+ 2. We assume that the grid CRS and external CRS have parallel axes. If they have not, see http://www.gdal.org/classGDALDataset.html which says that:
+
+   To convert between pixel/line (P,L) raster space, and projection coordinates (Xp,Yp) space
+      Xp = padfTransform[0] + P*padfTransform[1] + L*padfTransform[2];
+      Yp = padfTransform[3] + P*padfTransform[4] + L*padfTransform[5];
+
+   In a north-up image, padfTransform[1] is the pixel width, and padfTransform[5] is the pixel height. The upper left corner of the upper left pixel is at position
+      (padfTransform[0], padfTransform[3]).
+
+ 3. Usually, raster grid CRS values are integer, i.e. they refer to a point which is at the centroid of a cell. They may also be -ve or greater than m_nXGridMax-1 i.e. may refer to a point which lies outside any cell of the raster grid.
+
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -40,49 +56,25 @@ using std::ios;
 #include "coast.h"
 #include "raster_grid.h"
 
-/*
- Notes re. co-ordinate systems used
-
- 1. In the raster CRS, cell[0][0] is at the top left (NW) corner of the grid. Raster grid co-oordinate [0][0] is actually the top left (NW) corner of this cell.
-
- 2. We assume that the grid CRS and external CRS have parallel axes. If they have not, see http://www.gdal.org/classGDALDataset.html which says that:
-
-   To convert between pixel/line (P,L) raster space, and projection coordinates (Xp,Yp) space
-      Xp = padfTransform[0] + P*padfTransform[1] + L*padfTransform[2];
-      Yp = padfTransform[3] + P*padfTransform[4] + L*padfTransform[5];
-
-   In a north-up image, padfTransform[1] is the pixel width, and padfTransform[5] is the pixel height. The upper left corner of the upper left pixel is at position
-      (padfTransform[0], padfTransform[3]).
-
- 3. Usually, raster grid CRS values are integer, i.e. they refer to a point which is at the centroid of a cell. They may also be -ve or greater than m_nXGridMax-1 i.e. may refer to a point which lies outside any cell of the raster grid.
-
-*/
-
-/*==============================================================================================================================
-
-Given the integer X-axis ordinate of a cell in the raster-grid CRS, returns the external CRS X-axis ordinate of the cell's centroid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given the integer X-axis ordinate of a cell in the raster-grid CRS, returns the external CRS X-axis ordinate of the cell's centroid
+//===============================================================================================================================
 double CSimulation::dGridCentroidXToExtCRSX(int const nGridX) const
 {
    return (m_dGeoTransform[0] + (nGridX * m_dGeoTransform[1]) + (m_dGeoTransform[1] / 2));
 }
 
-/*==============================================================================================================================
-
-Given the integer Y-axis ordinate of a cell in the raster-grid CRS, returns the external CRS Y-axis ordinate of the cell's centroid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given the integer Y-axis ordinate of a cell in the raster-grid CRS, returns the external CRS Y-axis ordinate of the cell's centroid
+//===============================================================================================================================
 double CSimulation::dGridCentroidYToExtCRSY(int const nGridY) const
 {
    return (m_dGeoTransform[3] + (nGridY * m_dGeoTransform[5]) + (m_dGeoTransform[5] / 2));
 }
 
-/*==============================================================================================================================
-
-Transforms a pointer to a CGeom2DIPoint in the raster-grid CRS (assumed to be the centroid of a cell) to the equivalent CGeom2DPoint in the external CRS
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Transforms a pointer to a CGeom2DIPoint in the raster-grid CRS (assumed to be the centroid of a cell) to the equivalent CGeom2DPoint in the external CRS
+//===============================================================================================================================
 CGeom2DPoint CSimulation::PtGridCentroidToExt(CGeom2DIPoint const *pPtiIn) const
 {
    int
@@ -96,51 +88,41 @@ CGeom2DPoint CSimulation::PtGridCentroidToExt(CGeom2DIPoint const *pPtiIn) const
    return CGeom2DPoint(dX, dY);
 }
 
-/*==============================================================================================================================
-
-Given a real-valued X-axis ordinate in the raster-grid CRS (i.e. not the centroid of a cell), returns the external CRS X-axis ordinate
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given a real-valued X-axis ordinate in the raster-grid CRS (i.e. not the centroid of a cell), returns the external CRS X-axis ordinate
+//===============================================================================================================================
 double CSimulation::dGridXToExtCRSX(double const dGridX) const
 {
    return (m_dGeoTransform[0] + (dGridX * m_dGeoTransform[1]));
 }
 
-/*==============================================================================================================================
-
-Given a real-valued Y-axis ordinate in the raster-grid CRS (i.e. not the centroid of a cell), returns the external CRS Y-axis ordinate
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given a real-valued Y-axis ordinate in the raster-grid CRS (i.e. not the centroid of a cell), returns the external CRS Y-axis ordinate
+//===============================================================================================================================
 double CSimulation::dGridYToExtCRSY(double const dGridY) const
 {
    return (m_dGeoTransform[3] + (dGridY * m_dGeoTransform[5]));
 }
 
-/*==============================================================================================================================
-
-Transforms an X-axis ordinate in the external CRS to the equivalent X-axis ordinate in the raster-grid CRS (the result may not be integer, and may be outside the grid)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Transforms an X-axis ordinate in the external CRS to the equivalent X-axis ordinate in the raster-grid CRS (the result may not be integer, and may be outside the grid)
+//===============================================================================================================================
 double CSimulation::dExtCRSXToGridX(double const dExtCRSX) const
 {
    return ((dExtCRSX - m_dGeoTransform[0]) / m_dGeoTransform[1]);
 }
 
-/*==============================================================================================================================
-
-Transforms a Y-axis ordinate in the external CRS to the equivalent Y-axis ordinate in the raster-grid CRS (the result may not be integer, and may be outside the grid)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Transforms a Y-axis ordinate in the external CRS to the equivalent Y-axis ordinate in the raster-grid CRS (the result may not be integer, and may be outside the grid)
+//===============================================================================================================================
 double CSimulation::dExtCRSYToGridY(double const dExtCRSY) const
 {
    return ((dExtCRSY - m_dGeoTransform[3]) / m_dGeoTransform[5]);
 }
 
-/*==============================================================================================================================
-
-Transforms a pointer to a CGeom2DPoint in the external CRS to the equivalent CGeom2DIPoint in the raster-grid CRS (both values rounded). Note that the result may be outside the grid, because of rounding
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Transforms a pointer to a CGeom2DPoint in the external CRS to the equivalent CGeom2DIPoint in the raster-grid CRS (both values rounded). Note that the result may be outside the grid, because of rounding
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiExtCRSToGrid(CGeom2DPoint const *pPtIn) const
 {
    double
@@ -156,11 +138,9 @@ CGeom2DIPoint CSimulation::PtiExtCRSToGrid(CGeom2DPoint const *pPtIn) const
    return CGeom2DIPoint(nX, nY);
 }
 
-/*==============================================================================================================================
-
-Returns the distance (in external CRS) between two points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the distance (in external CRS) between two points
+//===============================================================================================================================
 double CSimulation::dGetDistanceBetween(CGeom2DPoint const *Pt1, CGeom2DPoint const *Pt2)
 {
    double
@@ -170,11 +150,9 @@ double CSimulation::dGetDistanceBetween(CGeom2DPoint const *Pt1, CGeom2DPoint co
    return hypot(dXDist, dYDist);
 }
 
-/*==============================================================================================================================
-
-Returns the distance (in grid units) between two grid cell points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the distance (in grid units) between two grid cell points
+//===============================================================================================================================
 double CSimulation::dGetDistanceBetween(CGeom2DIPoint const *Pti1, CGeom2DIPoint const *Pti2)
 {
    double
@@ -184,21 +162,17 @@ double CSimulation::dGetDistanceBetween(CGeom2DIPoint const *Pti1, CGeom2DIPoint
    return hypot(dXDist, dYDist);
 }
 
-/*===============================================================================================================================
-
-Returns twice the signed area of a triangle
-
- ===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns twice the signed area of a triangle
+//===============================================================================================================================
 double CSimulation::dTriangleAreax2(CGeom2DPoint const *pPtA, CGeom2DPoint const *pPtB, CGeom2DPoint const *pPtC)
 {
    return (pPtB->dGetX() - pPtA->dGetX()) * (pPtC->dGetY() - pPtA->dGetY()) - (pPtB->dGetY() - pPtA->dGetY()) * (pPtC->dGetX() - pPtA->dGetX());
 }
 
-/*==============================================================================================================================
-
-Checks whether the supplied point (an x-y pair, in the grid CRS) is within the raster grid, and is a valid cell (i.e. the basement DEM is not NODATA)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Checks whether the supplied point (an x-y pair, in the grid CRS) is within the raster grid, and is a valid cell (i.e. the basement DEM is not NODATA)
+//===============================================================================================================================
 bool CSimulation::bIsWithinValidGrid(int const nX, int const nY) const
 {
    if ((nX < 0) || (nX >= m_nXGridMax) || (nY < 0) || (nY >= m_nYGridMax) || m_pRasterGrid->m_Cell[nX][nY].bBasementElevIsMissingValue())
@@ -207,11 +181,9 @@ bool CSimulation::bIsWithinValidGrid(int const nX, int const nY) const
    return true;
 }
 
-/*==============================================================================================================================
-
-Checks whether the supplied point (a reference to a CGeom2DIPoint, in the grid CRS) is within the raster grid, and is a valid cell (i.e. the basement DEM is not NODATA)
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Checks whether the supplied point (a reference to a CGeom2DIPoint, in the grid CRS) is within the raster grid, and is a valid cell (i.e. the basement DEM is not NODATA)
+//===============================================================================================================================
 bool CSimulation::bIsWithinValidGrid(CGeom2DIPoint const *Pti) const
 {
    int nX = Pti->nGetX();
@@ -230,23 +202,17 @@ bool CSimulation::bIsWithinValidGrid(CGeom2DIPoint const *Pti) const
    return true;
 }
 
-/*==============================================================================================================================
-
-Constrains the second supplied point (both are CGeom2DIPoints, in the grid CRS) to be an a valid cell within the raster grid
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Constrains the second supplied point (both are CGeom2DIPoints, in the grid CRS) to be an a valid cell within the raster grid
+//===============================================================================================================================
 void CSimulation::KeepWithinValidGrid(CGeom2DIPoint const *Pti0, CGeom2DIPoint *Pti1) const
 {
    KeepWithinValidGrid(Pti0->nGetX(), Pti0->nGetY(), *Pti1->pnGetX(), *Pti1->pnGetY());
 }
 
-/*==============================================================================================================================
-
-Given two points in the grid CRS (the points assumed not to be coincident), this routine modifies the value of the second point so that it is on a line joining the original two points and is a valid cell within the raster grid
-
-However in some cases (e.g. if the first point is at the edge of the valid part of the raster grid) then the second cell will be coincident with the first cell, and the line joining them is thus of zero length. The calling routine has to be able to handle this
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given two points in the grid CRS (the points assumed not to be coincident), this routine modifies the value of the second point so that it is on a line joining the original two points and is a valid cell within the raster grid. However in some cases (e.g. if the first point is at the edge of the valid part of the raster grid) then the second cell will be coincident with the first cell, and the line joining them is thus of zero length. The calling routine has to be able to handle this
+//===============================================================================================================================
 void CSimulation::KeepWithinValidGrid(int nX0, int nY0, int &nX1, int &nY1) const
 {
    // Safety check: make sure that the first point is within the valid grid
@@ -267,7 +233,7 @@ void CSimulation::KeepWithinValidGrid(int nX0, int nY0, int &nX1, int &nY1) cons
 
    if (nDiffX == 0)
    {
-      // The two points have the same x co-ords, so we just need to constrain the y co-ord
+      // The two points have the same x co-ordinates, so we just need to constrain the y co-ord
       if (nY1 < nY0)
       {
          nY1 = -1;
@@ -293,7 +259,7 @@ void CSimulation::KeepWithinValidGrid(int nX0, int nY0, int &nX1, int &nY1) cons
    }
    else if (nDiffY == 0)
    {
-      // The two points have the same y co-ords, so we just need to constrain the x co-ord
+      // The two points have the same y co-ordinates, so we just need to constrain the x co-ord
       if (nX1 < nX0)
       {
          nX1 = -1;
@@ -319,7 +285,7 @@ void CSimulation::KeepWithinValidGrid(int nX0, int nY0, int &nX1, int &nY1) cons
    }
    else
    {
-      // The two points have different x co-ords and different y co-ords, so we have to work harder. First find which of the co-ords is the greatest distance outside the grid, and constrain that co-ord for efficiency (since this will reduce the number of times round the loop). Note that both may be inside the grid, if the incorrect co-ord is in the invalid margin, in which case arbitrarily contrain the x co-ord
+      // The two points have different x co-ordinates and different y co-ordinates, so we have to work harder. First find which of the co-ordinates is the greatest distance outside the grid, and constrain that co-ord for efficiency (since this will reduce the number of times round the loop). Note that both may be inside the grid, if the incorrect co-ord is in the invalid margin, in which case arbitrarily contrain the x co-ord
       int
           nXDistanceOutside = 0,
           nYDistanceOutside = 0;
@@ -403,11 +369,9 @@ void CSimulation::KeepWithinValidGrid(int nX0, int nY0, int &nX1, int &nY1) cons
    }
 }
 
-/*==============================================================================================================================
-
-Constrains the supplied angle to be within 0 and 360 degrees
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Constrains the supplied angle to be within 0 and 360 degrees
+//===============================================================================================================================
 double CSimulation::dKeepWithin360(double const dAngle)
 {
    double dNewAngle = dAngle;
@@ -423,11 +387,9 @@ double CSimulation::dKeepWithin360(double const dAngle)
    return dNewAngle;
 }
 
-/*==============================================================================================================================
-
-Returns a point (external CRS) which is the average of (i.e. is midway between) two other external CRS points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a point (external CRS) which is the average of (i.e. is midway between) two other external CRS points
+//===============================================================================================================================
 CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const *pPt1, CGeom2DPoint const *pPt2)
 {
    double
@@ -441,11 +403,9 @@ CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const *pPt1, CGeom2DPoint const
    return CGeom2DPoint(dPtAvgX, dPtAvgY);
 }
 
-/*==============================================================================================================================
-
-Returns an integer point (grid CRS) which is the approximate average of (i.e. is midway between) two other grid CRS integer points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns an integer point (grid CRS) which is the approximate average of (i.e. is midway between) two other grid CRS integer points
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2)
 {
    int
@@ -459,11 +419,9 @@ CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint 
    return CGeom2DIPoint(nPtiAvgX, nPtiAvgY);
 }
 
-/*==============================================================================================================================
-
-Returns an integer point (grid CRS) which is the weighted average of two other grid CRS integer points. The weight must be <= 1, if the weight is < 0.5 then the output point is closer to the first point, if the weight is > 0.5 then the output point is closer to the second point
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns an integer point (grid CRS) which is the weighted average of two other grid CRS integer points. The weight must be <= 1, if the weight is < 0.5 then the output point is closer to the first point, if the weight is > 0.5 then the output point is closer to the second point
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiWeightedAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2, double const dWeight)
 {
    int
@@ -480,11 +438,9 @@ CGeom2DIPoint CSimulation::PtiWeightedAverage(CGeom2DIPoint const *pPti1, CGeom2
    return CGeom2DIPoint(nPtiWeightAvgX, nPtiWeightAvgY);
 }
 
-/*==============================================================================================================================
-
-Returns a point (external CRS) which is the average of a vector of external CRS points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a point (external CRS) which is the average of a vector of external CRS points
+//===============================================================================================================================
 CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint> *pVIn)
 {
    int nSize = static_cast<int>(pVIn->size());
@@ -507,11 +463,9 @@ CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint> *pVIn)
    return CGeom2DPoint(dAvgX, dAvgY);
 }
 
-/*==============================================================================================================================
-
-Returns a point (grid CRS) which is the average of a vector of grid CRS points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a point (grid CRS) which is the average of a vector of grid CRS points
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint> *pVIn)
 {
    int nSize = static_cast<int>(pVIn->size());
@@ -534,11 +488,9 @@ CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint> *pVIn)
    return CGeom2DIPoint(nRound(dAvgX), nRound(dAvgY));
 }
 
-/*==============================================================================================================================
-
-Returns an integer point (grid CRS) which is the centroid of a polygon, given by a vector of grid CRS points. From https://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns an integer point (grid CRS) which is the centroid of a polygon, given by a vector of grid CRS points. From https://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiPolygonCentroid(vector<CGeom2DIPoint> *pVIn)
 {
    CGeom2DIPoint PtiCentroid(0, 0);
@@ -615,11 +567,9 @@ Returns a vector which is perpendicular to an existing vector
 //    return VNew;
 // }
 
-/*==============================================================================================================================
-
-Returns a CGeom2DPoint which is the 'other' point of a two-point vector passing through PtStart, and which is perpendicular to the two-point vector from PtStart to PtNext
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a CGeom2DPoint which is the 'other' point of a two-point vector passing through PtStart, and which is perpendicular to the two-point vector from PtStart to PtNext
+//===============================================================================================================================
 CGeom2DPoint CSimulation::PtGetPerpendicular(CGeom2DPoint const *PtStart, CGeom2DPoint const *PtNext, double const dDesiredLength, int const nHandedness)
 {
    double
@@ -652,11 +602,9 @@ CGeom2DPoint CSimulation::PtGetPerpendicular(CGeom2DPoint const *PtStart, CGeom2
    return EndPt;
 }
 
-/*==============================================================================================================================
-
-Returns a CGeom2DIPoint (grid CRS) which is the 'other' point of a two-point vector passing through PtiStart, and which is perpendicular to the two-point vector from PtiStart to PtiNext
-
-*==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a CGeom2DIPoint (grid CRS) which is the 'other' point of a two-point vector passing through PtiStart, and which is perpendicular to the two-point vector from PtiStart to PtiNext
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiGetPerpendicular(CGeom2DIPoint const *PtiStart, CGeom2DIPoint const *PtiNext, double const dDesiredLength, int const nHandedness)
 {
    double
@@ -689,11 +637,9 @@ CGeom2DIPoint CSimulation::PtiGetPerpendicular(CGeom2DIPoint const *PtiStart, CG
    return EndPti;
 }
 
-/*==============================================================================================================================
-
-Returns a CGeom2DIPoint (grid CRS) which is the 'other' point of a two-point vector passing through [nStartX][nStartY], and which is perpendicular to the two-point vector from [nStartX][nStartY] to [nNextX][nNextY]
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Returns a CGeom2DIPoint (grid CRS) which is the 'other' point of a two-point vector passing through [nStartX][nStartY], and which is perpendicular to the two-point vector from [nStartX][nStartY] to [nNextX][nNextY]
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiGetPerpendicular(int const nStartX, int const nStartY, int const nNextX, int const nNextY, double const dDesiredLength, int const nHandedness)
 {
    double
@@ -726,11 +672,9 @@ CGeom2DIPoint CSimulation::PtiGetPerpendicular(int const nStartX, int const nSta
    return EndPti;
 }
 
-/*==============================================================================================================================
-
-Returns the signed angle BAC (in radians) subtended between three CGeom2DIPoints B A C. From http://stackoverflow.com/questions/3057448/angle-between-3-vertices
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the signed angle BAC (in radians) subtended between three CGeom2DIPoints B A C. From http://stackoverflow.com/questions/3057448/angle-between-3-vertices
+//===============================================================================================================================
 double CSimulation::dAngleSubtended(CGeom2DIPoint const *pPtiA, CGeom2DIPoint const *pPtiB, CGeom2DIPoint const *pPtiC)
 {
    double
@@ -745,11 +689,9 @@ double CSimulation::dAngleSubtended(CGeom2DIPoint const *pPtiA, CGeom2DIPoint co
    return dAngle;
 }
 
-/*==============================================================================================================================
-
-Checks whether the selected raster GDAL driver supports file creation, 32-bit doubles, etc.
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Checks whether the selected raster GDAL driver supports file creation, 32-bit doubles, etc.
+//===============================================================================================================================
 bool CSimulation::bCheckRasterGISOutputFormat(void)
 {
    // Register all available GDAL raster and vector drivers (GDAL 2)
@@ -886,11 +828,9 @@ bool CSimulation::bCheckRasterGISOutputFormat(void)
    return false;
 }
 
-/*==============================================================================================================================
-
-Checks whether the selected vector OGR driver supports file creation etc.
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Checks whether the selected vector OGR driver supports file creation etc.
+//===============================================================================================================================
 bool CSimulation::bCheckVectorGISOutputFormat(void)
 {
    // Load the vector GDAL driver (NOTE this assumes that GDALAllRegister() has already been called)
@@ -940,11 +880,9 @@ bool CSimulation::bCheckVectorGISOutputFormat(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-The bSaveAllRasterGISFiles member function saves the raster GIS files using values from the RasterGrid array
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! The bSaveAllRasterGISFiles member function saves the raster GIS files using values from the RasterGrid array
+//===============================================================================================================================
 bool CSimulation::bSaveAllRasterGISFiles(void)
 {
    // Increment file number
@@ -1257,11 +1195,9 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-The bSaveAllvectorGISFiles member function saves the vector GIS files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! The bSaveAllvectorGISFiles member function saves the vector GIS files
+//===============================================================================================================================
 bool CSimulation::bSaveAllVectorGISFiles(void)
 {
    // Always written
@@ -1385,11 +1321,9 @@ bool CSimulation::bSaveAllVectorGISFiles(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-Finds the max and min values in order to scale raster output if we cannot write doubles
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Finds the max and min values in order to scale raster output if we cannot write doubles
+//===============================================================================================================================
 void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double&dMax, int const nLayer, double const dElev)
 {
    // If this is a binary mask layer, we already know the max and min values
@@ -1644,11 +1578,9 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double
    }
 }
 
-/*==============================================================================================================================
-
-Sets per-driver defaults for raster files created using GDAL
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Sets per-driver defaults for raster files created using GDAL
+//===============================================================================================================================
 void CSimulation::SetRasterFileCreationDefaults(void)
 {
    string
@@ -1714,11 +1646,9 @@ void CSimulation::SetRasterFileCreationDefaults(void)
    }
 }
 
-/*==============================================================================================================================
-
-Returns the opposite direction
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Returns the opposite direction
+//===============================================================================================================================
 int CSimulation::nGetOppositeDirection(int const nDirection)
 {
    switch (nDirection)
@@ -1752,11 +1682,9 @@ int CSimulation::nGetOppositeDirection(int const nDirection)
    return NO_DIRECTION;
 }
 
-/*==============================================================================================================================
-
-Given two integer points, calculates the slope and intercept of the line passing through the points
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given two integer points, calculates the slope and intercept of the line passing through the points
+//===============================================================================================================================
 void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2, double&dSlope, double&dIntercept)
 {
    int
@@ -1777,11 +1705,9 @@ void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const *pPti1, CGe
    dIntercept = nY1 - (dSlope * nX1);
 }
 
-/*==============================================================================================================================
-
-Finds the closest point on any coastline to a given point
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Finds the closest point on any coastline to a given point
+//===============================================================================================================================
 CGeom2DIPoint CSimulation::PtiFindClosestCoastPoint(int const nX, int const nY)
 {
    unsigned int nMinSqDist = UINT_MAX;
@@ -1816,11 +1742,9 @@ CGeom2DIPoint CSimulation::PtiFindClosestCoastPoint(int const nX, int const nY)
    return PtiCoastPoint;
 }
 
-/*==============================================================================================================================
-
-Given a length in m, this returns the rounded equivalent number of cells
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Given a length in m, this returns the rounded equivalent number of cells
+//===============================================================================================================================
 int CSimulation::nConvertMetresToNumCells(double const dLen)
 {
    return nRound(dLen / m_dCellSide);   

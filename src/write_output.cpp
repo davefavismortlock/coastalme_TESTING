@@ -54,11 +54,9 @@ using std::to_string;
 #include "coast.h"
 #include "interpolate.h"
 
-/*==============================================================================================================================
-
-Writes beginning-of-run information to Out and Log files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes beginning-of-run information to Out and Log files
+//===============================================================================================================================
 void CSimulation::WriteStartRunDetails(void)
 {
    // Set the Out file output format to fixed point
@@ -543,11 +541,9 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << PER_ITER_HEAD5 << endl;
 }
 
-/*===============================================================================================================================
-
-Write the results for this timestep to the .out file
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Write the results for this timestep to the .out file
+//===============================================================================================================================
 bool CSimulation::bWritePerTimestepResults(void)
 {
    OutStream << resetiosflags(ios::floatfield);
@@ -776,11 +772,9 @@ bool CSimulation::bWritePerTimestepResults(void)
    return true;
 }
 
-/*===============================================================================================================================
-
-Write the results for this timestep to the time series CSV files
-
-===============================================================================================================================*/
+//===============================================================================================================================
+//! Write the results for this timestep to the time series CSV files
+//===============================================================================================================================
 bool CSimulation::bWriteTSFiles(void)
 {
    // Sea area
@@ -915,11 +909,9 @@ bool CSimulation::bWriteTSFiles(void)
    return true;
 }
 
-/*==============================================================================================================================
-
-Output the erosion potential look-up values, for checking purposes
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Output the erosion potential look-up values, for checking purposes
+//===============================================================================================================================
 void CSimulation::WriteLookUpData(void)
 {
    // Open the output file
@@ -946,11 +938,9 @@ void CSimulation::WriteLookUpData(void)
    }
 }
 
-/*==============================================================================================================================
-
-Save a coastline-normal profile
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Save a coastline-normal profile
+//===============================================================================================================================
 int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
@@ -969,11 +959,9 @@ int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nP
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Writes values for a single profile, for checking purposes
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes values for a single profile, for checking purposes
+//===============================================================================================================================
 bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
 {
    string strFName = m_strOutPath;
@@ -1014,11 +1002,9 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
    return true;
 }
 
-/*==============================================================================================================================
-
-Save a coastline-normal parallel profile
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Save a coastline-normal parallel profile
+//===============================================================================================================================
 int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
@@ -1037,11 +1023,9 @@ int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Writes values for a single parallel profile, for checking purposes
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes values for a single parallel profile, for checking purposes
+//===============================================================================================================================
 bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int const nProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
 {
    string strFName = m_strOutPath;
@@ -1090,11 +1074,9 @@ bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int
    return true;
 }
 
-/*==============================================================================================================================
-
-Writes end-of-run information to Out, Log and time-series files
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes end-of-run information to Out, Log and time-series files
+//===============================================================================================================================
 int CSimulation::nWriteEndRunDetails(void)
 {
    // Final write to time series CSV files
@@ -1310,11 +1292,9 @@ int CSimulation::nWriteEndRunDetails(void)
    return RTN_OK;
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing polygon to polygon shares of unconsolidated sediment transport, etc.
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing polygon to polygon shares of unconsolidated sediment transport, etc.
+//===============================================================================================================================
 void CSimulation::WritePolygonShareTable(int const nCoast)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon seawater volume (m^3), per-polygon D50 values (mm: a blank D50 value means that there is no unconsolidated sediment on that polygon), and polygon-to-adjacent polygon shares (non-dimensional)." << endl;
@@ -1345,11 +1325,9 @@ void CSimulation::WritePolygonShareTable(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------------------------------------" << endl << endl;
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon pre-existing unconsolidated sediment
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon pre-existing unconsolidated sediment
+//===============================================================================================================================
 void CSimulation::WritePolygonPreExistingSediment(int const nCoast)
 {
    double
@@ -1383,11 +1361,9 @@ void CSimulation::WritePolygonPreExistingSediment(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;      
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon unconsolidated sand/coarse sediment derived from erosion of the consolidated shore platform
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon unconsolidated sand/coarse sediment derived from erosion of the consolidated shore platform
+//===============================================================================================================================
 void CSimulation::WritePolygonShorePlatformErosion(int const nCoast)
 {
    double
@@ -1417,11 +1393,9 @@ void CSimulation::WritePolygonShorePlatformErosion(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;         
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon per-polygon cliff collapse
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon per-polygon cliff collapse
+//===============================================================================================================================
 void CSimulation::WritePolygonCliffCollapseErosion(int const nCoast)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon cliff collapse (all m^3). Fine sediment derived from cliff collapse goes to suspension, sand/coarse sediment derived from cliff collapse becomes unconsolidated talus." << endl;
@@ -1460,11 +1434,9 @@ void CSimulation::WritePolygonCliffCollapseErosion(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;        
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon totals of stored unconsolidated beach sediment prior to polygon-to-polygon movement
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon totals of stored unconsolidated beach sediment prior to polygon-to-polygon movement
+//===============================================================================================================================
 void CSimulation::WritePolygonSedimentBeforeMovement(int const nCoast)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon totals of stored unconsolidated beach sediment prior to polygon-to-polygon movement (all m^3)." << endl;
@@ -1499,11 +1471,9 @@ void CSimulation::WritePolygonSedimentBeforeMovement(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;       
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon potential erosion of all size classes of unconsolidated beach sediment
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon potential erosion of all size classes of unconsolidated beach sediment
+//===============================================================================================================================
 void CSimulation::WritePolygonPotentialErosion(int const nCoast)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon potential (i.e. not considering sediment availability) erosion of all size classes of unconsolidated beach sediment (-ve, all m^3), calculated with the ";
@@ -1530,11 +1500,9 @@ void CSimulation::WritePolygonPotentialErosion(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|" << endl << endl;   
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon supply-limited erosion of unconsolidated beach sediment
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon supply-limited erosion of unconsolidated beach sediment
+//===============================================================================================================================
 void CSimulation::WritePolygonUnconsErosion(int const nCoast)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon supply-limited erosion of unconsolidated beach sediment (-ve, all m^3). All fine sediment eroded goes to suspension." << endl;
@@ -1567,11 +1535,9 @@ void CSimulation::WritePolygonUnconsErosion(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing the unsorted sequence of polygon processing
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing the unsorted sequence of polygon processing
+//===============================================================================================================================
 void CSimulation::WritePolygonUnsortedSequence(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
 {
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): unsorted sequence of polygon processing" << endl;
@@ -1600,11 +1566,9 @@ void CSimulation::WritePolygonUnsortedSequence(int const nCoast, vector<vector<i
    LogStream << "--------------|--------------|--------------|--------------|" << endl << endl;
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing the sorted sequence of polygon processing, and any circularities
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing the sorted sequence of polygon processing, and any circularities
+//===============================================================================================================================
 void CSimulation::WritePolygonSortedSequence(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
 {
    // Show sorted order of polygon processing, and any circularities
@@ -1662,11 +1626,9 @@ void CSimulation::WritePolygonSortedSequence(int const nCoast, vector<vector<int
    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;
 }
 
-/*==============================================================================================================================
-
-Writes to the log file a table showing per-polygon actual movement of unconsolidated beach sediment
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Writes to the log file a table showing per-polygon actual movement of unconsolidated beach sediment
+//===============================================================================================================================
 void CSimulation::WritePolygonActualMovement(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
 {
    // Show estimated polygon-to-polygon movement

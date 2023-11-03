@@ -36,22 +36,18 @@ using std::setw;
 
 #include "cme.h"
 
-/*==============================================================================================================================
-
-Correctly rounds doubles
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Correctly rounds doubles
+//===============================================================================================================================
 double dRound(double const d)
 {
    // Rounds positive or negative doubles correctly
    return ((d < 0.0) ? ceil(d - 0.5) : floor(d + 0.5));
 }
 
-/*==============================================================================================================================
-
-Version of the above that returns an int
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Version of the above that returns an int
+//===============================================================================================================================
 int nRound(double const d)
 {
    // Rounds positive or negative doubles correctly
@@ -64,11 +60,9 @@ int nRound(double const d)
 //    return (static_cast<int>(d) == d);
 // }
 
-/*==============================================================================================================================
-
-Checks to see if a string can be read as a valid double number. Does not find trailing (i.e.post-number) rubbish, but then neither does strtod(). From https://stackoverflow.com/questions/392981/how-can-i-convert-string-to-double-in-c
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Checks to see if a string can be read as a valid double number. Does not find trailing (i.e.post-number) rubbish, but then neither does strtod(). From https://stackoverflow.com/questions/392981/how-can-i-convert-string-to-double-in-c
+//===============================================================================================================================
 bool bIsStringValidDouble(string& str)
 {
    std::istringstream iStr(str);
@@ -80,11 +74,9 @@ bool bIsStringValidDouble(string& str)
    return true;
 }
 
-/*==============================================================================================================================
-
-Checks to see if a string can be read as a valid integer, from https://stackoverflow.com/questions/2844817/how-do-i-check-if-a-c-string-is-an-int
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Checks to see if a string can be read as a valid integer, from https://stackoverflow.com/questions/2844817/how-do-i-check-if-a-c-string-is-an-int
+//===============================================================================================================================
 bool bIsStringValidInt(string& str)
 {
    // Trim leading whitespace
@@ -100,11 +92,9 @@ bool bIsStringValidInt(string& str)
    return (str.find_first_not_of("0123456789") == string::npos);
 }
 
-/*==============================================================================================================================
-
-Operator that inserts a given fill character, to a given width, into an output stream. From http://stackoverflow.com/questions/2839592/equivalent-of-02d-with-stdstringstream
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Operator that inserts a given fill character, to a given width, into an output stream. From http://stackoverflow.com/questions/2839592/equivalent-of-02d-with-stdstringstream
+//===============================================================================================================================
 ostream& operator<< (ostream& ostr, const FillToWidth& args)
 {
    ostr.fill(args.chFill);
@@ -113,12 +103,10 @@ ostream& operator<< (ostream& ostr, const FillToWidth& args)
    return ostr;
 }
 
-/*==============================================================================================================================
-
-Convert double to string with specified number of places after the decimal. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
-string strDbl(double const dX, int const nDigits) 
+//===============================================================================================================================
+//! Converts double to string with specified number of places after the decimal. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
+string strDbl(double const dX, int const nDigits)
 {
    stringstream ss;
    ss << std::fixed;
@@ -127,11 +115,9 @@ string strDbl(double const dX, int const nDigits)
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Convert double to string with specified number of decimal places, within a field of given width, pads with blank spaces to enforce right alignment. Modified from https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Converts double to string with specified number of decimal places, within a field of given width, pads with blank spaces to enforce right alignment. Modified from https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
 string strDblRight(double const dX, int const nDigits, int const nWidth, bool bShowZero)
 {
    stringstream ss;
@@ -153,11 +139,9 @@ string strDblRight(double const dX, int const nDigits, int const nWidth, bool bS
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Convert int to string within a field of given width, pads with blank spaces to enforce alignment.. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
+//===============================================================================================================================
+//! Converts int to string within a field of given width, pads with blank spaces to enforce alignment.. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
 string strIntRight(int const nX, int const nWidth)
 {
    stringstream ss;
@@ -169,12 +153,10 @@ string strIntRight(int const nX, int const nWidth)
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Centre-aligns string or char within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
-string strCentre(string const strIn, int const nWidth) 
+//===============================================================================================================================
+//! Centre-aligns string or char within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
+string strCentre(string const strIn, int const nWidth)
 {
    stringstream ss, spaces;
    int nPadding = nWidth - static_cast<int>(strIn.size());
@@ -190,12 +172,10 @@ string strCentre(string const strIn, int const nWidth)
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Right-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
-string strRight(string const strIn, int const nWidth) 
+//===============================================================================================================================
+//! Right-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
+string strRight(string const strIn, int const nWidth)
 {
    stringstream ss, spaces;
    int nPadding = nWidth - static_cast<int>(strIn.size()) - 1;
@@ -206,12 +186,10 @@ string strRight(string const strIn, int const nWidth)
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Left-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
-string strLeft(string const strIn, int const nWidth) 
+//===============================================================================================================================
+//! Left-aligns string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
+string strLeft(string const strIn, int const nWidth)
 {
    stringstream ss, spaces;
    int nPadding = nWidth - static_cast<int>(strIn.size());
@@ -221,12 +199,10 @@ string strLeft(string const strIn, int const nWidth)
    return ss.str();
 }
 
-/*==============================================================================================================================
-
-Calculates a percentage from two numbers then, if the result is non-zero, right-aligns the result as a string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-
-==============================================================================================================================*/
-string strRightPerCent(double const d1, double const d2, int const nWidth) 
+//===============================================================================================================================
+//! Calculates a percentage from two numbers then, if the result is non-zero, right-aligns the result as a string within a field of given width, pads with blank spaces to enforce alignment. From https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
+//===============================================================================================================================
+string strRightPerCent(double const d1, double const d2, int const nWidth)
 {
    // Are either of the inputs zero?
    if (bFPIsEqual(d1, 0.0, TOLERANCE))

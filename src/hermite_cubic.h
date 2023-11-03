@@ -24,19 +24,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-===============================================================================================================================*//*==============================================================================================================================
-
-This is hermite_cubic.h: part of a C++ library from http://people.sc.fsu.edu/~jburkardt/cpp_src/hermite_cubic/hermite_cubic.html. It demonstrates the use of cubic polynomials in the Hermite form
-
-r8vec_bracket3() finds the interval containing or nearest a given value
-hermite_cubic_spline_value() evaluates a Hermite cubic spline
-hermite_cubic_value() evaluates a Hermite cubic polynomial
-
 ===============================================================================================================================*/
 void r8vec_bracket3(int const, double const*, double const, int*);
-
 void hermite_cubic_value(double const, double const, double const, double const, double const, double const, int const, double const*, double* const, double* const, double* const, double* const);
-
 void hermite_cubic_spline_value(int const, double* const, double* const, double* const, int const, double* const, double*, double*, double*, double*);
-
 #endif // HERMITE_H

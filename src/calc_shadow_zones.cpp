@@ -426,7 +426,7 @@ int CSimulation::nDoAllShadowZones(void)
                }
             }
 
-            // Store the co-ords of every cell which we cross
+            // Store the co-ordinates of every cell which we cross
             ILShadowBoundary.Append(&PtiNew);
 
             //             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): at [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
@@ -479,7 +479,7 @@ int CSimulation::nDoAllShadowZones(void)
                continue;
             }
 
-            // We've found a valid shadow zone. Check the last point in the shadow boundary. Note that occasionally this last cell is not 'above' a cell but is above one of its neighbouring cells is: in which case, replace the last point in the shadow boundary with the co-ords of this neighbouring cell
+            // We've found a valid shadow zone. Check the last point in the shadow boundary. Note that occasionally this last cell is not 'above' a cell but is above one of its neighbouring cells is: in which case, replace the last point in the shadow boundary with the co-ordinates of this neighbouring cell
             int nShadowBoundaryCoastPoint = m_VCoast[nCoast].nGetCoastPointGivenCell(&ILShadowBoundary.Back());
             if (nShadowBoundaryCoastPoint == INT_NODATA)
             {
@@ -735,7 +735,7 @@ int CSimulation::nFloodFillShadowZone(int const nZone, CGeom2DIPoint const *pPti
    // We have a flood fill start point so push this point onto the stack
    PtiStack.push(PtiFloodFillStart);
 
-   // Then do the flood fill: loop until there are no more cell co-ords on the stack
+   // Then do the flood fill: loop until there are no more cell co-ordinates on the stack
    while (!PtiStack.empty())
    {
       CGeom2DIPoint Pti = PtiStack.top();

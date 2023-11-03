@@ -25,5 +25,4 @@ You should have received a copy of the GNU General Public License along with thi
 ===============================================================================================================================*/
 double dInterpolate(vector<double>, vector<double>, double, bool);
 double dInterpolate(vector<int>, vector<double>, int, bool);
-
 #endif // INTERPOLATE_H
