@@ -3593,7 +3593,7 @@ int CSimulation::nReadSedimentInputEventTimeSeriesFile(void)
          }
 
          // Create the CSedInputEvent object
-         CSedInputEvent *pEvent = new CSedInputEvent(nID, ulEventTimeStep, dFineSedVol, dSandSedVol, dCoarseSedVol, dLen, dWidth); //, dThick);
+         CSedInputEvent* pEvent = new CSedInputEvent(nID, ulEventTimeStep, dFineSedVol, dSandSedVol, dCoarseSedVol, dLen, dWidth); //, dThick);
 
          // And store it in the m_pVSedInputEvent 2D vector
          m_pVSedInputEvent.push_back(pEvent);

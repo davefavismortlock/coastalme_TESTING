@@ -260,7 +260,7 @@ public:
     void SetPolygonID(int const);
     int nGetPolygonID(void) const;
 
-    CRWCellLandform *pGetLandform(void);
+    CRWCellLandform* pGetLandform(void);
 
     void SetWaveFlood(void);
     bool bIsElevLessThanWaterLevel(void) const;
@@ -321,7 +321,7 @@ public:
     int nGetTopLayerAboveBasement(void) const;
 
     double dGetConsSedTopForLayerAboveBasement(int const) const;
-    CRWCellLayer *pGetLayerAboveBasement(int const);
+    CRWCellLayer* pGetLayerAboveBasement(int const);
     void AppendLayers(int const);
     void CalcAllLayerElevsAndD50(void);
     int nGetLayerAtElev(double const) const;

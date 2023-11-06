@@ -286,7 +286,7 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
    if (nCategory == LF_CAT_CLIFF)
    {
       // It's a cliff
-      CRWCliff* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
+      CRWCliff const* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
 
       // Get attribute values from the cliff object
       double dNotchBaseElev = pCliff->dGetNotchBaseElev();

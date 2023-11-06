@@ -554,7 +554,7 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
                for (int nCoinc = 0; nCoinc < nNumCoinc; nCoinc++)
                {
                   int nProf = pProfile->nGetCoincidentProfileForLineSegment(nPoint, nCoinc);
-                  CGeomProfile* pProf = m_VCoast[nCoast].pGetProfile(nProf);
+                  CGeomProfile const* pProf = m_VCoast[nCoast].pGetProfile(nProf);
 
                   if (pProf->bProfileOK())
                      nNumValidCoinc++;
@@ -626,7 +626,7 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
                for (int nCoinc = 0; nCoinc < nNumCoinc; nCoinc++)
                {
                   int nProf = pProfile->nGetCoincidentProfileForLineSegment(nPoint, nCoinc);
-                  CGeomProfile* pProf = m_VCoast[nCoast].pGetProfile(nProf);
+                  CGeomProfile const* pProf = m_VCoast[nCoast].pGetProfile(nProf);
 
                   if (pProf->bProfileOK())
                      nNumValidCoinc++;

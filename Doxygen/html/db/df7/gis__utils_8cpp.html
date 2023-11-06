@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('db/df7/gis__utils_8cpp.html','../../')
 <ol type="1">
 <li>In the raster CRS, cell[0][0] is at the top left (NW) corner of the grid. Raster grid co-oordinate [0][0] is actually the top left (NW) corner of this cell.</li>
 <li><p class="startli">We assume that the grid CRS and external CRS have parallel axes. If they have not, see <a href="http://www.gdal.org/classGDALDataset.html">http://www.gdal.org/classGDALDataset.html</a> which says that:</p>
-<p class="startli">To convert between pixel/line (P,L) raster space, and projection coordinates (Xp,Yp) space Xp = padfTransform[0] + P*padfTransform[1] + L*padfTransform[2]; Yp = padfTransform[3] + P*padfTransform[4] + L*padfTransform[5];</p>
+<p class="startli">To convert between pixel/line (P,L) raster space, and projection coordinates (Xp,Yp) space Xp = padfTransform[0] + padfTransform[1] + padfTransform[2]; Yp = padfTransform[3] + padfTransform[4] + padfTransform[5];</p>
 <p class="startli">In a north-up image, padfTransform[1] is the pixel width, and padfTransform[5] is the pixel height. The upper left corner of the upper left pixel is at position (padfTransform[0], padfTransform[3]).</p>
 </li>
 <li><p class="startli">Usually, raster grid CRS values are integer, i.e. they refer to a point which is at the centroid of a cell. They may also be -ve or greater than m_nXGridMax-1 i.e. may refer to a point which lies outside any cell of the raster grid.</p>
@@ -127,7 +127,7 @@ Andres Payo</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../db/df7/gis__utils_8cpp.html">gis_utils.cpp</a></li>
-    <li class="footer">Generated on Fri Nov 3 2023 10:57:45 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Mon Nov 6 2023 11:48:44 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

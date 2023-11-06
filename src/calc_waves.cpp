@@ -84,7 +84,7 @@ int CSimulation::nSetAllCoastpointDeepWaterWaveValues(void)
          {
             // OK, a coastline-normal profile begins at this coastline point, so set the deep water wave values at this coastline point to be the values at the seaward end of the coastline normal
             int nProfile = m_VCoast[nCoast].nGetProfileNumber(nPoint);
-            CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
+            CGeomProfile const* pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
             double
                 dThisDeepWaterWaveHeight = pProfile->dGetProfileDeepWaterWaveHeight(),
@@ -109,7 +109,7 @@ int CSimulation::nSetAllCoastpointDeepWaterWaveValues(void)
                break;
             }
 
-            CGeomProfile *pNextProfile = m_VCoast[nCoast].pGetProfile(nNextProfile);
+            CGeomProfile const* pNextProfile = m_VCoast[nCoast].pGetProfile(nNextProfile);
 
             // And the distance (in along-coast points) to the next profile
             nDistToNextProfile = pNextProfile->nGetNumCoastPoint() - nPoint;
@@ -562,7 +562,7 @@ int CSimulation::nDoAllPropagateWaves(void)
 
       // Interpolate these wave properties for all remaining coastline points. Do this in along-coastline sequence, but do not do this for the end-of-coastline profile (which is the final one)
       for (int n = 0; n < nNumProfiles - 1; n++)
-         InterpolateWavePropsBetweenProfiles(nCoast, n, nNumProfiles);
+         InterpolateWavePropertiesBetweenProfiles(nCoast, n, nNumProfiles);
 
       // And do the same for the coastline cells
       InterpolateWaveHeightToCoastPoints(nCoast);
@@ -615,9 +615,9 @@ double CSimulation::dCalcWaveAngleToCoastNormal(double const dCoastAngle, double
 //===============================================================================================================================
 //! Calculates wave properties along a coastline-normal profile using either the COVE linear wave theory approach or the external CShore model
 //===============================================================================================================================
-int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoastSize, int const nProfile, vector<double> *pVdX, vector<double> *pVdY, vector<double> *pVdHeightX, vector<double> *pVdHeightY, vector<bool> *pVbBreaking)
+int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoastSize, int const nProfile, vector<double>* pVdX, vector<double>* pVdY, vector<double>* pVdHeightX, vector<double>* pVdHeightY, vector<bool>* pVbBreaking)
 {
-   CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
+   CGeomProfile* pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
    // Calculate some wave properties based on the wave period following Airy wave theory
    double dDeepWaterWavePeriod = pProfile->dGetProfileDeepWaterWavePeriod();
@@ -1453,7 +1453,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 //===============================================================================================================================
 //! Create and write to the CShore input file
 //===============================================================================================================================
-int CSimulation::nCreateCShoreInfile(int const nCoast, int const nProfile, int const nILine, int const nIProfl, int const nIPerm, int const nIOver, int const nIWcint, int const nIRoll, int const nIWind, int const nITide, int const nILab, int const nWave, int const nSurge, double const dX, double const dTimestep, double const dWaveInitTime, double const dWavePeriod, double const dHrms, double const dWaveAngle, double const dSurgeInitTime, double const dSurgeLevel, vector<double> const *pVdXdist, vector<double> const *pVdBottomElevation, vector<double> const *pVdWaveFriction)
+int CSimulation::nCreateCShoreInfile(int const nCoast, int const nProfile, int const nILine, int const nIProfl, int const nIPerm, int const nIOver, int const nIWcint, int const nIRoll, int const nIWind, int const nITide, int const nILab, int const nWave, int const nSurge, double const dX, double const dTimestep, double const dWaveInitTime, double const dWavePeriod, double const dHrms, double const dWaveAngle, double const dSurgeInitTime, double const dSurgeLevel, vector<double> const* pVdXdist, vector<double> const* pVdBottomElevation, vector<double> const* pVdWaveFriction)
 {
    // Create the CShore input file
    ofstream CShoreOutStream;
@@ -1540,7 +1540,7 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
        dProfileFricFact = 0,
        dPrevDist = -1;
 
-   CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
+   CGeomProfile* pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
    for (int i = nProfSize - 1; i >= 0; i--)
    {
@@ -1630,7 +1630,7 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
 //===============================================================================================================================
 //! Reads a CShore output file and creates a vector holding interpolated values
 //===============================================================================================================================
-int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFilename, int const nExpectedColumns, int const nCShorecolumn, vector<double> const *pVdProfileDistXYCME, vector<double> *pVdInterpolatedValues)
+int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFilename, int const nExpectedColumns, int const nCShorecolumn, vector<double> const* pVdProfileDistXYCME, vector<double>* pVdInterpolatedValues)
 {
    // Read in the first column (contains XY distance relative to seaward limit) and CShore column from the CShore output file
    ifstream InStream;
@@ -1744,7 +1744,7 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
 //===============================================================================================================================
 //! Interpolates CShore output
 //===============================================================================================================================
-void CSimulation::InterpolateCShoreOutput(vector<double> const *pVdProfileDistXYCME, int const nOutSize, vector<double> const *pVdXYDistFromCShoreOut, vector<double> const *pVdFreeSurfaceStdCShore, vector<double> const *pVdWaveSetupSurgeCShore, vector<double> const *pVdSinWaveAngleRadiansCShore, vector<double> const *pVdFractionBreakingWavesCShore, vector<double> *pVdFreeSurfaceStdCME, vector<double> *pVdWaveSetupSurgeCME, vector<double> *pVdSinWaveAngleRadiansCME, vector<double> *pVdFractionBreakingWavesCME)
+void CSimulation::InterpolateCShoreOutput(vector<double> const* pVdProfileDistXYCME, int const nOutSize, vector<double> const* pVdXYDistFromCShoreOut, vector<double> const* pVdFreeSurfaceStdCShore, vector<double> const* pVdWaveSetupSurgeCShore, vector<double> const* pVdSinWaveAngleRadiansCShore, vector<double> const* pVdFractionBreakingWavesCShore, vector<double>* pVdFreeSurfaceStdCME, vector<double>* pVdWaveSetupSurgeCME, vector<double>* pVdSinWaveAngleRadiansCME, vector<double>* pVdFractionBreakingWavesCME)
 {
    // The CShore cross-shore distance has its origin at the seaward end, so create a copy of the valid part of this which is in the CME convention (i.e. with the origin at the shoreline)
    vector<double> VdXYDistCShoreTmp(nOutSize, 0);
@@ -1783,7 +1783,7 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const *pVdProfileDistXY
 void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int const nCoast, int const nProfIndex)
 {
    int nProfile = m_VCoast[nCoast].nGetProfileFromAlongCoastProfileIndex(nProfIndex);
-   CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
+   CGeomProfile* pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
    // Only do this for profiles without problems, including the start and end-of-coast profile
    if (!pProfile->bOKIncStartAndEndOfCoast())
@@ -1868,10 +1868,10 @@ void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int co
 //===============================================================================================================================
 //! Interpolates wave properties from profiles to the coastline points between two profiles. Do this by weighting the wave properties so that they change smoothly between the two profiles
 //===============================================================================================================================
-void CSimulation::InterpolateWavePropsBetweenProfiles(int const nCoast, int const nProfIndex, int const nNumProfiles)
+void CSimulation::InterpolateWavePropertiesBetweenProfiles(int const nCoast, int const nProfIndex, int const nNumProfiles)
 {
    int nProfile = m_VCoast[nCoast].nGetProfileFromAlongCoastProfileIndex(nProfIndex);
-   CGeomProfile *pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
+   CGeomProfile const* pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
    // Only do this for profiles without problems, including the start-of-coast profile (but not the end-of-coast profile)
    // if (!pProfile->bOKIncStartOfCoast())
@@ -2399,7 +2399,7 @@ void CSimulation::CalcD50AndFillWaveCalcHoles(void)
    {
       for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
       {
-         CGeomCoastPolygon *pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+         CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
          int nID = pPolygon->nGetGlobalID();
 
          if (VnPolygonD50Count[nID] > 0)

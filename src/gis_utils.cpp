@@ -11,8 +11,8 @@
  2. We assume that the grid CRS and external CRS have parallel axes. If they have not, see http://www.gdal.org/classGDALDataset.html which says that:
 
    To convert between pixel/line (P,L) raster space, and projection coordinates (Xp,Yp) space
-      Xp = padfTransform[0] + P*padfTransform[1] + L*padfTransform[2];
-      Yp = padfTransform[3] + P*padfTransform[4] + L*padfTransform[5];
+      Xp = padfTransform[0] + padfTransform[1] + padfTransform[2];
+      Yp = padfTransform[3] + padfTransform[4] + padfTransform[5];
 
    In a north-up image, padfTransform[1] is the pixel width, and padfTransform[5] is the pixel height. The upper left corner of the upper left pixel is at position
       (padfTransform[0], padfTransform[3]).
@@ -75,7 +75,7 @@ double CSimulation::dGridCentroidYToExtCRSY(int const nGridY) const
 //===============================================================================================================================
 //! Transforms a pointer to a CGeom2DIPoint in the raster-grid CRS (assumed to be the centroid of a cell) to the equivalent CGeom2DPoint in the external CRS
 //===============================================================================================================================
-CGeom2DPoint CSimulation::PtGridCentroidToExt(CGeom2DIPoint const *pPtiIn) const
+CGeom2DPoint CSimulation::PtGridCentroidToExt(CGeom2DIPoint const* pPtiIn) const
 {
    int
        nGridX = pPtiIn->nGetX(),
@@ -123,7 +123,7 @@ double CSimulation::dExtCRSYToGridY(double const dExtCRSY) const
 //===============================================================================================================================
 //! Transforms a pointer to a CGeom2DPoint in the external CRS to the equivalent CGeom2DIPoint in the raster-grid CRS (both values rounded). Note that the result may be outside the grid, because of rounding
 //===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiExtCRSToGrid(CGeom2DPoint const *pPtIn) const
+CGeom2DIPoint CSimulation::PtiExtCRSToGrid(CGeom2DPoint const* pPtIn) const
 {
    double
        dX = pPtIn->dGetX(),
@@ -153,7 +153,7 @@ double CSimulation::dGetDistanceBetween(CGeom2DPoint const *Pt1, CGeom2DPoint co
 //===============================================================================================================================
 //! Returns the distance (in grid units) between two grid cell points
 //===============================================================================================================================
-double CSimulation::dGetDistanceBetween(CGeom2DIPoint const *Pti1, CGeom2DIPoint const *Pti2)
+double CSimulation::dGetDistanceBetween(CGeom2DIPoint const* Pti1, CGeom2DIPoint const* Pti2)
 {
    double
        dXDist = Pti1->nGetX() - Pti2->nGetX(),
@@ -165,7 +165,7 @@ double CSimulation::dGetDistanceBetween(CGeom2DIPoint const *Pti1, CGeom2DIPoint
 //===============================================================================================================================
 //! Returns twice the signed area of a triangle
 //===============================================================================================================================
-double CSimulation::dTriangleAreax2(CGeom2DPoint const *pPtA, CGeom2DPoint const *pPtB, CGeom2DPoint const *pPtC)
+double CSimulation::dTriangleAreax2(CGeom2DPoint const* pPtA, CGeom2DPoint const* pPtB, CGeom2DPoint const* pPtC)
 {
    return (pPtB->dGetX() - pPtA->dGetX()) * (pPtC->dGetY() - pPtA->dGetY()) - (pPtB->dGetY() - pPtA->dGetY()) * (pPtC->dGetX() - pPtA->dGetX());
 }
@@ -390,7 +390,7 @@ double CSimulation::dKeepWithin360(double const dAngle)
 //===============================================================================================================================
 //! Returns a point (external CRS) which is the average of (i.e. is midway between) two other external CRS points
 //===============================================================================================================================
-CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const *pPt1, CGeom2DPoint const *pPt2)
+CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const* pPt1, CGeom2DPoint const* pPt2)
 {
    double
        dPt1X = pPt1->dGetX(),
@@ -406,7 +406,7 @@ CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const *pPt1, CGeom2DPoint const
 //===============================================================================================================================
 //! Returns an integer point (grid CRS) which is the approximate average of (i.e. is midway between) two other grid CRS integer points
 //===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2)
+CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2)
 {
    int
        nPti1X = pPti1->nGetX(),
@@ -422,7 +422,7 @@ CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint 
 //===============================================================================================================================
 //! Returns an integer point (grid CRS) which is the weighted average of two other grid CRS integer points. The weight must be <= 1, if the weight is < 0.5 then the output point is closer to the first point, if the weight is > 0.5 then the output point is closer to the second point
 //===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiWeightedAverage(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2, double const dWeight)
+CGeom2DIPoint CSimulation::PtiWeightedAverage(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2, double const dWeight)
 {
    int
        nPti1X = pPti1->nGetX(),
@@ -441,7 +441,7 @@ CGeom2DIPoint CSimulation::PtiWeightedAverage(CGeom2DIPoint const *pPti1, CGeom2
 //===============================================================================================================================
 //! Returns a point (external CRS) which is the average of a vector of external CRS points
 //===============================================================================================================================
-CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint> *pVIn)
+CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint>* pVIn)
 {
    int nSize = static_cast<int>(pVIn->size());
    if (nSize == 0)
@@ -466,7 +466,7 @@ CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint> *pVIn)
 //===============================================================================================================================
 //! Returns a point (grid CRS) which is the average of a vector of grid CRS points
 //===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint> *pVIn)
+CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint>* pVIn)
 {
    int nSize = static_cast<int>(pVIn->size());
    if (nSize == 0)
@@ -491,7 +491,7 @@ CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint> *pVIn)
 //===============================================================================================================================
 //! Returns an integer point (grid CRS) which is the centroid of a polygon, given by a vector of grid CRS points. From https://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 //===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiPolygonCentroid(vector<CGeom2DIPoint> *pVIn)
+CGeom2DIPoint CSimulation::PtiPolygonCentroid(vector<CGeom2DIPoint>* pVIn)
 {
    CGeom2DIPoint PtiCentroid(0, 0);
    int
@@ -675,7 +675,7 @@ CGeom2DIPoint CSimulation::PtiGetPerpendicular(int const nStartX, int const nSta
 //===============================================================================================================================
 //! Returns the signed angle BAC (in radians) subtended between three CGeom2DIPoints B A C. From http://stackoverflow.com/questions/3057448/angle-between-3-vertices
 //===============================================================================================================================
-double CSimulation::dAngleSubtended(CGeom2DIPoint const *pPtiA, CGeom2DIPoint const *pPtiB, CGeom2DIPoint const *pPtiC)
+double CSimulation::dAngleSubtended(CGeom2DIPoint const* pPtiA, CGeom2DIPoint const* pPtiB, CGeom2DIPoint const* pPtiC)
 {
    double
        dXDistBtoA = pPtiB->nGetX() - pPtiA->nGetX(),
@@ -711,7 +711,7 @@ bool CSimulation::bCheckRasterGISOutputFormat(void)
    }
 
    // Get the metadata for this raster driver
-   char **papszMetadata = pDriver->GetMetadata();
+   char** papszMetadata = pDriver->GetMetadata();
 
    // for (int i = 0; papszMetadata[i] != NULL; i++)
    //    cout << papszMetadata[i] << endl;
@@ -843,7 +843,7 @@ bool CSimulation::bCheckVectorGISOutputFormat(void)
    }
 
    // Get the metadata for this vector driver
-   char **papszMetadata = pDriver->GetMetadata();
+   char** papszMetadata = pDriver->GetMetadata();
 
    // For GDAL2, need to test if this is a vector driver
    if (! CSLFetchBoolean(papszMetadata, GDAL_DCAP_VECTOR, FALSE))
@@ -1685,7 +1685,7 @@ int CSimulation::nGetOppositeDirection(int const nDirection)
 //===============================================================================================================================
 //! Given two integer points, calculates the slope and intercept of the line passing through the points
 //===============================================================================================================================
-void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const *pPti1, CGeom2DIPoint const *pPti2, double&dSlope, double&dIntercept)
+void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2, double& dSlope, double& dIntercept)
 {
    int
        nX1 = pPti1->nGetX(),

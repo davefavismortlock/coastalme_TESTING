@@ -52,10 +52,10 @@ public:
    void AddXAddY(double const, double const);
    void DivXDivY(double const, double const);
 
-   void operator= (CGeom2DIPoint*);
-   bool operator== (CGeom2DIPoint*) const;
+   void operator= (CGeom2DIPoint const*);
+   bool operator== (CGeom2DIPoint const*) const;
    bool operator== (CGeom2DIPoint) const;
-   bool operator!= (CGeom2DIPoint*) const;
+   bool operator!= (CGeom2DIPoint const*) const;
    bool operator!= (CGeom2DIPoint) const;
 };
 #endif // C2DIPOINT_H

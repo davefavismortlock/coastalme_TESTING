@@ -51,14 +51,14 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
    double dStillToErodeOnPolygon = dErosionTargetOnPolygon;
    dEroded = 0;
 
-   CGeomCoastPolygon *pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+   CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
    // Get the up-coast and down-coast boundary details
    int nUpCoastProfile = pPolygon->nGetUpCoastProfile();
-   CGeomProfile *pUpCoastProfile = m_VCoast[nCoast].pGetProfile(nUpCoastProfile);
+   CGeomProfile* pUpCoastProfile = m_VCoast[nCoast].pGetProfile(nUpCoastProfile);
 
    int nDownCoastProfile = pPolygon->nGetDownCoastProfile();
-   CGeomProfile *pDownCoastProfile = m_VCoast[nCoast].pGetProfile(nDownCoastProfile);
+   CGeomProfile const* pDownCoastProfile = m_VCoast[nCoast].pGetProfile(nDownCoastProfile);
 
    // We will use only part of the up-coast boundary profile, seaward as far as the depth of closure. First find the seaward end point of this up-coast part-profile. Note that this does not change as the landwards offset changes
    int nIndex = pUpCoastProfile->nGetCellGivenDepth(m_pRasterGrid, m_dDepthOfClosure);
@@ -477,7 +477,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
 //===============================================================================================================================
 //! This routine erodes unconsolidated beach sediment (either fine, sand, or coarse) on a parallel profile
 //===============================================================================================================================
-int CSimulation::nDoParallelProfileUnconsErosion( int const nPoly, int const nCoastPoint,  int const nCoastX, int const nCoastY, int const nTexture,  int const nInlandOffset,  int const nParProfLen, vector<CGeom2DIPoint> const *pVPtiParProfile, vector<double> const *pVdParProfileDeanElev, double&dStillToErodeOnProfile, double&dStillToErodeOnPolygon, double&dTotEroded)
+int CSimulation::nDoParallelProfileUnconsErosion( int const nPoly, int const nCoastPoint,  int const nCoastX, int const nCoastY, int const nTexture,  int const nInlandOffset,  int const nParProfLen, vector<CGeom2DIPoint> const *pVPtiParProfile, vector<double> const* pVdParProfileDeanElev, double&dStillToErodeOnProfile, double&dStillToErodeOnPolygon, double&dTotEroded)
 {
    for (int nDistSeawardFromNewCoast = 0; nDistSeawardFromNewCoast < nParProfLen; nDistSeawardFromNewCoast++)
    {
@@ -730,15 +730,15 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
    if (dTargetToDepositOnPoly < SEDIMENT_ELEV_TOLERANCE)
       return RTN_OK;
    
-   CGeomCoastPolygon *pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+   CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
    // Get the grid cell co-ordinates of this polygon's up-coast and down-coast profiles
    int
        nUpCoastProfile = pPolygon->nGetUpCoastProfile(),
        nDownCoastProfile = pPolygon->nGetDownCoastProfile();
 
-   CGeomProfile *pUpCoastProfile = m_VCoast[nCoast].pGetProfile(nUpCoastProfile);
-   CGeomProfile *pDownCoastProfile = m_VCoast[nCoast].pGetProfile(nDownCoastProfile);
+   CGeomProfile* pUpCoastProfile = m_VCoast[nCoast].pGetProfile(nUpCoastProfile);
+   CGeomProfile* pDownCoastProfile = m_VCoast[nCoast].pGetProfile(nDownCoastProfile);
 
    // We are using only part of each profile, seaward as far as the depth of closure. First find the seaward end point of the up-coast part-profile
 //    CGeom2DIPoint PtiUpCoastPartProfileSeawardEnd;

@@ -12,6 +12,5 @@ var searchData=
   ['insertlinesegment_9',['InsertLineSegment',['../d0/d89/classCGeomMultiLine.html#ab995e6f50eee7b4c9ec53b0c223abf1b',1,'CGeomMultiLine']]],
   ['interpolatecshoreoutput_10',['InterpolateCShoreOutput',['../d1/d98/classCSimulation.html#ac12355346f1ec85672ebfa5134b5c70f',1,'CSimulation']]],
   ['interpolatewaveheighttocoastpoints_11',['InterpolateWaveHeightToCoastPoints',['../d1/d98/classCSimulation.html#af4c1d4172cbc1ef26d5cae02ffe03409',1,'CSimulation']]],
-  ['interpolatewavepropertiestocells_12',['InterpolateWavePropertiesToCells',['../d1/d98/classCSimulation.html#abac192f8590aae818423cffc52773bc0',1,'CSimulation']]],
-  ['interpolatewavepropsbetweenprofiles_13',['InterpolateWavePropsBetweenProfiles',['../d1/d98/classCSimulation.html#a19edc71236c42ce0852c3e926d94953c',1,'CSimulation']]]
+  ['interpolatewavepropertiesbetweenprofiles_12',['InterpolateWavePropertiesBetweenProfiles',['../d1/d98/classCSimulation.html#a79766c96ddd980bd18670c6795568a80',1,'CSimulation']]]
 ];

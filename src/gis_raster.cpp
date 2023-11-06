@@ -142,7 +142,7 @@ int CSimulation::nReadRasterBasementDEM(void)
    m_dExtCRSGridArea = tAbs(m_dNorthWestXExtCRS - m_dSouthEastXExtCRS) * tAbs(m_dNorthWestYExtCRS * m_dSouthEastYExtCRS);
 
    // Now get GDAL raster band information
-   GDALRasterBand *pGDALBand = pGDALDataset->GetRasterBand(1);
+   GDALRasterBand* pGDALBand = pGDALDataset->GetRasterBand(1);
    int nBlockXSize = 0, nBlockYSize = 0;
    pGDALBand->GetBlockSize(&nBlockXSize, &nBlockYSize);
    m_strGDALBasementDEMDataType = GDALGetDataTypeName(pGDALBand->GetRasterDataType());
@@ -173,7 +173,7 @@ int CSimulation::nReadRasterBasementDEM(void)
       return nRet;
 
    // Allocate memory for a 1D floating-point array, to hold the scan line for GDAL
-   double *pdScanline = new double[m_nXGridMax];
+   double* pdScanline = new double[m_nXGridMax];
    if (NULL == pdScanline)
    {
       // Error, can't allocate memory
@@ -602,7 +602,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       // Now get GDAL raster band information
-      GDALRasterBand *pGDALBand = pGDALDataset->GetRasterBand(1); // TODO give a message if there are several bands
+      GDALRasterBand* pGDALBand = pGDALDataset->GetRasterBand(1); // TODO give a message if there are several bands
       int nBlockXSize = 0, nBlockYSize = 0;
       pGDALBand->GetBlockSize(&nBlockXSize, &nBlockYSize);
       strDataType = GDALGetDataTypeName(pGDALBand->GetRasterDataType());
@@ -720,7 +720,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       // Allocate memory for a 1D array, to hold the scan line for GDAL
-      double *pdScanline = new double[m_nXGridMax];
+      double* pdScanline = new double[m_nXGridMax];
       if (NULL == pdScanline)
       {
          // Error, can't allocate memory
@@ -1618,7 +1618,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    }
 
    // Create a single raster band
-   GDALRasterBand *pBand = pDataSet->GetRasterBand(1);
+   GDALRasterBand* pBand = pDataSet->GetRasterBand(1);
 
    // And fill it with the NODATA value
    if (bIsInteger)
@@ -1734,7 +1734,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    pBand->SetDescription(strDesc.c_str());
 
    // Set raster category names
-   char **papszCategoryNames = NULL;
+   char** papszCategoryNames = NULL;
    switch (nDataItem)
    {
       case (RASTER_PLOT_SLICE):
@@ -1852,8 +1852,8 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
    if (! m_bGDALCanCreate)
    {
       // Since the user-selected raster driver cannot use the Create() method, we have been writing to a dataset created by the in-memory driver. So now we need to use CreateCopy() to copy this in-memory dataset to a file in the user-specified raster driver format
-      GDALDriver *pOutDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
-      GDALDataset *pOutDataSet = pOutDriver->CreateCopy(strFilePathName.c_str(), pDataSet, FALSE, m_papszGDALRasterOptions, NULL, NULL);
+      GDALDriver* pOutDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
+      GDALDataset* pOutDataSet = pOutDriver->CreateCopy(strFilePathName.c_str(), pDataSet, FALSE, m_papszGDALRasterOptions, NULL, NULL);
       if (NULL == pOutDataSet)
       {
          // Couldn't create file
@@ -1878,7 +1878,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
 //===============================================================================================================================
 //! Interpolates wave properties from all profiles to all within-polygon sea cells. We use GDALGridCreate(), the library version of external utility gdal_grid, to do this
 //===============================================================================================================================
-int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vector<double> const *pVdY, vector<double> const *pVdHeightX, vector<double> const *pVdHeightY)
+int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdHeightX, vector<double> const* pVdHeightY)
 {
    int
        nXSize = 0,
@@ -1914,14 +1914,14 @@ int CSimulation::nInterpolateWavesToPolygonCells(vector<double> const *pVdX, vec
    for (int nDirection = 0; nDirection < 2; nDirection++)
    {
       // Use the GDALGridCreate() linear interpolation algorithm: this computes a Delaunay triangulation of the point cloud, finding in which triangle of the triangulation the point is, and by doing linear interpolation from its barycentric coordinates within the triangle. If the point is not in any triangle, depending on the radius, the algorithm will use the value of the nearest point or the nodata value. Only available in GDAL 2.1 and later
-      GDALGridLinearOptions *pOptions = new GDALGridLinearOptions();
+      GDALGridLinearOptions* pOptions = new GDALGridLinearOptions();
       pOptions->dfNoDataValue = m_dMissingValue; // Set the no-data marker to fill empty points
       pOptions->dfRadius = -1;                   // Set the search radius to infinite
       pOptions->nSizeOfStructure = sizeof(GDALGridLinearOptions);    // Needed for GDAL 3.6 onwards, see https://gdal.org/api/gdal_alg.html#_CPPv421GDALGridLinearOptions
       
       //      pOptions.dfRadius = static_cast<double>(nXSize + nYSize) / 2.0;                       // Set the search radius
 
-      // GDALGridNearestNeighborOptions *pOptions = new GDALGridNearestNeighborOptions();
+      // GDALGridNearestNeighborOptions* pOptions = new GDALGridNearestNeighborOptions();
       // pOptions->dfNoDataValue = m_dMissingValue; // Set the no-data marker to fill empty points
       // pOptions->dfRadius = -1;                   // Set the search radius to infinite
 
@@ -2255,7 +2255,7 @@ int CSimulation::nInterpolateAllDeepWaterWaveValues(void)
    unsigned int nUserPoints = static_cast<unsigned int>(m_VdDeepWaterWaveStationX.size());
 
    // Call GDALGridCreate() with the GGA_InverseDistanceToAPower interpolation algorithm. It has following parameters: radius1 is the first radius (X axis if rotation angle is 0) of the search ellipse, set this to zero (the default) to use the whole point array; radius2 is the second radius (Y axis if rotation angle is 0) of the search ellipse, again set this parameter to zero (the default) to use the whole point array; angle is the angle of the search ellipse rotation in degrees (counter clockwise, default 0.0); nodata is the NODATA marker to fill empty points (default 0.0)
-   GDALGridInverseDistanceToAPowerOptions *pOptions = new GDALGridInverseDistanceToAPowerOptions();
+   GDALGridInverseDistanceToAPowerOptions* pOptions = new GDALGridInverseDistanceToAPowerOptions();
    pOptions->dfAngle = 0;
    pOptions->dfAnisotropyAngle = 0;
    pOptions->dfAnisotropyRatio = 0;
@@ -2272,7 +2272,7 @@ int CSimulation::nInterpolateAllDeepWaterWaveValues(void)
 
    // OK, now create a gridded version of wave height: first create the GDAL context
    //    GDALGridContext* pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, &m_VdDeepWaterWaveStationX[0], &m_VdDeepWaterWaveStationY[0], &m_VdThisIterDeepWaterWaveStationHeight[0], true);
-   GDALGridContext *pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, m_VdDeepWaterWaveStationX.data(), m_VdDeepWaterWaveStationY.data(), m_VdThisIterDeepWaterWaveStationHeight.data(), true);
+   GDALGridContext* pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, m_VdDeepWaterWaveStationX.data(), m_VdDeepWaterWaveStationY.data(), m_VdThisIterDeepWaterWaveStationHeight.data(), true);
 
    if (pContext == NULL)
    {

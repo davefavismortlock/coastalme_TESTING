@@ -91,7 +91,7 @@ int CRWCoast::nGetEndEdge(void) const
 }
 
 //! Given the vector line of a coast initializes, initializes coastline values (curvature, breaking wave height, wave angle, and flux orientation etc.)
-void CRWCoast::SetCoastlineExtCRS(CGeomLine const *pLCoast)
+void CRWCoast::SetCoastlineExtCRS(CGeomLine const* pLCoast)
 {
    m_LCoastlineExtCRS = *pLCoast;
 
@@ -140,21 +140,21 @@ void CRWCoast::AppendPointToCoastlineExtCRS(double const dX, double const dY)
    m_VdWaveEnergyAtBreaking.push_back(0);
 }
 
-// void CRWCoast::SetFloodWaveSetupPointExtCRS(CGeomLine const *pLCoast)
+// void CRWCoast::SetFloodWaveSetupPointExtCRS(CGeomLine const* pLCoast)
 // {
 //    m_LFloodWaveSetupExtCRS = *pLCoast;
 
 //    // int nLen = m_LFloodWaveSetupLineExtCRS.nGetSize();
 // }
 
-// void CRWCoast::SetFloodWaveSetupSurgePointExtCRS(CGeomLine const *pLCoast)
+// void CRWCoast::SetFloodWaveSetupSurgePointExtCRS(CGeomLine const* pLCoast)
 // {
 //    m_LFloodWaveSetupSurgeExtCRS = *pLCoast;
 
 //    // int nLen = m_LFloodWaveSetupSurgeLineExtCRS.nGetSize();
 // }
 
-// void CRWCoast::SetFloodWaveSetupSurgeRunupPointExtCRS(CGeomLine const *pLCoast)
+// void CRWCoast::SetFloodWaveSetupSurgeRunupPointExtCRS(CGeomLine const* pLCoast)
 // {
 //    m_LFloodWaveSetupSurgeRunupExtCRS = *pLCoast;
 
@@ -209,7 +209,7 @@ int CRWCoast::nGetCoastlineSize(void) const
 // }
 
 //! Sets the co-ordinates (grid CRS) of the cells marked as coastline
-void CRWCoast::SetCoastlineGridCRS(CGeomILine const *pILCoastCells)
+void CRWCoast::SetCoastlineGridCRS(CGeomILine const* pILCoastCells)
 {
    m_ILCellsMarkedAsCoastline = *pILCoastCells;
 }
@@ -255,7 +255,7 @@ CGeom2DIPoint *CRWCoast::pPtiGetCellMarkedAsCoastline(int const n)
 // }
 
 //! Returns the coastline number given a cell, or INT_NODATA if neither this cell or any of its neighbouring cells are 'under' a coastline. If it is a neighbouring cell that is under the coastline, then it also changes the cell that is supplied as an input parameter
-int CRWCoast::nGetCoastPointGivenCell(CGeom2DIPoint *pPtiCell)
+int CRWCoast::nGetCoastPointGivenCell(CGeom2DIPoint* pPtiCell)
 {
    for (int nCoastPoint = 0; nCoastPoint < m_ILCellsMarkedAsCoastline.nGetSize(); nCoastPoint++)
    {
@@ -687,7 +687,7 @@ double CRWCoast::dGetWaveEnergyAtBreaking(int const nCoastPoint) const
 }
 
 //! Appends a coastal landform to this coast
-void CRWCoast::AppendCoastLandform(CACoastLandform *pCoastLandform)
+void CRWCoast::AppendCoastLandform(CACoastLandform* pCoastLandform)
 {
    m_pVLandforms.push_back(pCoastLandform);
 }
@@ -716,9 +716,9 @@ int CRWCoast::nGetPolygonNode(int const nPoint) const
 }
 
 //! Creates a coast polygon
-void CRWCoast::CreatePolygon(int const nGlobalID, int const nCoastID, int const nCoastPoint, CGeom2DIPoint const *PtiNode, CGeom2DIPoint const *PtiAntiNode, int const nProfileUpCoast, int const nProfileDownCoast, vector<CGeom2DPoint> const *pVIn, int const nPointsUpCoastProfile, int const nPointsDownCoastProfile, int const nPointInPolygonStartPoint)
+void CRWCoast::CreatePolygon(int const nGlobalID, int const nCoastID, int const nCoastPoint, CGeom2DIPoint const *PtiNode, CGeom2DIPoint const* PtiAntiNode, int const nProfileUpCoast, int const nProfileDownCoast, vector<CGeom2DPoint> const* pVIn, int const nPointsUpCoastProfile, int const nPointsDownCoastProfile, int const nPointInPolygonStartPoint)
 {
-   CGeomCoastPolygon *pPolygon = new CGeomCoastPolygon(nGlobalID, nCoastID, nCoastPoint, nProfileUpCoast, nProfileDownCoast, pVIn, nPointsUpCoastProfile, nPointsDownCoastProfile, PtiNode, PtiAntiNode, nPointInPolygonStartPoint);
+   CGeomCoastPolygon* pPolygon = new CGeomCoastPolygon(nGlobalID, nCoastID, nCoastPoint, nProfileUpCoast, nProfileDownCoast, pVIn, nPointsUpCoastProfile, nPointsDownCoastProfile, PtiNode, PtiAntiNode, nPointInPolygonStartPoint);
 
    m_pVPolygon.push_back(pPolygon);
 }
@@ -756,7 +756,7 @@ int CRWCoast::nGetNumShadowBoundaries(void)
 }
 
 //! Appends a shadow boundary to this coast
-void CRWCoast::AppendShadowBoundary(CGeomLine const *pLBoundary)
+void CRWCoast::AppendShadowBoundary(CGeomLine const* pLBoundary)
 {
    m_LShadowBoundary.push_back(*pLBoundary);
 }
@@ -775,7 +775,7 @@ int CRWCoast::nGetNumShadowDowndriftBoundaries(void)
 }
 
 //! Appends a shadow zone downdrift boundary
-void CRWCoast::AppendShadowDowndriftBoundary(CGeomLine const *pLBoundary)
+void CRWCoast::AppendShadowDowndriftBoundary(CGeomLine const* pLBoundary)
 {
    m_LShadowDowndriftBoundary.push_back(*pLBoundary);
 }

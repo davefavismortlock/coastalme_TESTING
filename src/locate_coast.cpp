@@ -204,7 +204,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    // GDALDataset* pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
    // pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
    // pDataSet->SetGeoTransform(m_dGeoTransform);
-   // double *pdRaster = new double[m_nXGridMax * m_nYGridMax];
+   // double* pdRaster = new double[m_nXGridMax * m_nYGridMax];
    // int n = 0;
    // for (int nY = 0; nY < m_nYGridMax; nY++)
    // {
@@ -214,7 +214,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    //    }
    // }
 
-   // GDALRasterBand *pBand = pDataSet->GetRasterBand(1);
+   // GDALRasterBand* pBand = pDataSet->GetRasterBand(1);
    // pBand->SetNoDataValue(m_dMissingValue);
    // int nRet = pBand->RasterIO(GF_Write, 0, 0, m_nXGridMax, m_nYGridMax, pdRaster, m_nXGridMax, m_nYGridMax, GDT_Float64, 0, 0, NULL);
    // if (nRet == CE_Failure)
@@ -231,7 +231,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    // GDALDataset* pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
    // pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
    // pDataSet->SetGeoTransform(m_dGeoTransform);
-   // double *pdRaster = new double[m_nXGridMax * m_nYGridMax];
+   // double* pdRaster = new double[m_nXGridMax * m_nYGridMax];
 
    // pDataSet = pDriver->Create(strOutFile.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Float64, m_papszGDALRasterOptions);
    // pDataSet->SetProjection(m_strGDALBasementDEMProjection.c_str());
@@ -247,7 +247,7 @@ void CSimulation::FloodFillSea(int const nXStart, int const nYStart)
    //    }
    // }
 
-   // GDALRasterBand *pBand = pDataSet->GetRasterBand(1);
+   // GDALRasterBand* pBand = pDataSet->GetRasterBand(1);
    // pBand = pDataSet->GetRasterBand(1);
    // pBand->SetNoDataValue(m_dMissingValue);
    // int nRet = pBand->RasterIO(GF_Write, 0, 0, m_nXGridMax, m_nYGridMax, pdRaster, m_nXGridMax, m_nYGridMax, GDT_Float64, 0, 0, NULL);
@@ -368,7 +368,7 @@ int CSimulation::nTraceAllCoasts(void)
 //===============================================================================================================================
 //! Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
 //===============================================================================================================================
-int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool> *pVbTraced, vector<CGeom2DIPoint> const *pV2DIPossibleStartCell)
+int CSimulation::nTraceCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool>* pVbTraced, vector<CGeom2DIPoint> const* pV2DIPossibleStartCell)
 {
    bool
        bHitStartCell = false,
@@ -1087,8 +1087,7 @@ int CSimulation::FindAllInundatedCells(void)
 }
 
 //===============================================================================================================================
-//! TODO DFM What does this do? Why do we need to flood fill land, when we already have a flood fill sea routine?
-//! WHAT IS THIS? Recursive Scanline 8-Way Floodfill Algorithm (floodFillScanline) Need a description Flood-fill all sea cells starting from a given cell. The flood fill code used here is adapted from an example by Lode Vandevenne (http://lodev.org/cgtutor/floodfill.html#Scanline_Floodfill_Algorithm_With_Stack). Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected
+//! Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected TODO Not clear why we need this. We already have a flood fill sea routine: every cell that isn't sea is land
 //===============================================================================================================================
 void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
 {
@@ -1339,7 +1338,7 @@ int CSimulation::nTraceAllFloodCoasts(void)
 //===============================================================================================================================
 //! Traces a coastline (which is defined to be just above still water level) on the grid using the 'wall follower' rule for maze traversal (http://en.wikipedia.org/wiki/Maze_solving_algorithm#Wall_follower). The vector coastlines are then smoothed
 //===============================================================================================================================
-int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool> *pVbTraced, vector<CGeom2DIPoint> const *pV2DIPossibleStartCell)
+int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellIndex, int const nStartSearchDirection, int const nHandedness, vector<bool>* pVbTraced, vector<CGeom2DIPoint> const* pV2DIPossibleStartCell)
 {
    bool
        bHitStartCell = false,

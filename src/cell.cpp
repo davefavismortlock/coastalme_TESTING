@@ -723,7 +723,7 @@ void CGeomCell::CalcAllLayerElevsAndD50(void)
       if (dUnconsThick > 0)
       {
          // This is a layer with non-zero thickness of unconsolidated sediment
-         CRWCellSediment *pUnconsSedLayer = m_VLayerAboveBasement[n].pGetUnconsolidatedSediment();
+         CRWCellSediment const* pUnconsSedLayer = m_VLayerAboveBasement[n].pGetUnconsolidatedSediment();
          double
              dFineProp = pUnconsSedLayer->dGetFineDepth() / dUnconsThick,
              dSandProp = pUnconsSedLayer->dGetSandDepth() / dUnconsThick,

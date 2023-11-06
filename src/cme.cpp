@@ -39,7 +39,7 @@ int main(int argc, char const* argv[])
    setlocale(LC_ALL, "en_GB.UTF-8");
 
    // Create a CSimulation object
-   CSimulation *pSimulation = new CSimulation;
+   CSimulation* pSimulation = new CSimulation;
 
    // Run the simulation and then check how it ends
    int nRtn = pSimulation->nDoSimulation(argc, argv);

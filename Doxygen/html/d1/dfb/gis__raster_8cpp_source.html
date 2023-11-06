@@ -217,7 +217,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>   <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#adf47e8975cf4f0b6462c312ff3d7596f">m_dExtCRSGridArea</a> = <a class="code hl_function" href="../../d6/d2a/cme_8h.html#ae3b6dc50cfc97050529faa5e0bd66136">tAbs</a>(<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a91ecd1f19cdad1ea7f72e1b10ac7d695">m_dNorthWestXExtCRS</a> - <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a2d11f6895404a5eccc3bf77179a14cf2">m_dSouthEastXExtCRS</a>) * <a class="code hl_function" href="../../d6/d2a/cme_8h.html#ae3b6dc50cfc97050529faa5e0bd66136">tAbs</a>(<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a598582d5ac064f9872a00f8dda8dcbeb">m_dNorthWestYExtCRS</a> * <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a94a48a3e9e3b2f2420cd38d2f2dd25c4">m_dSouthEastYExtCRS</a>);</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>   <span class="comment">// Now get GDAL raster band information</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>   GDALRasterBand *pGDALBand = pGDALDataset-&gt;GetRasterBand(1);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>   GDALRasterBand* pGDALBand = pGDALDataset-&gt;GetRasterBand(1);</div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>   <span class="keywordtype">int</span> nBlockXSize = 0, nBlockYSize = 0;</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>   pGDALBand-&gt;GetBlockSize(&amp;nBlockXSize, &amp;nBlockYSize);</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>   <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#aac5834a445024bf1dc0b424455b1b397">m_strGDALBasementDEMDataType</a> = GDALGetDataTypeName(pGDALBand-&gt;GetRasterDataType());</div>
@@ -248,7 +248,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>      <span class="keywordflow">return</span> nRet;</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>   <span class="comment">// Allocate memory for a 1D floating-point array, to hold the scan line for GDAL</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>   <span class="keywordtype">double</span> *pdScanline = <span class="keyword">new</span> <span class="keywordtype">double</span>[<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#aae00bc2d2feb0442fe39cb07e8f95744">m_nXGridMax</a>];</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>   <span class="keywordtype">double</span>* pdScanline = <span class="keyword">new</span> <span class="keywordtype">double</span>[<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#aae00bc2d2feb0442fe39cb07e8f95744">m_nXGridMax</a>];</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>   <span class="keywordflow">if</span> (NULL == pdScanline)</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>   {</div>
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      <span class="comment">// Error, can&#39;t allocate memory</span></div>
@@ -675,7 +675,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      }</div>
 <div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span> </div>
 <div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>      <span class="comment">// Now get GDAL raster band information</span></div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>      GDALRasterBand *pGDALBand = pGDALDataset-&gt;GetRasterBand(1); <span class="comment">// TODO give a message if there are several bands</span></div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>      GDALRasterBand* pGDALBand = pGDALDataset-&gt;GetRasterBand(1); <span class="comment">// TODO give a message if there are several bands</span></div>
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>      <span class="keywordtype">int</span> nBlockXSize = 0, nBlockYSize = 0;</div>
 <div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>      pGDALBand-&gt;GetBlockSize(&amp;nBlockXSize, &amp;nBlockYSize);</div>
 <div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>      strDataType = GDALGetDataTypeName(pGDALBand-&gt;GetRasterDataType());</div>
@@ -793,7 +793,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>      }</div>
 <div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span> </div>
 <div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>      <span class="comment">// Allocate memory for a 1D array, to hold the scan line for GDAL</span></div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>      <span class="keywordtype">double</span> *pdScanline = <span class="keyword">new</span> <span class="keywordtype">double</span>[<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#aae00bc2d2feb0442fe39cb07e8f95744">m_nXGridMax</a>];</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>      <span class="keywordtype">double</span>* pdScanline = <span class="keyword">new</span> <span class="keywordtype">double</span>[<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#aae00bc2d2feb0442fe39cb07e8f95744">m_nXGridMax</a>];</div>
 <div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>      <span class="keywordflow">if</span> (NULL == pdScanline)</div>
 <div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>      {</div>
 <div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>         <span class="comment">// Error, can&#39;t allocate memory</span></div>
@@ -1690,7 +1690,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span>   }</div>
 <div class="line"><a id="l01619" name="l01619"></a><span class="lineno"> 1619</span> </div>
 <div class="line"><a id="l01620" name="l01620"></a><span class="lineno"> 1620</span>   <span class="comment">// Create a single raster band</span></div>
-<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span>   GDALRasterBand *pBand = pDataSet-&gt;GetRasterBand(1);</div>
+<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span>   GDALRasterBand* pBand = pDataSet-&gt;GetRasterBand(1);</div>
 <div class="line"><a id="l01622" name="l01622"></a><span class="lineno"> 1622</span> </div>
 <div class="line"><a id="l01623" name="l01623"></a><span class="lineno"> 1623</span>   <span class="comment">// And fill it with the NODATA value</span></div>
 <div class="line"><a id="l01624" name="l01624"></a><span class="lineno"> 1624</span>   <span class="keywordflow">if</span> (bIsInteger)</div>
@@ -1806,7 +1806,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l01734" name="l01734"></a><span class="lineno"> 1734</span>   pBand-&gt;SetDescription(strDesc.c_str());</div>
 <div class="line"><a id="l01735" name="l01735"></a><span class="lineno"> 1735</span> </div>
 <div class="line"><a id="l01736" name="l01736"></a><span class="lineno"> 1736</span>   <span class="comment">// Set raster category names</span></div>
-<div class="line"><a id="l01737" name="l01737"></a><span class="lineno"> 1737</span>   <span class="keywordtype">char</span> **papszCategoryNames = NULL;</div>
+<div class="line"><a id="l01737" name="l01737"></a><span class="lineno"> 1737</span>   <span class="keywordtype">char</span>** papszCategoryNames = NULL;</div>
 <div class="line"><a id="l01738" name="l01738"></a><span class="lineno"> 1738</span>   <span class="keywordflow">switch</span> (nDataItem)</div>
 <div class="line"><a id="l01739" name="l01739"></a><span class="lineno"> 1739</span>   {</div>
 <div class="line"><a id="l01740" name="l01740"></a><span class="lineno"> 1740</span>      <span class="keywordflow">case</span> (<a class="code hl_variable" href="../../d6/d2a/cme_8h.html#aecc382b1d771db85ec9e9ae906da5b72">RASTER_PLOT_SLICE</a>):</div>
@@ -1924,8 +1924,8 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l01852" name="l01852"></a><span class="lineno"> 1852</span>   <span class="keywordflow">if</span> (! <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a49f72293a7ad8eb180ff91d5ac9dad2c">m_bGDALCanCreate</a>)</div>
 <div class="line"><a id="l01853" name="l01853"></a><span class="lineno"> 1853</span>   {</div>
 <div class="line"><a id="l01854" name="l01854"></a><span class="lineno"> 1854</span>      <span class="comment">// Since the user-selected raster driver cannot use the Create() method, we have been writing to a dataset created by the in-memory driver. So now we need to use CreateCopy() to copy this in-memory dataset to a file in the user-specified raster driver format</span></div>
-<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span>      GDALDriver *pOutDriver = GetGDALDriverManager()-&gt;GetDriverByName(<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a4b9dd1a4c22082c2bd2b04200c43f761">m_strRasterGISOutFormat</a>.c_str());</div>
-<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span>      GDALDataset *pOutDataSet = pOutDriver-&gt;CreateCopy(strFilePathName.c_str(), pDataSet, FALSE, <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#af7dddd331c2fff92c66434e6d6ffac8b">m_papszGDALRasterOptions</a>, NULL, NULL);</div>
+<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span>      GDALDriver* pOutDriver = GetGDALDriverManager()-&gt;GetDriverByName(<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a4b9dd1a4c22082c2bd2b04200c43f761">m_strRasterGISOutFormat</a>.c_str());</div>
+<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span>      GDALDataset* pOutDataSet = pOutDriver-&gt;CreateCopy(strFilePathName.c_str(), pDataSet, FALSE, <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#af7dddd331c2fff92c66434e6d6ffac8b">m_papszGDALRasterOptions</a>, NULL, NULL);</div>
 <div class="line"><a id="l01857" name="l01857"></a><span class="lineno"> 1857</span>      <span class="keywordflow">if</span> (NULL == pOutDataSet)</div>
 <div class="line"><a id="l01858" name="l01858"></a><span class="lineno"> 1858</span>      {</div>
 <div class="line"><a id="l01859" name="l01859"></a><span class="lineno"> 1859</span>         <span class="comment">// Couldn&#39;t create file</span></div>
@@ -1949,7 +1949,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l01877" name="l01877"></a><span class="lineno"> 1877</span> </div>
 <div class="line"><a id="l01878" name="l01878"></a><span class="lineno"> 1878</span><span class="comment">//===============================================================================================================================</span></div>
 <div class="line"><a id="l01880" name="l01880"></a><span class="lineno"> 1880</span><span class="comment"></span><span class="comment">//===============================================================================================================================</span></div>
-<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"><a class="line" href="../../d1/d98/classCSimulation.html#a5e3b5134f2c34bdb81312ab8f3a0faf1"> 1881</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="../../d1/d98/classCSimulation.html#a5e3b5134f2c34bdb81312ab8f3a0faf1">CSimulation::nInterpolateWavesToPolygonCells</a>(vector&lt;double&gt; <span class="keyword">const</span> *pVdX, vector&lt;double&gt; <span class="keyword">const</span> *pVdY, vector&lt;double&gt; <span class="keyword">const</span> *pVdHeightX, vector&lt;double&gt; <span class="keyword">const</span> *pVdHeightY)</div>
+<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"><a class="line" href="../../d1/d98/classCSimulation.html#a5e3b5134f2c34bdb81312ab8f3a0faf1"> 1881</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="../../d1/d98/classCSimulation.html#a5e3b5134f2c34bdb81312ab8f3a0faf1">CSimulation::nInterpolateWavesToPolygonCells</a>(vector&lt;double&gt; <span class="keyword">const</span>* pVdX, vector&lt;double&gt; <span class="keyword">const</span>* pVdY, vector&lt;double&gt; <span class="keyword">const</span>* pVdHeightX, vector&lt;double&gt; <span class="keyword">const</span>* pVdHeightY)</div>
 <div class="line"><a id="l01882" name="l01882"></a><span class="lineno"> 1882</span>{</div>
 <div class="line"><a id="l01883" name="l01883"></a><span class="lineno"> 1883</span>   <span class="keywordtype">int</span></div>
 <div class="line"><a id="l01884" name="l01884"></a><span class="lineno"> 1884</span>       nXSize = 0,</div>
@@ -1985,14 +1985,14 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l01914" name="l01914"></a><span class="lineno"> 1914</span>   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> nDirection = 0; nDirection &lt; 2; nDirection++)</div>
 <div class="line"><a id="l01915" name="l01915"></a><span class="lineno"> 1915</span>   {</div>
 <div class="line"><a id="l01916" name="l01916"></a><span class="lineno"> 1916</span>      <span class="comment">// Use the GDALGridCreate() linear interpolation algorithm: this computes a Delaunay triangulation of the point cloud, finding in which triangle of the triangulation the point is, and by doing linear interpolation from its barycentric coordinates within the triangle. If the point is not in any triangle, depending on the radius, the algorithm will use the value of the nearest point or the nodata value. Only available in GDAL 2.1 and later</span></div>
-<div class="line"><a id="l01917" name="l01917"></a><span class="lineno"> 1917</span>      GDALGridLinearOptions *pOptions = <span class="keyword">new</span> GDALGridLinearOptions();</div>
+<div class="line"><a id="l01917" name="l01917"></a><span class="lineno"> 1917</span>      GDALGridLinearOptions* pOptions = <span class="keyword">new</span> GDALGridLinearOptions();</div>
 <div class="line"><a id="l01918" name="l01918"></a><span class="lineno"> 1918</span>      pOptions-&gt;dfNoDataValue = <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a3fdd1d13658a5eaeec663b6b7d793092">m_dMissingValue</a>; <span class="comment">// Set the no-data marker to fill empty points</span></div>
 <div class="line"><a id="l01919" name="l01919"></a><span class="lineno"> 1919</span>      pOptions-&gt;dfRadius = -1;                   <span class="comment">// Set the search radius to infinite</span></div>
 <div class="line"><a id="l01920" name="l01920"></a><span class="lineno"> 1920</span>      pOptions-&gt;nSizeOfStructure = <span class="keyword">sizeof</span>(GDALGridLinearOptions);    <span class="comment">// Needed for GDAL 3.6 onwards, see https://gdal.org/api/gdal_alg.html#_CPPv421GDALGridLinearOptions</span></div>
 <div class="line"><a id="l01921" name="l01921"></a><span class="lineno"> 1921</span>      </div>
 <div class="line"><a id="l01922" name="l01922"></a><span class="lineno"> 1922</span>      <span class="comment">//      pOptions.dfRadius = static_cast&lt;double&gt;(nXSize + nYSize) / 2.0;                       // Set the search radius</span></div>
 <div class="line"><a id="l01923" name="l01923"></a><span class="lineno"> 1923</span> </div>
-<div class="line"><a id="l01924" name="l01924"></a><span class="lineno"> 1924</span>      <span class="comment">// GDALGridNearestNeighborOptions *pOptions = new GDALGridNearestNeighborOptions();</span></div>
+<div class="line"><a id="l01924" name="l01924"></a><span class="lineno"> 1924</span>      <span class="comment">// GDALGridNearestNeighborOptions* pOptions = new GDALGridNearestNeighborOptions();</span></div>
 <div class="line"><a id="l01925" name="l01925"></a><span class="lineno"> 1925</span>      <span class="comment">// pOptions-&gt;dfNoDataValue = m_dMissingValue; // Set the no-data marker to fill empty points</span></div>
 <div class="line"><a id="l01926" name="l01926"></a><span class="lineno"> 1926</span>      <span class="comment">// pOptions-&gt;dfRadius = -1;                   // Set the search radius to infinite</span></div>
 <div class="line"><a id="l01927" name="l01927"></a><span class="lineno"> 1927</span> </div>
@@ -2325,7 +2325,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l02255" name="l02255"></a><span class="lineno"> 2255</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> nUserPoints = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a6c0a332e92a94b1928de971a1f5bcb02">m_VdDeepWaterWaveStationX</a>.size());</div>
 <div class="line"><a id="l02256" name="l02256"></a><span class="lineno"> 2256</span> </div>
 <div class="line"><a id="l02257" name="l02257"></a><span class="lineno"> 2257</span>   <span class="comment">// Call GDALGridCreate() with the GGA_InverseDistanceToAPower interpolation algorithm. It has following parameters: radius1 is the first radius (X axis if rotation angle is 0) of the search ellipse, set this to zero (the default) to use the whole point array; radius2 is the second radius (Y axis if rotation angle is 0) of the search ellipse, again set this parameter to zero (the default) to use the whole point array; angle is the angle of the search ellipse rotation in degrees (counter clockwise, default 0.0); nodata is the NODATA marker to fill empty points (default 0.0)</span></div>
-<div class="line"><a id="l02258" name="l02258"></a><span class="lineno"> 2258</span>   GDALGridInverseDistanceToAPowerOptions *pOptions = <span class="keyword">new</span> GDALGridInverseDistanceToAPowerOptions();</div>
+<div class="line"><a id="l02258" name="l02258"></a><span class="lineno"> 2258</span>   GDALGridInverseDistanceToAPowerOptions* pOptions = <span class="keyword">new</span> GDALGridInverseDistanceToAPowerOptions();</div>
 <div class="line"><a id="l02259" name="l02259"></a><span class="lineno"> 2259</span>   pOptions-&gt;dfAngle = 0;</div>
 <div class="line"><a id="l02260" name="l02260"></a><span class="lineno"> 2260</span>   pOptions-&gt;dfAnisotropyAngle = 0;</div>
 <div class="line"><a id="l02261" name="l02261"></a><span class="lineno"> 2261</span>   pOptions-&gt;dfAnisotropyRatio = 0;</div>
@@ -2342,7 +2342,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div class="line"><a id="l02272" name="l02272"></a><span class="lineno"> 2272</span> </div>
 <div class="line"><a id="l02273" name="l02273"></a><span class="lineno"> 2273</span>   <span class="comment">// OK, now create a gridded version of wave height: first create the GDAL context</span></div>
 <div class="line"><a id="l02274" name="l02274"></a><span class="lineno"> 2274</span>   <span class="comment">//    GDALGridContext* pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, &amp;m_VdDeepWaterWaveStationX[0], &amp;m_VdDeepWaterWaveStationY[0], &amp;m_VdThisIterDeepWaterWaveStationHeight[0], true);</span></div>
-<div class="line"><a id="l02275" name="l02275"></a><span class="lineno"> 2275</span>   GDALGridContext *pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a6c0a332e92a94b1928de971a1f5bcb02">m_VdDeepWaterWaveStationX</a>.data(), <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a16a4b754374e3acc3110af2e7f413819">m_VdDeepWaterWaveStationY</a>.data(), <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a5e3c5680aac8973f28c0ed1add48abc2">m_VdThisIterDeepWaterWaveStationHeight</a>.data(), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l02275" name="l02275"></a><span class="lineno"> 2275</span>   GDALGridContext* pContext = GDALGridContextCreate(GGA_InverseDistanceToAPower, pOptions, nUserPoints, <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a6c0a332e92a94b1928de971a1f5bcb02">m_VdDeepWaterWaveStationX</a>.data(), <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a16a4b754374e3acc3110af2e7f413819">m_VdDeepWaterWaveStationY</a>.data(), <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#a5e3c5680aac8973f28c0ed1add48abc2">m_VdThisIterDeepWaterWaveStationHeight</a>.data(), <span class="keyword">true</span>);</div>
 <div class="line"><a id="l02276" name="l02276"></a><span class="lineno"> 2276</span> </div>
 <div class="line"><a id="l02277" name="l02277"></a><span class="lineno"> 2277</span>   <span class="keywordflow">if</span> (pContext == NULL)</div>
 <div class="line"><a id="l02278" name="l02278"></a><span class="lineno"> 2278</span>   {</div>
@@ -2938,7 +2938,7 @@ $(document).ready(function(){initNavTree('d1/dfb/gis__raster_8cpp_source.html','
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../d1/dfb/gis__raster_8cpp.html">gis_raster.cpp</a></li>
-    <li class="footer">Generated on Fri Nov 3 2023 10:57:45 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Mon Nov 6 2023 11:48:43 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

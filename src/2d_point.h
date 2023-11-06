@@ -46,9 +46,9 @@ public:
 //    void SetXY(double const, double const);
 //    void SetXY(CGeom2DPoint const*);
 
-   void operator= (CGeom2DPoint*);
-   bool operator== (CGeom2DPoint*) const;
+   void operator= (CGeom2DPoint const*);
+   bool operator== (CGeom2DPoint const*) const;
    bool operator== (CGeom2DPoint) const;
-   bool operator!= (CGeom2DPoint*) const;
+   bool operator!= (CGeom2DPoint const*) const;
 };
 #endif // C2DPOINT_H

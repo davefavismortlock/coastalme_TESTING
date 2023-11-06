@@ -118,14 +118,14 @@ void CGeom2DIPoint::DivXDivY(double const dXDiv, double const dYDiv)
 }
 
 //! Sets one CGeom2DIPoint object to be the same as another
-void CGeom2DIPoint::operator= (CGeom2DIPoint* pPti)
+void CGeom2DIPoint::operator= (CGeom2DIPoint const* pPti)
 {
    nX = pPti->nGetX();
    nY = pPti->nGetY();
 }
 
 //! Compares two CGeom2DIPoint objects for equality
-bool CGeom2DIPoint::operator== (CGeom2DIPoint* pPti) const
+bool CGeom2DIPoint::operator== (CGeom2DIPoint const* pPti) const
 {
    if ((pPti->nGetX() == nX) && (pPti->nGetY() == nY))
       return true;
@@ -143,7 +143,7 @@ bool CGeom2DIPoint::operator== (CGeom2DIPoint Pti) const
 }
 
 //! Compares two CGeom2DIPoint objects for inequality
-bool CGeom2DIPoint::operator!= (CGeom2DIPoint* pPti) const
+bool CGeom2DIPoint::operator!= (CGeom2DIPoint const* pPti) const
 {
    if ((pPti->nGetX() != nX) || (pPti->nGetY() != nY))
       return true;

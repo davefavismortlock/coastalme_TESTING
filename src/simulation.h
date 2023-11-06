@@ -635,7 +635,7 @@ private:
    int nDoAllShorePlatFormErosion(void);
    int nDoAllWaveEnergyToCoastLandforms(void);
    int nDoCliffCollapse(int const, CRWCliff*, double&, double&, double&, double&, double&);
-   int nDoCliffCollapseDeposition(int const, CRWCliff*, double const, double const, double const, double const);
+   int nDoCliffCollapseDeposition(int const, CRWCliff const*, double const, double const, double const, double const);
    int nUpdateGrid(void);
 
    // Lower-level simulation routines
@@ -684,16 +684,16 @@ private:
    static void InterpolateCShoreOutput(vector<double> const*, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double>*, vector<double>*, vector<double>*, vector<double>*);
    static double dCalcWaveAngleToCoastNormal(double const, double const, int const);
    void CalcCoastTangents(int const);
-   void InterpolateWavePropsBetweenProfiles(int const, int const, int const);
+   void InterpolateWavePropertiesBetweenProfiles(int const, int const, int const);
    void InterpolateWaveHeightToCoastPoints(int const);
-   void InterpolateWavePropertiesToCells(int const, int const, int const);
+   // void InterpolateWavePropertiesToCells(int const, int const, int const);
    void ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int const, int const);
    static double dCalcCurvature(int const, CGeom2DPoint const*, CGeom2DPoint const*, CGeom2DPoint const*);
    void CalcD50AndFillWaveCalcHoles(void);
    int nDoAllShadowZones(void);
    static bool bOnOrOffShoreAndUpOrDownCoast(double const, double const, int const, bool&);
    static CGeom2DIPoint PtiFollowWaveAngle(CGeom2DIPoint const*, double const, double&);
-   int nFindAllShadowZones(void);
+   // int nFindAllShadowZones(void);
    int nFloodFillShadowZone(int const, CGeom2DIPoint const*, CGeom2DIPoint const*, CGeom2DIPoint const*);
    int nDoShadowZoneAndDownDriftZone(int const, int const, int const, int const);
    void ProcessDownDriftCell(int const, int const, int const, double const, int const);
@@ -707,12 +707,12 @@ private:
    void DoAllPotentialBeachErosion(void);
    int nDoAllActualBeachErosionAndDeposition(void);
    // int nEstimateBeachErosionOnPolygon(int const, int const, double const);
-   int nEstimateErosionOnPolygon(int const, int const, double const, double&, double&, double&);
-   int nEstimateUnconsErosionOnParallelProfile(/*int const, int const,*/ int const, int const, /* int const, */ int const, vector<CGeom2DIPoint> const*, vector<double> const*, double&, double&, double&, double&, double&);
+   // int nEstimateErosionOnPolygon(int const, int const, double const, double&, double&, double&);
+   // int nEstimateUnconsErosionOnParallelProfile(/*int const, int const,*/ int const, int const, /* int const, */ int const, vector<CGeom2DIPoint> const*, vector<double> const*, double&, double&, double&, double&, double&);
    int nDoParallelProfileUnconsErosion( int const, int const,  int const, int const, int const,  int const,  int const, vector<CGeom2DIPoint> const*, vector<double> const*, double&, double&, double&);
    // void EstimateUnconsErosionOnCell(int const, int const, int const, double const, double&, double&, double&);
    void ErodeCellBeachSedimentSupplyLimited(int const, int const, int const, int const, double const, double&);
-   int nEstimateMovementUnconsToAdjacentPolygons(int const, int const);
+   // int nEstimateMovementUnconsToAdjacentPolygons(int const, int const);
    int nDoUnconsErosionOnPolygon(int const, int const, int const, double const, double&);
    int nDoUnconsDepositionOnPolygon(int const, int const, int const, double, double&);
    void CalcDepthOfClosure(void);
@@ -733,8 +733,8 @@ private:
    double dGridCentroidYToExtCRSY(int const) const;
    double dGridXToExtCRSX(double const) const;
    double dGridYToExtCRSY(double const) const;
-   double dExtCRSXToGridCentroidX(double const) const;
-   double dExtCRSYToGridCentroidY(double const) const;
+   // double dExtCRSXToGridCentroidX(double const) const;
+   // double dExtCRSYToGridCentroidY(double const) const;
    CGeom2DIPoint PtiExtCRSToGrid(CGeom2DPoint const*) const;
    CGeom2DPoint PtGridCentroidToExt(CGeom2DIPoint const*) const;
    double dExtCRSXToGridX(double const) const;
@@ -745,7 +745,7 @@ private:
    void KeepWithinValidGrid(int, int, int&, int&) const;
    void KeepWithinValidGrid(CGeom2DIPoint const*, CGeom2DIPoint*) const;
    static double dKeepWithin360(double const);
-   //    vector<CGeom2DPoint> VGetPerpendicular(CGeom2DPoint const*, CGeom2DPoint const*, double const, int const);
+   // vector<CGeom2DPoint> VGetPerpendicular(CGeom2DPoint const*, CGeom2DPoint const*, double const, int const);
    static CGeom2DPoint PtGetPerpendicular(CGeom2DPoint const*, CGeom2DPoint const*, double const, int const);
    static CGeom2DIPoint PtiGetPerpendicular(CGeom2DIPoint const*, CGeom2DIPoint const*, double const, int const);
    static CGeom2DIPoint PtiGetPerpendicular(int const, int const, int const, int const, double const, int const);

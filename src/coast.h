@@ -167,14 +167,14 @@ public:
    void SetCoastlineExtCRS(CGeomLine const*);
    void AppendPointToCoastlineExtCRS(double const, double const);
    CGeomLine* pLGetCoastlineExtCRS(void);
-// CGeomLine *pLGetFloodWaveSetupExtCRS(void);
+// CGeomLine* pLGetFloodWaveSetupExtCRS(void);
 // void SetFloodWaveSetupPointExtCRS(CGeomLine const*);
 // void SetFloodWaveSetupSurgePointExtCRS(CGeomLine const*);
 // void SetFloodWaveSetupSurgeRunupPointExtCRS(CGeomLine const*);
-   CGeom2DPoint *pPtGetCoastlinePointExtCRS(int const);
-// CGeom2DPoint *pPtGetFloodWaveSetupPointExtCRS(int const);
-// CGeom2DPoint *pPtGetFloodWaveSetupSurgePointExtCRS(int const);
-// CGeom2DPoint *pPtGetFloodWaveSetupSurgeRunupPointExtCRS(int const);
+   CGeom2DPoint* pPtGetCoastlinePointExtCRS(int const);
+// CGeom2DPoint* pPtGetFloodWaveSetupPointExtCRS(int const);
+// CGeom2DPoint* pPtGetFloodWaveSetupSurgePointExtCRS(int const);
+// CGeom2DPoint* pPtGetFloodWaveSetupSurgeRunupPointExtCRS(int const);
 
    int nGetCoastlineSize(void) const;
 //    double dGetCoastlineSegmentLength(int const, int const);
@@ -263,7 +263,7 @@ public:
    int nGetPolygonNode(int const) const;
    void CreatePolygon(int const, int const, int const, CGeom2DIPoint const*, CGeom2DIPoint const*, int const, int const, vector<CGeom2DPoint> const*, int const, int const, int const);
    int nGetNumPolygons(void) const;
-   CGeomCoastPolygon *pGetPolygon(int const) const;
+   CGeomCoastPolygon* pGetPolygon(int const) const;
 
    void AppendPolygonLength(const double);
    double dGetPolygonLength(int const) const;

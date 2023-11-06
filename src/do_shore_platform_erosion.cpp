@@ -1209,7 +1209,7 @@ void CSimulation::FillPotentialPlatformErosionHoles(void)
 //===============================================================================================================================
 //! Constructs a parallel coastline-normal profile
 //===============================================================================================================================
-void CSimulation::ConstructParallelProfile(int const nProfileStartX, int const nProfileStartY, int const nParCoastX, int const nParCoastY, int const nProfSize, vector<CGeom2DIPoint> *const pPtViGridProfile, vector<CGeom2DIPoint> *pPtiVGridParProfile, vector<CGeom2DPoint> *pPtVExtCRSParProfile)
+void CSimulation::ConstructParallelProfile(int const nProfileStartX, int const nProfileStartY, int const nParCoastX, int const nParCoastY, int const nProfSize, vector<CGeom2DIPoint>* const pPtViGridProfile, vector<CGeom2DIPoint>* pPtiVGridParProfile, vector<CGeom2DPoint>* pPtVExtCRSParProfile)
 {
    // OK, we have the coastline start point for the parallel profile. Now construct a temporary profile, parallel to the coastline-normal profile, starting from this point
    int

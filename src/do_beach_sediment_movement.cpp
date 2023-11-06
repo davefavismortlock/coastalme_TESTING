@@ -120,7 +120,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
       vector<vector<int> > nVVPolyAndAdjacent;
       for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
       {
-         CGeomCoastPolygon* pPoly = m_VCoast[nCoast].pGetPolygon(nPoly);
+         CGeomCoastPolygon const* pPoly = m_VCoast[nCoast].pGetPolygon(nPoly);
 
          vector<int> nVPolyAndAdj;
 
@@ -333,7 +333,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
             // OK we now have the actual values of sediment eroded from this polygon, so next determine where this eroded sand and coarse sediment goes (have to consider fine sediment too, because this goes off-grid on grid-edge polygons). Only do this if some sand or coarse was eroded on this polygon
             if ((dSandEroded + dCoarseEroded) > 0)        
             {
-               CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+               CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
                if (pPolygon->bDownCoastThisIter())
                {

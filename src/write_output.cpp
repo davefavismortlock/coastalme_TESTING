@@ -941,7 +941,7 @@ void CSimulation::WriteLookUpData(void)
 //===============================================================================================================================
 //! Save a coastline-normal profile
 //===============================================================================================================================
-int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
+int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -962,7 +962,7 @@ int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nP
 //===============================================================================================================================
 //! Writes values for a single profile, for checking purposes
 //===============================================================================================================================
-bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int const nProfSize, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
+bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
    string strFName = m_strOutPath;
    stringstream ststrTmp;
@@ -1005,7 +1005,7 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
 //===============================================================================================================================
 //! Save a coastline-normal parallel profile
 //===============================================================================================================================
-int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY)
+int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -1026,7 +1026,7 @@ int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const
 //===============================================================================================================================
 //! Writes values for a single parallel profile, for checking purposes
 //===============================================================================================================================
-bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int const nProfSize, int const nDirection, int const nDistFromProfile, vector<double> const *pdVDistXY, vector<double> const *pdVZ, vector<double> const *pdVDepthOverDB, vector<double> const *pdVErosionPotentialFunc, vector<double> const *pdVSlope, vector<double> const *pdVRecessionXY, vector<double> const *pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const *pdVScapeXY) const
+bool CSimulation::bWriteParProfileData(int const nCoast, int const nProfile, int const nProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
    string strFName = m_strOutPath;
    stringstream ststrTmp;

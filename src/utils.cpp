@@ -2608,7 +2608,7 @@ string CSimulation::strToLower(string const *strIn)
 //===============================================================================================================================
 //! Returns a string with a substring removed, and with whitespace trimmed
 //===============================================================================================================================
-string CSimulation::strRemoveSubstr(string *pStrIn, string const *pStrSub)
+string CSimulation::strRemoveSubstr(string* pStrIn, string const* pStrSub)
 {
    size_t nPos = pStrIn->find(*pStrSub);
 
@@ -2662,7 +2662,7 @@ double CSimulation::dCrossProduct(double const dX1, double const dY1, double con
 //===============================================================================================================================
 //! Calculates the mean of a pointer to a vector of doubles
 //===============================================================================================================================
-double CSimulation::dGetMean(vector<double> const *pV)
+double CSimulation::dGetMean(vector<double> const* pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
    double dMean = dSum / static_cast<double>(pV->size());
@@ -2672,7 +2672,7 @@ double CSimulation::dGetMean(vector<double> const *pV)
 //===============================================================================================================================
 //! Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
 //===============================================================================================================================
-double CSimulation::dGetStdDev(vector<double> const *pV)
+double CSimulation::dGetStdDev(vector<double> const* pV)
 {
    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
    double dMean = dSum / static_cast<double>(pV->size());
@@ -2686,7 +2686,7 @@ double CSimulation::dGetStdDev(vector<double> const *pV)
 //===============================================================================================================================
 //! Appends a CGeom2DIPoint to a vector<CGeom2DIPoint>, making sure that the new end point touches the previous end point i.e. that there is no gap between the two points
 //===============================================================================================================================
-void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint> *pVPtiPoints, CGeom2DIPoint const *pPti)
+void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint>* pVPtiPoints, CGeom2DIPoint const* pPti)
 {
    int
        nX = pPti->nGetX(),
@@ -2725,7 +2725,7 @@ void CSimulation::AppendEnsureNoGap(vector<CGeom2DIPoint> *pVPtiPoints, CGeom2DI
 //===============================================================================================================================
 //! Calculates a Dean equilibrium profile h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the Dean profile at a distance y from the landward start of the profile
 //===============================================================================================================================
-void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const dInc, double const dDeanTopElev, double const dA, bool const bDeposition, int const nSeawardOffset, double const dStartCellElev)
+void CSimulation::CalcDeanProfile(vector<double>* pdVDeanProfile, double const dInc, double const dDeanTopElev, double const dA, bool const bDeposition, int const nSeawardOffset, double const dStartCellElev)
 {
    double dDistFromProfileStart = 0;
 
@@ -2763,7 +2763,7 @@ void CSimulation::CalcDeanProfile(vector<double> *pdVDeanProfile, double const d
 //===============================================================================================================================
 //! Calculate the total elevation difference between every point in two elevation profiles (first profile - second profile)
 //===============================================================================================================================
-double CSimulation::dSubtractProfiles(vector<double> const *pdVFirstProfile, vector<double> const *pdVSecondProfile, vector<bool> const *pbVIsValid)
+double CSimulation::dSubtractProfiles(vector<double> const* pdVFirstProfile, vector<double> const* pdVSecondProfile, vector<bool> const* pbVIsValid)
 {
    double dTotElevDiff = 0;
 
@@ -2971,7 +2971,7 @@ bool CSimulation::bParseTime(string const *strTime, int &nHour, int &nMin, int &
 //===============================================================================================================================
 //! For sediment input events, parses a string that may be relative (a number of hours or days after the start of the simulation), or absolute (a time/date in the format hh-mm-ss dd/mm/yyyy). Returns the timestep in which the sediment input event occurs
 //===============================================================================================================================
-unsigned long CSimulation::ulConvertToTimestep(string const *pstrIn)
+unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
 {
    unsigned long ulTimeStep = 0;
 
