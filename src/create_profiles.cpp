@@ -1329,12 +1329,12 @@ int CSimulation::nPutAllProfilesOntoGrid(void)
       }
    }
 
-   //if (nValidProfiles == 0)
-   //{
-   // Problem! No valid profiles, so quit
-   //cerr << m_ulIter << ": " << ERR << "no coastline-normal profiles created" << endl;
-   //return RTN_ERR_NO_PROFILES_2;
-   //}
+   if (nValidProfiles == 0)
+   {
+      // Problem! No valid profiles, so quit
+      cerr << m_ulIter << ": " << ERR << "no coastline-normal profiles created" << endl;
+      return RTN_ERR_NO_PROFILES_2;
+   }
 
    return RTN_OK;
 }

@@ -288,17 +288,17 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
       // It's a cliff
       CRWCliff const* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
 
-      // Get attribute values from the cliff object
-      double dNotchBaseElev = pCliff->dGetNotchBaseElev();
-      double dNotchDepth = pCliff->dGetNotchDepth();
-      double dRemaining = pCliff->dGetRemaining();
-
       int nX = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nPoint)->nGetX();
       int nY = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nPoint)->nGetY();
 
       if (! pCliff->bHasCollapsed())
       {
-         // The cliff has not collapsed, so store some attribute values in the cliff cell
+         // The cliff has not collapsed. Get attribute values from the cliff object
+         double dNotchBaseElev = pCliff->dGetNotchBaseElev();
+         double dNotchDepth = pCliff->dGetNotchDepth();
+         double dRemaining = pCliff->dGetRemaining();
+
+         // And store some attribute values in the cliff cell
          m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetLFSubCategory(LF_SUBCAT_CLIFF_ON_COASTLINE);
          m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchBaseElev(dNotchBaseElev);
          m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchDepth(dNotchDepth);

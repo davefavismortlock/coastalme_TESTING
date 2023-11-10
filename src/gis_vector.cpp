@@ -484,7 +484,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    OGRSpatialReference OGRSpatialRef;
 
    // And tell it about the co-ordinate system used by the basement raster layer
-   if (! m_strGDALBasementDEMProjection.c_str())
+   if (m_strGDALBasementDEMProjection.empty())
    {
       OGRSpatialRef.importFromWkt(m_strGDALBasementDEMProjection.c_str());
    }
@@ -1038,7 +1038,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
 
                      if (nCategory == LF_CAT_CLIFF)
                      {
-                        CRWCliff* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
+                        CRWCliff const* pCliff = reinterpret_cast<CRWCliff*>(pCoastLandform);
 
                         // Get attribute values from the cliff object
                         dNotchDepth = pCliff->dGetNotchDepth();

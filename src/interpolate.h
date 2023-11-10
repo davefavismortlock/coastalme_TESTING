@@ -23,6 +23,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
-double dInterpolate(vector<double>, vector<double>, double, bool);
-double dInterpolate(vector<int>, vector<double>, int, bool);
+double dInterpolate(vector<double> const*, vector<double> const*, double, bool);
+double dInterpolate(vector<int> const*, vector<double> const*, int, bool);
 #endif // INTERPOLATE_H

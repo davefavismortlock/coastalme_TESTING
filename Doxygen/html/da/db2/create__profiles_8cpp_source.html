@@ -1393,12 +1393,12 @@ $(document).ready(function(){initNavTree('da/db2/create__profiles_8cpp_source.ht
 <div class="line"><a id="l01329" name="l01329"></a><span class="lineno"> 1329</span>      }</div>
 <div class="line"><a id="l01330" name="l01330"></a><span class="lineno"> 1330</span>   }</div>
 <div class="line"><a id="l01331" name="l01331"></a><span class="lineno"> 1331</span> </div>
-<div class="line"><a id="l01332" name="l01332"></a><span class="lineno"> 1332</span>   <span class="comment">//if (nValidProfiles == 0)</span></div>
-<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>   <span class="comment">//{</span></div>
-<div class="line"><a id="l01334" name="l01334"></a><span class="lineno"> 1334</span>   <span class="comment">// Problem! No valid profiles, so quit</span></div>
-<div class="line"><a id="l01335" name="l01335"></a><span class="lineno"> 1335</span>   <span class="comment">//cerr &lt;&lt; m_ulIter &lt;&lt; &quot;: &quot; &lt;&lt; ERR &lt;&lt; &quot;no coastline-normal profiles created&quot; &lt;&lt; endl;</span></div>
-<div class="line"><a id="l01336" name="l01336"></a><span class="lineno"> 1336</span>   <span class="comment">//return RTN_ERR_NO_PROFILES_2;</span></div>
-<div class="line"><a id="l01337" name="l01337"></a><span class="lineno"> 1337</span>   <span class="comment">//}</span></div>
+<div class="line"><a id="l01332" name="l01332"></a><span class="lineno"> 1332</span>   <span class="keywordflow">if</span> (nValidProfiles == 0)</div>
+<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>   {</div>
+<div class="line"><a id="l01334" name="l01334"></a><span class="lineno"> 1334</span>      <span class="comment">// Problem! No valid profiles, so quit</span></div>
+<div class="line"><a id="l01335" name="l01335"></a><span class="lineno"> 1335</span>      cerr &lt;&lt; <a class="code hl_variable" href="../../d1/d98/classCSimulation.html#ad67e8c5b30a0572f64ecfb5c062c2edc">m_ulIter</a> &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; <a class="code hl_variable" href="../../d6/d2a/cme_8h.html#a292fc90846543ca4814daa9f759feb05">ERR</a> &lt;&lt; <span class="stringliteral">&quot;no coastline-normal profiles created&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l01336" name="l01336"></a><span class="lineno"> 1336</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d6/d2a/cme_8h.html#a9acebe36530eff4f7cf08ea03d7da760">RTN_ERR_NO_PROFILES_2</a>;</div>
+<div class="line"><a id="l01337" name="l01337"></a><span class="lineno"> 1337</span>   }</div>
 <div class="line"><a id="l01338" name="l01338"></a><span class="lineno"> 1338</span> </div>
 <div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span>   <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d6/d2a/cme_8h.html#aa768cb14b5c6123ee95e6e4ebd9fe331">RTN_OK</a>;</div>
 <div class="line"><a id="l01340" name="l01340"></a><span class="lineno"> 1340</span>}</div>
@@ -2320,6 +2320,7 @@ $(document).ready(function(){initNavTree('da/db2/create__profiles_8cpp_source.ht
 <div class="ttc" id="acme_8h_html_a826c2bcca39c6c900b6d87757b2ab393"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a826c2bcca39c6c900b6d87757b2ab393">RTN_ERR_PROFILE_END_INSUFFICIENT_DEPTH</a></div><div class="ttdeci">int const RTN_ERR_PROFILE_END_INSUFFICIENT_DEPTH</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00417">cme.h:417</a></div></div>
 <div class="ttc" id="acme_8h_html_a85da1142fa4655ec66f1e391444a6d9a"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a85da1142fa4655ec66f1e391444a6d9a">LOG_FILE_HIGH_DETAIL</a></div><div class="ttdeci">int const LOG_FILE_HIGH_DETAIL</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00197">cme.h:197</a></div></div>
 <div class="ttc" id="acme_8h_html_a957ca99e98618160534cafb0929f743d"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a957ca99e98618160534cafb0929f743d">WARN</a></div><div class="ttdeci">string const WARN</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00584">cme.h:584</a></div></div>
+<div class="ttc" id="acme_8h_html_a9acebe36530eff4f7cf08ea03d7da760"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a9acebe36530eff4f7cf08ea03d7da760">RTN_ERR_NO_PROFILES_2</a></div><div class="ttdeci">int const RTN_ERR_NO_PROFILES_2</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00419">cme.h:419</a></div></div>
 <div class="ttc" id="acme_8h_html_a9e2e05614e11bb2eeecad6383fbe17bd"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a9e2e05614e11bb2eeecad6383fbe17bd">RTN_ERR_PROFILE_ENDPOINT_IS_INLAND</a></div><div class="ttdeci">int const RTN_ERR_PROFILE_ENDPOINT_IS_INLAND</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00415">cme.h:415</a></div></div>
 <div class="ttc" id="acme_8h_html_aa768cb14b5c6123ee95e6e4ebd9fe331"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#aa768cb14b5c6123ee95e6e4ebd9fe331">RTN_OK</a></div><div class="ttdeci">int const RTN_OK</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00389">cme.h:389</a></div></div>
 <div class="ttc" id="acme_8h_html_aaae1b0853fa02c400768fec78c168432"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#aaae1b0853fa02c400768fec78c168432">ACCEPT_SHORT_PROFILES</a></div><div class="ttdeci">bool const ACCEPT_SHORT_PROFILES</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00175">cme.h:175</a></div></div>
@@ -2342,7 +2343,7 @@ $(document).ready(function(){initNavTree('da/db2/create__profiles_8cpp_source.ht
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../da/db2/create__profiles_8cpp.html">create_profiles.cpp</a></li>
-    <li class="footer">Generated on Mon Nov 6 2023 11:48:43 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Nov 10 2023 18:12:32 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

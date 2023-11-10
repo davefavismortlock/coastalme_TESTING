@@ -1023,7 +1023,7 @@ double CSimulation::dLookUpErosionPotential(double const dDepthOverDB) const
       return 0;
 
    // OK, dDepthOverDB is less than the maximum so look up a corresponding value for erosion potential. The look-up index is dDepthOverDB divided by (the Depth Over DB increment used when creating the look-up vector). But since this look-up index may not be an integer, split the look-up index into integer and fractional parts and deal with each separately
-   double dErosionPotential = dInterpolate(m_VdDepthOverDB, m_VdErosionPotential, dDepthOverDB, false);
+   double dErosionPotential = dInterpolate(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
 
    return dErosionPotential;
 }

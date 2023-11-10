@@ -100,12 +100,12 @@ $(document).ready(function(){initNavTree('d7/d62/interpolate_8cpp.html','../../'
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aaea3893f9c23663ce8b366b6024c784e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d62/interpolate_8cpp.html#aaea3893f9c23663ce8b366b6024c784e">dInterpolate</a> (vector&lt; double &gt; VdXdata, vector&lt; double &gt; VdYdata, double dX, bool bExtrapolate)</td></tr>
-<tr class="memdesc:aaea3893f9c23663ce8b366b6024c784e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles.  <a href="../../d7/d62/interpolate_8cpp.html#aaea3893f9c23663ce8b366b6024c784e">More...</a><br /></td></tr>
-<tr class="separator:aaea3893f9c23663ce8b366b6024c784e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51dec0b3da6edb08f1db1d64379285e7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d62/interpolate_8cpp.html#a51dec0b3da6edb08f1db1d64379285e7">dInterpolate</a> (vector&lt; int &gt; VnXdata, vector&lt; double &gt; VdYdata, int nX, bool bExtrapolate)</td></tr>
-<tr class="memdesc:a51dec0b3da6edb08f1db1d64379285e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double.  <a href="../../d7/d62/interpolate_8cpp.html#a51dec0b3da6edb08f1db1d64379285e7">More...</a><br /></td></tr>
-<tr class="separator:a51dec0b3da6edb08f1db1d64379285e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1d125dec2bb12eac1e0fdf1d2e243b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d62/interpolate_8cpp.html#adb1d125dec2bb12eac1e0fdf1d2e243b">dInterpolate</a> (vector&lt; double &gt; const *pVdXdata, vector&lt; double &gt; const *pVdYdata, double dX, bool bExtrapolate)</td></tr>
+<tr class="memdesc:adb1d125dec2bb12eac1e0fdf1d2e243b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles.  <a href="../../d7/d62/interpolate_8cpp.html#adb1d125dec2bb12eac1e0fdf1d2e243b">More...</a><br /></td></tr>
+<tr class="separator:adb1d125dec2bb12eac1e0fdf1d2e243b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26bd44460d3e6ce61e433a05485384c1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d62/interpolate_8cpp.html#a26bd44460d3e6ce61e433a05485384c1">dInterpolate</a> (vector&lt; int &gt; const *pVnXdata, vector&lt; double &gt; const *pVdYdata, int nX, bool bExtrapolate)</td></tr>
+<tr class="memdesc:a26bd44460d3e6ce61e433a05485384c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double.  <a href="../../d7/d62/interpolate_8cpp.html#a26bd44460d3e6ce61e433a05485384c1">More...</a><br /></td></tr>
+<tr class="separator:a26bd44460d3e6ce61e433a05485384c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Linear interpolation routines. </p>
@@ -117,8 +117,8 @@ Modified by David Favis-Mortlock and Andres Payo </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="../../d7/d62/interpolate_8cpp_source.html">interpolate.cpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aaea3893f9c23663ce8b366b6024c784e" name="aaea3893f9c23663ce8b366b6024c784e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaea3893f9c23663ce8b366b6024c784e">&#9670;&nbsp;</a></span>dInterpolate() <span class="overload">[1/2]</span></h2>
+<a id="adb1d125dec2bb12eac1e0fdf1d2e243b" name="adb1d125dec2bb12eac1e0fdf1d2e243b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb1d125dec2bb12eac1e0fdf1d2e243b">&#9670;&nbsp;</a></span>dInterpolate() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,14 +126,14 @@ Modified by David Favis-Mortlock and Andres Payo </dd></dl>
         <tr>
           <td class="memname">double dInterpolate </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>VdXdata</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; const *&#160;</td>
+          <td class="paramname"><em>pVdXdata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>VdYdata</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; const *&#160;</td>
+          <td class="paramname"><em>pVdYdata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -163,8 +163,8 @@ Modified by David Favis-Mortlock and Andres Payo </dd></dl>
 
 </div>
 </div>
-<a id="a51dec0b3da6edb08f1db1d64379285e7" name="a51dec0b3da6edb08f1db1d64379285e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51dec0b3da6edb08f1db1d64379285e7">&#9670;&nbsp;</a></span>dInterpolate() <span class="overload">[2/2]</span></h2>
+<a id="a26bd44460d3e6ce61e433a05485384c1" name="a26bd44460d3e6ce61e433a05485384c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26bd44460d3e6ce61e433a05485384c1">&#9670;&nbsp;</a></span>dInterpolate() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,14 +172,14 @@ Modified by David Favis-Mortlock and Andres Payo </dd></dl>
         <tr>
           <td class="memname">double dInterpolate </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; int &gt;&#160;</td>
-          <td class="paramname"><em>VnXdata</em>, </td>
+          <td class="paramtype">vector&lt; int &gt; const *&#160;</td>
+          <td class="paramname"><em>pVnXdata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>VdYdata</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; const *&#160;</td>
+          <td class="paramname"><em>pVdYdata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -213,7 +213,7 @@ Modified by David Favis-Mortlock and Andres Payo </dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../d7/d62/interpolate_8cpp.html">interpolate.cpp</a></li>
-    <li class="footer">Generated on Mon Nov 6 2023 11:48:44 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Fri Nov 10 2023 18:12:32 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

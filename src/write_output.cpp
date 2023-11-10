@@ -927,7 +927,7 @@ void CSimulation::WriteLookUpData(void)
       double dDepthOverDB = 0.0;
       while (dDepthOverDB <= m_dDepthOverDBMax)
       {
-         double dErosionPotential = dInterpolate(m_VdDepthOverDB, m_VdErosionPotential, dDepthOverDB, false);
+         double dErosionPotential = dInterpolate(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
          LookUpOutStream << dDepthOverDB << ",\t" << dErosionPotential << endl;
          dDepthOverDB += DEPTH_OVER_DB_INCREMENT;
       }
@@ -1520,7 +1520,7 @@ void CSimulation::WritePolygonUnconsErosion(int const nCoast)
    
    for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
    {
-      CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+      CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
 
       LogStream << strIntRight(m_pVCoastPolygon[nPoly]->nGetGlobalID(), 14) << "|" << strIntRight(nCoast, 14) << "|" << strIntRight(m_pVCoastPolygon[nPoly]->nGetCoastID(), 14) << "|" << strDblRight((pPolygon->dGetErosionUnconsFine() + pPolygon->dGetErosionUnconsSand() + pPolygon->dGetErosionUnconsCoarse()) * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsFine() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsSand() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsCoarse() * m_dCellArea, 3, 14) << "|" << endl;
       
@@ -1629,7 +1629,7 @@ void CSimulation::WritePolygonSortedSequence(int const nCoast, vector<vector<int
 //===============================================================================================================================
 //! Writes to the log file a table showing per-polygon actual movement of unconsolidated beach sediment
 //===============================================================================================================================
-void CSimulation::WritePolygonActualMovement(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
+void CSimulation::WritePolygonActualMovement(int const nCoast, vector<vector<int> > const& pnVVPolyAndAdjacent)
 {
    // Show estimated polygon-to-polygon movement
    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon erosion (-ve) and deposition (+ve) of unconsolidated beach sediment, all m^3. Fine sediment is moved to suspension, not deposited." << endl;

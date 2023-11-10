@@ -2057,7 +2057,7 @@ void CSimulation::InterpolateWaveHeightToCoastPoints(int const nCoast)
    {
       for (int n = 0; n < nCoastPoints; n++)
       {
-         double dInterpCoastWaveHeight = dInterpolate(nVCoastWaveHeightX, dVCoastWaveHeightY, n, false);
+         double dInterpCoastWaveHeight = dInterpolate(&nVCoastWaveHeightX, &dVCoastWaveHeightY, n, false);
          m_VCoast[nCoast].SetCoastWaveHeight(n, dInterpCoastWaveHeight);
       }
    }

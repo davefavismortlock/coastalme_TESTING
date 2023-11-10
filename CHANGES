@@ -1,7 +1,6 @@
 CoastalME CHANGELOG
 
 1.0     Initial release
-
 1.1     Revised unconsolidated sediment transport algorithm, improved logfile output, bug fix to cliff collapse, many other bug fixes (24 Aug 2023)
 1.1.01  Bug fixes in CME and CShore (26 Aug 2023)
 1.1.02  Improved cliff collapse deposition (31 Aug 2023)
@@ -18,4 +17,4 @@ CoastalME CHANGELOG
 1.1.13  Removed dummy estuaries routine, more Doxygen documentation (27 Oct 2023)
 1.1.14  More Doxygen documentation (3 Nov 2023)
 1.1.15  Code tidying, more Doxygen documentation, cppcheck (6 Nov 2023)
-
+1.1.16  Ditto (10 Nov 2023)

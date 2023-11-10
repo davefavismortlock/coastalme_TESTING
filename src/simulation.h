@@ -603,8 +603,8 @@ private:
    int nReadWaveStationTimeSeriesFile(int const);
    int nReadSedimentInputEventTimeSeriesFile(void);
    int nReadTideDataFile(void);
-   int nSaveProfile(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*);
-   bool bWriteProfileData(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*) const;
+   int nSaveProfile(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>* const, vector<double> const*);
+   bool bWriteProfileData(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>* const, vector<double> const*) const;
    int nSaveParProfile(int const, int const, int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*);
    bool bWriteParProfileData(int const, int const, int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*) const;
    void WriteLookUpData(void);
@@ -657,7 +657,7 @@ private:
    int nCreateGridEdgeProfile(bool const, int const, int&);
    int nPutAllProfilesOntoGrid(void);
    int nModifyAllIntersectingProfiles(void);
-   static bool bCheckForIntersection(CGeomProfile *const, CGeomProfile *const, int&, int&, double&, double&, double&, double&);
+   static bool bCheckForIntersection(CGeomProfile *const, CGeomProfile* const, int&, int&, double&, double&, double&, double&);
    void MergeProfilesAtFinalLineSegments(int const, int const, int const, int const, int const, double const, double const, double const, double const);
    void TruncateOneProfileRetainOtherProfile(int const, int const, int const, double const, double const, int const, int const, bool const);
    int nInsertPointIntoProfilesIfNeededThenUpdate(int const, int const, double const, double const, int const, int const, int const, bool const);
@@ -665,17 +665,17 @@ private:
    void RasterizeProfile(int const, int const, vector<CGeom2DIPoint>*, vector<bool>*, bool&, bool&, bool&, bool&, bool&);
    static void CalcDeanProfile(vector<double>*, double const, double const, double const, bool const, int const, double const);
    static double dSubtractProfiles(vector<double> const*, vector<double> const*, vector<bool> const*);
-   int nRasterizeCliffCollapseProfile(vector<CGeom2DPoint> const*, vector<CGeom2DIPoint>*) const;
+   void RasterizeCliffCollapseProfile(vector<CGeom2DPoint> const*, vector<CGeom2DIPoint>*) const;
    int nCalcPotentialPlatformErosionOnProfile(int const, int const);
    int nCalcPotentialPlatformErosionBetweenProfiles(int const, int const, int const);
-   void ConstructParallelProfile(int const, int const, int const, int const, int const, vector<CGeom2DIPoint>*const, vector<CGeom2DIPoint>*, vector<CGeom2DPoint> *);
+   void ConstructParallelProfile(int const, int const, int const, int const, int const, vector<CGeom2DIPoint>* const, vector<CGeom2DIPoint>*, vector<CGeom2DPoint> *);
    double dCalcBeachProtectionFactor(int const, int const, double const);
    void FillInBeachProtectionHoles(void);
    void FillPotentialPlatformErosionHoles(void);
    void DoActualPlatformErosionOnCell(int const, int const);
    double dLookUpErosionPotential(double const) const;
    static CGeom2DPoint PtChooseEndPoint(int const, CGeom2DPoint const*, CGeom2DPoint const*, double const, double const, double const, double const);
-   int nGetCoastNormalEndPoint(int const, int const, int const, CGeom2DPoint const*, double const, CGeom2DPoint *, CGeom2DIPoint*);
+   int nGetCoastNormalEndPoint(int const, int const, int const, CGeom2DPoint const*, double const, CGeom2DPoint*, CGeom2DIPoint*);
    int nLandformToGrid(int const, int const);
    int nCalcWavePropertiesOnProfile(int const, int const, int const, vector<double>*, vector<double>*, vector<double>*, vector<double>*, vector<bool>*);
    int nGetThisProfileElevationVectorsForCShore(int const, int const, int const, vector<double>*, vector<double>*, vector<double>*);
@@ -695,7 +695,7 @@ private:
    static CGeom2DIPoint PtiFollowWaveAngle(CGeom2DIPoint const*, double const, double&);
    // int nFindAllShadowZones(void);
    int nFloodFillShadowZone(int const, CGeom2DIPoint const*, CGeom2DIPoint const*, CGeom2DIPoint const*);
-   int nDoShadowZoneAndDownDriftZone(int const, int const, int const, int const);
+   void DoShadowZoneAndDownDriftZone(int const, int const, int const, int const);
    void ProcessDownDriftCell(int const, int const, int const, double const, int const);
    void ProcessShadowZoneCell(int const, int const, int const, CGeom2DIPoint const*, int const, int const, int const);
    int nCreateAllPolygons(void);
@@ -750,7 +750,7 @@ private:
    static CGeom2DIPoint PtiGetPerpendicular(CGeom2DIPoint const*, CGeom2DIPoint const*, double const, int const);
    static CGeom2DIPoint PtiGetPerpendicular(int const, int const, int const, int const, double const, int const);
    static CGeom2DPoint PtAverage(CGeom2DPoint const*, CGeom2DPoint const*);
-   static CGeom2DPoint PtAverage(vector<CGeom2DPoint> *);
+   static CGeom2DPoint PtAverage(vector<CGeom2DPoint>*);
    static CGeom2DIPoint PtiAverage(CGeom2DIPoint const*, CGeom2DIPoint const*);
    static CGeom2DIPoint PtiAverage(vector<CGeom2DIPoint>*);
    static CGeom2DIPoint PtiWeightedAverage(CGeom2DIPoint const*, CGeom2DIPoint const*, double const);
@@ -809,8 +809,8 @@ private:
    string strListTSFiles(void) const;
    void CalcProcessStats(void);
    void CalcSavitzkyGolayCoeffs(void);
-   CGeomLine LSmoothCoastSavitzkyGolay(CGeomLine *, int const, int const) const;
-   CGeomLine LSmoothCoastRunningMean(CGeomLine *) const;
+   CGeomLine LSmoothCoastSavitzkyGolay(CGeomLine*, int const, int const) const;
+   CGeomLine LSmoothCoastRunningMean(CGeomLine*) const;
    vector<double> dVSmoothProfileSlope(vector<double>*);
    //    vector<double> dVCalCGeomProfileSlope(vector<CGeom2DPoint>*, vector<double>*);
    vector<double> dVSmoothProfileSavitzkyGolay(vector<double>*, vector<double>*);
@@ -824,7 +824,7 @@ private:
    static string strToLower(string const*);
    //  static string strToUpper(string const*);
    static string strRemoveSubstr(string *, string const*);
-   static vector<string> *VstrSplit(string const*, char const, vector<string> *);
+   static vector<string> *VstrSplit(string const*, char const, vector<string>*);
    static vector<string> VstrSplit(string const*, char const);
    static double dCrossProduct(double const, double const, double const, double const, double const, double const);
    static double dGetMean(vector<double> const*);
@@ -842,7 +842,7 @@ private:
    void WritePolygonUnsortedSequence(int const, vector<vector<int> >&);
    void WritePolygonSortedSequence(int const, vector<vector<int> >&);
    void WritePolygonEstimatedMovement(int const, vector<vector<int> >&);
-   void WritePolygonActualMovement(int const, vector<vector<int> >&);
+   void WritePolygonActualMovement(int const, vector<vector<int> > const&);
 
    // Random number stuff
    static unsigned long ulGetTausworthe(unsigned long const, unsigned long const, unsigned long const, unsigned long const, unsigned long const);

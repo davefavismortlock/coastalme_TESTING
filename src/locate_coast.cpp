@@ -340,9 +340,10 @@ int CSimulation::nTraceAllCoasts(void)
       }
    }
 
+   int nValidCoast = 0;
    for (unsigned int n = 0; n < V2DIPossibleStartCell.size(); n++)
    {
-      if (!VbTraced[n])
+      if (! VbTraced[n])
       {
          int nRet = 0;
          if (VbPossibleStartCellLHEdge[n])
@@ -358,11 +359,18 @@ int CSimulation::nTraceAllCoasts(void)
          {
             // We have a valid coastline starting from this possible start cell
             VbTraced[n] = true;
+            nValidCoast++;
          }
       }
    }
 
-   return RTN_OK;
+   if (nValidCoast > 0)
+      return RTN_OK;
+   else
+   {
+      cerr << m_ulIter << ": no valid coasts found" << endl;
+      return RTN_ERR_TRACECOAST;
+   }
 }
 
 //===============================================================================================================================
@@ -1246,8 +1254,8 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
 int CSimulation::nTraceAllFloodCoasts(void)
 {
    vector<bool>
-       VbPossibleStartCellLHEdge,
-       VbTraced;
+      VbPossibleStartCellLHEdge,
+      VbTraced;
    vector<int> VnSearchDirection;
    vector<CGeom2DIPoint> V2DIPossibleStartCell;
 
@@ -1267,15 +1275,15 @@ int CSimulation::nTraceAllFloodCoasts(void)
          continue;
 
       int
-          nXThis = m_VEdgeCell[n].nGetX(),
-          nYThis = m_VEdgeCell[n].nGetY(),
-          nXNext = m_VEdgeCell[n + 1].nGetX(),
-          nYNext = m_VEdgeCell[n + 1].nGetY();
+         nXThis = m_VEdgeCell[n].nGetX(),
+         nYThis = m_VEdgeCell[n].nGetY(),
+         nXNext = m_VEdgeCell[n + 1].nGetX(),
+         nYNext = m_VEdgeCell[n + 1].nGetY();
 
       // Get "Is it sea?" information for 'this' and 'next' cells
       bool
-          bThisCellIsSea = m_pRasterGrid->m_Cell[nXThis][nYThis].bIsInContiguousFlood(),
-          bNextCellIsSea = m_pRasterGrid->m_Cell[nXNext][nYNext].bIsInContiguousFlood();
+         bThisCellIsSea = m_pRasterGrid->m_Cell[nXThis][nYThis].bIsInContiguousFlood(),
+         bNextCellIsSea = m_pRasterGrid->m_Cell[nXNext][nYNext].bIsInContiguousFlood();
 
       // Are we at a coast?
       if ((! bThisCellIsSea) && bNextCellIsSea)
@@ -1310,9 +1318,10 @@ int CSimulation::nTraceAllFloodCoasts(void)
       }
    }
 
+   bool bAtLeastOneCoastTraced = false;
    for (unsigned int n = 0; n < V2DIPossibleStartCell.size(); n++)
    {
-      if (!VbTraced[n])
+      if (! VbTraced[n])
       {
          int nRet = 0;
          if (VbPossibleStartCellLHEdge[n])
@@ -1328,11 +1337,15 @@ int CSimulation::nTraceAllFloodCoasts(void)
          {
             // We have a valid coastline starting from this possible start cell
             VbTraced[n] = true;
+            bAtLeastOneCoastTraced = true;
          }
       }
    }
 
-   return RTN_OK;
+   if (bAtLeastOneCoastTraced)
+      return RTN_OK;
+   else
+      return RTN_ERR_TRACECOAST;
 }
 
 //===============================================================================================================================

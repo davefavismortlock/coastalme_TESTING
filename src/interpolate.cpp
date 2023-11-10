@@ -31,25 +31,25 @@ using namespace std;
 //===============================================================================================================================
 //! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles
 //===============================================================================================================================
-double dInterpolate(vector<double> VdXdata, vector<double> VdYdata, double dX, bool bExtrapolate)
+double dInterpolate(vector<double> const* pVdXdata, vector<double> const* pVdYdata, double dX, bool bExtrapolate)
 {
-   int size = static_cast<int>(VdXdata.size());
+   int size = static_cast<int>(pVdXdata->size());
 
    int i = 0;                                   // Find left end of interval for interpolation
-   if (dX >= VdXdata[size - 2])                 // Special case: beyond right end
+   if (dX >= pVdXdata->at(size - 2))            // Special case: beyond right end
    {
       i = size - 2;
    }
    else
    {
-      while (dX > VdXdata[i+1]) i++;
+      while (dX > pVdXdata->at(i+1)) i++;
    }
    
    double 
-      dXL = VdXdata[i], 
-      dYL = VdYdata[i], 
-      dXR = VdXdata[i+1], 
-      dYR = VdYdata[i+1];                       // Points on either side (unless beyond ends)
+      dXL = pVdXdata->at(i),
+      dYL = pVdYdata->at(i),
+      dXR = pVdXdata->at(i+1),
+      dYR = pVdYdata->at(i+1);                  // Points on either side (unless beyond ends)
       
    if (! bExtrapolate)                          // If beyond ends of array and not extrapolating
    {
@@ -65,27 +65,27 @@ double dInterpolate(vector<double> VdXdata, vector<double> VdYdata, double dX, b
 //===============================================================================================================================
 //! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double
 //===============================================================================================================================
-double dInterpolate( vector<int> VnXdata, vector<double> VdYdata, int nX, bool bExtrapolate )
+double dInterpolate(vector<int> const* pVnXdata, vector<double> const* pVdYdata, int nX, bool bExtrapolate )
 {
-   unsigned int nSize = static_cast<unsigned int>(VnXdata.size());
+   unsigned int nSize = static_cast<unsigned int>(pVnXdata->size());
 
    int i = 0;                                   // Find left end of interval for interpolation
-   if (nX >= VnXdata[nSize - 2])                // Special case: beyond right end
+   if (nX >= pVnXdata->at(nSize - 2))           // Special case: beyond right end
    {
       i = nSize - 2;
    }
    else
    {
-      while (nX > VnXdata[i+1]) i++;
+      while (nX > pVnXdata->at(i+1)) i++;
    }
    
    int 
-      nXL = VnXdata[i], 
-      nXR = VnXdata[i+1];
+      nXL = pVnXdata->at(i),
+      nXR = pVnXdata->at(i+1);
       
    double 
-      dYL = VdYdata[i], 
-      dYR = VdYdata[i+1];                       // Points on either side (unless beyond ends)
+      dYL = pVdYdata->at(i),
+      dYR = pVdYdata->at(i+1);                  // Points on either side (unless beyond ends)
       
    if (! bExtrapolate)                          // If beyond ends of array and not extrapolating
    {
