@@ -65,528 +65,703 @@ class CSedInputEvent;
 class CSimulation
 {
 private:
-   bool
-      m_bHaveFineSediment,
-      m_bHaveSandSediment,
-      m_bHaveCoarseSediment,
-      m_bRasterGISSaveAll,
-      m_bVectorGISSaveAll,
-      m_bBasementElevSave,
-      m_bSedimentTopSurfSave,
-      m_bTopSurfSave,
-      m_bSliceSave,
-      m_bSeaDepthSave,
-      m_bAvgSeaDepthSave,
-      m_bWaveHeightSave,
-      m_bAvgWaveHeightSave,
-      m_bWaveAngleSave,
-      m_bAvgWaveAngleSave,
-      m_bWaveAngleAndHeightSave,
-      m_bAvgWaveAngleAndHeightSave,
-      m_bDeepWaterWaveAngleAndHeightSave,
-      m_bWaveEnergySinceCollapseSave,
-      m_bMeanWaveEnergySave,
-      m_bBreakingWaveHeightSave,
-      m_bBeachProtectionSave,
-      m_bPotentialPlatformErosionSave,
-      m_bActualPlatformErosionSave,
-      m_bTotalPotentialPlatformErosionSave,
-      m_bTotalActualPlatformErosionSave,
-      m_bPotentialBeachErosionSave,
-      m_bActualBeachErosionSave,
-      m_bTotalPotentialBeachErosionSave,
-      m_bTotalActualBeachErosionSave,
-      m_bBeachDepositionSave,
-      m_bTotalBeachDepositionSave,
-      m_bLandformSave,
-      m_bLocalSlopeSave,
-      m_bInterventionClassSave,
-      m_bInterventionHeightSave,
-      m_bSuspSedSave,
-      m_bAvgSuspSedSave,
-      m_bFineUnconsSedSave,
-      m_bSandUnconsSedSave,
-      m_bCoarseUnconsSedSave,
-      m_bFineConsSedSave,
-      m_bSandConsSedSave,
-      m_bCoarseConsSedSave,
-      m_bRasterCoastlineSave,
-      m_bRasterNormalSave,
-      m_bDistWeightSave,
-      m_bActiveZoneSave,
-      m_bCliffCollapseSave,
-      m_bTotCliffCollapseSave,
-      m_bCliffCollapseDepositionSave,
-      m_bTotCliffCollapseDepositionSave,
-      m_bRasterPolygonSave,
-      m_bPotentialPlatformErosionMaskSave,
-      m_bSeaMaskSave,
-      m_bBeachMaskSave,
-      m_bShadowZoneCodesSave,
-      m_bDeepWaterWaveAngleSave,
-      m_bDeepWaterWaveHeightSave,
-      m_bDeepWaterWavePeriodSave,
-      m_bPolygonUnconsSedUpOrDownDrift,
-      m_bPolygonUnconssedGainOrLoss,
-      m_bSaveRegular,
-      m_bCoastSave,
-      m_bNormalsSave,
-      m_bInvalidNormalsSave,
-      m_bCoastCurvatureSave,
-      m_bPolygonNodeSave,
-      m_bPolygonBoundarySave,
-      m_bCliffNotchSave,
-      m_bShadowBoundarySave,
-      m_bShadowDowndriftBoundarySave,
-      m_bSeaAreaTSSave,
-      m_bStillWaterLevelTSSave,
-      m_bActualPlatformErosionTSSave,
-      m_bCliffCollapseErosionTSSave,
-      m_bCliffCollapseDepositionTSSave,
-      m_bCliffCollapseNetTSSave,
-      m_bBeachErosionTSSave,
-      m_bBeachDepositionTSSave,
-      m_bBeachSedimentChangeNetTSSave,
-      m_bSuspSedTSSave,
-      m_bFloodSetupSurgeTSSave,
-      m_bFloodSetupSurgeRunupTSSave,
-      m_bSaveGISThisIter,
-      m_bOutputProfileData,
-      m_bOutputParallelProfileData,
-      m_bOutputLookUpData,
-      m_bOmitSearchNorthEdge,
-      m_bOmitSearchSouthEdge,
-      m_bOmitSearchWestEdge,
-      m_bOmitSearchEastEdge,
-      m_bErodeShorePlatformAlternateDirection,
-      m_bDoCoastPlatformErosion,
-      m_bDoCliffCollapse,
-      m_bDoBeachSedimentTransport,
-      m_bGDALCanCreate,
-      m_bGDALCanWriteFloat,
-      m_bGDALCanWriteInt32,
-      m_bScaleRasterOutput,
-      m_bWorldFile,
-      m_bSingleDeepWaterWaveValues,
-      m_bHaveWaveStationData,
-      m_bSedimentInput,
-      m_bSedimentInputAtPoint,
-      m_bSedimentInputAtCoast,
-      m_bSedimentInputAlongLine,
-      m_bSedimentInputEventSave,
-      m_bSedimentInputThisIter,
-      m_bDoFlood,
-      m_bWaveSetupSave,
-      m_bStormSurgeSave,
-      m_bRunUpSave,
-      m_bSetupSurgeFloodMaskSave,
-      m_bSetupSurgeRunupFloodMaskSave,
-      m_bRasterWaveFloodLineSave,
-      m_bVectorWaveFloodLineSave,
-      m_bFloodLocation,
-      m_bFloodSWLSetupLine,
-      m_bFloodSWLSetupSurgeLine,
-      m_bFloodSWLSetupSurgeRunupLine,
-      m_bGISSaveDigitsSequential;
+   //! Does this simulation consider fine-sized sediment?
+   bool m_bHaveFineSediment;
 
-   char **m_papszGDALRasterOptions;
-   char **m_papszGDALVectorOptions;
+   //! Does this simulation consider sand-sized sediment?
+   bool m_bHaveSandSediment;
 
-   int
-      m_nXGridMax,
-      m_nYGridMax,
-      m_nLayers,
-      m_nCoastSmooth,
-      m_nCoastSmoothWindow,
-      m_nSavGolCoastPoly,
-      m_nProfileSmoothWindow,
-      m_nCoastNormalAvgSpacing,           // In cells
-      m_nCoastCurvatureInterval,          // A length, measured in coastline points
-      m_nNaturalCapeNormals,
-      m_nGISMaxSaveDigits,
-      m_nGISSave,
-      m_nUSave,
-      m_nThisSave,
-      m_nCoastMax,
-      m_nCoastMin,
-      m_nNThisIterCliffCollapse,
-      m_nNTotCliffCollapse,
-      m_nGlobalPolygonID,                 // There are m_nGlobalPolygonID + 1 polygons at any time (all coasts)
-      m_nUnconsSedimentHandlingAtGridEdges,
-      m_nBeachErosionDepositionEquation,
-      m_nMissingValue,
-      m_nXMinBoundingBox,
-      m_nXMaxBoundingBox,
-      m_nYMinBoundingBox,
-      m_nYMaxBoundingBox,
-      m_nWavePropagationModel,
-      m_nSimStartSec,
-      m_nSimStartMin,
-      m_nSimStartHour,
-      m_nSimStartDay,
-      m_nSimStartMonth,
-      m_nSimStartYear,
-      m_nDeepWaterWaveDataNTimeSteps,
-      m_nLogFileDetail,
-      m_nRunUpEquation;
+   //! Does this simulation consider coarse-sized sediment?
+   bool m_bHaveCoarseSediment;
 
-   GDALDataType
-      m_GDALWriteIntDataType,
-      m_GDALWriteFloatDataType;
+   //! Save all raster GIS files?
+   bool m_bRasterGISSaveAll;
 
-   long
-      m_lGDALMaxCanWrite,
-      m_lGDALMinCanWrite;
+   //! Save all vector GIS files?
+   bool m_bVectorGISSaveAll;
 
-   unsigned long
-      m_ulIter,
-      m_ulTotTimestep,
-      m_ulRandSeed[NRNG],
-      m_ulNumCells,
-      m_ulThisIterNumSeaCells,
-      m_ulThisIterNumCoastCells,
-      m_ulThisIterNumPotentialPlatformErosionCells,
-      m_ulThisIterNumActualPlatformErosionCells,
-      m_ulThisIterNumPotentialBeachErosionCells,
-      m_ulThisIterNumActualBeachErosionCells,
-      m_ulThisIterNumBeachDepositionCells,
-      m_ulTotPotentialPlatformErosionOnProfiles,
-      m_ulTotPotentialPlatformErosionBetweenProfiles,
-      m_ulMissingValueBasementCells;
+   //! Save basement raster DEMs?
+   bool m_bBasementElevSave;
 
-   double
-      m_dDurationUnitsMult,
-      m_dNorthWestXExtCRS,
-      m_dNorthWestYExtCRS,
-      m_dSouthEastXExtCRS,
-      m_dSouthEastYExtCRS,
-      m_dExtCRSGridArea,
-      m_dCellSide,                                              // Length of cell side (in external CRS units)
-      m_dCellArea,                                              // Area of cell  (in external CRS units)
-      m_dCellDiagonal,                                          // Length of cell's diagonal (in external CRS units)
-      m_dInvCellSide,                                           // Inverse of m_dCellSide
-      m_dInvCellDiagonal,                                       // Inverse of m_dCellDiagonal
-      m_dSimDuration,                                           // Duration of simulation, in hours
-      m_dTimeStep,
-      m_dSimElapsed,                                            // Time simulated so far, in hours
-      m_dRegularSaveTime,
-      m_dRegularSaveInterval,
-      m_dUSaveTime[SAVEMAX],
-      m_dClkLast,                                               // Last value returned by clock()
-      m_dCPUClock,                                              // Total elapsed CPU time
-      m_dGeoTransform[6],
-      m_dSeaWaterDensity,
-      m_dOrigSWL,
-      m_dFinalSWL,
-      m_dDeltaSWLPerTimestep,
-      m_dThisIterSWL,
-      m_dThisIterDiffTotWaterLevel,
-      m_dThisIterDiffWaveSetupWaterLevel,
-      m_dThisIterDiffWaveSetupSurgeWaterLevel,
-      m_dThisIterDiffWaveSetupSurgeRunupWaterLevel,
-      m_dAccumulatedSeaLevelChange,
-      m_dMinSWL,
-      m_dMaxSWL,
-      m_dBreakingWaveHeight,
-      m_dC_0,                                                   // Deep water wave speed (m/s)
-      m_dL_0,                                                   // Deep water wave length (m)
-      m_dWaveDepthRatioForWaveCalcs,
-      m_dBreakingWaveHeightDepthRatio,
-      m_dAllCellsDeepWaterWaveHeight,
-      m_dAllCellsDeepWaterWaveAngle,
-      m_dAllCellsDeepWaterWavePeriod,
-      m_dMaxUserInputWaveHeight,
-      m_dMaxUserInputWavePeriod,                                // Used to constrain depth of closure
-      m_dR,
-      m_dD50Fine,
-      m_dD50Sand,
-      m_dD50Coarse,
-      m_dBeachSedimentDensity,
-      m_dBeachSedimentPorosity,
-      m_dFineErodibility,
-      m_dSandErodibility,
-      m_dCoarseErodibility,
-      m_dFineErodibilityNormalized,
-      m_dSandErodibilityNormalized,
-      m_dCoarseErodibilityNormalized,
-      m_dKLS,
-      m_dKamphuis,
-      m_dG,
-      m_dInmersedToBulkVolumetric,
-      m_dDepthOfClosure,
-      m_dCoastNormalAvgSpacing,                                 // In m
-      m_dCoastNormalLength,
-      m_dThisIterTotSeaDepth,
-      m_dThisIterPotentialPlatformErosion,
-      m_dThisIterActualPlatformErosionFineCons,
-      m_dThisIterActualPlatformErosionSandCons,
-      m_dThisIterActualPlatformErosionCoarseCons,
-      m_dThisIterPotentialBeachErosion,
-      m_dThisIterBeachErosionFine,
-      m_dThisIterBeachErosionSand,
-      m_dThisIterBeachErosionCoarse,
-      m_dThisIterBeachDepositionSand,
-      m_dThisIterBeachDepositionCoarse,
-      m_dThisIterFineSedimentToSuspension,
-      m_dThisIterPotentialSedLostBeachErosion,
-      m_dThisIterLeftGridUnconsFine,
-      m_dThisIterLeftGridUnconsSand,
-      m_dThisIterLeftGridUnconsCoarse,
-      m_dThisIterCliffCollapseFineErodedDuringDeposition,
-      m_dThisIterCliffCollapseSandErodedDuringDeposition,
-      m_dThisIterCliffCollapseCoarseErodedDuringDeposition,
-      m_dThisIterDepositionSandDiff,
-      m_dThisIterDepositionCoarseDiff,
-      m_dDepthOverDBMax,                                        // Used in erosion potential look-up function
-      m_dTotPotentialPlatformErosionOnProfiles,
-      m_dTotPotentialPlatformErosionBetweenProfiles,
-      m_dProfileMaxSlope,
-      m_dMaxBeachElevAboveSWL,
-      m_dCliffErosionResistance,
-      m_dNotchDepthAtCollapse,
-      m_dNotchBaseBelowSWL,
-      m_dCliffDepositionA,
-      m_dCliffDepositionPlanviewWidth,
-      m_dCliffTalusMinDepositionLength,
-      m_dMinCliffTalusHeightFrac,
-      m_dThisIterCliffCollapseErosionFineUncons,
-      m_dThisIterCliffCollapseErosionSandUncons,
-      m_dThisIterCliffCollapseErosionCoarseUncons,
-      m_dThisIterCliffCollapseErosionFineCons,
-      m_dThisIterCliffCollapseErosionSandCons,
-      m_dThisIterCliffCollapseErosionCoarseCons,
-      m_dThisIterUnconsSandCliffDeposition,
-      m_dThisIterUnconsCoarseCliffDeposition,
-      m_dCoastNormalRandSpaceFact,
-      m_dDeanProfileStartAboveSWL,
-      m_dMissingValue,
-      m_dWaveDataWrapHours,
-      m_dThisIterTopElevMax,
-      m_dThisIterTopElevMin,
-      m_dThisiterUnconsFineInput,
-      m_dThisiterUnconsSandInput,
-      m_dThisiterUnconsCoarseInput,
-      m_dStartIterSuspFine,
-      m_dStartIterUnconsFine,
-      m_dStartIterUnconsSand,
-      m_dStartIterUnconsCoarse,
-      m_dStartIterConsFine,
-      m_dStartIterConsSand,
-      m_dStartIterConsCoarse;
+   //! Save sediment top surface raster DEMs?
+   bool m_bSedimentTopSurfSave;
 
-   // These grand totals are all long doubles, the aim is to minimize rounding errors when many very small numbers are added to a single much larger number, see e.g. http://www.ddj.com/cpp/184403224
-   long double
-      m_ldGTotPotentialPlatformErosion,
-      m_ldGTotFineActualPlatformErosion,
-      m_ldGTotSandActualPlatformErosion,
-      m_ldGTotCoarseActualPlatformErosion,
-      m_ldGTotPotentialSedLostBeachErosion,
-      m_ldGTotActualFineLostBeachErosion,
-      m_ldGTotActualSandLostBeachErosion,
-      m_ldGTotActualCoarseLostBeachErosion,
-      m_ldGTotSandSedLostCliffCollapse,
-      m_ldGTotCoarseSedLostCliffCollapse,
-      m_ldGTotCliffCollapseFine,
-      m_ldGTotCliffCollapseSand,
-      m_ldGTotCliffCollapseCoarse,
-      m_ldGTotCliffTalusFineToSuspension,
-      m_ldGTotCliffTalusSandDeposition,
-      m_ldGTotCliffTalusCoarseDeposition,
-      m_ldGTotCliffCollapseFineErodedDuringDeposition,
-      m_ldGTotCliffCollapseSandErodedDuringDeposition,
-      m_ldGTotCliffCollapseCoarseErodedDuringDeposition,
-      m_ldGTotPotentialBeachErosion,
-      m_ldGTotActualFineBeachErosion,
-      m_ldGTotActualSandBeachErosion,
-      m_ldGTotActualCoarseBeachErosion,
-      m_ldGTotSandBeachDeposition,
-      m_ldGTotCoarseBeachDeposition,
-      m_ldGTotSuspendedSediment,
-      m_ldGTotSandDepositionDiff,
-      m_ldGTotCoarseDepositionDiff,
-      m_ldGTotFineSedimentInput,
-      m_ldGTotSandSedimentInput,
-      m_ldGTotCoarseSedimentInput;
+   //! Save fop surface (sediment and sea) raster DEMs?
+   bool m_bTopSurfSave;
 
-   string
-      m_strCMEDir,
-      m_strCMEIni,
-      m_strMailAddress,
-      m_strDataPathName,
-      m_strRasterGISOutFormat,
-      m_strVectorGISOutFormat,
-      m_strInitialBasementDEMFile,
-      m_strInitialLandformFile,
-      m_strInterventionClassFile,
-      m_strInterventionHeightFile,
-      m_strInitialSuspSedimentFile,
-      m_strShapeFunctionFile,
-      m_strTideDataFile,
-      m_strLogFile,
-      m_strOutPath,
-      m_strOutFile,
-      m_strPalFile,
-      m_strGDALBasementDEMDriverCode, // Basement DEM (raster)
-      m_strGDALBasementDEMDriverDesc,
-      m_strGDALBasementDEMProjection,
-      m_strGDALBasementDEMDataType,
-      m_strGDALLDriverCode, // Initial landform class (raster)
-      m_strGDALLDriverDesc,
-      m_strGDALLProjection,
-      m_strGDALLDataType,
-      m_strGDALICDriverCode, // Initial intervention class (raster)
-      m_strGDALICDriverDesc,
-      m_strGDALICProjection,
-      m_strGDALICDataType,
-      m_strGDALIHDriverCode, // Initial intervention class (raster)
-      m_strGDALIHDriverDesc,
-      m_strGDALIHProjection,
-      m_strGDALIHDataType,
-      m_strGDALIWDriverCode, // Initial water depth (raster)
-      m_strGDALIWDriverDesc,
-      m_strGDALIWProjection,
-      m_strGDALIWDataType,
-      m_strGDALISSDriverCode, // Initial suspended sediment (raster)
-      m_strGDALISSDriverDesc,
-      m_strGDALISSProjection,
-      m_strGDALISSDataType,
-      m_strOGRDWWVDriverCode, // Initial deep water wave stations (vector)
-      m_strOGRDWWVGeometry,
-      m_strOGRDWWVDataType,
-      m_strOGRSedInputDriverCode, // Sediment input event locations (vector)
-      m_strOGRSedInputGeometry,
-      m_strOGRSedInputDataType,
-      m_strOGRFloodDriverCode, // Flood input locations (point or vector)
-      m_strOGRFloodGeometry,
-      m_strOGRFloodDataType,
-      m_strGDALRasterOutputDriverLongname,
-      m_strGDALRasterOutputDriverExtension,
-      m_strOGRVectorOutputExtension,
-      m_strRunName,
-      m_strDurationUnits,
-      m_strDeepWaterWaveStationsShapefile,
-      m_strDeepWaterWavesTimeSeriesFile,
-      m_strSedimentInputEventShapefile,
-      m_strSedimentInputEventTimeSeriesFile,
-      // m_strLevel,
-      m_strFloodLocationShapefile;
+   //! Save slices?
+   bool m_bSliceSave;
 
+   //! Save sea depth raster GIS files?
+   bool m_bSeaDepthSave;
+
+   //! Save average sea depth raster GIS files?
+   bool m_bAvgSeaDepthSave;
+
+   //! Save wave height raster GIS files?
+   bool m_bWaveHeightSave;
+
+   //! Save wave height raster GIS files?
+   bool m_bAvgWaveHeightSave;
+
+   //! Save wave angle raster GIS files?
+   bool m_bWaveAngleSave;
+
+   //! Save average wave angle raster GIS files?
+   bool m_bAvgWaveAngleSave;
+
+   //! Save wave angle and wave height raster GIS files?
+   bool m_bWaveAngleAndHeightSave;
+
+   //! Save average wave angle and average wave height raster GIS files?
+   bool m_bAvgWaveAngleAndHeightSave;
+
+   //! Save deep water wave angle and wave height raster GIS files?
+   bool m_bDeepWaterWaveAngleAndHeightSave;
+
+   //! Save wave energy since cliff collapse raster GIS files?
+   bool m_bWaveEnergySinceCollapseSave;
+
+   //! Save mean wave energy raster GIS files?
+   bool m_bMeanWaveEnergySave;
+
+   //! Save breaking wave height raster GIS files?
+   bool m_bBreakingWaveHeightSave;
+
+   //! Save beach protection raster GIS files>
+   bool m_bBeachProtectionSave;
+
+   //! Save potential shore platform erosion raster GIS files?
+   bool m_bPotentialPlatformErosionSave;
+
+   //! Save actual (supply-limited) shore platform erosion raster GIS files?
+   bool m_bActualPlatformErosionSave;
+
+   //! Save total potential shore platform erosion raster GIS files?
+   bool m_bTotalPotentialPlatformErosionSave;
+
+   //! Save total actual (supply-limited) shore platform erosion raster GIS files?
+   bool m_bTotalActualPlatformErosionSave;
+
+   //! Save potential beach (unconsolidated sediment) erosion raster GIS files?
+   bool m_bPotentialBeachErosionSave;
+
+   //! Save actual (supply-limited) beach (unconsolidated sediment) erosion raster GIS files?
+   bool m_bActualBeachErosionSave;
+
+   //! Save total potential beach (unconsolidated sediment) erosion raster GIS files?
+   bool m_bTotalPotentialBeachErosionSave;
+
+   //! Save total actual (supply-limited) beach (unconsolidated sediment) erosion raster GIS files?
+   bool m_bTotalActualBeachErosionSave;
+
+   //! Save beach (unconsolidated sediment) deposition raster GIS files?
+   bool m_bBeachDepositionSave;
+
+   //! Save total beach (unconsolidated sediment) deposition raster GIS files?
+   bool m_bTotalBeachDepositionSave;
+
+   //! Save coast landform raster GIS files?
+   bool m_bLandformSave;
+
+   //! Save local slope raster GIS files?
+   bool m_bLocalSlopeSave;
+
+   //! Save intervention class raster GIS files?
+   bool m_bInterventionClassSave;
+
+   //! Save intervention height raster GIS files?
+   bool m_bInterventionHeightSave;
+
+   //! Save suspended sediment raster GIS files?
+   bool m_bSuspSedSave;
+
+   //! Save average suspended sediment raster GIS files?
+   bool m_bAvgSuspSedSave;
+
+   //! Save fine unconsolidated sediment raster GIS files?
+   bool m_bFineUnconsSedSave;
+
+   //! Save sand unconsolidated sediment raster GIS files?
+   bool m_bSandUnconsSedSave;
+
+   //! Save coarse unconsolidated sediment raster GIS files?
+   bool m_bCoarseUnconsSedSave;
+
+   //! Save fine consolidated sediment raster GIS files?
+   bool m_bFineConsSedSave;
+
+   //! Save sand consolidated sediment raster GIS files?
+   bool m_bSandConsSedSave;
+
+   //! Save coarse consolidated sediment raster GIS files?
+   bool m_bCoarseConsSedSave;
+
+   //! Save raster coastline GIS files?
+   bool m_bRasterCoastlineSave;
+
+   //! Save raster coastline-normal GIS files?
+   bool m_bRasterNormalSave;
+
+   //! Save active zone raster GIS files?
+   bool m_bActiveZoneSave;
+
+   //! Save cliff collapse raster GIS files?
+   bool m_bCliffCollapseSave;
+
+   //! Save total cliff collapse raster GIS files?
+   bool m_bTotCliffCollapseSave;
+
+   //! Save cliff collapse deposition raster GIS files?
+   bool m_bCliffCollapseDepositionSave;
+
+   //! Save total cliff collapse deposition raster GIS files?
+   bool m_bTotCliffCollapseDepositionSave;
+
+   //! Save raster polygon raster GIS files?
+   bool m_bRasterPolygonSave;
+
+   //! Save potential platform erosion mask raster GIS files?
+   bool m_bPotentialPlatformErosionMaskSave;
+
+   //! Save sea mask raster GIS files?
+   bool m_bSeaMaskSave;
+
+   //! Save beach mask raster GIS files?
+   bool m_bBeachMaskSave;
+
+   //! Save wave shadow zones raster GIS files?
+   bool m_bShadowZoneCodesSave;
+
+   //! Save deep water wave angle raster GIS files?
+   bool m_bDeepWaterWaveAngleSave;
+
+   //! Save deep water wave height raster GIS files?
+   bool m_bDeepWaterWaveHeightSave;
+
+   //! Save deep water wave period raster GIS files?
+   bool m_bDeepWaterWavePeriodSave;
+
+   //! Save polygon unconsolidated sediment up- or down-drift raster GIS files?
+   bool m_bPolygonUnconsSedUpOrDownDriftSave;
+
+   //! Save polygon unconsolidated sediment gain or loss raster GIS files?
+   bool m_bPolygonUnconsSedGainOrLossSave;
+
+   //! Save GIS files at regular intervals?
+   bool m_bSaveRegular;
+
+   //! Save
+   bool m_bCoastSave;
+
+   //! Save coastline-normal vector GIS files?
+   bool m_bNormalsSave;
+
+   //! Save invalid coastline-normal vector GIS files?
+   bool m_bInvalidNormalsSave;
+
+   //! Save coastline-curvature vector GIS files?
+   bool m_bCoastCurvatureSave;
+
+   //! Save polygon node vector GIS files?
+   bool m_bPolygonNodeSave;
+
+   //! Save polygon boundary vector GIS files?
+   bool m_bPolygonBoundarySave;
+
+   //! Save cliff notch incision depth vector GIS files?
+   bool m_bCliffNotchSave;
+
+   //! Save wave shadow boundary vector GIS files?
+   bool m_bShadowBoundarySave;
+
+   //! Save wave shadow downdrift boundary vector GIS files?
+   bool m_bShadowDowndriftBoundarySave;
+
+   bool m_bSeaAreaTSSave;
+   bool m_bStillWaterLevelTSSave;
+   bool m_bActualPlatformErosionTSSave;
+   bool m_bCliffCollapseErosionTSSave;
+   bool m_bCliffCollapseDepositionTSSave;
+   bool m_bCliffCollapseNetTSSave;
+   bool m_bBeachErosionTSSave;
+   bool m_bBeachDepositionTSSave;
+   bool m_bBeachSedimentChangeNetTSSave;
+   bool m_bSuspSedTSSave;
+   bool m_bFloodSetupSurgeTSSave;
+   bool m_bFloodSetupSurgeRunupTSSave;
+   bool m_bSaveGISThisIter;
+   bool m_bOutputProfileData;
+   bool m_bOutputParallelProfileData;
+   bool m_bOutputLookUpData;
+   bool m_bOmitSearchNorthEdge;
+   bool m_bOmitSearchSouthEdge;
+   bool m_bOmitSearchWestEdge;
+   bool m_bOmitSearchEastEdge;
+   bool m_bErodeShorePlatformAlternateDirection;
+   bool m_bDoCoastPlatformErosion;
+   bool m_bDoCliffCollapse;
+   bool m_bDoBeachSedimentTransport;
+   bool m_bGDALCanCreate;
+   bool m_bGDALCanWriteFloat;
+   bool m_bGDALCanWriteInt32;
+   bool m_bScaleRasterOutput;
+   bool m_bWorldFile;
+   bool m_bSingleDeepWaterWaveValues;
+   bool m_bHaveWaveStationData;
+   bool m_bSedimentInput;
+   bool m_bSedimentInputAtPoint;
+   bool m_bSedimentInputAtCoast;
+   bool m_bSedimentInputAlongLine;
+   bool m_bSedimentInputEventSave;
+   bool m_bSedimentInputThisIter;
+   bool m_bDoFlood;
+   bool m_bWaveSetupSave;
+   bool m_bStormSurgeSave;
+   bool m_bRunUpSave;
+   bool m_bSetupSurgeFloodMaskSave;
+   bool m_bSetupSurgeRunupFloodMaskSave;
+   bool m_bRasterWaveFloodLineSave;
+   bool m_bVectorWaveFloodLineSave;
+   bool m_bFloodLocation;
+   bool m_bFloodSWLSetupLine;
+   bool m_bFloodSWLSetupSurgeLine;
+   bool m_bFloodSWLSetupSurgeRunupLine;
+   bool m_bGISSaveDigitsSequential;
+
+   char** m_papszGDALRasterOptions;
+   char** m_papszGDALVectorOptions;
+
+   int m_nXGridMax;
+   int m_nYGridMax;
+   int m_nLayers;
+   int m_nCoastSmooth;
+   int m_nCoastSmoothWindow;
+   int m_nSavGolCoastPoly;
+   int m_nProfileSmoothWindow;
+
+   //! Average spacing between cost normals, measured in cells
+   int m_nCoastNormalAvgSpacing;
+
+   //! Coast curvature interval is a length, measured in coastline points
+   int m_nCoastCurvatureInterval;
+   int m_nNaturalCapeNormals;
+   int m_nGISMaxSaveDigits;
+   int m_nGISSave;
+   int m_nUSave;
+   int m_nThisSave;
+   int m_nCoastMax;
+   int m_nCoastMin;
+   int m_nNThisIterCliffCollapse;
+   int m_nNTotCliffCollapse;
+
+   //! Global (all coasts) polygon ID. There are m_nGlobalPolygonID + 1 polygons at any time
+   int m_nGlobalPolygonID;
+   int m_nUnconsSedimentHandlingAtGridEdges;
+   int m_nBeachErosionDepositionEquation;
+   int m_nMissingValue;
+   int m_nXMinBoundingBox;
+   int m_nXMaxBoundingBox;
+   int m_nYMinBoundingBox;
+   int m_nYMaxBoundingBox;
+   int m_nWavePropagationModel;
+   int m_nSimStartSec;
+   int m_nSimStartMin;
+   int m_nSimStartHour;
+   int m_nSimStartDay;
+   int m_nSimStartMonth;
+   int m_nSimStartYear;
+   int m_nDeepWaterWaveDataNTimeSteps;
+   int m_nLogFileDetail;
+   int m_nRunUpEquation;
    int m_nLevel;
+
+   GDALDataType m_GDALWriteIntDataType;
+   GDALDataType m_GDALWriteFloatDataType;
+
+   long m_lGDALMaxCanWrite;
+   long m_lGDALMinCanWrite;
+
+   unsigned long m_ulIter;
+   unsigned long m_ulTotTimestep;
+   unsigned long m_ulRandSeed[NRNG];
+   unsigned long m_ulNumCells;
+   unsigned long m_ulThisIterNumSeaCells;
+   unsigned long m_ulThisIterNumCoastCells;
+   unsigned long m_ulThisIterNumPotentialPlatformErosionCells;
+   unsigned long m_ulThisIterNumActualPlatformErosionCells;
+   unsigned long m_ulThisIterNumPotentialBeachErosionCells;
+   unsigned long m_ulThisIterNumActualBeachErosionCells;
+   unsigned long m_ulThisIterNumBeachDepositionCells;
+   unsigned long m_ulTotPotentialPlatformErosionOnProfiles;
+   unsigned long m_ulTotPotentialPlatformErosionBetweenProfiles;
+   unsigned long m_ulMissingValueBasementCells;
+
+   double m_dDurationUnitsMult;
+   double m_dNorthWestXExtCRS;
+   double m_dNorthWestYExtCRS;
+   double m_dSouthEastXExtCRS;
+   double m_dSouthEastYExtCRS;
+   double m_dExtCRSGridArea;
+   double m_dCellSide;                                              // Length of cell side (in external CRS units)
+   double m_dCellArea;                                              // Area of cell  (in external CRS units)
+   double m_dCellDiagonal;                                          // Length of cell's diagonal (in external CRS units)
+   double m_dInvCellSide;                                           // Inverse of m_dCellSide
+   double m_dInvCellDiagonal;                                       // Inverse of m_dCellDiagonal
+   double m_dSimDuration;                                           // Duration of simulation, in hours
+   double m_dTimeStep;
+   double m_dSimElapsed;                                            // Time simulated so far, in hours
+   double m_dRegularSaveTime;
+   double m_dRegularSaveInterval;
+   double m_dUSaveTime[SAVEMAX];
+   double m_dClkLast;                                               // Last value returned by clock()
+   double m_dCPUClock;                                              // Total elapsed CPU time
+   double m_dGeoTransform[6];
+   double m_dSeaWaterDensity;
+   double m_dOrigSWL;
+   double m_dFinalSWL;
+   double m_dDeltaSWLPerTimestep;
+   double m_dThisIterSWL;
+   double m_dThisIterDiffTotWaterLevel;
+   double m_dThisIterDiffWaveSetupWaterLevel;
+   double m_dThisIterDiffWaveSetupSurgeWaterLevel;
+   double m_dThisIterDiffWaveSetupSurgeRunupWaterLevel;
+   double m_dAccumulatedSeaLevelChange;
+   double m_dMinSWL;
+   double m_dMaxSWL;
+   double m_dBreakingWaveHeight;
+   double m_dC_0;                                                   // Deep water wave speed (m/s)
+   double m_dL_0;                                                   // Deep water wave length (m)
+   double m_dWaveDepthRatioForWaveCalcs;
+   double m_dBreakingWaveHeightDepthRatio;
+   double m_dAllCellsDeepWaterWaveHeight;
+   double m_dAllCellsDeepWaterWaveAngle;
+   double m_dAllCellsDeepWaterWavePeriod;
+   double m_dMaxUserInputWaveHeight;
+   double m_dMaxUserInputWavePeriod;                                // Used to constrain depth of closure
+   double m_dR;
+   double m_dD50Fine;
+   double m_dD50Sand;
+   double m_dD50Coarse;
+   double m_dBeachSedimentDensity;
+   double m_dBeachSedimentPorosity;
+   double m_dFineErodibility;
+   double m_dSandErodibility;
+   double m_dCoarseErodibility;
+   double m_dFineErodibilityNormalized;
+   double m_dSandErodibilityNormalized;
+   double m_dCoarseErodibilityNormalized;
+   double m_dKLS;
+   double m_dKamphuis;
+   double m_dG;
+   double m_dInmersedToBulkVolumetric;
+   double m_dDepthOfClosure;
+   double m_dCoastNormalAvgSpacing;                                 // In m
+   double m_dCoastNormalLength;
+   double m_dThisIterTotSeaDepth;
+   double m_dThisIterPotentialPlatformErosion;
+   double m_dThisIterActualPlatformErosionFineCons;
+   double m_dThisIterActualPlatformErosionSandCons;
+   double m_dThisIterActualPlatformErosionCoarseCons;
+   double m_dThisIterPotentialBeachErosion;
+   double m_dThisIterBeachErosionFine;
+   double m_dThisIterBeachErosionSand;
+   double m_dThisIterBeachErosionCoarse;
+   double m_dThisIterBeachDepositionSand;
+   double m_dThisIterBeachDepositionCoarse;
+   double m_dThisIterFineSedimentToSuspension;
+   double m_dThisIterPotentialSedLostBeachErosion;
+   double m_dThisIterLeftGridUnconsFine;
+   double m_dThisIterLeftGridUnconsSand;
+   double m_dThisIterLeftGridUnconsCoarse;
+   double m_dThisIterCliffCollapseFineErodedDuringDeposition;
+   double m_dThisIterCliffCollapseSandErodedDuringDeposition;
+   double m_dThisIterCliffCollapseCoarseErodedDuringDeposition;
+   double m_dThisIterDepositionSandDiff;
+   double m_dThisIterDepositionCoarseDiff;
+   double m_dDepthOverDBMax;                                        // Used in erosion potential look-up function
+   double m_dTotPotentialPlatformErosionOnProfiles;
+   double m_dTotPotentialPlatformErosionBetweenProfiles;
+   double m_dProfileMaxSlope;
+   double m_dMaxBeachElevAboveSWL;
+   double m_dCliffErosionResistance;
+   double m_dNotchDepthAtCollapse;
+   double m_dNotchBaseBelowSWL;
+   double m_dCliffDepositionA;
+   double m_dCliffDepositionPlanviewWidth;
+   double m_dCliffTalusMinDepositionLength;
+   double m_dMinCliffTalusHeightFrac;
+   double m_dThisIterCliffCollapseErosionFineUncons;
+   double m_dThisIterCliffCollapseErosionSandUncons;
+   double m_dThisIterCliffCollapseErosionCoarseUncons;
+   double m_dThisIterCliffCollapseErosionFineCons;
+   double m_dThisIterCliffCollapseErosionSandCons;
+   double m_dThisIterCliffCollapseErosionCoarseCons;
+   double m_dThisIterUnconsSandCliffDeposition;
+   double m_dThisIterUnconsCoarseCliffDeposition;
+   double m_dCoastNormalRandSpaceFact;
+   double m_dDeanProfileStartAboveSWL;
+   double m_dMissingValue;
+   double m_dWaveDataWrapHours;
+   double m_dThisIterTopElevMax;
+   double m_dThisIterTopElevMin;
+   double m_dThisiterUnconsFineInput;
+   double m_dThisiterUnconsSandInput;
+   double m_dThisiterUnconsCoarseInput;
+   double m_dStartIterSuspFine;
+   double m_dStartIterUnconsFine;
+   double m_dStartIterUnconsSand;
+   double m_dStartIterUnconsCoarse;
+   double m_dStartIterConsFine;
+   double m_dStartIterConsSand;
+   double m_dStartIterConsCoarse;
+
+   // These grand totals are all long doubles. The aim is to minimize rounding errors when many very small numbers are added to a single much larger number, see e.g. http://www.ddj.com/cpp/184403224
+   long double m_ldGTotPotentialPlatformErosion;
+   long double m_ldGTotFineActualPlatformErosion;
+   long double m_ldGTotSandActualPlatformErosion;
+   long double m_ldGTotCoarseActualPlatformErosion;
+   long double m_ldGTotPotentialSedLostBeachErosion;
+   long double m_ldGTotActualFineLostBeachErosion;
+   long double m_ldGTotActualSandLostBeachErosion;
+   long double m_ldGTotActualCoarseLostBeachErosion;
+   long double m_ldGTotSandSedLostCliffCollapse;
+   long double m_ldGTotCoarseSedLostCliffCollapse;
+   long double m_ldGTotCliffCollapseFine;
+   long double m_ldGTotCliffCollapseSand;
+   long double m_ldGTotCliffCollapseCoarse;
+   long double m_ldGTotCliffTalusFineToSuspension;
+   long double m_ldGTotCliffTalusSandDeposition;
+   long double m_ldGTotCliffTalusCoarseDeposition;
+   long double m_ldGTotCliffCollapseFineErodedDuringDeposition;
+   long double m_ldGTotCliffCollapseSandErodedDuringDeposition;
+   long double m_ldGTotCliffCollapseCoarseErodedDuringDeposition;
+   long double m_ldGTotPotentialBeachErosion;
+   long double m_ldGTotActualFineBeachErosion;
+   long double m_ldGTotActualSandBeachErosion;
+   long double m_ldGTotActualCoarseBeachErosion;
+   long double m_ldGTotSandBeachDeposition;
+   long double m_ldGTotCoarseBeachDeposition;
+   long double m_ldGTotSuspendedSediment;
+   long double m_ldGTotSandDepositionDiff;
+   long double m_ldGTotCoarseDepositionDiff;
+   long double m_ldGTotFineSedimentInput;
+   long double m_ldGTotSandSedimentInput;
+   long double m_ldGTotCoarseSedimentInput;
+
+   string m_strCMEDir;
+   string m_strCMEIni;
+   string m_strMailAddress;
+   string m_strDataPathName;
+   string m_strRasterGISOutFormat;
+   string m_strVectorGISOutFormat;
+   string m_strInitialBasementDEMFile;
+   string m_strInitialLandformFile;
+   string m_strInterventionClassFile;
+   string m_strInterventionHeightFile;
+   string m_strInitialSuspSedimentFile;
+   string m_strShapeFunctionFile;
+   string m_strTideDataFile;
+   string m_strLogFile;
+   string m_strOutPath;
+   string m_strOutFile;
+   string m_strPalFile;
+   string m_strGDALBasementDEMDriverCode; // Basement DEM (raster)
+   string m_strGDALBasementDEMDriverDesc;
+   string m_strGDALBasementDEMProjection;
+   string m_strGDALBasementDEMDataType;
+   string m_strGDALLDriverCode; // Initial landform class (raster)
+   string m_strGDALLDriverDesc;
+   string m_strGDALLProjection;
+   string m_strGDALLDataType;
+   string m_strGDALICDriverCode; // Initial intervention class (raster)
+   string m_strGDALICDriverDesc;
+   string m_strGDALICProjection;
+   string m_strGDALICDataType;
+   string m_strGDALIHDriverCode; // Initial intervention class (raster)
+   string m_strGDALIHDriverDesc;
+   string m_strGDALIHProjection;
+   string m_strGDALIHDataType;
+   string m_strGDALIWDriverCode; // Initial water depth (raster)
+   string m_strGDALIWDriverDesc;
+   string m_strGDALIWProjection;
+   string m_strGDALIWDataType;
+   string m_strGDALISSDriverCode; // Initial suspended sediment (raster)
+   string m_strGDALISSDriverDesc;
+   string m_strGDALISSProjection;
+   string m_strGDALISSDataType;
+   string m_strOGRDWWVDriverCode; // Initial deep water wave stations (vector)
+   string m_strOGRDWWVGeometry;
+   string m_strOGRDWWVDataType;
+   string m_strOGRSedInputDriverCode; // Sediment input event locations (vector)
+   string m_strOGRSedInputGeometry;
+   string m_strOGRSedInputDataType;
+   string m_strOGRFloodDriverCode; // Flood input locations (point or vector)
+   string m_strOGRFloodGeometry;
+   string m_strOGRFloodDataType;
+   string m_strGDALRasterOutputDriverLongname;
+   string m_strGDALRasterOutputDriverExtension;
+   string m_strOGRVectorOutputExtension;
+   string m_strRunName;
+   string m_strDurationUnits;
+   string m_strDeepWaterWaveStationsShapefile;
+   string m_strDeepWaterWavesTimeSeriesFile;
+   string m_strSedimentInputEventShapefile;
+   string m_strSedimentInputEventTimeSeriesFile;
+      // string m_strLevel;
+   string m_strFloodLocationShapefile;
 
    struct RandState
    {
       unsigned long s1, s2, s3;
    } m_ulRState[NRNG];
 
-   time_t
-      m_tSysStartTime,
-      m_tSysEndTime;
+   time_t m_tSysStartTime;
+   time_t m_tSysEndTime;
 
-   ofstream
-      OutStream,
-      SeaAreaTSStream,
-      StillWaterLevelTSStream,
-      ErosionTSStream,
-      CliffCollapseErosionTSStream,
-      CliffCollapseDepositionTSStream,
-      CliffCollapseNetTSStream,
-      BeachErosionTSStream,
-      BeachDepositionTSStream,
-      BeachSedimentChangeNetTSStream,
-      SedLoadTSStream,
-      FloodSetupSurgeTSStream,
-      FloodSetupSurgeRunupTSStream;
+   ofstream OutStream;
+   ofstream SeaAreaTSStream;
+   ofstream StillWaterLevelTSStream;
+   ofstream ErosionTSStream;
+   ofstream CliffCollapseErosionTSStream;
+   ofstream CliffCollapseDepositionTSStream;
+   ofstream CliffCollapseNetTSStream;
+   ofstream BeachErosionTSStream;
+   ofstream BeachDepositionTSStream;
+   ofstream BeachSedimentChangeNetTSStream;
+   ofstream SedLoadTSStream;
+   ofstream FloodSetupSurgeTSStream;
+   ofstream FloodSetupSurgeRunupTSStream;
 
-   vector<bool>
-      m_bConsChangedThisIter,
-      m_bUnconsChangedThisIter;
+   vector<bool> m_bConsChangedThisIter;
+   vector<bool> m_bUnconsChangedThisIter;
 
-   vector<int>
-      m_VnProfileToSave,
-      m_VnDeepWaterWaveStationID,  // ID for deep water wave station, this corresponds with the ID in the wave time series file
-      m_VnSedimentInputLocationID, // ID for sediment input location, this corresponds with the ID in the sediment input time series file
-      m_VnFloodLocationID,         // ID for flood location
-      m_VnSavGolIndexCoast;        // Savitzky-Golay shift index for the coastline vector(s)
+   vector<int> m_VnProfileToSave;
+
+   //! ID for deep water wave station, this corresponds with the ID in the wave time series file
+   vector<int> m_VnDeepWaterWaveStationID;
+
+   //! ID for sediment input location, this corresponds with the ID in the sediment input time series file
+   vector<int> m_VnSedimentInputLocationID;
+
+   //! ID for flood location
+   vector<int> m_VnFloodLocationID;
+
+   //! Savitzky-Golay shift index for the coastline vector(s)
+   vector<int> m_VnSavGolIndexCoast;
 
    vector<unsigned long>
       m_VulProfileTimestep,
       m_VlDeepWaterWaveValuesAtTimestep; // Calculate deep water wave values at these timesteps
 
-   vector<double>
-      m_VdSliceElev,
-      m_VdErosionPotential,                   // For erosion potential lookup
-      m_VdDepthOverDB,                        // For erosion potential lookup
-      m_VdSavGolFCRWCoast,                    // Savitzky-Golay filter coefficients for the coastline vector(s)
-      m_VdSavGolFCGeomProfile,                // Savitzky-Golay filter coefficients for the profile vectors
-      m_VdTideData,                           // Tide data: one record per timestep, is the change (m) from still water level for that timestep
-      m_VdDeepWaterWaveStationX,              // X co-ordinate (grid CRS) for deep water wave station
-      m_VdDeepWaterWaveStationY,              // Y co-ordinate (grid CRS) for deep water wave station
-      m_VdThisIterDeepWaterWaveStationHeight, // This iteration wave height at deep water wave station
-      m_VdThisIterDeepWaterWaveStationAngle,  // This iteration wave orientation at deep water wave station
-      m_VdThisIterDeepWaterWaveStationPeriod, // This iteration wave period at deep water wave station
-      m_VdTSDeepWaterWaveStationHeight,       // Time series of wave heights at deep water wave station
-      m_VdTSDeepWaterWaveStationAngle,        // Time series of wave orientation at deep water wave station
-      m_VdTSDeepWaterWaveStationPeriod,       // Time series of wave period at deep water wave station
-      m_VdSedimentInputLocationX,             // X co-ordinate (grid CRS) for sediment input event
-      m_VdSedimentInputLocationY,             // X co-ordinate (grid CRS) for sediment input event
-      m_VdFloodLocationX,                     // X co-ordinate (grid CRS) for total water level flooding
-      m_VdFloodLocationY;                     // X co-ordinate (grid CRS) for total water level flooding
+   vector<double> m_VdSliceElev;
 
-   vector<string>
-      m_VstrInitialFineUnconsSedimentFile,
-      m_VstrInitialSandUnconsSedimentFile,
-      m_VstrInitialCoarseUnconsSedimentFile,
-      m_VstrInitialFineConsSedimentFile,
-      m_VstrInitialSandConsSedimentFile,
-      m_VstrInitialCoarseConsSedimentFile,
-      m_VstrGDALIUFDriverCode,
-      m_VstrGDALIUFDriverDesc,
-      m_VstrGDALIUFProjection,
-      m_VstrGDALIUFDataType,
-      m_VstrGDALIUSDriverCode,
-      m_VstrGDALIUSDriverDesc,
-      m_VstrGDALIUSProjection,
-      m_VstrGDALIUSDataType,
-      m_VstrGDALIUCDriverCode,
-      m_VstrGDALIUCDriverDesc,
-      m_VstrGDALIUCProjection,
-      m_VstrGDALIUCDataType,
-      m_VstrGDALICFDriverCode,
-      m_VstrGDALICFDriverDesc,
-      m_VstrGDALICFProjection,
-      m_VstrGDALICFDataType,
-      m_VstrGDALICSDriverCode,
-      m_VstrGDALICSDriverDesc,
-      m_VstrGDALICSProjection,
-      m_VstrGDALICSDataType,
-      m_VstrGDALICCDriverCode,
-      m_VstrGDALICCDriverDesc,
-      m_VstrGDALICCProjection,
-      m_VstrGDALICCDataType;
+   //! For erosion potential lookup
+   vector<double> m_VdErosionPotential;
 
-   // Pointer to the raster grid object
-   CGeomRasterGrid *m_pRasterGrid;
+   //! For erosion potential lookup
+   vector<double> m_VdDepthOverDB;
 
-   // The coastline objects
+   //! Savitzky-Golay filter coefficients for the coastline vector(s)
+   vector<double> m_VdSavGolFCRWCoast;
+
+   //! Savitzky-Golay filter coefficients for the profile vectors
+   vector<double> m_VdSavGolFCGeomProfile;
+
+   //! Tide data: one record per timestep, is the change (m) from still water level for that timestep
+   vector<double> m_VdTideData;
+
+   //! X co-ordinate (grid CRS) for deep water wave station
+   vector<double> m_VdDeepWaterWaveStationX;
+
+   //! Y co-ordinate (grid CRS) for deep water wave station
+   vector<double> m_VdDeepWaterWaveStationY;
+
+   //! This-iteration wave height at deep water wave station
+   vector<double> m_VdThisIterDeepWaterWaveStationHeight;
+
+   //! This-iteration wave orientation at deep water wave station
+   vector<double> m_VdThisIterDeepWaterWaveStationAngle;
+
+   //! This-iteration wave period at deep water wave station
+   vector<double> m_VdThisIterDeepWaterWaveStationPeriod;
+
+   //! Time series of wave heights at deep water wave station
+   vector<double> m_VdTSDeepWaterWaveStationHeight;
+
+   //! Time series of wave orientation at deep water wave station
+   vector<double> m_VdTSDeepWaterWaveStationAngle;
+
+   //! Time series of wave period at deep water wave station
+   vector<double> m_VdTSDeepWaterWaveStationPeriod;
+
+   //! X co-ordinate (grid CRS) for sediment input event
+   vector<double> m_VdSedimentInputLocationX;
+
+   //! X co-ordinate (grid CRS) for sediment input event
+   vector<double> m_VdSedimentInputLocationY;
+
+   //! X co-ordinate (grid CRS) for total water level flooding
+   vector<double> m_VdFloodLocationX;
+
+   //! X co-ordinate (grid CRS) for total water level flooding
+   vector<double> m_VdFloodLocationY;
+
+   vector<string> m_VstrInitialFineUnconsSedimentFile;
+   vector<string> m_VstrInitialSandUnconsSedimentFile;
+   vector<string> m_VstrInitialCoarseUnconsSedimentFile;
+   vector<string> m_VstrInitialFineConsSedimentFile;
+   vector<string> m_VstrInitialSandConsSedimentFile;
+   vector<string> m_VstrInitialCoarseConsSedimentFile;
+   vector<string> m_VstrGDALIUFDriverCode;
+   vector<string> m_VstrGDALIUFDriverDesc;
+   vector<string> m_VstrGDALIUFProjection;
+   vector<string> m_VstrGDALIUFDataType;
+   vector<string> m_VstrGDALIUSDriverCode;
+   vector<string> m_VstrGDALIUSDriverDesc;
+   vector<string> m_VstrGDALIUSProjection;
+   vector<string> m_VstrGDALIUSDataType;
+   vector<string> m_VstrGDALIUCDriverCode;
+   vector<string> m_VstrGDALIUCDriverDesc;
+   vector<string> m_VstrGDALIUCProjection;
+   vector<string> m_VstrGDALIUCDataType;
+   vector<string> m_VstrGDALICFDriverCode;
+   vector<string> m_VstrGDALICFDriverDesc;
+   vector<string> m_VstrGDALICFProjection;
+   vector<string> m_VstrGDALICFDataType;
+   vector<string> m_VstrGDALICSDriverCode;
+   vector<string> m_VstrGDALICSDriverDesc;
+   vector<string> m_VstrGDALICSProjection;
+   vector<string> m_VstrGDALICSDataType;
+   vector<string> m_VstrGDALICCDriverCode;
+   vector<string> m_VstrGDALICCDriverDesc;
+   vector<string> m_VstrGDALICCProjection;
+   vector<string> m_VstrGDALICCDataType;
+
+   //! Pointer to the raster grid object
+   CGeomRasterGrid* m_pRasterGrid;
+
+   //! The coastline objects
    vector<CRWCoast> m_VCoast;
+
    // vector<CRWCoast> m_VFloodWaveSetup;
    vector<CRWCoast> m_VFloodWaveSetupSurge;
    vector<CRWCoast> m_VFloodWaveSetupSurgeRunup;
 
-   // Pointers to coast polygon objects
-   vector<CGeomCoastPolygon *> m_pVCoastPolygon;
+   //! Pointers to coast polygon objects
+   vector<CGeomCoastPolygon*> m_pVCoastPolygon;
 
-   // Edge cells
+   //! Edge cells
    vector<CGeom2DIPoint> m_VEdgeCell;
 
-   // And the grid edge that each edge cell belongs to
+   //! The grid edge that each edge cell belongs to
    vector<int> m_VEdgeCellEdge;
 
-   // And the location to compute the total water level for flooding
+   //! The location to compute the total water level for flooding
    vector<int> m_VCellFloodLocation;
 
-   // Sediment input events
-   vector<CSedInputEvent *> m_pVSedInputEvent;
+   //! Sediment input events
+   vector<CSedInputEvent*> m_pVSedInputEvent;
 
 private:
    // Input and output routines

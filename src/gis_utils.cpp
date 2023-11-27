@@ -1169,13 +1169,13 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
          return false;
    }
 
-   if (m_bPolygonUnconsSedUpOrDownDrift)
+   if (m_bPolygonUnconsSedUpOrDownDriftSave)
    {
       if (! bWriteRasterGISFile(RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT, &RASTER_PLOT_POLYGON_UPDRIFT_OR_DOWNDRIFT_TITLE))
          return false;
    }
 
-   if (m_bPolygonUnconssedGainOrLoss)
+   if (m_bPolygonUnconsSedGainOrLossSave)
    {
       if (! bWriteRasterGISFile(RASTER_PLOT_POLYGON_GAIN_OR_LOSS, &RASTER_PLOT_POLYGON_GAIN_OR_LOSS_TITLE))
          return false;

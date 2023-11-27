@@ -135,7 +135,6 @@ var classCGeomCell =
     [ "UnSetCheckFloodCell", "d1/dd9/classCGeomCell.html#ae106cd0414a6692eec386b7777ffcf84", null ],
     [ "UnSetInContiguousFlood", "d1/dd9/classCGeomCell.html#a9c67655f5a57449a4dbb9dbba4597a8f", null ],
     [ "CSimulation", "d1/dd9/classCGeomCell.html#a9d40201e7a6f55d060d7816c0142f514", null ],
-    [ "m_bCheckCell", "d1/dd9/classCGeomCell.html#aed2517111549c54ced0809092613d368", null ],
     [ "m_bCheckFloodCell", "d1/dd9/classCGeomCell.html#a1aa09075b0659fc47a23a3477e1ee626", null ],
     [ "m_bCoastline", "d1/dd9/classCGeomCell.html#afcf87d940dbd722e6263fd9f75fa1034", null ],
     [ "m_bFloodBySetupSurge", "d1/dd9/classCGeomCell.html#af8dce1c72c4735f1978306949217db95", null ],

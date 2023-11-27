@@ -29,16 +29,16 @@ You should have received a copy of the GNU General Public License along with thi
 //! Constructor with initialization list
 CGeomCell::CGeomCell()
     : m_bInContiguousSea(false),
-      m_bInContiguousFlood(false),
+      m_bInContiguousFlood(false),        // TODO Do we need this?
       m_bIsInActiveZone(false),
       m_bCoastline(false),
       m_bFloodLine(false),
       m_bWaveFlood(false),
-      m_bCheckCell(false),
-      m_bCheckFloodCell(false),
+      // m_bCheckCell(false),             // TODO Do we need this?
+      m_bCheckFloodCell(false),           // TODO Do we need this?
       m_bShadowBoundary(false),
       m_bPossibleCoastStartCell(false),
-      m_bPossibleFloodStartCell(false),
+      m_bPossibleFloodStartCell(false),   // TODO Do we need this?
       m_nBoundingBoxEdge(NO_DIRECTION),
       m_nPolygonID(INT_NODATA),
       m_nCoastlineNormal(INT_NODATA),
@@ -118,43 +118,43 @@ bool CGeomCell::bIsInContiguousSea(void) const
    return m_bInContiguousSea;
 }
 
-//! Set this cell as a flood cell TODO Manuel. make this clearer
+//! TODO What do this do? Does it duplicate SetInContiguousSea()?
 void CGeomCell::SetInContiguousFlood(void)
 {
    m_bInContiguousFlood = true;
 }
 
-//! Set this cell as not a flood cell TODO Manuel. make this clearer
+//! TODO What does this do? Is it just the inverse of SetInContiguousSea()?
 void CGeomCell::UnSetInContiguousFlood(void)
 {
    m_bInContiguousFlood = false;
 }
 
-//! Set this cell as flood by setup surge TODO Manuel. make this clearer
+//! TODO What does this do? Set this cell as flood by setup surger
 void CGeomCell::SetFloodBySetupSurge(void)
 {
    m_bFloodBySetupSurge = true;
 }
 
-//! Is this cell flood by setup surge? TODO Manuel. make this clearer
+//! TODO What does this do? Is this cell flood by setup surge?
 bool CGeomCell::bIsFloodBySetupSurge(void) const
 {
    return m_bFloodBySetupSurge;
 }
 
-//! Set this cell as flood by setup surge runup TODO Manuel. make this clearer
+//! TODO What does this do? Set this cell as flood by setup surge runup
 void CGeomCell::SetFloodBySetupSurgeRunup(void)
 {
    m_bFloodBySetupSurgeRunup = true;
 }
 
-//! Is this cell flood by setup surge runup? TODO Manuel. make this clearer
+//! TODO What does this do? Is this cell flood by setup surge runup?
 bool CGeomCell::bIsFloodBySetupSurgeRunup(void) const
 {
    return m_bFloodBySetupSurgeRunup;
 }
 
-//! Set this cell in contiguous flood TODO Manuel. make this clearer
+//! TODO What does this do? Does it just duplicate bIsInContiguousSea()?
 bool CGeomCell::bIsInContiguousFlood(void) const
 {
    return m_bInContiguousFlood;
@@ -206,13 +206,13 @@ bool CGeomCell::bIsPossibleCoastStartCell(void) const
    return m_bPossibleCoastStartCell;
 }
 
-//! Sets a flag to show that this cell has been flagged as a possible start- or end-point for a coastline
+//! TODO What is this for? Sets a flag to show that this cell has been flagged as a possible start-point for a coastline
 void CGeomCell::SetPossibleFloodStartCell(void)
 {
    m_bPossibleFloodStartCell = true;
 }
 
-//! Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline
+//! TODO What is this for? Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline
 bool CGeomCell::bIsPossibleFloodStartCell(void) const
 {
    return m_bPossibleFloodStartCell;
@@ -353,17 +353,17 @@ bool CGeomCell::bIsElevLessThanWaterLevel(void) const
    return ((m_VdAllHorizonTopElev.back() + m_dInterventionHeight) < (m_pGrid->pGetSim()->dGetThisIterTotWaterLevel() + m_pGrid->pGetSim()->dGetThisIterSWL()));
 }
 
-//! Set this cell as checked
-void CGeomCell::SetCheckCell(void)
-{
-   m_bCheckCell = true;
-}
+// //! Set this cell as checked TODO What is this used for?
+// void CGeomCell::SetCheckCell(void)
+// {
+//    m_bCheckCell = true;
+// }
 
-//! Returns true if this cell is checked, false otherwise
-bool CGeomCell::bIsCellCheck(void) const
-{
-   return m_bCheckCell;
-}
+// //! Returns true if this cell is checked, false otherwise TODO What is this used for?
+// bool CGeomCell::bIsCellCheck(void) const
+// {
+//    return m_bCheckCell;
+// }
 
 //! Set this cell as checked (flood switch)
 void CGeomCell::SetCheckFloodCell(void)
@@ -813,16 +813,16 @@ void CGeomCell::SetSeaDepth(void)
 void CGeomCell::InitCell(void)
 {
    m_bInContiguousSea =
-   m_bInContiguousFlood =
+   m_bInContiguousFlood =           // TODO Do we need this?
    m_bCoastline =
    m_bFloodLine =
    m_bIsInActiveZone =
    // m_bEstimated =
    m_bShadowBoundary =
-   m_bPossibleCoastStartCell =
+   m_bPossibleCoastStartCell =      // TODO Do we need this?
    m_bPossibleFloodStartCell =
    m_bWaveFlood =
-   m_bCheckCell =
+   // m_bCheckCell =                // TODO Do we need this?
    m_bCheckFloodCell = false;
 
    m_nPolygonID =

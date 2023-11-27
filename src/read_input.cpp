@@ -649,7 +649,6 @@ bool CSimulation::bReadRunDataFile(void)
                   m_bCoarseConsSedSave =
                   m_bRasterCoastlineSave =
                   m_bRasterNormalSave =
-                  m_bDistWeightSave =
                   m_bActiveZoneSave =
                   m_bCliffCollapseSave =
                   m_bTotCliffCollapseSave =
@@ -665,8 +664,8 @@ bool CSimulation::bReadRunDataFile(void)
                   m_bDeepWaterWaveAngleSave =
                   m_bDeepWaterWaveHeightSave =
                   m_bDeepWaterWavePeriodSave =
-                  m_bPolygonUnconsSedUpOrDownDrift =
-                  m_bPolygonUnconssedGainOrLoss =
+                  m_bPolygonUnconsSedUpOrDownDriftSave =
+                  m_bPolygonUnconsSedGainOrLossSave =
                   m_bSedimentInputEventSave =
                   m_bSetupSurgeFloodMaskSave =
                   m_bSetupSurgeRunupFloodMaskSave =
@@ -990,13 +989,13 @@ bool CSimulation::bReadRunDataFile(void)
 
                   if (strRH.find(RASTER_POLYGON_UPDRIFT_OR_DOWNDRIFT_CODE) != string::npos)
                   {
-                     m_bPolygonUnconsSedUpOrDownDrift = true;
+                     m_bPolygonUnconsSedUpOrDownDriftSave = true;
                      strRH = strRemoveSubstr(&strRH, &RASTER_POLYGON_UPDRIFT_OR_DOWNDRIFT_CODE);
                   }
 
                   if (strRH.find(RASTER_POLYGON_GAIN_OR_LOSS_CODE) != string::npos)
                   {
-                     m_bPolygonUnconssedGainOrLoss = true;
+                     m_bPolygonUnconsSedGainOrLossSave = true;
                      strRH = strRemoveSubstr(&strRH, &RASTER_POLYGON_GAIN_OR_LOSS_CODE);
                   }
 
@@ -2982,7 +2981,7 @@ int CSimulation::nReadTideDataFile()
 //===============================================================================================================================
 int CSimulation::nReadShapeFunctionFile()
 {
-   // Added by Manuel. But we may someday need to read different values for the shape function, according to Mike Walkden. So is best if we read a file
+   // Hard-coded values added by Manuel. But we may someday need to read different values for the shape function, according to Mike Walkden. It is easiest to do this if we read values from a file
    // vector<double> VdDepthOverDB{0, 0.09616066, 0.14941888, 0.1997183, 0.24853833, 0.29735836, 0.3994366, 0.50003545, 0.55033487, 0.75301196, 0.80331138, 0.89947205, 0.95420965, 1.00302968, 1.0267};
    // vector<double> VdErosionPotential{0, -1.171875, -3.125, -7.14285714, -12.5, -11.94196429, -7.421875, -8.53794643, -8.09151786, -5.18973214, -5.63616071, -6.08258929, -6.25, -1.5625, -0.05580357};
    // vector<double> VdErosionPotentialFirstDeriv{0, -28.27447203, -48.70000067, -110.48218074, -69.8222302, 57.30543556, 11.54251156, -5.20131157, 18.67771968, -6.92498633, -6.056257, -32.72222382, 72.90403858, 85.14160481, 43.38930653};

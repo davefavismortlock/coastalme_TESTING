@@ -10,7 +10,7 @@
  * \copyright GNU General Public License
  *
  * \file 2di_shape.h
- * \brief Contains CA2DShape definitions
+ * \brief Contains CA2DIShape definitions
  *
  */
 

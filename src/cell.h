@@ -39,58 +39,58 @@ private:
    //! Switch to indicate if this is a sea cell, contiguous with other sea cells
    bool m_bInContiguousSea;
 
-   //!
+   //! TODO Do we need this?
    bool m_bInContiguousFlood;
 
-   //!
+   //! Switch to indicate that this cell is in the active zone
    bool m_bIsInActiveZone;
 
-   //!
+   //! Switch to indicate that this cell is 'under' a coastline
    bool m_bCoastline;
 
-   //!
+   //! TODO What is this used for? Switch to indicate that this cell is 'under' a flood line
    bool m_bFloodLine;
 
-   //!
+   //! TODO What is this used for? Switch to indicate that this cell is 'under' a wave flood line
    bool m_bWaveFlood;
 
-   //!
-   bool m_bCheckCell;
+   // //! TODO What is this used for?
+   // bool m_bCheckCell;
 
-   //!
+   //! TODO What is this used for?
    bool m_bCheckFloodCell;
 
-   //!
+   //! Switch to show this cell is 'under' a shadow boundaryu
    bool m_bShadowBoundary;
 
-   //!
+   //! Switch to show that this cell could be the start of a coastline
    bool m_bPossibleCoastStartCell;
 
-   //!
+   //! TODO What is this used for?
    bool m_bPossibleFloodStartCell;
 
-   //!
+   //! TODO What is this used for?
    bool m_bFloodBySetupSurge;
 
-   //!
+   //! TODO What is this used for?
    bool m_bFloodBySetupSurgeRunup;
 
-   //!
+   //! If this cell is an edge (or bounding box) cell, this specifies the edge
    int m_nBoundingBoxEdge;
 
-   //!
+   //! If this cell is within a polygon, this is the ID of the polygon
    int m_nPolygonID;
 
-   //!
+   //! If this cell is 'under' a coastline normal, this is the number of the normal
    int m_nCoastlineNormal;
 
-   //!
+   //! If this cell is within a shadow zone, this is the number of the shadow zone
    int m_nShadowZoneNumber;
 
-   //!
+   //! If this cell is within a downdrift zone, this is the number of the downdrift zone
    int m_nDownDriftZoneNumber;
 
-   //! As used in erosion calcs (really just for display purposes)
+   //! Used in erosion calculations, stored here for display purposes
    double m_dLocalConsSlope;
 
    //! Elevation of basement surface (m)
@@ -220,13 +220,13 @@ public:
     void SetInContiguousSea(void);
     bool bIsInContiguousSea(void) const;
 
-    void SetInContiguousFlood(void);
-    void UnSetInContiguousFlood(void);
-    void SetFloodBySetupSurge(void);
-    bool bIsFloodBySetupSurge(void) const;
-    void SetFloodBySetupSurgeRunup(void);
-    bool bIsFloodBySetupSurgeRunup(void) const;
-    bool bIsInContiguousFlood(void) const;
+    void SetInContiguousFlood(void);               // TODO Do we need this?
+    void UnSetInContiguousFlood(void);             // TODO Do we need this?
+    void SetFloodBySetupSurge(void);               // TODO Do we need this?
+    bool bIsFloodBySetupSurge(void) const;         // TODO Do we need this?
+    void SetFloodBySetupSurgeRunup(void);          // TODO Do we need this?
+    bool bIsFloodBySetupSurgeRunup(void) const;    // TODO Do we need this?
+    bool bIsInContiguousFlood(void) const;         // TODO Do we need this?
 
     // void SetActualBeachErosionEstimated(void);
     // bool bGetActualBeachErosionEstimated(void) const;

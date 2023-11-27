@@ -92,7 +92,6 @@ CSimulation::CSimulation (void)
    m_bCoarseConsSedSave =
    m_bRasterCoastlineSave =
    m_bRasterNormalSave =
-   m_bDistWeightSave =
    m_bActiveZoneSave =
    m_bCliffCollapseSave =
    m_bTotCliffCollapseSave =
@@ -116,8 +115,8 @@ CSimulation::CSimulation (void)
    m_bDeepWaterWaveAngleSave =
    m_bDeepWaterWaveHeightSave =
    m_bDeepWaterWavePeriodSave =
-   m_bPolygonUnconsSedUpOrDownDrift =
-   m_bPolygonUnconssedGainOrLoss =
+   m_bPolygonUnconsSedUpOrDownDriftSave =
+   m_bPolygonUnconsSedGainOrLossSave =
    m_bSeaAreaTSSave =
    m_bStillWaterLevelTSSave =
    m_bActualPlatformErosionTSSave =
