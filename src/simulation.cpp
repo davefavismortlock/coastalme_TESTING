@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -132,13 +132,13 @@ CSimulation::CSimulation (void)
    m_bSaveGISThisIter =
    m_bOutputProfileData =
    m_bOutputParallelProfileData =
-   m_bOutputLookUpData =
+   m_bOutputErosionPotentialData =
    m_bOmitSearchNorthEdge =
    m_bOmitSearchSouthEdge =
    m_bOmitSearchWestEdge =
    m_bOmitSearchEastEdge =
    m_bErodeShorePlatformAlternateDirection =
-   m_bDoCoastPlatformErosion =
+   m_bDoShorePlatformErosion =
    m_bDoCliffCollapse =
    m_bDoBeachSedimentTransport =
    m_bGDALCanWriteFloat =
@@ -188,8 +188,8 @@ CSimulation::CSimulation (void)
    m_nYGridMax =
    m_nCoastMax =
    m_nCoastMin =
-   m_nNThisIterCliffCollapse =
-   m_nNTotCliffCollapse =
+   // m_nNThisIterCliffCollapse =
+   // m_nNTotCliffCollapse =
    m_nGlobalPolygonID =
    m_nUnconsSedimentHandlingAtGridEdges =
    m_nBeachErosionDepositionEquation =
@@ -200,7 +200,7 @@ CSimulation::CSimulation (void)
    m_nSimStartDay =
    m_nSimStartMonth =
    m_nSimStartYear =
-   m_nDeepWaterWaveDataNTimeSteps =
+   m_nDeepWaterWaveDataNumTimeSteps =
    m_nLogFileDetail =
    m_nRunUpEquation = 
    m_nLevel = 0;
@@ -331,7 +331,7 @@ CSimulation::CSimulation (void)
    m_dThisIterCliffCollapseFineErodedDuringDeposition =
    m_dThisIterCliffCollapseSandErodedDuringDeposition =
    m_dThisIterCliffCollapseCoarseErodedDuringDeposition =
-   m_dCoastNormalRandSpaceFact =
+   m_dCoastNormalRandSpacingFactor =
    m_dDeanProfileStartAboveSWL =
    m_dAccumulatedSeaLevelChange =
    m_dBreakingWaveHeightDepthRatio =
@@ -437,10 +437,10 @@ CSimulation::~CSimulation (void)
       StillWaterLevelTSStream.close();
    }
 
-   if (ErosionTSStream && ErosionTSStream.is_open())
+   if (PlatformErosionTSStream && PlatformErosionTSStream.is_open())
    {
-      ErosionTSStream.flush();
-      ErosionTSStream.close();
+      PlatformErosionTSStream.flush();
+      PlatformErosionTSStream.close();
    }
 
    if (CliffCollapseErosionTSStream && CliffCollapseErosionTSStream.is_open())
@@ -455,16 +455,16 @@ CSimulation::~CSimulation (void)
       CliffCollapseDepositionTSStream.close();
    }
 
-   if (CliffCollapseNetTSStream && CliffCollapseNetTSStream.is_open())
+   if (CliffCollapseNetChangeTSStream && CliffCollapseNetChangeTSStream.is_open())
    {
-      CliffCollapseNetTSStream.flush();
-      CliffCollapseNetTSStream.close();
+      CliffCollapseNetChangeTSStream.flush();
+      CliffCollapseNetChangeTSStream.close();
    }
 
-   if (SedLoadTSStream && SedLoadTSStream.is_open())
+   if (FineSedSuspensionTSStream && FineSedSuspensionTSStream.is_open())
    {
-      SedLoadTSStream.flush();
-      SedLoadTSStream.close();
+      FineSedSuspensionTSStream.flush();
+      FineSedSuspensionTSStream.close();
    }
 
    if (FloodSetupSurgeTSStream && FloodSetupSurgeTSStream.is_open())
@@ -759,7 +759,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
       return (nRet);
 
    // Do we want to output the erosion potential look-up values, for checking purposes?
-   if (m_bOutputLookUpData)
+   if (m_bOutputErosionPotentialData)
       WriteLookUpData();
 
    // OK, now read in the vector files (if any)
@@ -836,14 +836,14 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
    // Misc initialization calcs
    m_nCoastMax = COAST_LENGTH_MAX * tMax(m_nXGridMax, m_nYGridMax);           // Arbitrary but probably OK
    m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                              // MCB, in some cases the following rule doesn't work
-   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide);           // Ditto DFM: ???
-   m_nCoastCurvatureInterval = tMax(nRound(m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2);   // Ditto DFM: ???
+   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide);           // TODO What is this: Ditto DFM: ???
+   m_nCoastCurvatureInterval = tMax(nRound(m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2);   // TODO What is this: Ditto DFM: ???
 
-   // For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn)
-   m_dInmersedToBulkVolumetric = 1 / ( (m_dBeachSedimentDensity - m_dSeaWaterDensity) * (1 - m_dBeachSedimentPorosity) * m_dG);
+   // For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn) TODO need full reference
+   m_dInmersedToBulkVolumetric = 1 / ((m_dBeachSedimentDensity - m_dSeaWaterDensity) * (1 - m_dBeachSedimentPorosity) * m_dG);
 
-   m_bConsChangedThisIter.resize (m_nLayers, false);
-   m_bUnconsChangedThisIter.resize (m_nLayers, false);
+   m_bConsChangedThisIter.resize(m_nLayers, false);
+   m_bUnconsChangedThisIter.resize(m_nLayers, false);
 
    // Normalize erodibility values, so that none are > 1
    double dTmp = m_dFineErodibility + m_dSandErodibility + m_dCoarseErodibility;
@@ -1079,7 +1079,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
       //       delete[] pdRaster;
       //       // DEBUG CODE ===========================================
 
-      if (m_bDoCoastPlatformErosion)
+      if (m_bDoShorePlatformErosion)
       {
          // Calculate elevation change on the consolidated sediment which comprises the coastal platform
          nRet = nDoAllShorePlatFormErosion();

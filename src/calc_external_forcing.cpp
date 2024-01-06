@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -63,7 +63,7 @@ int CSimulation::nCalcExternalForcing(void)
    {
       static int snWaveStationDataCount = 0;
 
-      if (snWaveStationDataCount > m_nDeepWaterWaveDataNTimeSteps-1)
+      if (snWaveStationDataCount > m_nDeepWaterWaveDataNumTimeSteps-1)
       {
          // Wrap the tide data, i.e. start again with the first record if we do not have enough
          snWaveStationDataCount = 0;

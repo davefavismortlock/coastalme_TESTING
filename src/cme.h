@@ -514,7 +514,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.17 (27 Nov 2023)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.18 (06 Jan 2024)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 

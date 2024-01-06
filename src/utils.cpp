@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -1086,7 +1086,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open wetted time-series CSV file
       SeaAreaTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!SeaAreaTSStream)
+      if (! SeaAreaTSStream)
       {
          // Error, cannot open wetted area  time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1103,7 +1103,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open still water level time-series CSV file
       StillWaterLevelTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!StillWaterLevelTSStream)
+      if (! StillWaterLevelTSStream)
       {
          // Error, cannot open still water level time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1119,8 +1119,8 @@ bool CSimulation::bSetUpTSFiles(void)
       strTSFile.append(CSVEXT);
 
       // Open erosion time-series CSV file
-      ErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!ErosionTSStream)
+      PlatformErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (! PlatformErosionTSStream)
       {
          // Error, cannot open erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1137,7 +1137,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open cliff collapse erosion time-series CSV file
       CliffCollapseErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!CliffCollapseErosionTSStream)
+      if (! CliffCollapseErosionTSStream)
       {
          // Error, cannot open cliff collapse erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1154,7 +1154,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open cliff collapse deposition time-series CSV file
       CliffCollapseDepositionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!CliffCollapseDepositionTSStream)
+      if (! CliffCollapseDepositionTSStream)
       {
          // Error, cannot open cliff collapse deposition time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1170,8 +1170,8 @@ bool CSimulation::bSetUpTSFiles(void)
       strTSFile.append(CSVEXT);
 
       // Open net cliff collapse time-series CSV file
-      CliffCollapseNetTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!CliffCollapseNetTSStream)
+      CliffCollapseNetChangeTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (! CliffCollapseNetChangeTSStream)
       {
          // Error, cannot open net cliff collapse time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1188,7 +1188,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open beach erosion time-series CSV file
       BeachErosionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!BeachErosionTSStream)
+      if (! BeachErosionTSStream)
       {
          // Error, cannot open beach erosion time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1205,7 +1205,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open beach deposition time-series CSV file
       BeachDepositionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!BeachDepositionTSStream)
+      if (! BeachDepositionTSStream)
       {
          // Error, cannot open beach deposition time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1221,8 +1221,8 @@ bool CSimulation::bSetUpTSFiles(void)
       strTSFile.append(CSVEXT);
 
       // Open net beach sediment change time-series CSV file
-      BeachSedimentChangeNetTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!BeachSedimentChangeNetTSStream)
+      BeachSedimentNetChangeTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (! BeachSedimentNetChangeTSStream)
       {
          // Error, cannot open beach sediment change time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1238,8 +1238,8 @@ bool CSimulation::bSetUpTSFiles(void)
       strTSFile.append(CSVEXT);
 
       // Open sediment load time-series CSV file
-      SedLoadTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!SedLoadTSStream)
+      FineSedSuspensionTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
+      if (! FineSedSuspensionTSStream)
       {
          // Error, cannot open sediment load time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1256,7 +1256,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open sediment load time-series CSV file
       FloodSetupSurgeTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!FloodSetupSurgeTSStream)
+      if (! FloodSetupSurgeTSStream)
       {
          // Error, cannot open sediment load time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -1273,7 +1273,7 @@ bool CSimulation::bSetUpTSFiles(void)
 
       // Open sediment load time-series CSV file
       FloodSetupSurgeRunupTSStream.open(strTSFile.c_str(), ios::out | ios::trunc);
-      if (!FloodSetupSurgeRunupTSStream)
+      if (! FloodSetupSurgeRunupTSStream)
       {
          // Error, cannot open sediment load time-series file
          cerr << ERR << "cannot open " << strTSFile << " for output" << endl;
@@ -2833,7 +2833,7 @@ void CSimulation::CalcDepthOfClosure(void)
    // For the time being, and since we assume wave height and period constant just use the actual wave height and period to calculate the depth of closure
    // m_dDepthOfClosure = (2.28 * dDeepWaterWaveHeight) - (68.5 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 
-   // An alternative (which produces smaller depth of closure estimates) is Birkemeier (1985)
+   // An alternative (which produces smaller depth of closure estimates) is Birkemeier (1985) TODO Full reference needed
    // dL = 1.75 * Hsx - (57.9 * Hsx^2/ (g * Tsx^2))
    m_dDepthOfClosure = (1.75 * dDeepWaterWaveHeight) - (57.9 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 }

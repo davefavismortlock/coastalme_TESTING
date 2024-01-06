@@ -2,7 +2,7 @@
           dCShoreTimeStep = 3600, // In seconds, not important because we are not using CShore to erode the profile, just to get the hydrodynamics
                           ^
 [1mcalc_waves.cpp:793:23: [31mstyle:[39m Variable 'dSurgeLevel' is assigned a value that is never used. [unreadVariable][0m
-          dSurgeLevel = CSHORE_SURGE_LEVEL;
+          dSurgeLevel = CSHORE_SURGE_LEVEL;        // TODO What is this for?
                       ^
 [1mcalc_waves.cpp:831:18: [31mstyle:[39m Variable 'nILine' is assigned a value that is never used. [unreadVariable][0m
           nILine = 1,  // This is the number of cross-shore lines i.e. the number of CoastalME profiles. Only one at a time, at present
@@ -35,7 +35,7 @@
           nNWave = 1,  // Number of waves at x = 0 starting from time = 0
                  ^
 [1mcalc_waves.cpp:841:19: [31mstyle:[39m Variable 'nNSurge' is assigned a value that is never used. [unreadVariable][0m
-          nNSurge = 1; // Number of water levels at x = 0 from time = 0
+          nNSurge = 1; // Number of water levels at x = 0 from time = 0    // TODO What is this for?
                   ^
 [1mcalc_waves.cpp:843:15: [31mstyle:[39m Variable 'dDX' is assigned a value that is never used. [unreadVariable][0m
           dDX = VdProfileDistXY.back() / (static_cast<double>(VdProfileDistXY.size() - 1)),
@@ -44,7 +44,7 @@
           dWaveInitTime = 0,  // CShore wave start time
                         ^
 [1mcalc_waves.cpp:845:26: [31mstyle:[39m Variable 'dSurgeInitTime' is assigned a value that is never used. [unreadVariable][0m
-          dSurgeInitTime = 0; // CShore surge start time
+          dSurgeInitTime = 0; // CShore surge start time                   // TODO What is this for?
                          ^
 [1mcreate_polygons.cpp:376:42: [31mstyle:[39m Variable 'dCliffCollapseErosionFine' is assigned a value that is never used. [unreadVariable][0m
                dCliffCollapseErosionFine += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
@@ -76,10 +76,10 @@
 [1mgis_raster.cpp:1525:21: [31mstyle:[39m Boolean value assigned to floating point variable. [assignBoolToFloat][0m
                dTmp = m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea();
                     ^
-[1msimulation.cpp:217:4: [31mperformance:[39m Variable 'm_GDALWriteIntDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
+[1msimulation.cpp:216:4: [31mperformance:[39m Variable 'm_GDALWriteIntDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
    m_GDALWriteIntDataType =
    ^
-[1msimulation.cpp:218:4: [31mperformance:[39m Variable 'm_GDALWriteFloatDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
+[1msimulation.cpp:217:4: [31mperformance:[39m Variable 'm_GDALWriteFloatDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
    m_GDALWriteFloatDataType = GDT_Unknown;
    ^
 [1mutils_global.cpp:159:31: [31mperformance:[39m Function parameter 'strIn' should be passed by const reference. [passedByValue][0m
@@ -96,12 +96,6 @@ void CA2DShape::Clear(void)
 ^
 [1mcell.cpp:216:0: [31mstyle:[39m The function 'bIsPossibleFloodStartCell' is never used. [unusedFunction][0m
 bool CGeomCell::bIsPossibleFloodStartCell(void) const
-^
-[1mcell.cpp:357:0: [31mstyle:[39m The function 'SetCheckCell' is never used. [unusedFunction][0m
-void CGeomCell::SetCheckCell(void)
-^
-[1mcell.cpp:363:0: [31mstyle:[39m The function 'bIsCellCheck' is never used. [unusedFunction][0m
-bool CGeomCell::bIsCellCheck(void) const
 ^
 [1mcell.cpp:405:0: [31mstyle:[39m The function 'SetLocalConsSlope' is never used. [unusedFunction][0m
 void CGeomCell::SetLocalConsSlope(double const dNewSlope)

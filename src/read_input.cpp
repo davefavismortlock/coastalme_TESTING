@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -2107,14 +2107,14 @@ bool CSimulation::bReadRunDataFile(void)
             // Simulate coast platform erosion?
             strRH = strToLower(&strRH);
 
-            // m_bDoCoastPlatformErosion = false;
+            // m_bDoShorePlatformErosion = false;
             if (strRH.find("y") != string::npos)
-               m_bDoCoastPlatformErosion = true;
+               m_bDoShorePlatformErosion = true;
             break;
 
          case 43:
             // R (coast platform resistance to erosion) values along profile, see Walkden & Hall, 2011
-            if (m_bDoCoastPlatformErosion)
+            if (m_bDoShorePlatformErosion)
             {
                // First check that this is a valid double
                if (! bIsStringValidDouble(strRH))
@@ -2237,7 +2237,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 50:
-            // Density of beach sediment (kg/m3)
+            // Density of unconsolidated beach sediment (kg/m3)
             if (m_bDoBeachSedimentTransport)
             {
                // First check that this is a valid double
@@ -2273,7 +2273,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 52:
-            // Erodibility of fine-sized sediment
+            // Relative erodibility (0 - 1) of fine-sized sediment
             if (m_bDoBeachSedimentTransport)
             {
                // First check that this is a valid double
@@ -2285,13 +2285,13 @@ bool CSimulation::bReadRunDataFile(void)
 
                m_dFineErodibility = strtod(strRH.c_str(), NULL);
 
-               if (m_dFineErodibility < 0)
-                  strErr = "line " + to_string(nLine) + ": erodibility of fine-sized sediment must be >= 0";
+               if ((m_dFineErodibility < 0) || (m_dFineErodibility > 1))
+                  strErr = "line " + to_string(nLine) + ": relative erodibility of fine-sized sediment must be between 0 and 1";
             }
             break;
 
          case 53:
-            // Erodibility of sand-sized sediment
+            // Relative erodibility (0 - 1) of sand-sized sediment
             if (m_bDoBeachSedimentTransport)
             {
                // First check that this is a valid double
@@ -2303,13 +2303,13 @@ bool CSimulation::bReadRunDataFile(void)
 
                m_dSandErodibility = strtod(strRH.c_str(), NULL);
 
-               if (m_dSandErodibility < 0)
-                  strErr = "line " + to_string(nLine) + ": erodibility of sand-sized sediment must be >= 0";
+               if ((m_dSandErodibility < 0) || (m_dSandErodibility > 1))
+                  strErr = "line " + to_string(nLine) + ": relative erodibility of sand-sized sediment must be between 0 and 1";
             }
             break;
 
          case 54:
-            // Erodibility of coarse-sized sediment
+            // Relative erodibility (0 - 1) of coarse-sized sediment
             if (m_bDoBeachSedimentTransport)
             {
                // First check that this is a valid double
@@ -2321,9 +2321,9 @@ bool CSimulation::bReadRunDataFile(void)
 
                m_dCoarseErodibility = strtod(strRH.c_str(), NULL);
 
-               if (m_dCoarseErodibility < 0)
+               if ((m_dCoarseErodibility < 0) || (m_dCoarseErodibility > 1))
                {
-                  strErr = "line " + to_string(nLine) + ": erodibility of coarse-sized sediment must be >= 0";
+                  strErr = "line " + to_string(nLine) + ": relative erodibility of coarse-sized sediment must be between 0 and 1";
                   break;
                }
 
@@ -2344,10 +2344,9 @@ bool CSimulation::bReadRunDataFile(void)
                }
 
                m_dKLS = strtod(strRH.c_str(), NULL);
-               // However, many sites do not have transport data available to calibrate K, and for design applications without calibration data the CERC formula provides only order-of-magnitude accuracy
-               // (Fowler et al., 1995; Wang et al., 1998). The recommended value of K = 0.39 has been commonly used to represent the potential longshore transport rate. However, Miller (1998) found that the
-               // CERC formula sometimes over and sometimes under predicted longshore transport rate for measurements during storms, indicating the value of K also can be higher than 0.39
-               m_dKLS = tMin(m_dKLS, 0.39);
+               // However, many sites do not have transport data available to calibrate K, and for design applications without calibration data the CERC formula provides only order-of-magnitude accuracy (Fowler et al., 1995; Wang et al., 1998). The recommended value of K = 0.39 has been commonly used to represent the potential longshore transport rate. However, Miller (1998) found that the CERC formula sometimes over and sometimes under predicted longshore transport rate for measurements during storms, indicating the value of K also can be higher than 0.39
+               // TODO Should this be a user input, or not? The comment above seems inconclusive
+               // m_dKLS = tMin(m_dKLS, 0.39);
 
                if (m_dKLS <= 0)
                   strErr = "line " + to_string(nLine) + ": transport parameter KLS of CERC equation must be > 0";
@@ -2714,7 +2713,7 @@ bool CSimulation::bReadRunDataFile(void)
 
          // ------------------------------------------------------ Other data --------------------------------------------------
          case 75:
-            // Gravitational acceleration (m2/s), check that this is a valid double
+            // Gravitational acceleration (m2/s). First check that this is a valid double
             if (! bIsStringValidDouble(strRH))
             {
                strErr = "line " + to_string(nLine) + ": invalid floating point number for gravitational acceleration '" + strRH + "' in " + m_strDataPathName;
@@ -2745,11 +2744,11 @@ bool CSimulation::bReadRunDataFile(void)
                break;
             }
 
-            m_dCoastNormalRandSpaceFact = strtod(strRH.c_str(), NULL);
+            m_dCoastNormalRandSpacingFactor = strtod(strRH.c_str(), NULL);
 
-            if (m_dCoastNormalRandSpaceFact < 0)
+            if (m_dCoastNormalRandSpacingFactor < 0)
                strErr = "line " + to_string(nLine) + ": random factor for spacing of coastline normals must be >= 0";
-            else if (m_dCoastNormalRandSpaceFact > 1)
+            else if (m_dCoastNormalRandSpacingFactor > 1)
                strErr = "line " + to_string(nLine) + ": random factor for spacing of coastline normals must be < 1";
             break;
 
@@ -2839,7 +2838,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 83:
-            // Timesteps to save profile for output
+            // Timesteps to save profiles
             if (m_bOutputProfileData)
             {
                VstrTmp = VstrSplit(&strRH, SPACE);
@@ -2871,9 +2870,9 @@ bool CSimulation::bReadRunDataFile(void)
             // Output erosion potential look-up data?
             strRH = strToLower(&strRH);
 
-            m_bOutputLookUpData = false;
+            m_bOutputErosionPotentialData = false;
             if (strRH.find("y") != string::npos)
-               m_bOutputLookUpData = true;
+               m_bOutputErosionPotentialData = true;
             break;
 
          case 86:
@@ -2987,21 +2986,21 @@ int CSimulation::nReadShapeFunctionFile()
    // vector<double> VdErosionPotentialFirstDeriv{0, -28.27447203, -48.70000067, -110.48218074, -69.8222302, 57.30543556, 11.54251156, -5.20131157, 18.67771968, -6.92498633, -6.056257, -32.72222382, 72.90403858, 85.14160481, 43.38930653};
 
    // Sort out the path and filename
-   m_strShapeFunctionFile = m_strCMEDir;
-   m_strShapeFunctionFile.append(SCAPE_DIR);
-   m_strShapeFunctionFile.append(SCAPE_SHAPE_FUNCTION_FILE);
+   m_strSCAPEShapeFunctionFile = m_strCMEDir;
+   m_strSCAPEShapeFunctionFile.append(SCAPE_DIR);
+   m_strSCAPEShapeFunctionFile.append(SCAPE_SHAPE_FUNCTION_FILE);
 
    // Create an ifstream object
    ifstream InStream;
 
    // Try to open the file for input
-   InStream.open(m_strShapeFunctionFile.c_str(), ios::in);
+   InStream.open(m_strSCAPEShapeFunctionFile.c_str(), ios::in);
 
    // Did it open OK?
    if (!InStream.is_open())
    {
       // Error: cannot open shape function file for input
-      cerr << ERR << "cannot open " << m_strShapeFunctionFile << " for input" << endl;
+      cerr << ERR << "cannot open " << m_strSCAPEShapeFunctionFile << " for input" << endl;
       return RTN_ERR_SCAPE_SHAPE_FUNCTION_FILE;
    }
 
@@ -3044,7 +3043,7 @@ int CSimulation::nReadShapeFunctionFile()
          // Check that this is a valid double
          if (! bIsStringValidDouble(strTmp[i]))
          {
-            cerr << ERR << "on line " + to_string(nLine) + "  invalid floating point number for Erosion Potential Shape data '" << strTmp[i] << "' in " << m_strShapeFunctionFile << endl;
+            cerr << ERR << "on line " + to_string(nLine) + "  invalid floating point number for Erosion Potential Shape data '" << strTmp[i] << "' in " << m_strSCAPEShapeFunctionFile << endl;
             return RTN_ERR_SCAPE_SHAPE_FUNCTION_FILE;
          }
       }
@@ -3065,7 +3064,7 @@ int CSimulation::nReadShapeFunctionFile()
    // Did we read in what we expected?
    if (nExpected != nRead)
    {
-      cout << ERR << "read in " << nRead << " lines from " << m_strShapeFunctionFile << " but " << nExpected << " lines expected" << endl;
+      cout << ERR << "read in " << nRead << " lines from " << m_strSCAPEShapeFunctionFile << " but " << nExpected << " lines expected" << endl;
       return RTN_ERR_SCAPE_SHAPE_FUNCTION_FILE;
    }
 
@@ -3074,7 +3073,7 @@ int CSimulation::nReadShapeFunctionFile()
    {
       if (m_VdErosionPotential[j] > 0)
       {
-         cout << ERR << " in " << m_strShapeFunctionFile << ", erosion potential function cannot be positive" << endl;
+         cout << ERR << " in " << m_strSCAPEShapeFunctionFile << ", erosion potential function cannot be positive" << endl;
          return RTN_ERR_SCAPE_SHAPE_FUNCTION_FILE;
       }
    }
@@ -3082,7 +3081,7 @@ int CSimulation::nReadShapeFunctionFile()
    // OK, now use this data to create a look-up table to be used for the rest of the simulation
    if (! bCreateErosionPotentialLookUp(&VdDepthOverDB, &VdErosionPotential, &VdErosionPotentialFirstDeriv))
    {
-      cout << ERR << "line " + to_string(nLine) + "  in " << m_strShapeFunctionFile << ": erosion potential function is unbounded for high values of depth over DB" << endl;
+      cout << ERR << "line " + to_string(nLine) + "  in " << m_strSCAPEShapeFunctionFile << ": erosion potential function is unbounded for high values of depth over DB" << endl;
       return RTN_ERR_SCAPE_SHAPE_FUNCTION_FILE;
    }
 
@@ -3293,9 +3292,9 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
                   break;
                }
 
-               m_nDeepWaterWaveDataNTimeSteps = stoi(strRH);
+               m_nDeepWaterWaveDataNumTimeSteps = stoi(strRH);
 
-               if (m_nDeepWaterWaveDataNTimeSteps < 1)
+               if (m_nDeepWaterWaveDataNumTimeSteps < 1)
                {
                   // Error: must have value(s) for at least one timestep
                   strErr = "line " + to_string(nLine) + ": must have values for at least one timestep";
@@ -3357,10 +3356,10 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
       }
    }
 
-   if (nTimeStepsRead != m_nDeepWaterWaveDataNTimeSteps)
+   if (nTimeStepsRead != m_nDeepWaterWaveDataNumTimeSteps)
    {
       // Error: number of timesteps read does not match the number given in the file's header
-      cerr << ERR << "in " << m_strDeepWaterWavesTimeSeriesFile << ", data for " << nTimeStepsRead << " timesteps was read, but " << m_nDeepWaterWaveDataNTimeSteps << " timesteps were specified in the file's header" << endl;
+      cerr << ERR << "in " << m_strDeepWaterWavesTimeSeriesFile << ", data for " << nTimeStepsRead << " timesteps was read, but " << m_nDeepWaterWaveDataNumTimeSteps << " timesteps were specified in the file's header" << endl;
 
       return RTN_ERR_READING_DEEP_WATER_WAVE_DATA;
    }
@@ -3369,7 +3368,7 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
    InStream.close();
 
    // Did we read in what we expected?
-   unsigned int nTotExpected = nExpectedStations * m_nDeepWaterWaveDataNTimeSteps;
+   unsigned int nTotExpected = nExpectedStations * m_nDeepWaterWaveDataNumTimeSteps;
    if (m_VdTSDeepWaterWaveStationHeight.size() != nTotExpected)
    {
       cout << ERR << "read in " << m_VdTSDeepWaterWaveStationHeight.size() << " lines from " << m_strDeepWaterWavesTimeSeriesFile << " but " << nTotExpected << " values expected" << endl;
@@ -3401,10 +3400,10 @@ int CSimulation::nReadWaveStationTimeSeriesFile(int const nWaveStations)
 
    // Finally, check whether the wave data will 'wrap' i.e. whether the number of timesteps is less than the total number of timesteps in the simulation
    int nSimulationTimeSteps = static_cast<int>(floor(m_dSimDuration / m_dTimeStep));
-   if (m_nDeepWaterWaveDataNTimeSteps < nSimulationTimeSteps)
+   if (m_nDeepWaterWaveDataNumTimeSteps < nSimulationTimeSteps)
    {
-      m_dWaveDataWrapHours = m_nDeepWaterWaveDataNTimeSteps * m_dTimeStep;
-      string strTmp = "Deep water wave data will wrap every " + (m_nDeepWaterWaveDataNTimeSteps > 1 ? to_string(m_nDeepWaterWaveDataNTimeSteps) + " " : "") + "time step" + (m_nDeepWaterWaveDataNTimeSteps > 1 ? "s" : "") + " (every " + to_string(m_dWaveDataWrapHours) + " hours)\n";
+      m_dWaveDataWrapHours = m_nDeepWaterWaveDataNumTimeSteps * m_dTimeStep;
+      string strTmp = "Deep water wave data will wrap every " + (m_nDeepWaterWaveDataNumTimeSteps > 1 ? to_string(m_nDeepWaterWaveDataNumTimeSteps) + " " : "") + "time step" + (m_nDeepWaterWaveDataNumTimeSteps > 1 ? "s" : "") + " (every " + to_string(m_dWaveDataWrapHours) + " hours)\n";
 
       cout << NOTE << strTmp;
    }

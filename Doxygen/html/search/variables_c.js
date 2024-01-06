@@ -10,7 +10,8 @@ var searchData=
   ['per_5fiter_5fhead5_7',['PER_ITER_HEAD5',['../d6/d2a/cme_8h.html#ac805c359f1c61d2dbd38aca7309aef12',1,'cme.h']]],
   ['performhead_8',['PERFORMHEAD',['../d6/d2a/cme_8h.html#a1b109ee1c5a3d9cac42b5bf433495d8a',1,'cme.h']]],
   ['pi_9',['PI',['../d6/d2a/cme_8h.html#a5d502a06fdd71825be49e07c95496b16',1,'cme.h']]],
-  ['press_5fkey_10',['PRESS_KEY',['../d6/d2a/cme_8h.html#a301e80bfcdc21b0b7939c4a487018d15',1,'cme.h']]],
-  ['program_5fname_11',['PROGRAM_NAME',['../d6/d2a/cme_8h.html#a9136af1e87b27520ba2fda67c3a184e1',1,'cme.h']]],
-  ['program_5fname_5fshort_12',['PROGRAM_NAME_SHORT',['../d6/d2a/cme_8h.html#ad37e22683ddc3d03276375197ad72255',1,'cme.h']]]
+  ['platformerosiontsstream_10',['PlatformErosionTSStream',['../d1/d98/classCSimulation.html#ac24270dd0ca707203ed1899dbcccc29c',1,'CSimulation']]],
+  ['press_5fkey_11',['PRESS_KEY',['../d6/d2a/cme_8h.html#a301e80bfcdc21b0b7939c4a487018d15',1,'cme.h']]],
+  ['program_5fname_12',['PROGRAM_NAME',['../d6/d2a/cme_8h.html#a9136af1e87b27520ba2fda67c3a184e1',1,'cme.h']]],
+  ['program_5fname_5fshort_13',['PROGRAM_NAME_SHORT',['../d6/d2a/cme_8h.html#ad37e22683ddc3d03276375197ad72255',1,'cme.h']]]
 ];

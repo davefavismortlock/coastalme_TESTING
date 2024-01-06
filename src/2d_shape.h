@@ -5,7 +5,7 @@
  * \details TODO This is a more detailed description of the CA2DShape abstract class.
  * \author David Favis-Mortlock
  * \author Andres Payo
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  * \file 2d_shape.h

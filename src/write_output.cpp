@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -425,7 +425,7 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Start depth for wave calcs (*deep water wave height)      \t: " << m_dWaveDepthRatioForWaveCalcs << endl;
    OutStream << "*Depth of closure                                          \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dDepthOfClosure << " m" << endl;
    OutStream << " Tide data file                                            \t: " << m_strTideDataFile << endl;
-   OutStream << " Do coast platform erosion?                                \t: " << (m_bDoCoastPlatformErosion ? "Y" : "N") << endl;
+   OutStream << " Do coast platform erosion?                                \t: " << (m_bDoShorePlatformErosion ? "Y" : "N") << endl;
    OutStream << " Coast platform resistance to erosion                      \t: " << resetiosflags(ios::floatfield) << std::fixed << setprecision(3) << m_dR << endl;
    OutStream << " Do beach sediment transport?                              \t: " << (m_bDoBeachSedimentTransport ? "Y" : "N") << endl;
    OutStream << " Handling of beach sediment at grid edges                  \t: ";
@@ -491,7 +491,7 @@ void CSimulation::WriteStartRunDetails(void)
    }
    OutStream << " Gravitational acceleration                                \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dG << " m^2/s" << endl;
    OutStream << " Minimum spacing of coastline normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalAvgSpacing << " m" << endl;
-   OutStream << " Random factor for spacing of normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalRandSpaceFact << endl;
+   OutStream << " Random factor for spacing of normals                      \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCoastNormalRandSpacingFactor << endl;
    OutStream << " Length of coastline normals                               \t: " << m_dCoastNormalLength << " m" << endl;
    OutStream << " Maximum number of 'cape' normals                          \t: " << m_nNaturalCapeNormals << endl;
    OutStream << endl;
@@ -516,8 +516,8 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << m_VulProfileTimestep[i] << SPACE;
    OutStream << endl;
    OutStream << " Output parallel profile data?                             \t: " << (m_bOutputParallelProfileData ? "Y" : "N") << endl;
-   OutStream << " Output erosion potential look-up data?                    \t: " << (m_bOutputLookUpData ? "Y" : "N");
-   if (m_bOutputLookUpData)
+   OutStream << " Output erosion potential look-up data?                    \t: " << (m_bOutputErosionPotentialData ? "Y" : "N");
+   if (m_bOutputErosionPotentialData)
       OutStream << " (see " << m_strOutPath << EROSION_POTENTIAL_LOOKUP_FILE << ")";
    OutStream << endl;
    OutStream << " Erode coast in alternate directions?                      \t: " << (m_bErodeShorePlatformAlternateDirection ? "Y" : "N") << endl;
@@ -803,10 +803,10 @@ bool CSimulation::bWriteTSFiles(void)
    if (m_bActualPlatformErosionTSSave)
    {
       // Output as is (m depth equivalent)
-      ErosionTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterActualPlatformErosionFineCons << ",\t" << m_dThisIterActualPlatformErosionSandCons << ",\t" << m_dThisIterActualPlatformErosionCoarseCons << endl;
+      PlatformErosionTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterActualPlatformErosionFineCons << ",\t" << m_dThisIterActualPlatformErosionSandCons << ",\t" << m_dThisIterActualPlatformErosionCoarseCons << endl;
 
       // Did a time series file write error occur?
-      if (ErosionTSStream.fail())
+      if (PlatformErosionTSStream.fail())
          return false;
    }
 
@@ -836,10 +836,10 @@ bool CSimulation::bWriteTSFiles(void)
    if (m_bCliffCollapseNetTSSave)
    {
       // Output as is (m depth equivalent)
-      CliffCollapseNetTSStream << noshowpos << m_dSimElapsed << "\t,\t" << showpos << -m_dThisIterCliffCollapseFineErodedDuringDeposition + (m_dThisIterUnconsSandCliffDeposition - m_dThisIterCliffCollapseSandErodedDuringDeposition) + (m_dThisIterUnconsCoarseCliffDeposition - m_dThisIterCliffCollapseCoarseErodedDuringDeposition) << endl;
+      CliffCollapseNetChangeTSStream << noshowpos << m_dSimElapsed << "\t,\t" << showpos << -m_dThisIterCliffCollapseFineErodedDuringDeposition + (m_dThisIterUnconsSandCliffDeposition - m_dThisIterCliffCollapseSandErodedDuringDeposition) + (m_dThisIterUnconsCoarseCliffDeposition - m_dThisIterCliffCollapseCoarseErodedDuringDeposition) << endl;
 
       // Did a time series file write error occur?
-      if (CliffCollapseNetTSStream.fail())
+      if (CliffCollapseNetChangeTSStream.fail())
          return false;
    }
 
@@ -869,20 +869,20 @@ bool CSimulation::bWriteTSFiles(void)
    if (m_bBeachSedimentChangeNetTSSave)
    {
       // Output as is (m depth equivalent)
-      BeachSedimentChangeNetTSStream << noshowpos << m_dSimElapsed << "\t,\t" << showpos << -m_dThisIterBeachErosionFine + (m_dThisIterBeachDepositionSand - m_dThisIterBeachErosionSand) + (m_dThisIterBeachDepositionCoarse - m_dThisIterBeachErosionCoarse) << endl;
+      BeachSedimentNetChangeTSStream << noshowpos << m_dSimElapsed << "\t,\t" << showpos << -m_dThisIterBeachErosionFine + (m_dThisIterBeachDepositionSand - m_dThisIterBeachErosionSand) + (m_dThisIterBeachDepositionCoarse - m_dThisIterBeachErosionCoarse) << endl;
 
       // Did a time series file write error occur?
-      if (BeachSedimentChangeNetTSStream.fail())
+      if (BeachSedimentNetChangeTSStream.fail())
          return false;
    }
 
    if (m_bSuspSedTSSave)
    {
       // Output as is (m depth equivalent)
-      SedLoadTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterFineSedimentToSuspension << endl;
+      FineSedSuspensionTSStream << m_dSimElapsed << "\t,\t" << m_dThisIterFineSedimentToSuspension << endl;
 
       // Did a time series file write error occur?
-      if (SedLoadTSStream.fail())
+      if (FineSedSuspensionTSStream.fail())
          return false;
    }
 

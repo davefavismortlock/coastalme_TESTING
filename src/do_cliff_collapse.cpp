@@ -6,7 +6,7 @@
  * \author David Favis-Mortlock
  * \author Andres Payo
 
- * \date 2023
+ * \date 2024
  * \copyright GNU General Public License
  *
  */
@@ -337,8 +337,8 @@ int CSimulation::nDoCliffCollapse(int const nCoast, CRWCliff* pCliff, double& dF
    pPolygon->AddCliffCollapseErosionCoarse(dCoarseCollapse);
          
    // And update the this-timestep totals and the grand totals for collapse
-   m_nNThisIterCliffCollapse++;
-   m_nNTotCliffCollapse++;
+   // m_nNThisIterCliffCollapse++;
+   // m_nNTotCliffCollapse++;
 
    // Note that this gets added in to the suspended load elsewhere, so no need to do it here
    m_dThisIterCliffCollapseErosionFineUncons += dFineUnconsLost;

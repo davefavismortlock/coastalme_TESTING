@@ -202,9 +202,7 @@ var searchData=
   ['dround_199',['dRound',['../d2/dfd/utils__global_8cpp.html#a129796f62c254914a851a7d95786b8a4',1,'utils_global.cpp']]],
   ['dsubtractprofiles_200',['dSubtractProfiles',['../d1/d98/classCSimulation.html#a5c6043e2c01c4f9d1cb9b4ca5f940bd7',1,'CSimulation']]],
   ['dtriangleareax2_201',['dTriangleAreax2',['../d1/d98/classCSimulation.html#abb021c82066b05f7aab9a706df466240',1,'CSimulation']]],
-  ['dvsmoothprofilerunningmean_202',['dVSmoothProfileRunningMean',['../d1/d98/classCSimulation.html#aebafb87a24e40287b6d48e9edb01acd9',1,'CSimulation']]],
-  ['dvsmoothprofilesavitzkygolay_203',['dVSmoothProfileSavitzkyGolay',['../d1/d98/classCSimulation.html#a01b06158e30f21267a38c4a3a0c29506',1,'CSimulation']]],
-  ['dvsmoothprofileslope_204',['dVSmoothProfileSlope',['../d1/d98/classCSimulation.html#a134eaecf34f0bce06b976432f3e7c2fd',1,'CSimulation']]],
-  ['dx_205',['dX',['../d5/d4e/classCGeom2DPoint.html#aba31eda035067084b371dfe4380ea813',1,'CGeom2DPoint']]],
-  ['dy_206',['dY',['../d5/d4e/classCGeom2DPoint.html#aaf82ef877035e21a3195323e4fc2ab91',1,'CGeom2DPoint']]]
+  ['dvsmoothprofileslope_202',['dVSmoothProfileSlope',['../d1/d98/classCSimulation.html#a134eaecf34f0bce06b976432f3e7c2fd',1,'CSimulation']]],
+  ['dx_203',['dX',['../d5/d4e/classCGeom2DPoint.html#aba31eda035067084b371dfe4380ea813',1,'CGeom2DPoint']]],
+  ['dy_204',['dY',['../d5/d4e/classCGeom2DPoint.html#aaf82ef877035e21a3195323e4fc2ab91',1,'CGeom2DPoint']]]
 ];
