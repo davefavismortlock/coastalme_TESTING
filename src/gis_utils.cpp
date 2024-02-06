@@ -403,21 +403,21 @@ CGeom2DPoint CSimulation::PtAverage(CGeom2DPoint const* pPt1, CGeom2DPoint const
    return CGeom2DPoint(dPtAvgX, dPtAvgY);
 }
 
-//===============================================================================================================================
-//! Returns an integer point (grid CRS) which is the approximate average of (i.e. is midway between) two other grid CRS integer points
-//===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2)
-{
-   int
-       nPti1X = pPti1->nGetX(),
-       nPti1Y = pPti1->nGetY(),
-       nPti2X = pPti2->nGetX(),
-       nPti2Y = pPti2->nGetY(),
-       nPtiAvgX = (nPti1X + nPti2X) / 2,
-       nPtiAvgY = (nPti1Y + nPti2Y) / 2;
-
-   return CGeom2DIPoint(nPtiAvgX, nPtiAvgY);
-}
+// //===============================================================================================================================
+// //! Returns an integer point (grid CRS) which is the approximate average of (i.e. is midway between) two other grid CRS integer points
+// //===============================================================================================================================
+// CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2)
+// {
+//    int
+//        nPti1X = pPti1->nGetX(),
+//        nPti1Y = pPti1->nGetY(),
+//        nPti2X = pPti2->nGetX(),
+//        nPti2Y = pPti2->nGetY(),
+//        nPtiAvgX = (nPti1X + nPti2X) / 2,
+//        nPtiAvgY = (nPti1Y + nPti2Y) / 2;
+//
+//    return CGeom2DIPoint(nPtiAvgX, nPtiAvgY);
+// }
 
 //===============================================================================================================================
 //! Returns an integer point (grid CRS) which is the weighted average of two other grid CRS integer points. The weight must be <= 1, if the weight is < 0.5 then the output point is closer to the first point, if the weight is > 0.5 then the output point is closer to the second point
@@ -463,30 +463,30 @@ CGeom2DPoint CSimulation::PtAverage(vector<CGeom2DPoint>* pVIn)
    return CGeom2DPoint(dAvgX, dAvgY);
 }
 
-//===============================================================================================================================
-//! Returns a point (grid CRS) which is the average of a vector of grid CRS points
-//===============================================================================================================================
-CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint>* pVIn)
-{
-   int nSize = static_cast<int>(pVIn->size());
-   if (nSize == 0)
-      return CGeom2DIPoint(INT_NODATA, INT_NODATA);
-
-   double
-       dAvgX = 0,
-       dAvgY = 0;
-
-   for (int n = 0; n < nSize; n++)
-   {
-      dAvgX += pVIn->at(n).nGetX();
-      dAvgY += pVIn->at(n).nGetY();
-   }
-
-   dAvgX /= nSize;
-   dAvgY /= nSize;
-
-   return CGeom2DIPoint(nRound(dAvgX), nRound(dAvgY));
-}
+// //===============================================================================================================================
+// //! Returns a point (grid CRS) which is the average of a vector of grid CRS points
+// //===============================================================================================================================
+// CGeom2DIPoint CSimulation::PtiAverage(vector<CGeom2DIPoint>* pVIn)
+// {
+//    int nSize = static_cast<int>(pVIn->size());
+//    if (nSize == 0)
+//       return CGeom2DIPoint(INT_NODATA, INT_NODATA);
+//
+//    double
+//        dAvgX = 0,
+//        dAvgY = 0;
+//
+//    for (int n = 0; n < nSize; n++)
+//    {
+//       dAvgX += pVIn->at(n).nGetX();
+//       dAvgY += pVIn->at(n).nGetY();
+//    }
+//
+//    dAvgX /= nSize;
+//    dAvgY /= nSize;
+//
+//    return CGeom2DIPoint(nRound(dAvgX), nRound(dAvgY));
+// }
 
 //===============================================================================================================================
 //! Returns an integer point (grid CRS) which is the centroid of a polygon, given by a vector of grid CRS points. From https://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
@@ -1682,28 +1682,28 @@ int CSimulation::nGetOppositeDirection(int const nDirection)
    return NO_DIRECTION;
 }
 
-//===============================================================================================================================
-//! Given two integer points, calculates the slope and intercept of the line passing through the points
-//===============================================================================================================================
-void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2, double& dSlope, double& dIntercept)
-{
-   int
-       nX1 = pPti1->nGetX(),
-       nY1 = pPti1->nGetY(),
-       nX2 = pPti2->nGetX(),
-       nY2 = pPti2->nGetY();
-
-   double
-       dXDiff = nX1 - nX2,
-       dYDiff = nY1 - nY2;
-
-   if (bFPIsEqual(dXDiff, 0.0, TOLERANCE))
-      dSlope = 0;
-   else
-      dSlope = dYDiff / dXDiff;
-
-   dIntercept = nY1 - (dSlope * nX1);
-}
+// //===============================================================================================================================
+// //! Given two integer points, calculates the slope and intercept of the line passing through the points
+// //===============================================================================================================================
+// void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2, double& dSlope, double& dIntercept)
+// {
+//    int
+//        nX1 = pPti1->nGetX(),
+//        nY1 = pPti1->nGetY(),
+//        nX2 = pPti2->nGetX(),
+//        nY2 = pPti2->nGetY();
+//
+//    double
+//        dXDiff = nX1 - nX2,
+//        dYDiff = nY1 - nY2;
+//
+//    if (bFPIsEqual(dXDiff, 0.0, TOLERANCE))
+//       dSlope = 0;
+//    else
+//       dSlope = dYDiff / dXDiff;
+//
+//    dIntercept = nY1 - (dSlope * nX1);
+// }
 
 //===============================================================================================================================
 //! Finds the closest point on any coastline to a given point
@@ -1745,7 +1745,7 @@ CGeom2DIPoint CSimulation::PtiFindClosestCoastPoint(int const nX, int const nY)
 //===============================================================================================================================
 //! Given a length in m, this returns the rounded equivalent number of cells
 //===============================================================================================================================
-int CSimulation::nConvertMetresToNumCells(double const dLen)
+int CSimulation::nConvertMetresToNumCells(double const dLen) const
 {
    return nRound(dLen / m_dCellSide);   
 }

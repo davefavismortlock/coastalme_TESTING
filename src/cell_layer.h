@@ -61,8 +61,8 @@ public:
    double dGetConsolidatedThickness(void) const;
    double dGetTotalThickness(void) const;
 
-   double dGetNotchUnconsolidatedLost(void) const;
-   double dGetNotchConsolidatedLost(void) const;
+   // double dGetNotchUnconsolidatedLost(void) const;
+   // double dGetNotchConsolidatedLost(void) const;
 
 //    double dGetVolSedFraction(void) const;
    void SetVolSedFraction(double const);

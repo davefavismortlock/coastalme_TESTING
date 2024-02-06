@@ -255,7 +255,7 @@ public:
     bool bIsPossibleCoastStartCell(void) const;
 
     void SetPossibleFloodStartCell(void);
-    bool bIsPossibleFloodStartCell(void) const;
+    // bool bIsPossibleFloodStartCell(void) const;
 
     void SetPolygonID(int const);
     int nGetPolygonID(void) const;
@@ -279,15 +279,15 @@ public:
     double dGetBasementElev(void) const;
     bool bBasementElevIsMissingValue(void) const;
 
-    double dGetVolEquivSedTopElev(void) const;
+    // double dGetVolEquivSedTopElev(void) const;
     double dGetSedimentTopElev(void) const;
     double dGetSedimentPlusInterventionTopElev(void) const;
     double dGetOverallTopElev(void) const;
 
     bool bIsInundated(void) const;
-    double dGetIterSWL(void) const;
-    double dGetIterTotWaterLevel(void) const;
-    bool bIsSeaIncBeach(void) const;
+    double dGetThisIterSWL(void) const;
+    double dGetThisIterTotWaterLevel(void) const;
+    // bool bIsSeaIncBeach(void) const;
     void SetSeaDepth(void);
     double dGetSeaDepth(void) const;
     void InitCell(void);

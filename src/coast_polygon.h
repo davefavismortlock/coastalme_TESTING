@@ -164,7 +164,7 @@ public:
 //    bool bIsPointed(void) const;
 
    void SetNumCellsInPolygon(int const);
-   int nGetNumCellsinPolygon(void) const;
+   // int nGetNumCellsinPolygon(void) const;
 
    int nGetUpCoastProfile(void) const;
    int nGetDownCoastProfile(void) const;
@@ -191,12 +191,12 @@ public:
    double dGetErosionUnconsCoarse(void) const;
    double dGetErosionAllUncons(void) const;
 
-   void SetZeroDepositionUnconsFine(void);
+   // void SetZeroDepositionUnconsFine(void);
    double dGetDepositionUnconsFine(void) const;
-   void SetZeroDepositionUnconsSand(void);
+   // void SetZeroDepositionUnconsSand(void);
    void AddDepositionUnconsSand(double const);
    double dGetDepositionUnconsSand(void) const;
-   void SetZeroDepositionUnconsCoarse(void);
+   // void SetZeroDepositionUnconsCoarse(void);
    void AddDepositionUnconsCoarse(double const);
    double dGetDepositionUnconsCoarse(void) const;
    double dGetDepositionAllUncons(void) const;
@@ -223,7 +223,7 @@ public:
    void Display(void) override;
    
    void AddCircularity(int const);
-   vector<int> VnGetCircularities(void);
+   vector<int> VnGetCircularities(void) const;
    
    void AddCliffCollapseErosionFine(double const);
    double dGetCliffCollapseErosionFine(void) const;

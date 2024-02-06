@@ -46,27 +46,33 @@
 [1mcalc_waves.cpp:845:26: [31mstyle:[39m Variable 'dSurgeInitTime' is assigned a value that is never used. [unreadVariable][0m
           dSurgeInitTime = 0; // CShore surge start time                   // TODO What is this for?
                          ^
-[1mcreate_polygons.cpp:376:42: [31mstyle:[39m Variable 'dCliffCollapseErosionFine' is assigned a value that is never used. [unreadVariable][0m
-               dCliffCollapseErosionFine += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
-                                         ^
-[1mcreate_polygons.cpp:377:42: [31mstyle:[39m Variable 'dCliffCollapseErosionSand' is assigned a value that is never used. [unreadVariable][0m
-               dCliffCollapseErosionSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
-                                         ^
-[1mcreate_polygons.cpp:378:44: [31mstyle:[39m Variable 'dCliffCollapseErosionCoarse' is assigned a value that is never used. [unreadVariable][0m
-               dCliffCollapseErosionCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
-                                           ^
-[1mcreate_polygons.cpp:379:40: [31mstyle:[39m Variable 'dCliffCollapseTalusSand' is assigned a value that is never used. [unreadVariable][0m
-               dCliffCollapseTalusSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
-                                       ^
-[1mcreate_polygons.cpp:380:42: [31mstyle:[39m Variable 'dCliffCollapseTalusCoarse' is assigned a value that is never used. [unreadVariable][0m
-               dCliffCollapseTalusCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition();
-                                         ^
-[1mdo_beach_sediment_movement.cpp:97:16: [31mstyle:[39m Variable 'nRet' is assigned a value that is never used. [unreadVariable][0m
-      int nRet = RTN_OK;
-               ^
-[1mdo_beach_within_polygon.cpp:227:46: [31mstyle:[39m Variable 'PtiThisUpCoastStart' is assigned a value that is never used. [unreadVariable][0m
-            CGeom2DIPoint PtiThisUpCoastStart(nXUpCoastThisStart, nYUpCoastThisStart);
-                                             ^
+[1mcell.h:288:12: [31m[35mperformance: inconclusive:[39m The member function 'CGeomCell::dGetThisIterSWL' can be made a static function. Making a function static can bring a performance benefit since no 'this' instance is passed to the function. This change should not cause compiler errors but it does not necessarily make sense conceptually. Think about your design and the task of the function first - is it a function that must not access members of class instances? And maybe it is more appropriate to move this function to a unnamed namespace. [functionStatic][0m
+    double dGetThisIterSWL(void) const;
+           ^
+[1mcell.cpp:564:19: [2mnote:[0m Technically the member function 'CGeomCell::dGetThisIterSWL' can be static (but you may consider moving to unnamed namespace).
+double CGeomCell::dGetThisIterSWL(void) const
+                  ^
+[1mcell.h:288:12: [2mnote:[0m Technically the member function 'CGeomCell::dGetThisIterSWL' can be static (but you may consider moving to unnamed namespace).
+    double dGetThisIterSWL(void) const;
+           ^
+[1mcell.h:289:12: [31m[35mperformance: inconclusive:[39m The member function 'CGeomCell::dGetThisIterTotWaterLevel' can be made a static function. Making a function static can bring a performance benefit since no 'this' instance is passed to the function. This change should not cause compiler errors but it does not necessarily make sense conceptually. Think about your design and the task of the function first - is it a function that must not access members of class instances? And maybe it is more appropriate to move this function to a unnamed namespace. [functionStatic][0m
+    double dGetThisIterTotWaterLevel(void) const;
+           ^
+[1mcell.cpp:570:19: [2mnote:[0m Technically the member function 'CGeomCell::dGetThisIterTotWaterLevel' can be static (but you may consider moving to unnamed namespace).
+double CGeomCell::dGetThisIterTotWaterLevel(void) const
+                  ^
+[1mcell.h:289:12: [2mnote:[0m Technically the member function 'CGeomCell::dGetThisIterTotWaterLevel' can be static (but you may consider moving to unnamed namespace).
+    double dGetThisIterTotWaterLevel(void) const;
+           ^
+[1mcoast.h:189:8: [31m[35mstyle: inconclusive:[39m The member function 'CRWCoast::nGetCoastPointGivenCell' can be made a const function. Making this function 'const' should not cause compiler errors. Even though the function can be made const function technically it may not make sense conceptually. Think about your design and the task of the function first - is it a function that must not change object internal state? [functionConst][0m
+   int nGetCoastPointGivenCell(CGeom2DIPoint*);
+       ^
+[1mcoast.cpp:258:15: [2mnote:[0m Technically the member function 'CRWCoast::nGetCoastPointGivenCell' can be const.
+int CRWCoast::nGetCoastPointGivenCell(CGeom2DIPoint* pPtiCell)
+              ^
+[1mcoast.h:189:8: [2mnote:[0m Technically the member function 'CRWCoast::nGetCoastPointGivenCell' can be const.
+   int nGetCoastPointGivenCell(CGeom2DIPoint*);
+       ^
 [1mdo_shore_platform_erosion.cpp:63:22: [31merror:[39m AST broken, ternary operator missing operand(s) [internalAstError][0m
       for ((bForward ? nProfile = 0 : nProfile = (nNumProfiles - 1)); (bForward ? nProfile < nNumProfiles : nProfile >= 0); (bForward ? nProfile++ : nProfile--))
                      ^
@@ -76,41 +82,26 @@
 [1mgis_raster.cpp:1525:21: [31mstyle:[39m Boolean value assigned to floating point variable. [assignBoolToFloat][0m
                dTmp = m_pRasterGrid->m_Cell[nX][nY].bIsInContiguousSea();
                     ^
-[1msimulation.cpp:216:4: [31mperformance:[39m Variable 'm_GDALWriteIntDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
+[1msimulation.cpp:216:4: [31mperformance:[39m When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list. You could avoid assigning 'm_GDALWriteIntDataType' a value by passing the value to the constructor in the initialization list. [useInitializationList][0m
    m_GDALWriteIntDataType =
    ^
-[1msimulation.cpp:217:4: [31mperformance:[39m Variable 'm_GDALWriteFloatDataType' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList][0m
+[1msimulation.cpp:217:4: [31mperformance:[39m When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list. You could avoid assigning 'm_GDALWriteFloatDataType' a value by passing the value to the constructor in the initialization list. [useInitializationList][0m
    m_GDALWriteFloatDataType = GDT_Unknown;
    ^
-[1mutils_global.cpp:159:31: [31mperformance:[39m Function parameter 'strIn' should be passed by const reference. [passedByValue][0m
+[1mutils_global.cpp:159:31: [31mperformance:[39m Parameter 'strIn' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue][0m
 string strCentre(string const strIn, int const nWidth)
                               ^
-[1mutils_global.cpp:178:30: [31mperformance:[39m Function parameter 'strIn' should be passed by const reference. [passedByValue][0m
+[1mutils_global.cpp:178:30: [31mperformance:[39m Parameter 'strIn' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue][0m
 string strRight(string const strIn, int const nWidth)
                              ^
-[1mutils_global.cpp:192:29: [31mperformance:[39m Function parameter 'strIn' should be passed by const reference. [passedByValue][0m
+[1mutils_global.cpp:192:29: [31mperformance:[39m Parameter 'strIn' is passed by value. It could be passed as a const reference which is usually faster and recommended in C++. [passedByValue][0m
 string strLeft(string const strIn, int const nWidth)
                             ^
-[1m2d_shape.cpp:45:0: [31mstyle:[39m The function 'Clear' is never used. [unusedFunction][0m
+[1m2d_shape.cpp:42:0: [31mstyle:[39m The function 'Clear' is never used. [unusedFunction][0m
 void CA2DShape::Clear(void)
-^
-[1mcell.cpp:216:0: [31mstyle:[39m The function 'bIsPossibleFloodStartCell' is never used. [unusedFunction][0m
-bool CGeomCell::bIsPossibleFloodStartCell(void) const
 ^
 [1mcell.cpp:405:0: [31mstyle:[39m The function 'SetLocalConsSlope' is never used. [unusedFunction][0m
 void CGeomCell::SetLocalConsSlope(double const dNewSlope)
-^
-[1mcell.cpp:527:0: [31mstyle:[39m The function 'dGetVolEquivSedTopElev' is never used. [unusedFunction][0m
-double CGeomCell::dGetVolEquivSedTopElev(void) const
-^
-[1mcell.cpp:564:0: [31mstyle:[39m The function 'dGetIterSWL' is never used. [unusedFunction][0m
-double CGeomCell::dGetIterSWL(void) const
-^
-[1mcell.cpp:570:0: [31mstyle:[39m The function 'dGetIterTotWaterLevel' is never used. [unusedFunction][0m
-double CGeomCell::dGetIterTotWaterLevel(void) const
-^
-[1mcell.cpp:576:0: [31mstyle:[39m The function 'bIsSeaIncBeach' is never used. [unusedFunction][0m
-bool CGeomCell::bIsSeaIncBeach(void) const
 ^
 [1mcell.cpp:769:0: [31mstyle:[39m The function 'SetPotentialPlatformErosion' is never used. [unusedFunction][0m
 void CGeomCell::SetPotentialPlatformErosion(double const dPotentialIn)
@@ -121,44 +112,8 @@ void CGeomCell::SetActualPlatformErosion(double const dThisActualErosion)
 [1mcell.cpp:940:0: [31mstyle:[39m The function 'SetBeachProtectionFactor' is never used. [unusedFunction][0m
 void CGeomCell::SetBeachProtectionFactor(double const dFactor)
 ^
-[1mcell_sediment.cpp:132:0: [31mstyle:[39m The function 'IncrNotchFineLost' is never used. [unusedFunction][0m
-void CRWCellSediment::IncrNotchFineLost(double const dDepthIn)
-^
-[1mcell_sediment.cpp:151:0: [31mstyle:[39m The function 'IncrNotchSandLost' is never used. [unusedFunction][0m
-void CRWCellSediment::IncrNotchSandLost(double const dDepthIn)
-^
-[1mcell_sediment.cpp:170:0: [31mstyle:[39m The function 'IncrNotchCoarseLost' is never used. [unusedFunction][0m
-void CRWCellSediment::IncrNotchCoarseLost(double const dDepthIn)
-^
-[1mcliff.cpp:89:0: [31mstyle:[39m The function 'SetNotchDepth' is never used. [unusedFunction][0m
-void CRWCliff::SetNotchDepth(double const dLenIn)
-^
 [1mcliff.cpp:121:0: [31mstyle:[39m The function 'Display' is never used. [unusedFunction][0m
 void CRWCliff::Display(void)
-^
-[1mcoast.cpp:121:0: [31mstyle:[39m The function 'AppendPointToCoastlineExtCRS' is never used. [unusedFunction][0m
-void CRWCoast::AppendPointToCoastlineExtCRS(double const dX, double const dY)
-^
-[1mcoast.cpp:375:0: [31mstyle:[39m The function 'dGetDetailedCurvatureMean' is never used. [unusedFunction][0m
-double CRWCoast::dGetDetailedCurvatureMean(void) const
-^
-[1mcoast.cpp:387:0: [31mstyle:[39m The function 'dGetDetailedCurvatureSTD' is never used. [unusedFunction][0m
-double CRWCoast::dGetDetailedCurvatureSTD(void) const
-^
-[1mcoast.cpp:507:0: [31mstyle:[39m The function 'dGetCoastDeepWaterWaveHeight' is never used. [unusedFunction][0m
-double CRWCoast::dGetCoastDeepWaterWaveHeight(int const nCoastPoint) const
-^
-[1mcoast_polygon.cpp:141:0: [31mstyle:[39m The function 'nGetNumCellsinPolygon' is never used. [unusedFunction][0m
-int CGeomCoastPolygon::nGetNumCellsinPolygon(void) const
-^
-[1mcoast_polygon.cpp:260:0: [31mstyle:[39m The function 'SetZeroDepositionUnconsFine' is never used. [unusedFunction][0m
-void CGeomCoastPolygon::SetZeroDepositionUnconsFine(void)
-^
-[1mcoast_polygon.cpp:272:0: [31mstyle:[39m The function 'SetZeroDepositionUnconsSand' is never used. [unusedFunction][0m
-void CGeomCoastPolygon::SetZeroDepositionUnconsSand(void)
-^
-[1mcoast_polygon.cpp:290:0: [31mstyle:[39m The function 'SetZeroDepositionUnconsCoarse' is never used. [unusedFunction][0m
-void CGeomCoastPolygon::SetZeroDepositionUnconsCoarse(void)
 ^
 [1mcoast_polygon.cpp:473:0: [31mstyle:[39m The function 'AddUnconsSandFromShorePlatform' is never used. [unusedFunction][0m
 void CGeomCoastPolygon::AddUnconsSandFromShorePlatform(double const dDepth)
@@ -166,47 +121,11 @@ void CGeomCoastPolygon::AddUnconsSandFromShorePlatform(double const dDepth)
 [1mcoast_polygon.cpp:485:0: [31mstyle:[39m The function 'AddUnconsCoarseFromShorePlatform' is never used. [unusedFunction][0m
 void CGeomCoastPolygon::AddUnconsCoarseFromShorePlatform(double const dDepth)
 ^
-[1mgis_utils.cpp:409:0: [31mstyle:[39m The function 'PtiAverage' is never used. [unusedFunction][0m
-CGeom2DIPoint CSimulation::PtiAverage(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2)
-^
-[1mgis_utils.cpp:1688:0: [31mstyle:[39m The function 'GetSlopeAndInterceptFromPoints' is never used. [unusedFunction][0m
-void CSimulation::GetSlopeAndInterceptFromPoints(CGeom2DIPoint const* pPti1, CGeom2DIPoint const* pPti2, double& dSlope, double& dIntercept)
-^
 [1mhermite_cubic.cpp:353:0: [31mstyle:[39m The function 'hermite_cubic_spline_value' is never used. [unusedFunction][0m
 void hermite_cubic_spline_value(int const nn, double* const xn, double* const fn, double* const dn, int const n, double* const x, double* f, double* d, double* s, double* t)
 ^
-[1mi_line.cpp:45:0: [31mstyle:[39m The function 'pPtiGetAt' is never used. [unusedFunction][0m
-CGeom2DIPoint* CGeomILine::pPtiGetAt(int const n)
-^
-[1mi_line.cpp:61:0: [31mstyle:[39m The function 'SetXAt' is never used. [unusedFunction][0m
-void CGeomILine::SetXAt(int const n, int const nX)
-^
-[1mi_line.cpp:67:0: [31mstyle:[39m The function 'SetYAt' is never used. [unusedFunction][0m
-void CGeomILine::SetYAt(int const n, int const nY)
-^
-[1mline.cpp:73:0: [31mstyle:[39m The function 'pPtGetAt' is never used. [unusedFunction][0m
-CGeom2DPoint* CGeomLine::pPtGetAt(int const n)
-^
-[1mlinearinterp.cpp:52:0: [31mstyle:[39m The function 'VdInterp1' is never used. [unusedFunction][0m
-vector<double> VdInterp1(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdX_new)
-^
-[1mmulti_line.cpp:263:0: [31mstyle:[39m The function 'nFindProfilesLastSeg' is never used. [unusedFunction][0m
-int CGeomMultiLine::nFindProfilesLastSeg(int const nProfile) const
-^
-[1mprofile.cpp:88:0: [31mstyle:[39m The function 'SetHitLand' is never used. [unusedFunction][0m
-void CGeomProfile::SetHitLand(bool const bFlag)
-^
-[1mprofile.cpp:118:0: [31mstyle:[39m The function 'bTooShort' is never used. [unusedFunction][0m
-bool CGeomProfile::bTooShort(void) const
-^
-[1mprofile.cpp:130:0: [31mstyle:[39m The function 'bTruncated' is never used. [unusedFunction][0m
-bool CGeomProfile::bTruncated(void) const
-^
-[1mprofile.cpp:178:0: [31mstyle:[39m The function 'bOKIncStartOfCoast' is never used. [unusedFunction][0m
-bool CGeomProfile::bOKIncStartOfCoast(void) const
-^
 [1msmooth_line.cpp:305:0: [31mstyle:[39m The function 'dVSmoothProfileSlope' is never used. [unusedFunction][0m
-vector<double> CSimulation::dVSmoothProfileSlope(vector<double>* pdVSlope)
+vector<double> CSimulation::dVSmoothProfileSlope(vector<double>* pdVSlope) const
 ^
 [1mutils.cpp:2515:0: [31mstyle:[39m The function 'pstrChangeToBackslash' is never used. [unusedFunction][0m
 string CSimulation::pstrChangeToBackslash(string const *strIn)
@@ -214,30 +133,12 @@ string CSimulation::pstrChangeToBackslash(string const *strIn)
 [1mutils.cpp:2525:0: [31mstyle:[39m The function 'pstrChangeToForwardSlash' is never used. [unusedFunction][0m
 string CSimulation::pstrChangeToForwardSlash(string const *strIn)
 ^
-[1mutils.cpp:2656:0: [31mstyle:[39m The function 'dCrossProduct' is never used. [unusedFunction][0m
-double CSimulation::dCrossProduct(double const dX1, double const dY1, double const dX2, double const dY2, double const dX3, double const dY3)
-^
-[1mutils.cpp:2665:0: [31mstyle:[39m The function 'dGetMean' is never used. [unusedFunction][0m
-double CSimulation::dGetMean(vector<double> const* pV)
-^
-[1mutils.cpp:2675:0: [31mstyle:[39m The function 'dGetStdDev' is never used. [unusedFunction][0m
-double CSimulation::dGetStdDev(vector<double> const* pV)
-^
-[1mutils.cpp:2844:0: [31mstyle:[39m The function 'bIsNumeric' is never used. [unusedFunction][0m
-bool CSimulation::bIsNumeric(string const *strIn)
-^
 [1mutils_global.cpp:109:0: [31mstyle:[39m The function 'strDbl' is never used. [unusedFunction][0m
 string strDbl(double const dX, int const nDigits)
 ^
 [1mwrite_output.cpp:944:0: [31mstyle:[39m The function 'nSaveProfile' is never used. [unusedFunction][0m
-int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
+int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 ^
 [1mwrite_output.cpp:1008:0: [31mstyle:[39m The function 'nSaveParProfile' is never used. [unusedFunction][0m
-int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
-^
-[1mwrite_output.cpp:1506:0: [31mstyle:[39m The function 'WritePolygonUnconsErosion' is never used. [unusedFunction][0m
-void CSimulation::WritePolygonUnconsErosion(int const nCoast)
-^
-[1mwrite_output.cpp:1541:0: [31mstyle:[39m The function 'WritePolygonUnsortedSequence' is never used. [unusedFunction][0m
-void CSimulation::WritePolygonUnsortedSequence(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
+int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 ^

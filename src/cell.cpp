@@ -212,11 +212,11 @@ void CGeomCell::SetPossibleFloodStartCell(void)
    m_bPossibleFloodStartCell = true;
 }
 
-//! TODO What is this for? Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline
-bool CGeomCell::bIsPossibleFloodStartCell(void) const
-{
-   return m_bPossibleFloodStartCell;
-}
+// //! TODO What is this for? Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline
+// bool CGeomCell::bIsPossibleFloodStartCell(void) const
+// {
+//    return m_bPossibleFloodStartCell;
+// }
 
 //! Returns true if this cell has had potential erosion this timestep
 bool CGeomCell::bPotentialPlatformErosion(void) const
@@ -523,18 +523,18 @@ CRWCellLayer *CGeomCell::pGetLayerAboveBasement(int const nLayer)
    return &m_VLayerAboveBasement[nLayer];
 }
 
-//! Returns the volume-equivalent elevation of the sediment's top surface for this cell (i.e. if there is a cliff notch, then lower the elevation by the notch's volume)
-double CGeomCell::dGetVolEquivSedTopElev(void) const
-{
-   double dTopElev = m_dBasementElevation;
-   for (unsigned int n = 0; n < m_VLayerAboveBasement.size(); n++)
-   {
-      dTopElev += (m_VLayerAboveBasement[n].dGetUnconsolidatedThickness() - m_VLayerAboveBasement[n].dGetNotchUnconsolidatedLost());
-      dTopElev += (m_VLayerAboveBasement[n].dGetConsolidatedThickness() - m_VLayerAboveBasement[n].dGetNotchConsolidatedLost());
-   }
-
-   return dTopElev;
-}
+// //! Returns the volume-equivalent elevation of the sediment's top surface for this cell (i.e. if there is a cliff notch, then lower the elevation by the notch's volume)
+// double CGeomCell::dGetVolEquivSedTopElev(void) const
+// {
+//    double dTopElev = m_dBasementElevation;
+//    for (unsigned int n = 0; n < m_VLayerAboveBasement.size(); n++)
+//    {
+//       dTopElev += (m_VLayerAboveBasement[n].dGetUnconsolidatedThickness() - m_VLayerAboveBasement[n].dGetNotchUnconsolidatedLost());
+//       dTopElev += (m_VLayerAboveBasement[n].dGetConsolidatedThickness() - m_VLayerAboveBasement[n].dGetNotchConsolidatedLost());
+//    }
+//
+//    return dTopElev;
+// }
 
 //! Returns the true elevation of the sediment's top surface for this cell (if there is a cliff notch, ignore the missing volume)
 double CGeomCell::dGetSedimentTopElev(void) const
@@ -561,34 +561,34 @@ bool CGeomCell::bIsInundated(void) const
 }
 
 //! Returns the sea surface elevation at current iteration
-double CGeomCell::dGetIterSWL(void) const
+double CGeomCell::dGetThisIterSWL(void) const
 {
    return m_pGrid->pGetSim()->CSimulation::dGetThisIterSWL();
 }
 
 //! Returns the total water level at current iteration
-double CGeomCell::dGetIterTotWaterLevel(void) const
+double CGeomCell::dGetThisIterTotWaterLevel(void) const
 {
    return m_pGrid->pGetSim()->CSimulation::dGetThisIterTotWaterLevel();
 }
 
-//! Returns true if the elevation of the sediment top surface for this cell is greater than or equal to the grid's this-timestep still water elevation. Also returns true if the cell has unconsolidated sediment on it and the elevation of the sediment top surface, minus a tolerance value, is less than the grid's this-timestep still water elevation
-bool CGeomCell::bIsSeaIncBeach(void) const
-{
-   if (m_bInContiguousSea)
-      // Sea
-      return true;
-
-   double
-       dWaterLevel = m_pGrid->pGetSim()->CSimulation::dGetThisIterSWL(),
-       dSedTop = m_VdAllHorizonTopElev.back();
-
-   // Beach
-   if ((m_VLayerAboveBasement.back().dGetUnconsolidatedThickness() > 0) && ((dSedTop - m_pGrid->pGetSim()->CSimulation::dGetMaxBeachElevAboveSWL()) < dWaterLevel))
-      return true;
-
-   return false;
-}
+// //! Returns true if the elevation of the sediment top surface for this cell is greater than or equal to the grid's this-timestep still water elevation. Also returns true if the cell has unconsolidated sediment on it and the elevation of the sediment top surface, minus a tolerance value, is less than the grid's this-timestep still water elevation
+// bool CGeomCell::bIsSeaIncBeach(void) const
+// {
+//    if (m_bInContiguousSea)
+//       // Sea
+//       return true;
+//
+//    double
+//        dWaterLevel = m_pGrid->pGetSim()->CSimulation::dGetThisIterSWL(),
+//        dSedTop = m_VdAllHorizonTopElev.back();
+//
+//    // Beach
+//    if ((m_VLayerAboveBasement.back().dGetUnconsolidatedThickness() > 0) && ((dSedTop - m_pGrid->pGetSim()->CSimulation::dGetMaxBeachElevAboveSWL()) < dWaterLevel))
+//       return true;
+//
+//    return false;
+// }
 
 //! Returns the total thickness of fine consolidated sediment on this cell, minus the depth-equivalent of any cliff notch
 double CGeomCell::dGetTotConsFineThickConsiderNotch(void) const

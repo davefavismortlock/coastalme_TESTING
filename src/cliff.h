@@ -56,7 +56,7 @@ public:
    void SetNotchBaseElev(double const);
    double dGetNotchBaseElev(void) const;
    double dGetRemaining(void) const;
-   void SetNotchDepth(double const);
+   // void SetNotchDepth(double const);
    double dGetNotchDepth(void) const;
 
    bool bReadyToCollapse(double const) const;

@@ -98,17 +98,17 @@ double CRWCellLayer::dGetTotalThickness(void) const
    return (m_UnconsolidatedSediment.dGetFineDepth() + m_UnconsolidatedSediment.dGetSandDepth() + m_UnconsolidatedSediment.dGetCoarseDepth() + m_ConsolidatedSediment.dGetFineDepth() + m_ConsolidatedSediment.dGetSandDepth() + m_ConsolidatedSediment.dGetCoarseDepth());
 }
 
-//! Returns the thickness of unconsolidated sediment lost due to notch incision (total for all size classes)
-double CRWCellLayer::dGetNotchUnconsolidatedLost(void) const
-{
-   return (m_UnconsolidatedSediment.dGetNotchFineLost() + m_UnconsolidatedSediment.dGetNotchSandLost() + m_UnconsolidatedSediment.dGetNotchCoarseLost());
-}
+// //! Returns the thickness of unconsolidated sediment lost due to notch incision (total for all size classes)
+// double CRWCellLayer::dGetNotchUnconsolidatedLost(void) const
+// {
+//    return (m_UnconsolidatedSediment.dGetNotchFineLost() + m_UnconsolidatedSediment.dGetNotchSandLost() + m_UnconsolidatedSediment.dGetNotchCoarseLost());
+// }
 
-//! Returns the thickness of consolidated sediment lost due to notch incision (total for all size classes)
-double CRWCellLayer::dGetNotchConsolidatedLost(void) const
-{
-   return (m_ConsolidatedSediment.dGetNotchFineLost() + m_ConsolidatedSediment.dGetNotchSandLost() + m_ConsolidatedSediment.dGetNotchCoarseLost());
-}
+// //! Returns the thickness of consolidated sediment lost due to notch incision (total for all size classes)
+// double CRWCellLayer::dGetNotchConsolidatedLost(void) const
+// {
+//    return (m_ConsolidatedSediment.dGetNotchFineLost() + m_ConsolidatedSediment.dGetNotchSandLost() + m_ConsolidatedSediment.dGetNotchCoarseLost());
+// }
 
 // double CRWCellLayer::dGetVolSedFraction(void) const
 // {

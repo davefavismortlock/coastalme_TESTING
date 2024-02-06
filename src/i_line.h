@@ -35,11 +35,11 @@ public:
    CGeomILine(void);
    ~CGeomILine(void);
 
-   CGeom2DIPoint* pPtiGetAt(int const);
+   // CGeom2DIPoint* pPtiGetAt(int const);
 //    int nGetXAt(int const);
 //    int nGetYAt(int const);
-   void SetXAt(int const, int const);
-   void SetYAt(int const, int const);
+   // void SetXAt(int const, int const);
+   // void SetYAt(int const, int const);
 
    bool bIsPresent(int const, int const);
 

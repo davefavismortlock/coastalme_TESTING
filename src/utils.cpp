@@ -2650,38 +2650,38 @@ vector<string> CSimulation::VstrSplit(string const *s, char const delim)
    return elems;
 }
 
-//===============================================================================================================================
-//! Calculates the vector cross product of three points
-//===============================================================================================================================
-double CSimulation::dCrossProduct(double const dX1, double const dY1, double const dX2, double const dY2, double const dX3, double const dY3)
-{
-   // Based on code at http://debian.fmi.uni-sofia.bg/~sergei/cgsr/docs/clockwise.htm
-   return (dX2 - dX1) * (dY3 - dY2) - ((dY2 - dY1) * (dX3 - dX2));
-}
+// //===============================================================================================================================
+// //! Calculates the vector cross product of three points
+// //===============================================================================================================================
+// double CSimulation::dCrossProduct(double const dX1, double const dY1, double const dX2, double const dY2, double const dX3, double const dY3)
+// {
+//    // Based on code at http://debian.fmi.uni-sofia.bg/~sergei/cgsr/docs/clockwise.htm
+//    return (dX2 - dX1) * (dY3 - dY2) - ((dY2 - dY1) * (dX3 - dX2));
+// }
 
-//===============================================================================================================================
-//! Calculates the mean of a pointer to a vector of doubles
-//===============================================================================================================================
-double CSimulation::dGetMean(vector<double> const* pV)
-{
-   double dSum = accumulate(pV->begin(), pV->end(), 0.0);
-   double dMean = dSum / static_cast<double>(pV->size());
-   return dMean;
-}
+// //===============================================================================================================================
+// //! Calculates the mean of a pointer to a vector of doubles
+// //===============================================================================================================================
+// double CSimulation::dGetMean(vector<double> const* pV)
+// {
+//    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
+//    double dMean = dSum / static_cast<double>(pV->size());
+//    return dMean;
+// }
 
-//===============================================================================================================================
-//! Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
-//===============================================================================================================================
-double CSimulation::dGetStdDev(vector<double> const* pV)
-{
-   double dSum = accumulate(pV->begin(), pV->end(), 0.0);
-   double dMean = dSum / static_cast<double>(pV->size());
-
-   double dSqSum = inner_product(pV->begin(), pV->end(), pV->begin(), 0.0);
-   double dStdDev = sqrt(dSqSum / static_cast<double>(pV->size()) - dMean * dMean);
-
-   return dStdDev;
-}
+// //===============================================================================================================================
+// //! Calculates the standard deviation of a pointer to a vector of doubles. From http://stackoverflow.com/questions/7616511/calculate-mean-and-standard-deviation-from-a-vector-of-samples-in-c-using-boos
+// //===============================================================================================================================
+// double CSimulation::dGetStdDev(vector<double> const* pV)
+// {
+//    double dSum = accumulate(pV->begin(), pV->end(), 0.0);
+//    double dMean = dSum / static_cast<double>(pV->size());
+//
+//    double dSqSum = inner_product(pV->begin(), pV->end(), pV->begin(), 0.0);
+//    double dStdDev = sqrt(dSqSum / static_cast<double>(pV->size()) - dMean * dMean);
+//
+//    return dStdDev;
+// }
 
 //===============================================================================================================================
 //! Appends a CGeom2DIPoint to a vector<CGeom2DIPoint>, making sure that the new end point touches the previous end point i.e. that there is no gap between the two points
@@ -2838,13 +2838,13 @@ void CSimulation::CalcDepthOfClosure(void)
    m_dDepthOfClosure = (1.75 * dDeepWaterWaveHeight) - (57.9 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 }
 
-//===============================================================================================================================
-//! Tests a reference to a string to see if it is numeric (modified from https://tfetimes.com/c-determine-if-a-string-is-numeric/)
-//===============================================================================================================================
-bool CSimulation::bIsNumeric(string const *strIn)
-{
-   return all_of(strIn->begin(), strIn->end(), isdigit);
-}
+// //===============================================================================================================================
+// //! Tests a reference to a string to see if it is numeric (modified from https://tfetimes.com/c-determine-if-a-string-is-numeric/)
+// //===============================================================================================================================
+// bool CSimulation::bIsNumeric(string const *strIn)
+// {
+//    return all_of(strIn->begin(), strIn->end(), isdigit);
+// }
 
 //===============================================================================================================================
 //! Parses a date string into days, months, and years, and checks each of them
@@ -2971,7 +2971,7 @@ bool CSimulation::bParseTime(string const *strTime, int &nHour, int &nMin, int &
 //===============================================================================================================================
 //! For sediment input events, parses a string that may be relative (a number of hours or days after the start of the simulation), or absolute (a time/date in the format hh-mm-ss dd/mm/yyyy). Returns the timestep in which the sediment input event occurs
 //===============================================================================================================================
-unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn)
+unsigned long CSimulation::ulConvertToTimestep(string const* pstrIn) const
 {
    unsigned long ulTimeStep = 0;
 

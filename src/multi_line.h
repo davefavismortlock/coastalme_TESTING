@@ -66,7 +66,7 @@ public:
    int nGetProfsLineSeg(int const, int const) const;
    void SetProfsLineSeg(int const, int const, int const);
 
-   int nFindProfilesLastSeg(int const) const;
+   // int nFindProfilesLastSeg(int const) const;
 };
 #endif // MULTILINE_H
 

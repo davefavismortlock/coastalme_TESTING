@@ -6,8 +6,5 @@ var classCGeomLine =
     [ "~CGeomLine", "d7/dd3/classCGeomLine.html#adc50aa4504b1605753ccc27175812158", null ],
     [ "dGetXAt", "d7/dd3/classCGeomLine.html#aa82ca672ab0572c44e0d163e79587aac", null ],
     [ "dGetYAt", "d7/dd3/classCGeomLine.html#a50710655d850e6703ef164d865c6d973", null ],
-    [ "Display", "d7/dd3/classCGeomLine.html#a5503be7c008ff62904f5c3095926c142", null ],
-    [ "pPtGetAt", "d7/dd3/classCGeomLine.html#a45176e8886516d3a2b3ff4fa1f6549c9", null ],
-    [ "SetXAt", "d7/dd3/classCGeomLine.html#af888c2c81c08c722077fcd389f185da3", null ],
-    [ "SetYAt", "d7/dd3/classCGeomLine.html#ac83445f1ff02c075c3ef78ae94e1bf08", null ]
+    [ "Display", "d7/dd3/classCGeomLine.html#a5503be7c008ff62904f5c3095926c142", null ]
 ];

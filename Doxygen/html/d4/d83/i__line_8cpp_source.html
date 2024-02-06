@@ -115,10 +115,11 @@ $(document).ready(function(){initNavTree('d4/d83/i__line_8cpp_source.html','../.
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../dd/dc1/classCGeomILine.html#ae5471c948953369ed30c4e04dfc1ce37">   45</a></span><a class="code hl_class" href="../../d6/d0d/classCGeom2DIPoint.html">CGeom2DIPoint</a>* <a class="code hl_function" href="../../dd/dc1/classCGeomILine.html#ae5471c948953369ed30c4e04dfc1ce37">CGeomILine::pPtiGetAt</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> n)</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>   <span class="keywordflow">return</span> &amp;<a class="code hl_variable" href="../../d2/d0f/classCA2DIShape.html#a1e983c96d533dee13b3af812a048929e">m_VPoints</a>[n];</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">// //! Returns the point at a given place in the line</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">// CGeom2DIPoint* CGeomILine::pPtiGetAt(int const n)</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">// {</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">//    return &amp;m_VPoints[n];</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">// }</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">// int CGeomILine::nGetXAt(int const n)</span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// {</span></div>
@@ -130,15 +131,17 @@ $(document).ready(function(){initNavTree('d4/d83/i__line_8cpp_source.html','../.
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">//    return m_VPoints[n].nGetY();</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// }</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="../../dd/dc1/classCGeomILine.html#a0077053e277e181a4cd1182d3788e513">   61</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/dc1/classCGeomILine.html#a0077053e277e181a4cd1182d3788e513">CGeomILine::SetXAt</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> n, <span class="keywordtype">int</span> <span class="keyword">const</span> nX)</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>   <a class="code hl_variable" href="../../d2/d0f/classCA2DIShape.html#a1e983c96d533dee13b3af812a048929e">m_VPoints</a>[n].SetX(nX);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">// //! Sets the X value of a point at a given place in the line</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">// void CGeomILine::SetXAt(int const n, int const nX)</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">// {</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">//    m_VPoints[n].SetX(nX);</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">// }</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="../../dd/dc1/classCGeomILine.html#a98d2f109dcbd32f971048ca8cabf0b25">   67</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/dc1/classCGeomILine.html#a98d2f109dcbd32f971048ca8cabf0b25">CGeomILine::SetYAt</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> n, <span class="keywordtype">int</span> <span class="keyword">const</span> nY)</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>{</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>   <a class="code hl_variable" href="../../d2/d0f/classCA2DIShape.html#a1e983c96d533dee13b3af812a048929e">m_VPoints</a>[n].SetY(nY);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">// //! Sets the Y value of a point at a given place in the line</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">// void CGeomILine::SetYAt(int const n, int const nY)</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">// {</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">//    m_VPoints[n].SetY(nY);</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">// }</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="../../dd/dc1/classCGeomILine.html#a5129fc96323c094fe52487ad428ce546">   73</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../dd/dc1/classCGeomILine.html#a5129fc96323c094fe52487ad428ce546">CGeomILine::bIsPresent</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> nX, <span class="keywordtype">int</span> <span class="keyword">const</span> nY)</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>{</div>
@@ -159,14 +162,10 @@ $(document).ready(function(){initNavTree('d4/d83/i__line_8cpp_source.html','../.
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
 <div class="ttc" id="aclassCA2DIShape_html_a1e983c96d533dee13b3af812a048929e"><div class="ttname"><a href="../../d2/d0f/classCA2DIShape.html#a1e983c96d533dee13b3af812a048929e">CA2DIShape::m_VPoints</a></div><div class="ttdeci">vector&lt; CGeom2DIPoint &gt; m_VPoints</div><div class="ttdoc">The integer points which comprise the 2D shape.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2c/2di__shape_8h_source.html#l00039">2di_shape.h:39</a></div></div>
-<div class="ttc" id="aclassCGeom2DIPoint_html"><div class="ttname"><a href="../../d6/d0d/classCGeom2DIPoint.html">CGeom2DIPoint</a></div><div class="ttdoc">Geometry class used to represent 2D point objects with integer co-ordinates.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d66/2di__point_8h_source.html#l00029">2di_point.h:30</a></div></div>
-<div class="ttc" id="aclassCGeomILine_html_a0077053e277e181a4cd1182d3788e513"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#a0077053e277e181a4cd1182d3788e513">CGeomILine::SetXAt</a></div><div class="ttdeci">void SetXAt(int const, int const)</div><div class="ttdoc">Sets the X value of a point at a given place in the line.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00061">i_line.cpp:61</a></div></div>
 <div class="ttc" id="aclassCGeomILine_html_a5129fc96323c094fe52487ad428ce546"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#a5129fc96323c094fe52487ad428ce546">CGeomILine::bIsPresent</a></div><div class="ttdeci">bool bIsPresent(int const, int const)</div><div class="ttdoc">Returns true if the point is present in the line.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00073">i_line.cpp:73</a></div></div>
 <div class="ttc" id="aclassCGeomILine_html_a5291f427d44524d216a8e0ab23331b0c"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#a5291f427d44524d216a8e0ab23331b0c">CGeomILine::~CGeomILine</a></div><div class="ttdeci">~CGeomILine(void)</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00040">i_line.cpp:40</a></div></div>
-<div class="ttc" id="aclassCGeomILine_html_a98d2f109dcbd32f971048ca8cabf0b25"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#a98d2f109dcbd32f971048ca8cabf0b25">CGeomILine::SetYAt</a></div><div class="ttdeci">void SetYAt(int const, int const)</div><div class="ttdoc">Sets the Y value of a point at a given place in the line.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00067">i_line.cpp:67</a></div></div>
 <div class="ttc" id="aclassCGeomILine_html_acbb5a28fb37462e1d3fe5d5158824fff"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#acbb5a28fb37462e1d3fe5d5158824fff">CGeomILine::Display</a></div><div class="ttdeci">void Display(void) override</div><div class="ttdoc">Instantiates the pure virtual function in the abstract parent class, so that CGeomILine is not an abs...</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00089">i_line.cpp:89</a></div></div>
 <div class="ttc" id="aclassCGeomILine_html_ad9d8d0e9fee252d3bc33c370782ab7eb"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#ad9d8d0e9fee252d3bc33c370782ab7eb">CGeomILine::CGeomILine</a></div><div class="ttdeci">CGeomILine(void)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00035">i_line.cpp:35</a></div></div>
-<div class="ttc" id="aclassCGeomILine_html_ae5471c948953369ed30c4e04dfc1ce37"><div class="ttname"><a href="../../dd/dc1/classCGeomILine.html#ae5471c948953369ed30c4e04dfc1ce37">CGeomILine::pPtiGetAt</a></div><div class="ttdeci">CGeom2DIPoint * pPtiGetAt(int const)</div><div class="ttdoc">Returns the point at a given place in the line.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d83/i__line_8cpp_source.html#l00045">i_line.cpp:45</a></div></div>
 <div class="ttc" id="acme_8h_html"><div class="ttname"><a href="../../d6/d2a/cme_8h.html">cme.h</a></div><div class="ttdoc">This file contains global definitions for CoastalME.</div></div>
 <div class="ttc" id="ai__line_8h_html"><div class="ttname"><a href="../../da/d11/i__line_8h.html">i_line.h</a></div><div class="ttdoc">Contains CGeomILine definitions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -175,7 +174,7 @@ $(document).ready(function(){initNavTree('d4/d83/i__line_8cpp_source.html','../.
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../d4/d83/i__line_8cpp.html">i_line.cpp</a></li>
-    <li class="footer">Generated on Sat Jan 6 2024 20:16:45 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Feb 6 2024 12:57:04 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

@@ -6,6 +6,9 @@
 # Set CMake required version
 cmake_minimum_required (VERSION 3.5.0 FATAL_ERROR)
 
+# Create a .json file for use with clang-tidy
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 #########################################################################################
 # Detect the build environment
 if (UNIX)

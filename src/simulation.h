@@ -1497,11 +1497,11 @@ private:
    int nReadWaveStationTimeSeriesFile(int const);
    int nReadSedimentInputEventTimeSeriesFile(void);
    int nReadTideDataFile(void);
-   int nSaveProfile(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>* const, vector<double> const*);
+   int nSaveProfile(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>* const, vector<double> const*) const;
    bool bWriteProfileData(int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>* const, vector<double> const*) const;
-   int nSaveParProfile(int const, int const, int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*);
+   int nSaveParProfile(int const, int const, int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*) const;
    bool bWriteParProfileData(int const, int const, int const, int const, int const, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<double> const*, vector<CGeom2DIPoint>*const, vector<double> const*) const;
-   void WriteLookUpData(void);
+   void WriteLookUpData(void) const;
 
    // GIS input and output stuff
    int nReadRasterBasementDEM(void);
@@ -1645,15 +1645,15 @@ private:
    static CGeom2DIPoint PtiGetPerpendicular(int const, int const, int const, int const, double const, int const);
    static CGeom2DPoint PtAverage(CGeom2DPoint const*, CGeom2DPoint const*);
    static CGeom2DPoint PtAverage(vector<CGeom2DPoint>*);
-   static CGeom2DIPoint PtiAverage(CGeom2DIPoint const*, CGeom2DIPoint const*);
-   static CGeom2DIPoint PtiAverage(vector<CGeom2DIPoint>*);
+   // static CGeom2DIPoint PtiAverage(CGeom2DIPoint const*, CGeom2DIPoint const*);
+   // static CGeom2DIPoint PtiAverage(vector<CGeom2DIPoint>*);
    static CGeom2DIPoint PtiWeightedAverage(CGeom2DIPoint const*, CGeom2DIPoint const*, double const);
    static CGeom2DIPoint PtiPolygonCentroid(vector<CGeom2DIPoint>*);
    static double dAngleSubtended(CGeom2DIPoint const*, CGeom2DIPoint const*, CGeom2DIPoint const*);
    static int nGetOppositeDirection(int const);
-   static void GetSlopeAndInterceptFromPoints(CGeom2DIPoint const*, CGeom2DIPoint const*, double&, double&);
+   // static void GetSlopeAndInterceptFromPoints(CGeom2DIPoint const*, CGeom2DIPoint const*, double&, double&);
    CGeom2DIPoint PtiFindClosestCoastPoint(int const, int const);
-   int nConvertMetresToNumCells(double const);
+   int nConvertMetresToNumCells(double const) const;
 
    // Utility routines
    static void AnnounceStart(void);
@@ -1705,7 +1705,7 @@ private:
    void CalcSavitzkyGolayCoeffs(void);
    CGeomLine LSmoothCoastSavitzkyGolay(CGeomLine*, int const, int const) const;
    CGeomLine LSmoothCoastRunningMean(CGeomLine*) const;
-   vector<double> dVSmoothProfileSlope(vector<double>*);
+   vector<double> dVSmoothProfileSlope(vector<double>*) const;
    // vector<double> dVCalCGeomProfileSlope(vector<CGeom2DPoint>*, vector<double>*);         // TODO Why was this removed?
    // vector<double> dVSmoothProfileSavitzkyGolay(vector<double>*, vector<double>*);         // TODO Why was this removed?
    // vector<double> dVSmoothProfileRunningMean(vector<double>*);                            // TODO Why was this removed?
@@ -1720,20 +1720,20 @@ private:
    static string strRemoveSubstr(string *, string const*);
    static vector<string> *VstrSplit(string const*, char const, vector<string>*);
    static vector<string> VstrSplit(string const*, char const);
-   static double dCrossProduct(double const, double const, double const, double const, double const, double const);
-   static double dGetMean(vector<double> const*);
-   static double dGetStdDev(vector<double> const*);
+   // static double dCrossProduct(double const, double const, double const, double const, double const, double const);
+   // static double dGetMean(vector<double> const*);
+   // static double dGetStdDev(vector<double> const*);
    static void AppendEnsureNoGap(vector<CGeom2DIPoint>*, CGeom2DIPoint const*);
-   static bool bIsNumeric(string const*);
-   unsigned long ulConvertToTimestep(string const*);
+   // static bool bIsNumeric(string const*);
+   unsigned long ulConvertToTimestep(string const*) const;
    void WritePolygonShareTable(int const);
    void WritePolygonPreExistingSediment(int const);
    void WritePolygonShorePlatformErosion(int const);
    void WritePolygonCliffCollapseErosion(int const);
    void WritePolygonSedimentBeforeMovement(int const);
    void WritePolygonPotentialErosion(int const);
-   void WritePolygonUnconsErosion(int const);
-   void WritePolygonUnsortedSequence(int const, vector<vector<int> >&);
+   // void WritePolygonUnconsErosion(int const);
+   // void WritePolygonUnsortedSequence(int const, vector<vector<int> >&);
    void WritePolygonSortedSequence(int const, vector<vector<int> >&);
    void WritePolygonEstimatedMovement(int const, vector<vector<int> >&);
    void WritePolygonActualMovement(int const, vector<vector<int> > const&);
@@ -1771,8 +1771,8 @@ public:
    //! Returns this timestep's total water level
    double dGetThisIterTotWaterLevel(void) const;
 
-   //! Returns the vertical tolerance for beach cells to be included in smoothing
-   double dGetMaxBeachElevAboveSWL(void) const;
+   // //! Returns the vertical tolerance for beach cells to be included in smoothing
+   // double dGetMaxBeachElevAboveSWL(void) const;
 
    //! Returns the cell size
    //    double dGetCellSide(void) const;

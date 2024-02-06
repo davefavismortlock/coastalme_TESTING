@@ -912,7 +912,7 @@ bool CSimulation::bWriteTSFiles(void)
 //===============================================================================================================================
 //! Output the erosion potential look-up values, for checking purposes
 //===============================================================================================================================
-void CSimulation::WriteLookUpData(void)
+void CSimulation::WriteLookUpData(void) const
 {
    // Open the output file
    string strLookUpFile = m_strOutPath;
@@ -941,7 +941,7 @@ void CSimulation::WriteLookUpData(void)
 //===============================================================================================================================
 //! Save a coastline-normal profile
 //===============================================================================================================================
-int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
+int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -1005,7 +1005,7 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
 //===============================================================================================================================
 //! Save a coastline-normal parallel profile
 //===============================================================================================================================
-int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY)
+int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
    // TODO make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
@@ -1500,71 +1500,71 @@ void CSimulation::WritePolygonPotentialErosion(int const nCoast)
    LogStream << "--------------|--------------|--------------|--------------|" << endl << endl;   
 }
 
-//===============================================================================================================================
-//! Writes to the log file a table showing per-polygon supply-limited erosion of unconsolidated beach sediment
-//===============================================================================================================================
-void CSimulation::WritePolygonUnconsErosion(int const nCoast)
-{
-   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon supply-limited erosion of unconsolidated beach sediment (-ve, all m^3). All fine sediment eroded goes to suspension." << endl;
-   
-   LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
-   LogStream << strCentre("Polygon", 14) << "|" << strCentre("Coast", 14) << "|" << strCentre("Polygon", 14) << "|" << strCentre("All", 14) << "|" << strCentre("Fine", 14) <<"|" << strCentre("Sand", 14) << "|" << strCentre("Coarse", 14) << "|" << endl;
-   LogStream << strCentre("Global ID", 14) << "|" << strCentre("", 14) << "|" << strCentre("Coast ID", 14) << "|" << strCentre("Estimated", 14) << "|" << strCentre("Estimated", 14) <<"|" << strCentre("Estimated", 14) << "|" << strCentre("Estimated", 14) << "|" << endl;
-   LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
-   
-   double
-      dTmpTot = 0,
-      dTmpFineTot = 0,
-      dTmpSandTot = 0,
-      dTmpCoarseTot = 0;
-   
-   for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
-   {
-      CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+// //===============================================================================================================================
+// //! Writes to the log file a table showing per-polygon supply-limited erosion of unconsolidated beach sediment
+// //===============================================================================================================================
+// void CSimulation::WritePolygonUnconsErosion(int const nCoast)
+// {
+//    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): per-polygon supply-limited erosion of unconsolidated beach sediment (-ve, all m^3). All fine sediment eroded goes to suspension." << endl;
+//
+//    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
+//    LogStream << strCentre("Polygon", 14) << "|" << strCentre("Coast", 14) << "|" << strCentre("Polygon", 14) << "|" << strCentre("All", 14) << "|" << strCentre("Fine", 14) <<"|" << strCentre("Sand", 14) << "|" << strCentre("Coarse", 14) << "|" << endl;
+//    LogStream << strCentre("Global ID", 14) << "|" << strCentre("", 14) << "|" << strCentre("Coast ID", 14) << "|" << strCentre("Estimated", 14) << "|" << strCentre("Estimated", 14) <<"|" << strCentre("Estimated", 14) << "|" << strCentre("Estimated", 14) << "|" << endl;
+//    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
+//
+//    double
+//       dTmpTot = 0,
+//       dTmpFineTot = 0,
+//       dTmpSandTot = 0,
+//       dTmpCoarseTot = 0;
+//
+//    for (int nPoly = 0; nPoly < m_VCoast[nCoast].nGetNumPolygons(); nPoly++)
+//    {
+//       CGeomCoastPolygon const* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
+//
+//       LogStream << strIntRight(m_pVCoastPolygon[nPoly]->nGetGlobalID(), 14) << "|" << strIntRight(nCoast, 14) << "|" << strIntRight(m_pVCoastPolygon[nPoly]->nGetCoastID(), 14) << "|" << strDblRight((pPolygon->dGetErosionUnconsFine() + pPolygon->dGetErosionUnconsSand() + pPolygon->dGetErosionUnconsCoarse()) * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsFine() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsSand() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsCoarse() * m_dCellArea, 3, 14) << "|" << endl;
+//
+//       dTmpTot += (pPolygon->dGetErosionUnconsFine() + pPolygon->dGetErosionUnconsSand() + pPolygon->dGetErosionUnconsCoarse()) * m_dCellArea;
+//       dTmpFineTot += (pPolygon->dGetErosionUnconsFine() * m_dCellArea);
+//       dTmpSandTot += (pPolygon->dGetErosionUnconsSand() * m_dCellArea);
+//       dTmpCoarseTot += (pPolygon->dGetErosionUnconsCoarse() * m_dCellArea);
+//    }
+//
+//    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
+//    LogStream << "TOTAL estimated erosion                     |" << strDblRight(dTmpTot, 3, 14) << "|" << strDblRight(dTmpFineTot, 3, 14) << "|" << strDblRight(dTmpSandTot, 3, 14) << "|" << strDblRight(dTmpCoarseTot, 3, 14) << "|" << endl;
+//    LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;
+// }
 
-      LogStream << strIntRight(m_pVCoastPolygon[nPoly]->nGetGlobalID(), 14) << "|" << strIntRight(nCoast, 14) << "|" << strIntRight(m_pVCoastPolygon[nPoly]->nGetCoastID(), 14) << "|" << strDblRight((pPolygon->dGetErosionUnconsFine() + pPolygon->dGetErosionUnconsSand() + pPolygon->dGetErosionUnconsCoarse()) * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsFine() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsSand() * m_dCellArea, 3, 14) << "|" << strDblRight(pPolygon->dGetErosionUnconsCoarse() * m_dCellArea, 3, 14) << "|" << endl;
-      
-      dTmpTot += (pPolygon->dGetErosionUnconsFine() + pPolygon->dGetErosionUnconsSand() + pPolygon->dGetErosionUnconsCoarse()) * m_dCellArea;
-      dTmpFineTot += (pPolygon->dGetErosionUnconsFine() * m_dCellArea);
-      dTmpSandTot += (pPolygon->dGetErosionUnconsSand() * m_dCellArea);
-      dTmpCoarseTot += (pPolygon->dGetErosionUnconsCoarse() * m_dCellArea);               
-   }
-
-   LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl;
-   LogStream << "TOTAL estimated erosion                     |" << strDblRight(dTmpTot, 3, 14) << "|" << strDblRight(dTmpFineTot, 3, 14) << "|" << strDblRight(dTmpSandTot, 3, 14) << "|" << strDblRight(dTmpCoarseTot, 3, 14) << "|" << endl; 
-   LogStream << "--------------|--------------|--------------|--------------|--------------|--------------|--------------|" << endl << endl;
-}
-
-//===============================================================================================================================
-//! Writes to the log file a table showing the unsorted sequence of polygon processing
-//===============================================================================================================================
-void CSimulation::WritePolygonUnsortedSequence(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
-{
-   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): unsorted sequence of polygon processing" << endl;
-   LogStream << strCentre("Coast", 14) << "|" << strCentre("From Poly", 14) << "|" << strCentre("Direction", 14) << "|" << strCentre("To Poly", 14) << "|" << endl;
-   LogStream << "--------------|--------------|--------------|--------------|" << endl;
-
-   for (int n = 0; n < static_cast<int>(pnVVPolyAndAdjacent.size()); n++)
-   {
-      LogStream << strIntRight(nCoast, 14) << "|";
-
-      for (int m = 0; m < static_cast<int>(pnVVPolyAndAdjacent[n].size()); m++)
-      {
-         
-         if (m == 1)
-         {
-            if (pnVVPolyAndAdjacent[n][m] == true)
-               LogStream << strCentre("DOWN ", 14) << "|";
-            else
-               LogStream << strCentre("UP   ", 14) << "|";
-         }
-         else
-            LogStream << strIntRight(pnVVPolyAndAdjacent[n][m], 14) << "|";
-      }
-      LogStream << endl;
-   }
-   LogStream << "--------------|--------------|--------------|--------------|" << endl << endl;
-}
+// //===============================================================================================================================
+// //! Writes to the log file a table showing the unsorted sequence of polygon processing
+// //===============================================================================================================================
+// void CSimulation::WritePolygonUnsortedSequence(int const nCoast, vector<vector<int> >& pnVVPolyAndAdjacent)
+// {
+//    LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): unsorted sequence of polygon processing" << endl;
+//    LogStream << strCentre("Coast", 14) << "|" << strCentre("From Poly", 14) << "|" << strCentre("Direction", 14) << "|" << strCentre("To Poly", 14) << "|" << endl;
+//    LogStream << "--------------|--------------|--------------|--------------|" << endl;
+//
+//    for (int n = 0; n < static_cast<int>(pnVVPolyAndAdjacent.size()); n++)
+//    {
+//       LogStream << strIntRight(nCoast, 14) << "|";
+//
+//       for (int m = 0; m < static_cast<int>(pnVVPolyAndAdjacent[n].size()); m++)
+//       {
+//
+//          if (m == 1)
+//          {
+//             if (pnVVPolyAndAdjacent[n][m] == true)
+//                LogStream << strCentre("DOWN ", 14) << "|";
+//             else
+//                LogStream << strCentre("UP   ", 14) << "|";
+//          }
+//          else
+//             LogStream << strIntRight(pnVVPolyAndAdjacent[n][m], 14) << "|";
+//       }
+//       LogStream << endl;
+//    }
+//    LogStream << "--------------|--------------|--------------|--------------|" << endl << endl;
+// }
 
 //===============================================================================================================================
 //! Writes to the log file a table showing the sorted sequence of polygon processing, and any circularities
@@ -1581,7 +1581,7 @@ void CSimulation::WritePolygonSortedSequence(int const nCoast, vector<vector<int
    
    for (int nPoly = 0; nPoly < static_cast<int>(pnVVPolyAndAdjacent.size()); nPoly++)
    {
-      CGeomCoastPolygon* pPoly = m_VCoast[nCoast].pGetPolygon(pnVVPolyAndAdjacent[nPoly][0]);
+      const CGeomCoastPolygon* pPoly = m_VCoast[nCoast].pGetPolygon(pnVVPolyAndAdjacent[nPoly][0]);
       vector<int> VCirc = pPoly->VnGetCircularities();
 
       LogStream << strIntRight(m_pVCoastPolygon[pnVVPolyAndAdjacent[nPoly][0]]->nGetGlobalID(), 14) << "|" << strIntRight(nCoast, 14) << "|" << strIntRight(pnVVPolyAndAdjacent[nPoly][0], 14) << "|";

@@ -128,12 +128,12 @@ void CRWCellSediment::SetNotchFineLost(double const dDepthIn)
    m_dNotchFineLost = dDepthIn;
 }
 
-//! Increments the depth equivalent of fine sediment lost by notch incision
-void CRWCellSediment::IncrNotchFineLost(double const dDepthIn)
-{
-   m_dNotchFineLost += dDepthIn;
-//    assert(m_dNotchFineLost <= m_dFine);
-}
+// //! Increments the depth equivalent of fine sediment lost by notch incision
+// void CRWCellSediment::IncrNotchFineLost(double const dDepthIn)
+// {
+//    m_dNotchFineLost += dDepthIn;
+// //    assert(m_dNotchFineLost <= m_dFine);
+// }
 
 //! Gets the depth equivalent of fine sediment lost by notch incision
 double CRWCellSediment::dGetNotchFineLost(void) const
@@ -147,12 +147,12 @@ void CRWCellSediment::SetNotchSandLost(double const dDepthIn)
    m_dNotchSandLost = dDepthIn;
 }
 
-//! Increments the depth equivalent of sand sediment lost by notch incision
-void CRWCellSediment::IncrNotchSandLost(double const dDepthIn)
-{
-   m_dNotchSandLost += dDepthIn;
-//    assert(m_dNotchSandLost <= m_dSand);
-}
+// //! Increments the depth equivalent of sand sediment lost by notch incision
+// void CRWCellSediment::IncrNotchSandLost(double const dDepthIn)
+// {
+//    m_dNotchSandLost += dDepthIn;
+// //    assert(m_dNotchSandLost <= m_dSand);
+// }
 
 //! Gets the depth equivalent of sand sediment lost by notch incision
 double CRWCellSediment::dGetNotchSandLost(void) const
@@ -166,12 +166,12 @@ void CRWCellSediment::SetNotchCoarseLost(double const dDepthIn)
    m_dNotchCoarseLost = dDepthIn;
 }
 
-//! Increments the depth equivalent of coarse sediment lost by notch incision
-void CRWCellSediment::IncrNotchCoarseLost(double const dDepthIn)
-{
-   m_dNotchCoarseLost += dDepthIn;
-//    assert(m_dNotchCoarseLost <= m_dCoarse);
-}
+// //! Increments the depth equivalent of coarse sediment lost by notch incision
+// void CRWCellSediment::IncrNotchCoarseLost(double const dDepthIn)
+// {
+//    m_dNotchCoarseLost += dDepthIn;
+// //    assert(m_dNotchCoarseLost <= m_dCoarse);
+// }
 
 //! Gets the depth equivalent of coarse sediment lost by notch incision
 double CRWCellSediment::dGetNotchCoarseLost(void) const

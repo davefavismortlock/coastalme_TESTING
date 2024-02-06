@@ -6,8 +6,6 @@ var classCRWCellLayer =
     [ "dGetConsolidatedThickness", "d5/d6d/classCRWCellLayer.html#a6d4c5caa48b50a266ef57faf189d7f4c", null ],
     [ "dGetFineConsolidatedThickness", "d5/d6d/classCRWCellLayer.html#a3b483bdbf6a768f3dd23a5c0426ca9fe", null ],
     [ "dGetFineUnconsolidatedThickness", "d5/d6d/classCRWCellLayer.html#a0d3fa89db93cf7888a81cd3f81fa996a", null ],
-    [ "dGetNotchConsolidatedLost", "d5/d6d/classCRWCellLayer.html#ae3f725d00cf4af206f29069bfb6c846e", null ],
-    [ "dGetNotchUnconsolidatedLost", "d5/d6d/classCRWCellLayer.html#ae070b7d4f5c3cd9b03ee53f8e7cb12fe", null ],
     [ "dGetSandConsolidatedThickness", "d5/d6d/classCRWCellLayer.html#a7f362dced4db47abb3384ca611b367ca", null ],
     [ "dGetSandUnconsolidatedThickness", "d5/d6d/classCRWCellLayer.html#a187b27843206bfa9eae5a3166e7e0d95", null ],
     [ "dGetTotalThickness", "d5/d6d/classCRWCellLayer.html#a894e1b3d51a02c4dd798df7c4b06edb3", null ],

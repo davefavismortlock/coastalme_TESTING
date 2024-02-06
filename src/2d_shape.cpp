@@ -1,17 +1,14 @@
 /*!
- *
- * \file 2d_shape.cpp
- * \brief Abstract class, used as a base class for 2D objects (line, area, etc.)
- * \details TODO A more detailed description of these routines.
- * \author David Favis-Mortlock
- * \author Andres Payo
- * \date 2024
- * \copyright GNU General Public License
- *
- */
+\file 2d_shape.cpp
+\brief Abstract class, used as a base class for 2D objects (line, area, etc.)
+\details Abstract class, used as a base class for 2D objects (line, area, etc.)
+\author David Favis-Mortlock
+\author Andres Payo
+\date 2024
+\copyright GNU General Public License
+*/
 
 /*===============================================================================================================================
-
 This file is part of CoastalME, the Coastal Modelling Environment.
 
 CoastalME is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
@@ -34,7 +31,7 @@ CA2DShape::~CA2DShape(void)
 {
 }
 
-//! Operator [] to return one point of this 2D shape
+//! Operator to return one point of this 2D shape
 CGeom2DPoint& CA2DShape::operator[] (int const n)
 {
    // NOTE No safety check

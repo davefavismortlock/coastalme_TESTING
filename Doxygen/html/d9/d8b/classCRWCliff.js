@@ -11,7 +11,6 @@ var classCRWCliff =
     [ "Display", "d9/d8b/classCRWCliff.html#a6a783476fea6db3eb163214d2a24279d", null ],
     [ "SetCliffCollapsed", "d9/d8b/classCRWCliff.html#ab7084345058193f7084d7fcaecb9ea1b", null ],
     [ "SetNotchBaseElev", "d9/d8b/classCRWCliff.html#a73acc82455562b794d027455c1b8c3d5", null ],
-    [ "SetNotchDepth", "d9/d8b/classCRWCliff.html#aef18838970afadd550ab14f124ddaba0", null ],
     [ "m_bCliffHasCollapsed", "d9/d8b/classCRWCliff.html#a850da19bb9bd3688980b636af1e866c2", null ],
     [ "m_dMaxDepth", "d9/d8b/classCRWCliff.html#a7090ef1a32311b92a949797659139041", null ],
     [ "m_dNotchBaseElev", "d9/d8b/classCRWCliff.html#a71c070efc73e32ce005c35da430a8aa6", null ],

@@ -10,7 +10,6 @@ var classCGeomMultiLine =
     [ "bFindProfileInCoincidentProfilesOfLastLineSegment", "d0/d89/classCGeomMultiLine.html#a3063e454f1e7ef2b32484cf8c7db0e97", null ],
     [ "GetMostCoastwardSharedLineSegment", "d0/d89/classCGeomMultiLine.html#a6dd16a3f527b6a681fbddd8a68e9deaf", null ],
     [ "InsertLineSegment", "d0/d89/classCGeomMultiLine.html#ab995e6f50eee7b4c9ec53b0c223abf1b", null ],
-    [ "nFindProfilesLastSeg", "d0/d89/classCGeomMultiLine.html#ac4dfac9a6fd56d739649c982dee460ca", null ],
     [ "nGetCoincidentProfileForLineSegment", "d0/d89/classCGeomMultiLine.html#a4aef627971905a6679ea17401ad8a4d3", null ],
     [ "nGetNumCoincidentProfilesInLineSegment", "d0/d89/classCGeomMultiLine.html#a3516022bd96ee15709653b3bb7cc0155", null ],
     [ "nGetNumLineSegments", "d0/d89/classCGeomMultiLine.html#ae22f845fd065108959610678de571cdb", null ],

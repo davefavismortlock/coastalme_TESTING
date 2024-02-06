@@ -259,18 +259,18 @@ void CGeomMultiLine::SetProfsLineSeg(int const nSegment, int const nCoinc, int c
    m_prVVLineSegment[nSegment][nCoinc].second = nLineSeg;
 }
 
-//! Returns the number of the last line segment which includes the given profile number as a co-incident profile
-int CGeomMultiLine::nFindProfilesLastSeg(int const nProfile) const
-{
-   int nSeg = -1;
-   for (int i = static_cast<int>(m_prVVLineSegment.size()-1); i >= 0; i--)
-   {
-      for (unsigned int j = 0; j < m_prVVLineSegment[i].size(); j++)
-      {
-         if (m_prVVLineSegment[i][j].first == nProfile)
-            nSeg = i;
-      }
-   }
-
-   return nSeg;
-}
+// //! Returns the number of the last line segment which includes the given profile number as a co-incident profile
+// int CGeomMultiLine::nFindProfilesLastSeg(int const nProfile) const
+// {
+//    int nSeg = -1;
+//    for (int i = static_cast<int>(m_prVVLineSegment.size()-1); i >= 0; i--)
+//    {
+//       for (unsigned int j = 0; j < m_prVVLineSegment[i].size(); j++)
+//       {
+//          if (m_prVVLineSegment[i][j].first == nProfile)
+//             nSeg = i;
+//       }
+//    }
+//
+//    return nSeg;
+// }

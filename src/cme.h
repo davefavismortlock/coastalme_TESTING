@@ -1,40 +1,38 @@
 /*!
- *
- * \mainpage
-   <b>CoastalME</b> (Coastal Modelling Environment) simulates the long-term behaviour of a coast. This initial version is a prototype which considers simple soft cliff cross-shore effects only\n
+\mainpage
+\section intro_sec Introduction
+<b>CoastalME</b> (Coastal Modelling Environment) simulates the long-term behaviour of a coast. This initial version considers only simple soft cliff cross-shore effects. However, development of CoastalME is ongoing. Watch this space!\n\n
 
-   See <a href="https://github.com/coastalme/coastalme_TESTING" target="_blank">https://github.com/coastalme/coastalme_TESTING</a> for the latest version of the source code, and <a href="https://github.com/coastalme/coastalme" target="_blank">https://github.com/coastalme/coastalme</a> for the stable version.\n
+CoastalME was devised and constructed by Andres Payo Garcia (British Geological Survey: agarcia@bgs.ac.uk) and David Favis-Mortlock (British Geological Survey: dfm1@bgs.ac.uk). We are very grateful to the following for support, assistance, and inspiration: Manuel Cobos Budia, Mark Dickson, Jim W. Hall, Martin D. Hurst, Matthew Ives, Robert J. Nicholls, Ian Townend, and Mike J.A. Walkden.\n\n
 
- * \section intro_sec Introduction
- * <b>TODO</b> Say more about CoastalME here\n
-   \n
-   From Shingle Street\n
-   To Orford Ness\n
-   The waves maraud,\n
-   The winds oppress,\n
-   The earth can’t help\n
-   But acquiesce\n
-   For this is east\n
-   And east means loss,\n
-   A lessening shore, receding ground,\n
-   Three feet gone last year, four feet this\n
-   Where land runs out and nothing’s sound.\n
-   Nothing lasts long on Shingle Street.\n
-   \n
-   By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771" target="_blank">https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771</a>\n
+See <a href="https://github.com/coastalme/coastalme_TESTING" target="_blank">https://github.com/coastalme/coastalme_TESTING</a> for the up-to-date version of the source code, and <a href="https://github.com/coastalme/coastalme" target="_blank">https://github.com/coastalme/coastalme</a> for the out-of-date stable version.\n
+\n
+From Shingle Street\n
+To Orford Ness\n
+The waves maraud,\n
+The winds oppress,\n
+The earth can’t help\n
+But acquiesce\n
+For this is east\n
+And east means loss,\n
+A lessening shore, receding ground,\n
+Three feet gone last year, four feet this\n
+Where land runs out and nothing’s sound.\n
+Nothing lasts long on Shingle Street.\n
+\n
+By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771" target="_blank">https://www.penguin.co.uk/books/419911/shingle-street-by-morrison-blake/9780701188771</a>\n
 
- * \section install_sec Installation
+\section install_sec Installation
 
- * \subsection step1 Step 1: Opening the box
+\subsection step1 Step 1: Opening the box
 
- * \subsection step2 Step 2: Running CoastalME
+\subsection step2 Step 2: Running CoastalME
 
- * \subsection step3 Step 3: Building datasets
- *
- * \file cme.h
- * \brief This file contains global definitions for CoastalME
- *
- */
+\subsection step3 Step 3: Building datasets
+
+\file cme.h
+\brief This file contains global definitions for CoastalME
+*/
 
 #ifndef CME_H
 #define CME_H
@@ -60,13 +58,13 @@ using std::ostringstream;
 //===================================================== platform-specific stuff =================================================
 #ifdef _WIN32
 #define access _access
-#define F_OK 0 // Test for file existence
+#define F_OK 0       // Test for file existence
 #endif
 
 #ifdef _MSC_VER
 // MS Visual C++, byte order is IEEE little-endian, 32-bit
 #ifdef _DEBUG
-#include <crtdbg.h> // useful
+#include <crtdbg.h>  // useful
 #endif
 
 // clock_t is a signed long: see <time.h>
@@ -514,7 +512,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.18 (06 Jan 2024)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.19 (06 Feb 2024)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 

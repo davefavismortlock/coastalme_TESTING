@@ -85,11 +85,11 @@ double CRWCliff::dGetRemaining(void) const
    return (m_dMaxDepth - m_dNotchDepth);
 }
 
-//! Sets the horizontal depth of the cliff's erosional notch
-void CRWCliff::SetNotchDepth(double const dLenIn)
-{
-   m_dNotchDepth = dLenIn;
-}
+// //! Sets the horizontal depth of the cliff's erosional notch
+// void CRWCliff::SetNotchDepth(double const dLenIn)
+// {
+//    m_dNotchDepth = dLenIn;
+// }
 
 //! Returns the horizontal depth of the cliff's erosional notch (the 'overhang')
 double CRWCliff::dGetNotchDepth(void) const

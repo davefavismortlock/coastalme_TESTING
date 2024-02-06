@@ -69,23 +69,23 @@ double CGeomLine::dGetYAt(int const n)
    return m_VPoints[n].dGetY();
 }
 
-//! Returns the point at a given place in the line
-CGeom2DPoint* CGeomLine::pPtGetAt(int const n)
-{
-   return &m_VPoints[n];
-}
+// //! Returns the point at a given place in the line
+// CGeom2DPoint* CGeomLine::pPtGetAt(int const n)
+// {
+//    return &m_VPoints[n];
+// }
 
-//! Sets the X value at a given place in the line
-void CGeomLine::SetXAt(int const n, double const x)
-{
-   m_VPoints[n].SetX(x);
-}
+// //! Sets the X value at a given place in the line
+// void CGeomLine::SetXAt(int const n, double const x)
+// {
+//    m_VPoints[n].SetX(x);
+// }
 
-//! Sets the Y value at a given place in the line
-void CGeomLine::SetYAt(int const n, double const y)
-{
-   m_VPoints[n].SetY(y);
-}
+// //! Sets the Y value at a given place in the line
+// void CGeomLine::SetYAt(int const n, double const y)
+// {
+//    m_VPoints[n].SetY(y);
+// }
 
 // bool CGeomLine::bIsPresent(CGeom2DPoint* Pt)
 // {

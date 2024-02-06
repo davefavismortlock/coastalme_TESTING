@@ -62,10 +62,9 @@ var searchData=
   ['appendlayers_59',['AppendLayers',['../d1/dd9/classCGeomCell.html#a556db5cb0e1b09d8e3f799f9e66138c0',1,'CGeomCell']]],
   ['appendlinesegment_60',['AppendLineSegment',['../d0/d89/classCGeomMultiLine.html#a3f99a9c2ac66b75c432941ec88fc8538',1,'CGeomMultiLine::AppendLineSegment(void)'],['../d0/d89/classCGeomMultiLine.html#afdbe517c9f47370fe67557d46eb309c1',1,'CGeomMultiLine::AppendLineSegment(vector&lt; pair&lt; int, int &gt; &gt; *)']]],
   ['appendpointinprofile_61',['AppendPointInProfile',['../da/dae/classCGeomProfile.html#a19aac71e045a17e2c6d98f020f2319fa',1,'CGeomProfile::AppendPointInProfile(double const, double const)'],['../da/dae/classCGeomProfile.html#a2f6e2d73bb6e8182b5ee5f21ff022f79',1,'CGeomProfile::AppendPointInProfile(CGeom2DPoint const *)']]],
-  ['appendpointtocoastlineextcrs_62',['AppendPointToCoastlineExtCRS',['../d1/dbe/classCRWCoast.html#a845ea19a928696dc9729bdc0f5a139f6',1,'CRWCoast']]],
-  ['appendpolygonlength_63',['AppendPolygonLength',['../d1/dbe/classCRWCoast.html#af47d353bb8ae8ddc289c9a80f9abc76e',1,'CRWCoast']]],
-  ['appendprofile_64',['AppendProfile',['../d1/dbe/classCRWCoast.html#ab3a3fcb71d7e344a1be5e77be8eec4ed',1,'CRWCoast']]],
-  ['appendshadowboundary_65',['AppendShadowBoundary',['../d1/dbe/classCRWCoast.html#a05e4e1d133a98f98a3f24e9702876d1a',1,'CRWCoast']]],
-  ['appendshadowdowndriftboundary_66',['AppendShadowDowndriftBoundary',['../d1/dbe/classCRWCoast.html#abebe946e16816646e095992342948444',1,'CRWCoast']]],
-  ['assign_5flandforms_2ecpp_67',['assign_landforms.cpp',['../da/d3d/assign__landforms_8cpp.html',1,'']]]
+  ['appendpolygonlength_62',['AppendPolygonLength',['../d1/dbe/classCRWCoast.html#af47d353bb8ae8ddc289c9a80f9abc76e',1,'CRWCoast']]],
+  ['appendprofile_63',['AppendProfile',['../d1/dbe/classCRWCoast.html#ab3a3fcb71d7e344a1be5e77be8eec4ed',1,'CRWCoast']]],
+  ['appendshadowboundary_64',['AppendShadowBoundary',['../d1/dbe/classCRWCoast.html#a05e4e1d133a98f98a3f24e9702876d1a',1,'CRWCoast']]],
+  ['appendshadowdowndriftboundary_65',['AppendShadowDowndriftBoundary',['../d1/dbe/classCRWCoast.html#abebe946e16816646e095992342948444',1,'CRWCoast']]],
+  ['assign_5flandforms_2ecpp_66',['assign_landforms.cpp',['../da/d3d/assign__landforms_8cpp.html',1,'']]]
 ];

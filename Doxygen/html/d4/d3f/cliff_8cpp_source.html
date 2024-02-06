@@ -154,10 +154,11 @@ $(document).ready(function(){initNavTree('d4/d3f/cliff_8cpp_source.html','../../
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>   <span class="keywordflow">return</span> (<a class="code hl_variable" href="../../d9/d8b/classCRWCliff.html#a7090ef1a32311b92a949797659139041">m_dMaxDepth</a> - <a class="code hl_variable" href="../../d9/d8b/classCRWCliff.html#a3f6938d9d8e05d00a09487a3948d79a7">m_dNotchDepth</a>);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="../../d9/d8b/classCRWCliff.html#aef18838970afadd550ab14f124ddaba0">   89</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d9/d8b/classCRWCliff.html#aef18838970afadd550ab14f124ddaba0">CRWCliff::SetNotchDepth</a>(<span class="keywordtype">double</span> <span class="keyword">const</span> dLenIn)</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>   <a class="code hl_variable" href="../../d9/d8b/classCRWCliff.html#a3f6938d9d8e05d00a09487a3948d79a7">m_dNotchDepth</a> = dLenIn;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">// //! Sets the horizontal depth of the cliff&#39;s erosional notch</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">// void CRWCliff::SetNotchDepth(double const dLenIn)</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">// {</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">//    m_dNotchDepth = dLenIn;</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">// }</span></div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="../../d9/d8b/classCRWCliff.html#aa5b22689c3aeb51ec82713f1f93f2539">   95</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="../../d9/d8b/classCRWCliff.html#aa5b22689c3aeb51ec82713f1f93f2539">CRWCliff::dGetNotchDepth</a>(<span class="keywordtype">void</span>)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword"></span>{</div>
@@ -205,19 +206,18 @@ $(document).ready(function(){initNavTree('d4/d3f/cliff_8cpp_source.html','../../
 <div class="ttc" id="aclassCRWCliff_html_ab7084345058193f7084d7fcaecb9ea1b"><div class="ttname"><a href="../../d9/d8b/classCRWCliff.html#ab7084345058193f7084d7fcaecb9ea1b">CRWCliff::SetCliffCollapsed</a></div><div class="ttdeci">void SetCliffCollapsed(void)</div><div class="ttdoc">Flags the cliff as having collapsed.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3f/cliff_8cpp_source.html#l00065">cliff.cpp:65</a></div></div>
 <div class="ttc" id="aclassCRWCliff_html_abdce12006e217f4d250bf00a95026264"><div class="ttname"><a href="../../d9/d8b/classCRWCliff.html#abdce12006e217f4d250bf00a95026264">CRWCliff::dGetRemaining</a></div><div class="ttdeci">double dGetRemaining(void) const</div><div class="ttdoc">Returns the length (in external CRS units) of the cliff's remaining sediment 'behind' the erosional n...</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3f/cliff_8cpp_source.html#l00083">cliff.cpp:83</a></div></div>
 <div class="ttc" id="aclassCRWCliff_html_ad637979919fc4f022ab8cbd89133bad7"><div class="ttname"><a href="../../d9/d8b/classCRWCliff.html#ad637979919fc4f022ab8cbd89133bad7">CRWCliff::~CRWCliff</a></div><div class="ttdeci">~CRWCliff(void)</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3f/cliff_8cpp_source.html#l00054">cliff.cpp:54</a></div></div>
-<div class="ttc" id="aclassCRWCliff_html_aef18838970afadd550ab14f124ddaba0"><div class="ttname"><a href="../../d9/d8b/classCRWCliff.html#aef18838970afadd550ab14f124ddaba0">CRWCliff::SetNotchDepth</a></div><div class="ttdeci">void SetNotchDepth(double const)</div><div class="ttdoc">Sets the horizontal depth of the cliff's erosional notch.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3f/cliff_8cpp_source.html#l00089">cliff.cpp:89</a></div></div>
 <div class="ttc" id="aclassCRWCoast_html"><div class="ttname"><a href="../../d1/dbe/classCRWCoast.html">CRWCoast</a></div><div class="ttdoc">Real-world class used to represent coastline objects.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d65/coast_8h_source.html#l00039">coast.h:40</a></div></div>
 <div class="ttc" id="acliff_8h_html"><div class="ttname"><a href="../../db/df0/cliff_8h.html">cliff.h</a></div><div class="ttdoc">Contains CRWCliff definitions.</div></div>
 <div class="ttc" id="acme_8h_html"><div class="ttname"><a href="../../d6/d2a/cme_8h.html">cme.h</a></div><div class="ttdoc">This file contains global definitions for CoastalME.</div></div>
-<div class="ttc" id="acme_8h_html_a068017859403c0629d89f8d348f6c224"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a068017859403c0629d89f8d348f6c224">tMin</a></div><div class="ttdeci">T tMin(T a, T b)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00944">cme.h:944</a></div></div>
-<div class="ttc" id="acme_8h_html_ad6be96d3be217d31a74c2412d7e6cbbb"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#ad6be96d3be217d31a74c2412d7e6cbbb">LF_CAT_CLIFF</a></div><div class="ttdeci">int const LF_CAT_CLIFF</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00245">cme.h:245</a></div></div>
+<div class="ttc" id="acme_8h_html_a068017859403c0629d89f8d348f6c224"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#a068017859403c0629d89f8d348f6c224">tMin</a></div><div class="ttdeci">T tMin(T a, T b)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00942">cme.h:942</a></div></div>
+<div class="ttc" id="acme_8h_html_ad6be96d3be217d31a74c2412d7e6cbbb"><div class="ttname"><a href="../../d6/d2a/cme_8h.html#ad6be96d3be217d31a74c2412d7e6cbbb">LF_CAT_CLIFF</a></div><div class="ttdeci">int const LF_CAT_CLIFF</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2a/cme_8h_source.html#l00243">cme.h:243</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../d4/d3f/cliff_8cpp.html">cliff.cpp</a></li>
-    <li class="footer">Generated on Sat Jan 6 2024 20:16:45 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Feb 6 2024 12:57:04 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

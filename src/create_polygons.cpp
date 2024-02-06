@@ -280,12 +280,12 @@ void CSimulation::MarkPolygonCells(void)
             dTotDepth = 0,
             dStoredUnconsFine = 0,
             dStoredUnconsSand = 0,
-            dStoredUnconsCoarse = 0,
-            dCliffCollapseErosionFine = 0,
-            dCliffCollapseErosionSand = 0,
-            dCliffCollapseErosionCoarse = 0,
-            dCliffCollapseTalusSand = 0,
-            dCliffCollapseTalusCoarse = 0;
+            dStoredUnconsCoarse = 0;
+            // dCliffCollapseErosionFine = 0,
+            // dCliffCollapseErosionSand = 0,
+            // dCliffCollapseErosionCoarse = 0,
+            // dCliffCollapseTalusSand = 0,
+            // dCliffCollapseTalusCoarse = 0;
 
          CGeomCoastPolygon* pPolygon = m_VCoast[nCoast].pGetPolygon(nPoly);
          int nPolyID = pPolygon->nGetGlobalID();
@@ -373,11 +373,11 @@ void CSimulation::MarkPolygonCells(void)
 //                LogStream << "[" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
                
                // Increment the running totals for this polygon
-               dCliffCollapseErosionFine += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
-               dCliffCollapseErosionSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
-               dCliffCollapseErosionCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
-               dCliffCollapseTalusSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
-               dCliffCollapseTalusCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition(); 
+               // dCliffCollapseErosionFine += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionFine();
+               // dCliffCollapseErosionSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionSand();
+               // dCliffCollapseErosionCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseErosionCoarse();
+               // dCliffCollapseTalusSand += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseSandTalusDeposition();
+               // dCliffCollapseTalusCoarse += m_pRasterGrid->m_Cell[nX][nY].dGetThisIterCliffCollapseCoarseTalusDeposition();
                
                // Get the number of the highest layer with non-zero thickness
                int nThisLayer = m_pRasterGrid->m_Cell[nX][nY].nGetTopNonZeroLayerAboveBasement();

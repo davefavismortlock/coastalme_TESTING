@@ -224,7 +224,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
                break;
             }
 
-            CGeom2DIPoint PtiThisUpCoastStart(nXUpCoastThisStart, nYUpCoastThisStart);
+            // CGeom2DIPoint PtiThisUpCoastStart(nXUpCoastThisStart, nYUpCoastThisStart);
 
             // Calculate the co-ordinates of a possible new landwards cell for the parallel profile
             int

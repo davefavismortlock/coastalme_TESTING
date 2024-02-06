@@ -302,7 +302,7 @@ CGeomLine CSimulation::LSmoothCoastRunningMean(CGeomLine* pLineIn) const
 //===============================================================================================================================
 //! Does running-mean smoothing of the slope of a coastline-normal profile
 //===============================================================================================================================
-vector<double> CSimulation::dVSmoothProfileSlope(vector<double>* pdVSlope)
+vector<double> CSimulation::dVSmoothProfileSlope(vector<double>* pdVSlope) const
 {
    // Make a copy of the unsmoothed profile slope vector
    int const nSize = static_cast<int>(pdVSlope->size());

@@ -186,9 +186,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98041541e2fd3d6202c30b5451e39082"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a98041541e2fd3d6202c30b5451e39082">SetPossibleFloodStartCell</a> (void)</td></tr>
 <tr class="memdesc:a98041541e2fd3d6202c30b5451e39082"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO What is this for? Sets a flag to show that this cell has been flagged as a possible start-point for a coastline.  <a href="../../d1/dd9/classCGeomCell.html#a98041541e2fd3d6202c30b5451e39082">More...</a><br /></td></tr>
 <tr class="separator:a98041541e2fd3d6202c30b5451e39082"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae8aa3a25e90d5dea14d669da119ebd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#aae8aa3a25e90d5dea14d669da119ebd7">bIsPossibleFloodStartCell</a> (void) const</td></tr>
-<tr class="memdesc:aae8aa3a25e90d5dea14d669da119ebd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO What is this for? Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline.  <a href="../../d1/dd9/classCGeomCell.html#aae8aa3a25e90d5dea14d669da119ebd7">More...</a><br /></td></tr>
-<tr class="separator:aae8aa3a25e90d5dea14d669da119ebd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f998fef62c1873fdee5f2685544aad4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a6f998fef62c1873fdee5f2685544aad4">SetPolygonID</a> (int const)</td></tr>
 <tr class="memdesc:a6f998fef62c1873fdee5f2685544aad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the global ID number of the polygon which 'contains' this cell.  <a href="../../d1/dd9/classCGeomCell.html#a6f998fef62c1873fdee5f2685544aad4">More...</a><br /></td></tr>
 <tr class="separator:a6f998fef62c1873fdee5f2685544aad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,9 +228,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aec408a18eeffd11484779022733cd396"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#aec408a18eeffd11484779022733cd396">bBasementElevIsMissingValue</a> (void) const</td></tr>
 <tr class="memdesc:aec408a18eeffd11484779022733cd396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this cells's basement data is NODATA, is needed for irregularly-shaped DEMs.  <a href="../../d1/dd9/classCGeomCell.html#aec408a18eeffd11484779022733cd396">More...</a><br /></td></tr>
 <tr class="separator:aec408a18eeffd11484779022733cd396"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6b63898439e574ee70f4598f65afe8a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#aa6b63898439e574ee70f4598f65afe8a">dGetVolEquivSedTopElev</a> (void) const</td></tr>
-<tr class="memdesc:aa6b63898439e574ee70f4598f65afe8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the volume-equivalent elevation of the sediment's top surface for this cell (i.e. if there is a cliff notch, then lower the elevation by the notch's volume)  <a href="../../d1/dd9/classCGeomCell.html#aa6b63898439e574ee70f4598f65afe8a">More...</a><br /></td></tr>
-<tr class="separator:aa6b63898439e574ee70f4598f65afe8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6387aaac391af63a9f2be1c809ce169c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a6387aaac391af63a9f2be1c809ce169c">dGetSedimentTopElev</a> (void) const</td></tr>
 <tr class="memdesc:a6387aaac391af63a9f2be1c809ce169c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the true elevation of the sediment's top surface for this cell (if there is a cliff notch, ignore the missing volume)  <a href="../../d1/dd9/classCGeomCell.html#a6387aaac391af63a9f2be1c809ce169c">More...</a><br /></td></tr>
 <tr class="separator:a6387aaac391af63a9f2be1c809ce169c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,15 +240,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54949735a3e7fefed49704f7a9a50fff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a54949735a3e7fefed49704f7a9a50fff">bIsInundated</a> (void) const</td></tr>
 <tr class="memdesc:a54949735a3e7fefed49704f7a9a50fff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the elevation of the sediment top surface for this cell (plus any intervention) is less than the grid's this-timestep still water elevation.  <a href="../../d1/dd9/classCGeomCell.html#a54949735a3e7fefed49704f7a9a50fff">More...</a><br /></td></tr>
 <tr class="separator:a54949735a3e7fefed49704f7a9a50fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32468b8debb6cffc4f067e088b70c650"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a32468b8debb6cffc4f067e088b70c650">dGetIterSWL</a> (void) const</td></tr>
-<tr class="memdesc:a32468b8debb6cffc4f067e088b70c650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sea surface elevation at current iteration.  <a href="../../d1/dd9/classCGeomCell.html#a32468b8debb6cffc4f067e088b70c650">More...</a><br /></td></tr>
-<tr class="separator:a32468b8debb6cffc4f067e088b70c650"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78e3fd034082350539f3206f7e85fcb2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a78e3fd034082350539f3206f7e85fcb2">dGetIterTotWaterLevel</a> (void) const</td></tr>
-<tr class="memdesc:a78e3fd034082350539f3206f7e85fcb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total water level at current iteration.  <a href="../../d1/dd9/classCGeomCell.html#a78e3fd034082350539f3206f7e85fcb2">More...</a><br /></td></tr>
-<tr class="separator:a78e3fd034082350539f3206f7e85fcb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27ab02866721de446d5369301f6d233e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a27ab02866721de446d5369301f6d233e">bIsSeaIncBeach</a> (void) const</td></tr>
-<tr class="memdesc:a27ab02866721de446d5369301f6d233e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the elevation of the sediment top surface for this cell is greater than or equal to the grid's this-timestep still water elevation. Also returns true if the cell has unconsolidated sediment on it and the elevation of the sediment top surface, minus a tolerance value, is less than the grid's this-timestep still water elevation.  <a href="../../d1/dd9/classCGeomCell.html#a27ab02866721de446d5369301f6d233e">More...</a><br /></td></tr>
-<tr class="separator:a27ab02866721de446d5369301f6d233e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7243fc5c93ab8ad4035b00f16e0a13af"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#a7243fc5c93ab8ad4035b00f16e0a13af">dGetThisIterSWL</a> (void) const</td></tr>
+<tr class="memdesc:a7243fc5c93ab8ad4035b00f16e0a13af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sea surface elevation at current iteration.  <a href="../../d1/dd9/classCGeomCell.html#a7243fc5c93ab8ad4035b00f16e0a13af">More...</a><br /></td></tr>
+<tr class="separator:a7243fc5c93ab8ad4035b00f16e0a13af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b74840f254a915287559a2351b5d49"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#af9b74840f254a915287559a2351b5d49">dGetThisIterTotWaterLevel</a> (void) const</td></tr>
+<tr class="memdesc:af9b74840f254a915287559a2351b5d49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total water level at current iteration.  <a href="../../d1/dd9/classCGeomCell.html#af9b74840f254a915287559a2351b5d49">More...</a><br /></td></tr>
+<tr class="separator:af9b74840f254a915287559a2351b5d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab445c2aab1f807824fc4dc432fabfb72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/classCGeomCell.html#ab445c2aab1f807824fc4dc432fabfb72">SetSeaDepth</a> (void)</td></tr>
 <tr class="memdesc:ab445c2aab1f807824fc4dc432fabfb72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the depth of seawater on this cell if the sediment top is &lt; SWL, or zero.  <a href="../../d1/dd9/classCGeomCell.html#ab445c2aab1f807824fc4dc432fabfb72">More...</a><br /></td></tr>
 <tr class="separator:ab445c2aab1f807824fc4dc432fabfb72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1234,28 +1225,6 @@ Andres Payo</dd></dl>
 
 </div>
 </div>
-<a id="aae8aa3a25e90d5dea14d669da119ebd7" name="aae8aa3a25e90d5dea14d669da119ebd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae8aa3a25e90d5dea14d669da119ebd7">&#9670;&nbsp;</a></span>bIsPossibleFloodStartCell()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CGeomCell::bIsPossibleFloodStartCell </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>TODO What is this for? Returns a flag which shows whether this cell has been flagged as a possible start- or end-point for a coastline. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00216">216</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
-
-</div>
-</div>
 <a id="ad2c6f63894b9feea63d71d15932c0825" name="ad2c6f63894b9feea63d71d15932c0825"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2c6f63894b9feea63d71d15932c0825">&#9670;&nbsp;</a></span>bIsProfile()</h2>
 
@@ -1277,28 +1246,6 @@ Andres Payo</dd></dl>
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00269">269</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../d6/db6/do__shore__platform__erosion_8cpp_source.html#l01212">CSimulation::ConstructParallelProfile()</a>, <a class="el" href="../../d6/db6/do__shore__platform__erosion_8cpp_source.html#l00360">CSimulation::nCalcPotentialPlatformErosionBetweenProfiles()</a>, and <a class="el" href="../../da/db2/create__profiles_8cpp_source.html#l01345">CSimulation::RasterizeProfile()</a>.</p>
-
-</div>
-</div>
-<a id="a27ab02866721de446d5369301f6d233e" name="a27ab02866721de446d5369301f6d233e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27ab02866721de446d5369301f6d233e">&#9670;&nbsp;</a></span>bIsSeaIncBeach()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CGeomCell::bIsSeaIncBeach </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns true if the elevation of the sediment top surface for this cell is greater than or equal to the grid's this-timestep still water elevation. Also returns true if the cell has unconsolidated sediment on it and the elevation of the sediment top surface, minus a tolerance value, is less than the grid's this-timestep still water elevation. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00576">576</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
 </div>
 </div>
@@ -1662,50 +1609,6 @@ Andres Payo</dd></dl>
 
 </div>
 </div>
-<a id="a32468b8debb6cffc4f067e088b70c650" name="a32468b8debb6cffc4f067e088b70c650"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32468b8debb6cffc4f067e088b70c650">&#9670;&nbsp;</a></span>dGetIterSWL()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double CGeomCell::dGetIterSWL </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the sea surface elevation at current iteration. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00564">564</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a78e3fd034082350539f3206f7e85fcb2" name="a78e3fd034082350539f3206f7e85fcb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78e3fd034082350539f3206f7e85fcb2">&#9670;&nbsp;</a></span>dGetIterTotWaterLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double CGeomCell::dGetIterTotWaterLevel </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the total water level at current iteration. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00570">570</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
-
-</div>
-</div>
 <a id="a8ca77a88453bdc1637fd128596c42a53" name="a8ca77a88453bdc1637fd128596c42a53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ca77a88453bdc1637fd128596c42a53">&#9670;&nbsp;</a></span>dGetLocalConsSlope()</h2>
 
@@ -1918,7 +1821,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l01020">1020</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>, and <a class="el" href="../../d6/d91/create__polygons_8cpp_source.html#l00270">CSimulation::MarkPolygonCells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, and <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>.</p>
 
 </div>
 </div>
@@ -1942,7 +1845,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00976">976</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>, and <a class="el" href="../../d6/d91/create__polygons_8cpp_source.html#l00270">CSimulation::MarkPolygonCells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, and <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>.</p>
 
 </div>
 </div>
@@ -1966,7 +1869,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00964">964</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>, and <a class="el" href="../../d6/d91/create__polygons_8cpp_source.html#l00270">CSimulation::MarkPolygonCells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, and <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>.</p>
 
 </div>
 </div>
@@ -1990,7 +1893,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00970">970</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>, and <a class="el" href="../../d6/d91/create__polygons_8cpp_source.html#l00270">CSimulation::MarkPolygonCells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, and <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>.</p>
 
 </div>
 </div>
@@ -2014,7 +1917,51 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l01014">1014</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>, and <a class="el" href="../../d6/d91/create__polygons_8cpp_source.html#l00270">CSimulation::MarkPolygonCells()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dfb/gis__raster_8cpp_source.html#l00901">CSimulation::bWriteRasterGISFile()</a>, and <a class="el" href="../../db/df7/gis__utils_8cpp_source.html#l01327">CSimulation::GetRasterOutputMinMax()</a>.</p>
+
+</div>
+</div>
+<a id="a7243fc5c93ab8ad4035b00f16e0a13af" name="a7243fc5c93ab8ad4035b00f16e0a13af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7243fc5c93ab8ad4035b00f16e0a13af">&#9670;&nbsp;</a></span>dGetThisIterSWL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CGeomCell::dGetThisIterSWL </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the sea surface elevation at current iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00564">564</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af9b74840f254a915287559a2351b5d49" name="af9b74840f254a915287559a2351b5d49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b74840f254a915287559a2351b5d49">&#9670;&nbsp;</a></span>dGetThisIterTotWaterLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CGeomCell::dGetThisIterTotWaterLevel </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the total water level at current iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00570">570</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
 </div>
 </div>
@@ -2591,28 +2538,6 @@ Andres Payo</dd></dl>
 <p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l01116">1116</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d2/d24/calc__waves_8cpp_source.html#l02155">CSimulation::CalcD50AndFillWaveCalcHoles()</a>.</p>
-
-</div>
-</div>
-<a id="aa6b63898439e574ee70f4598f65afe8a" name="aa6b63898439e574ee70f4598f65afe8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6b63898439e574ee70f4598f65afe8a">&#9670;&nbsp;</a></span>dGetVolEquivSedTopElev()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double CGeomCell::dGetVolEquivSedTopElev </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the volume-equivalent elevation of the sediment's top surface for this cell (i.e. if there is a cliff notch, then lower the elevation by the notch's volume) </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00527">527</a> of file <a class="el" href="../../d6/d68/cell_8cpp_source.html">cell.cpp</a>.</p>
 
 </div>
 </div>
@@ -4110,7 +4035,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00116">bIsInContiguousSea()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00576">bIsSeaIncBeach()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00813">InitCell()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00110">SetInContiguousSea()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00116">bIsInContiguousSea()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00813">InitCell()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00110">SetInContiguousSea()</a>.</p>
 
 </div>
 </div>
@@ -4194,7 +4119,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00070">70</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00216">bIsPossibleFloodStartCell()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00813">InitCell()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00210">SetPossibleFloodStartCell()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00813">InitCell()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00210">SetPossibleFloodStartCell()</a>.</p>
 
 </div>
 </div>
@@ -4334,7 +4259,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00097">97</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00429">bBasementElevIsMissingValue()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00757">dCalcLayerElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00423">dGetBasementElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00503">dGetConsSedTopForLayerAboveBasement()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00527">dGetVolEquivSedTopElev()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00417">SetBasementElev()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00429">bBasementElevIsMissingValue()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00757">dCalcLayerElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00423">dGetBasementElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00503">dGetConsSedTopForLayerAboveBasement()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00417">SetBasementElev()</a>.</p>
 
 </div>
 </div>
@@ -5480,7 +5405,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00215">215</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00429">bBasementElevIsMissingValue()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00351">bIsElevLessThanWaterLevel()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00558">bIsInundated()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00576">bIsSeaIncBeach()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00564">dGetIterSWL()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00570">dGetIterTotWaterLevel()</a>, <a class="el" href="../../df/de0/raster__grid_8cpp_source.html#l00064">CGeomRasterGrid::nCreateGrid()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00807">SetSeaDepth()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00429">bBasementElevIsMissingValue()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00351">bIsElevLessThanWaterLevel()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00558">bIsInundated()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00564">dGetThisIterSWL()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00570">dGetThisIterTotWaterLevel()</a>, <a class="el" href="../../df/de0/raster__grid_8cpp_source.html#l00064">CGeomRasterGrid::nCreateGrid()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00807">SetSeaDepth()</a>.</p>
 
 </div>
 </div>
@@ -5508,7 +5433,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00212">212</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00351">bIsElevLessThanWaterLevel()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00558">bIsInundated()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00576">bIsSeaIncBeach()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l01164">dGetInterventionTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00552">dGetOverallTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00546">dGetSedimentPlusInterventionTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00540">dGetSedimentTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00741">nGetLayerAtElev()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00807">SetSeaDepth()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00351">bIsElevLessThanWaterLevel()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00558">bIsInundated()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l01164">dGetInterventionTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00552">dGetOverallTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00546">dGetSedimentPlusInterventionTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00540">dGetSedimentTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00741">nGetLayerAtElev()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00807">SetSeaDepth()</a>.</p>
 
 </div>
 </div>
@@ -5536,7 +5461,7 @@ Andres Payo</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/ddd/cell_8h_source.html#l00209">209</a> of file <a class="el" href="../../d0/ddd/cell_8h_source.html">cell.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00701">AppendLayers()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00576">bIsSeaIncBeach()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00757">dCalcLayerElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00503">dGetConsSedTopForLayerAboveBasement()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00648">dGetTotConsCoarseThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00594">dGetTotConsFineThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00621">dGetTotConsSandThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00675">dGetTotConsThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00665">dGetTotUnconsCoarseThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00611">dGetTotUnconsFineThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00638">dGetTotUnconsSandThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00685">dGetTotUnconsThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00527">dGetVolEquivSedTopElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00741">nGetLayerAtElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00494">nGetTopLayerAboveBasement()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00478">nGetTopNonZeroLayerAboveBasement()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00520">pGetLayerAboveBasement()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00701">AppendLayers()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00708">CalcAllLayerElevsAndD50()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00757">dCalcLayerElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00503">dGetConsSedTopForLayerAboveBasement()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00648">dGetTotConsCoarseThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00594">dGetTotConsFineThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00621">dGetTotConsSandThickConsiderNotch()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00675">dGetTotConsThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00665">dGetTotUnconsCoarseThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00611">dGetTotUnconsFineThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00638">dGetTotUnconsSandThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00685">dGetTotUnconsThickness()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00741">nGetLayerAtElev()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00494">nGetTopLayerAboveBasement()</a>, <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00478">nGetTopNonZeroLayerAboveBasement()</a>, and <a class="el" href="../../d6/d68/cell_8cpp_source.html#l00520">pGetLayerAboveBasement()</a>.</p>
 
 </div>
 </div>
@@ -5551,7 +5476,7 @@ Andres Payo</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../d1/dd9/classCGeomCell.html">CGeomCell</a></li>
-    <li class="footer">Generated on Sat Jan 6 2024 20:16:45 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
+    <li class="footer">Generated on Tue Feb 6 2024 12:57:04 for CoastalME (Coastal Modelling Environment) by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
 </body>

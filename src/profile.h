@@ -97,24 +97,24 @@ public:
    void SetEndOfCoast(bool const);
    bool bEndOfCoast(void) const;
 
-   void SetHitLand(bool const);
+   // void SetHitLand(bool const);
    bool bHitLand(void) const;
 
    void SetHitCoast(bool const);
    bool bHitCoast(void) const;
 
    void SetTooShort(bool const);
-   bool bTooShort(void) const;
+   // bool bTooShort(void) const;
 
    void SetTruncated(bool const);
-   bool bTruncated(void) const;
+   // bool bTruncated(void) const;
 
    void SetHitAnotherProfile(bool const);
    bool bHitAnotherProfile(void) const;
 
    bool bProfileOK(void) const;
    bool bOKIncStartAndEndOfCoast(void) const;
-   bool bOKIncStartOfCoast(void) const;
+   // bool bOKIncStartOfCoast(void) const;
 
    void SetAllPointsInProfile(vector<CGeom2DPoint> const*);
    void SetPointInProfile(int const, double const, double const);

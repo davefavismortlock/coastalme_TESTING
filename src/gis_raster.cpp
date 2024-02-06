@@ -1217,7 +1217,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
       // The user-requested raster driver supports the Create() method
       pDriver = GetGDALDriverManager()->GetDriverByName(m_strRasterGISOutFormat.c_str());
 
-      if ((nDataItem == RASTER_PLOT_INUNDATION_MASK) | (nDataItem == RASTER_PLOT_SETUP_SURGE_FLOOD_MASK) | (nDataItem == RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK))
+      if ((nDataItem == RASTER_PLOT_INUNDATION_MASK) || (nDataItem == RASTER_PLOT_SETUP_SURGE_FLOOD_MASK) || (nDataItem == RASTER_PLOT_SETUP_SURGE_RUNUP_FLOOD_MASK))
       {
          pDataSet = pDriver->Create(strFilePathName.c_str(), m_nXGridMax, m_nYGridMax, 1, GDT_Int16, m_papszGDALRasterOptions);
       }

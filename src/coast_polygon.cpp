@@ -137,11 +137,11 @@ void CGeomCoastPolygon::SetNumCellsInPolygon(int const nCells)
    m_nNumCells = nCells;
 }
 
-//! Get the number of cells in the polygon
-int CGeomCoastPolygon::nGetNumCellsinPolygon(void) const
-{
-   return m_nNumCells;
-}
+// //! Get the number of cells in the polygon
+// int CGeomCoastPolygon::nGetNumCellsinPolygon(void) const
+// {
+//    return m_nNumCells;
+// }
 
 //! Return the number of the up-coast profile
 int CGeomCoastPolygon::nGetUpCoastProfile(void) const
@@ -256,11 +256,11 @@ double CGeomCoastPolygon::dGetErosionAllUncons(void) const
    return m_dErosionUnconsFine + m_dErosionUnconsSand + m_dErosionUnconsCoarse;
 }
 
-//! Re-initializes this timestep's eposition of unconsolidated fine sediment on this polygon
-void CGeomCoastPolygon::SetZeroDepositionUnconsFine(void)
-{
-   m_dDepositionUnconsFine = 0;
-}
+// //! Re-initializes this timestep's eposition of unconsolidated fine sediment on this polygon
+// void CGeomCoastPolygon::SetZeroDepositionUnconsFine(void)
+// {
+//    m_dDepositionUnconsFine = 0;
+// }
 
 //! Returns this timestep's deposition of fine unconsolidated sediment on this polygon, as a +ve depth in m
 double CGeomCoastPolygon::dGetDepositionUnconsFine(void) const
@@ -268,11 +268,11 @@ double CGeomCoastPolygon::dGetDepositionUnconsFine(void) const
    return m_dDepositionUnconsFine;
 }
 
-//! Re-initializes this timestep's deposition of unconsolidated sand sediment on this polygon
-void CGeomCoastPolygon::SetZeroDepositionUnconsSand(void)
-{
-   m_dDepositionUnconsSand = 0;
-}
+// //! Re-initializes this timestep's deposition of unconsolidated sand sediment on this polygon
+// void CGeomCoastPolygon::SetZeroDepositionUnconsSand(void)
+// {
+//    m_dDepositionUnconsSand = 0;
+// }
 
 //! Adds a depth (in m) of sand-sized unconsolidated sediment to this timestep's deposition of unconsolidated coarse sediment on this polygon
 void CGeomCoastPolygon::AddDepositionUnconsSand(double const dDepth)
@@ -286,11 +286,11 @@ double CGeomCoastPolygon::dGetDepositionUnconsSand(void) const
    return m_dDepositionUnconsSand;
 }
 
-//! Re-initializes this timestep's deposition of unconsolidated coarse sediment on this polygon
-void CGeomCoastPolygon::SetZeroDepositionUnconsCoarse(void)
-{
-   m_dDepositionUnconsCoarse = 0;
-}
+// //! Re-initializes this timestep's deposition of unconsolidated coarse sediment on this polygon
+// void CGeomCoastPolygon::SetZeroDepositionUnconsCoarse(void)
+// {
+//    m_dDepositionUnconsCoarse = 0;
+// }
 
 //! Adds a depth (in m) of coarse unconsolidated sediment to this timestep's deposition of unconsolidated coarse sediment on this polygon (+ve)
 void CGeomCoastPolygon::AddDepositionUnconsCoarse(double const dDepth)
@@ -404,7 +404,7 @@ void CGeomCoastPolygon::AddCircularity(int const nPoly)
 }
 
 //! Get all circularities for this polygon
-vector<int> CGeomCoastPolygon::VnGetCircularities(void)
+vector<int> CGeomCoastPolygon::VnGetCircularities(void) const
 {
    return m_VnCircularityWith;
 }

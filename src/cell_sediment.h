@@ -70,15 +70,15 @@ public:
    void AddCoarseDepth(double const);
 
    void SetNotchFineLost(double const);
-   void IncrNotchFineLost(double const);
+   // void IncrNotchFineLost(double const);
    double dGetNotchFineLost(void) const;
 
    void SetNotchSandLost(double const);
-   void IncrNotchSandLost(double const);
+   // void IncrNotchSandLost(double const);
    double dGetNotchSandLost(void) const;
 
    void SetNotchCoarseLost(double const);
-   void IncrNotchCoarseLost(double const);
+   // void IncrNotchCoarseLost(double const);
    double dGetNotchCoarseLost(void) const;
 
    void AddToTotSedimentInputDepth(double const);

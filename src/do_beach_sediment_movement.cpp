@@ -94,7 +94,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
 {
    for (int nCoast = 0; nCoast < static_cast<int>(m_VCoast.size()); nCoast++)
    {
-      int nRet = RTN_OK;
+      int nRet;
 
       if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
          LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): Calculating unconsolidated sediment transport" << endl;

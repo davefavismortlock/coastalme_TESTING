@@ -507,13 +507,13 @@ double CSimulation::dGetThisIterTotWaterLevel (void) const
    return m_dThisIterDiffTotWaterLevel;
 }
 
-//===============================================================================================================================
-//! Returns the max elevation of the beach above SWL
-//===============================================================================================================================
-double CSimulation::dGetMaxBeachElevAboveSWL (void) const
-{
-   return m_dMaxBeachElevAboveSWL;
-}
+// //===============================================================================================================================
+// //! Returns the max elevation of the beach above SWL
+// //===============================================================================================================================
+// double CSimulation::dGetMaxBeachElevAboveSWL (void) const
+// {
+//    return m_dMaxBeachElevAboveSWL;
+// }
 
 //===============================================================================================================================
 // Returns the cell side length
@@ -1187,7 +1187,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
          return nRet;
 
       // Make water level inundation on grid
-      if (m_bFloodSWLSetupSurgeLine | m_bSetupSurgeFloodMaskSave)
+      if (m_bFloodSWLSetupSurgeLine || m_bSetupSurgeFloodMaskSave)
       {
          m_nLevel = 0;
          
@@ -1196,7 +1196,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
             return nRet;
       }
 
-      if (m_bFloodSWLSetupSurgeRunupLine | m_bSetupSurgeRunupFloodMaskSave)
+      if (m_bFloodSWLSetupSurgeRunupLine || m_bSetupSurgeRunupFloodMaskSave)
       {
          // DFM What is this?
          m_nLevel = 1;

@@ -54,13 +54,13 @@ public:
    CSedInputEvent(int const, unsigned long const, double const, double const, double const, double const, double const); //, double const);
    ~CSedInputEvent(void);
 
-   int nGetLocationID(void);
-   unsigned long ulGetEventTimeStep(void);
-   double dGetFineSedVol(void);
-   double dGetSandSedVol(void);
-   double dGetCoarseSedVol(void);
-   double dGetLen(void);
-   double dGetWidth(void);
+   int nGetLocationID(void) const;
+   unsigned long ulGetEventTimeStep(void) const;
+   double dGetFineSedVol(void) const;
+   double dGetSandSedVol(void) const;
+   double dGetCoarseSedVol(void) const;
+   double dGetLen(void) const;
+   double dGetWidth(void) const;
    // double dGetThick(void);
 };
 #endif // CSEDINPUT_H

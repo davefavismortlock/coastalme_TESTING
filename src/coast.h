@@ -165,7 +165,7 @@ public:
    int nGetEndEdge(void) const;
 
    void SetCoastlineExtCRS(CGeomLine const*);
-   void AppendPointToCoastlineExtCRS(double const, double const);
+   // void AppendPointToCoastlineExtCRS(double const, double const);
    CGeomLine* pLGetCoastlineExtCRS(void);
 // CGeomLine* pLGetFloodWaveSetupExtCRS(void);
 // void SetFloodWaveSetupPointExtCRS(CGeomLine const*);
@@ -195,9 +195,9 @@ public:
    void SetSmoothCurvature(int const, double const);
    vector<double>* pVGetSmoothCurvature(void);
    void SetDetailedCurvatureMean(double const);
-   double dGetDetailedCurvatureMean(void) const;
+   // double dGetDetailedCurvatureMean(void) const;
    void SetDetailedCurvatureSTD(double const);
-   double dGetDetailedCurvatureSTD(void) const;
+   // double dGetDetailedCurvatureSTD(void) const;
    void SetSmoothCurvatureMean(double const);
    double dGetSmoothCurvatureMean(void) const;
    void SetSmoothCurvatureSTD(double const);
@@ -216,7 +216,7 @@ public:
 //    int nGetAlongCoastlineIndexOfProfile(int const);
 
    void SetCoastDeepWaterWaveHeight(int const, double const);
-   double dGetCoastDeepWaterWaveHeight(int const) const;
+   // double dGetCoastDeepWaterWaveHeight(int const) const;
 
    void SetCoastDeepWaterWaveAngle(int const, double const);
    double dGetCoastDeepWaterWaveAngle(int const) const;
@@ -268,11 +268,11 @@ public:
    void AppendPolygonLength(const double);
    double dGetPolygonLength(int const) const;
 
-   int nGetNumShadowBoundaries(void);
+   int nGetNumShadowBoundaries(void) const;
    void AppendShadowBoundary(CGeomLine const*);
    CGeomLine* pGetShadowBoundary(int const);
 
-   int nGetNumShadowDowndriftBoundaries(void);
+   int nGetNumShadowDowndriftBoundaries(void) const;
    void AppendShadowDowndriftBoundary(CGeomLine const*);
    CGeomLine* pGetShadowDowndriftBoundary(int const);
 };
