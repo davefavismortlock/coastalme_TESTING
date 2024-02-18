@@ -137,10 +137,10 @@ int CSimulation::nAssignAllCoastalLandforms(void)
                {
                   // This cell was a cliff in a previous timestep, so get the data stored in the cell, this will be stored in the cliff object on the vector coastline
                   m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetLFSubCategory(LF_SUBCAT_CLIFF_ON_COASTLINE);
-                  dAccumWaveEnergy = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetAccumWaveEnergy(),
-                  dNotchDepth   = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffNotchDepth(),
-                  dNotchBaseElev   = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffNotchBaseElev(),
-                  dRemaining       = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffRemaining();
+                  dAccumWaveEnergy = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetAccumWaveEnergy();
+                  dNotchDepth   = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffNotchDepth();
+                  dNotchBaseElev   = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffNotchBaseElev();
+                  // dRemaining       = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetCliffRemaining();
 
 //                   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): CLIFF RE-CREATED [" << nX << "][" << nY << "] = {" << dGridCentroidXToExtCRSX(nX) << ", " << dGridCentroidYToExtCRSY(nY) << "}" << endl;
                }
@@ -148,7 +148,7 @@ int CSimulation::nAssignAllCoastalLandforms(void)
                {
                   // This cell was not a cliff object in a previous timestep, so mark it as one now and set the cell with the default values for the cliff object's attributes
                   m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetLFSubCategory(LF_SUBCAT_CLIFF_ON_COASTLINE);
-                  dAccumWaveEnergy = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetAccumWaveEnergy(),
+                  dAccumWaveEnergy = m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->dGetAccumWaveEnergy();
                   m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchDepth(dNotchDepth);
                   m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffNotchBaseElev(dNotchBaseElev);
                   m_pRasterGrid->m_Cell[nX][nY].pGetLandform()->SetCliffRemaining(dRemaining);
@@ -343,7 +343,7 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
    
    else if (nCategory == LF_CAT_DRIFT)
    {
-      // It's drift, so calculate D50 TODO
+      // It's drift, so calculate D50 TODO Why do we need this?
 
    }
 

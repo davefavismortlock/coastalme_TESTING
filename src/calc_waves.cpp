@@ -971,14 +971,14 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
           VdTPIn = {dDeepWaterWavePeriod, dDeepWaterWavePeriod},                 // Ditto
           VdHrmsIn = {dProfileDeepWaterWaveHeight, dProfileDeepWaterWaveHeight}, // Ditto
           VdWangIn = {dWaveToNormalAngle, dWaveToNormalAngle},                   // Ditto
-          VdTSurg = {dSurgeInitTime, dCShoreTimeStep},                           // Ditto          // TODO What is this for?
-          VdSWLin = {dSurgeLevel, dSurgeLevel},                                  // Ditto          // TODO What is this for?
+          VdTSurg = {dSurgeInitTime, dCShoreTimeStep},                           // Ditto
+          VdSWLin = {dSurgeLevel, dSurgeLevel},                                  // Ditto
           VdFPInp = VdProfileFrictionFactor,                                     // Set the value for wave friction at every point of the normal profile
           VdXYDistFromCShoreOut(CSHOREARRAYOUTSIZE, 0),                          // Output from CShore
           VdFreeSurfaceStdOut(CSHOREARRAYOUTSIZE, 0),                            // Ditto
-          VdWaveSetupSurgeOut(CSHOREARRAYOUTSIZE, 0),                            // Ditto MCB      // TODO What is this for?
-         //  VdStormSurgeOut(CSHOREARRAYOUTSIZE, 0),                             // Ditto MCB      // TODO What is this for?
-          VdWaveSetupRunUpOut(CSHOREARRAYOUTSIZE, 0),                            // Ditto MCB      // TODO What is this for?
+          VdWaveSetupSurgeOut(CSHOREARRAYOUTSIZE, 0),                            // TODO Info needed from Manuel
+         //  VdStormSurgeOut(CSHOREARRAYOUTSIZE, 0),                             // TODO Info needed from Manuel
+          VdWaveSetupRunUpOut(CSHOREARRAYOUTSIZE, 0),                            // TODO Info needed from Manuel
           VdSinWaveAngleRadiansOut(CSHOREARRAYOUTSIZE, 0),                       // Ditto
           VdFractionBreakingWavesOut(CSHOREARRAYOUTSIZE, 0);                     // Ditto
 
@@ -1003,7 +1003,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
                     &nITide,                          /* In_ITIDE */
                     &nILab,                           /* In_ILAB */
                     &nNWave,                          /* In_NWAVE */
-                    &nNSurge,                         /* In_NSURG */                   // TODO What is this for?
+                    &nNSurge,                         /* In_NSURG */                   // TODO What is this for? Info needed from Manuel
                     &dDX,                             /* In_DX */
                     &m_dBreakingWaveHeightDepthRatio, /* In_GAMMA */
                     &VdInitTime[0],                   /* In_TWAVE */
@@ -1020,8 +1020,8 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
                     &nOutSize,                        /* Out_nOutSize */
                     &VdXYDistFromCShoreOut[0],        /* Out_XYDist */
                     &VdFreeSurfaceStdOut[0],          /* Out_FreeSurfaceStd */
-                    &VdWaveSetupSurgeOut[0],          /* Out_WaveSetupSurge */         // TODO What is this for?
-                                                      /* double[] Out_StormSurge, */   // TODO What is this for?
+                    &VdWaveSetupSurgeOut[0],          /* Out_WaveSetupSurge */         // TODO What is this for? Info needed from Manuel
+                                                      /* double[] Out_StormSurge, */   // TODO What is this for? Info needed from Manuel
                     &VdSinWaveAngleRadiansOut[0],     /* Out_SinWaveAngleRadians */
                     &VdFractionBreakingWavesOut[0]);  /* Out_FractionBreakingWaves */
       
@@ -1037,8 +1037,8 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          VdFreeSurfaceStdOut[1] = VdFreeSurfaceStdOut[0];
          VdSinWaveAngleRadiansOut[1] = VdSinWaveAngleRadiansOut[0];
          VdFractionBreakingWavesOut[1] = VdFractionBreakingWavesOut[0];
-         VdWaveSetupSurgeOut[1] = VdWaveSetupSurgeOut[0];                              // TODO What is this for?
-         // VdStormSurgeOut[1] = VdStormSurgeOut[0];                                   // TODO What is this for?
+         VdWaveSetupSurgeOut[1] = VdWaveSetupSurgeOut[0];                              // TODO What is this for? Info needed from Manuel
+         // VdStormSurgeOut[1] = VdStormSurgeOut[0];                                   // TODO What is this for? Info needed from Manuel
          // VdWaveSetupRunUpOut[1] = VdWaveSetupRunUpOut[0];
 
          // And increase the expected number of rows
@@ -1409,7 +1409,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    }
 
    // Check for DBL_NODATA
-   double dWaveSetupSurge = 0;               // TODO What is this for?
+   double dWaveSetupSurge = 0;               // TODO What is this for? Info needed from Manuel
    if (! bFPIsEqual(VdWaveSetupSurge[nValidPointsWaveSetup], DBL_NODATA, TOLERANCE))
    {
       dWaveSetupSurge = VdWaveSetupSurge[nValidPointsWaveSetup];
@@ -1423,7 +1423,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    // Update wave attributes along the coastline object. Wave height at the coast is always calculated (i.e. whether or not waves are breaking)
    // cout << "Wave Height at the coast is " << VdWaveHeight[nProfileSize - 1] << endl;
    m_VCoast[nCoast].SetCoastWaveHeight(nCoastPoint, dWaveHeight);
-   m_VCoast[nCoast].SetWaveSetupSurge(nCoastPoint, dWaveSetupSurge);       // TODO What is this for?
+   m_VCoast[nCoast].SetWaveSetupSurge(nCoastPoint, dWaveSetupSurge);       // TODO What is this for? Info needed from Manuel
    m_VCoast[nCoast].SetRunUp(nCoastPoint, dRunUp);
 
    if (nProfileBreakingDist > 0)
@@ -1838,10 +1838,10 @@ void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int co
    // Update breaking wave properties along coastal line object (Wave height, dir, distance). TODO update the active zone cells
    if (bProfileIsinShadowZone && bModfiedWaveHeightisBreaking) // Modified wave height is still breaking
    {
-      // This coast point is in the active zone, so set breaking wave height, breaking wave angle, and depth of breaking for the coast point
+      // This coast point is in the active zone, so set breaking wave height, breaking wave angle, and depth of breaking for the coast point TODO Where does the 0.78 come from? Should it be an input variable or a named constant?
       if (dThisBreakingWaveHeight > dThisBreakingDepth * 0.78)
       {
-         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely CShore output wave height is not adequately reproduced due to input profile and wave properties - MCB
+         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely CShore output wave height is not adequately reproduced due to input profile and wave properties. TODO Info needed from Manue. Does something need to be changed then?
       }
 
       // assert(dThisBreakingWaveHeight >= 0);

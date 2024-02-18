@@ -199,7 +199,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                      nPointGridX = nRound(dExtCRSXToGridX(pOGRPoint->getX())),
                      nPointGridY = nRound(dExtCRSYToGridY(pOGRPoint->getY()));
 
-                  // Check point data is inside the mesh -- MCB
+                  // Check point data is inside the mesh
                   if ((nPointGridX < 0) || (nPointGridX > m_nXGridMax))
                      return RTN_ERR_SEDIMENT_INPUT_EVENT_LOCATION;
 

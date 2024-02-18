@@ -1348,7 +1348,7 @@ void CSimulation::GetRasterOutputMinMax(int const nDataItem, double&dMin, double
    dMin = DBL_MAX;
    dMax = DBL_MIN;
 
-   double dTmp;
+   double dTmp = 0;
    for (int nY = 0; nY < m_nYGridMax; nY++)
    {
       for (int nX = 0; nX < m_nXGridMax; nX++)

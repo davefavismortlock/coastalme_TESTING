@@ -1461,10 +1461,10 @@ private:
    //! The coastline objects
    vector<CRWCoast> m_VCoast;
 
-   //! TODO What exactly is this?
+   //! TODO What exactly is this? Info needed from Manuel
    vector<CRWCoast> m_VFloodWaveSetupSurge;
 
-   //! TODO What exactly is this?
+   //! TODO What exactly is this? Info needed from Manuel
    vector<CRWCoast> m_VFloodWaveSetupSurgeRunup;
 
    //! Pointers to coast polygon objects

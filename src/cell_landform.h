@@ -90,6 +90,6 @@ public:
    void SetCliffNotchDepth(double const);
    double dGetCliffNotchDepth(void) const;
    void SetCliffRemaining(double const);
-   double dGetCliffRemaining(void) const;
+   // double dGetCliffRemaining(void) const;
 };
 #endif // CELL_LANDFORM_H

@@ -691,8 +691,8 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       // If present, get the missing value setting
-      int nMissingValue = m_nMissingValue;
-      double dMissingValue = m_dMissingValue;
+      int nMissingValue;
+      double dMissingValue;
       string strTmp = strToLower(&strDataType);
       if (strTmp.find("int") != string::npos)
       {

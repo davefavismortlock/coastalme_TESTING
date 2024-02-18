@@ -788,10 +788,8 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
    }
    
    double dStillToDepositOnPoly = dTargetToDepositOnPoly;
-
-   double
-      dTargetToDepositOnProfile = dTargetToDepositOnPoly / nCoastSegLen,
-      dStillToDepositOnProfile = dTargetToDepositOnProfile;
+   double dTargetToDepositOnProfile = dTargetToDepositOnPoly / nCoastSegLen;
+   double dStillToDepositOnProfile;    //  = dTargetToDepositOnProfile;
 
    // Shuffle the coast points, this is necessary so that leaving the loop does not create sequence-related artefacts
    Rand1Shuffle(&(nVCoastPoint.at(0)), nCoastSegLen);

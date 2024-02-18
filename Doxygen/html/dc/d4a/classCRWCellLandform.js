@@ -5,7 +5,6 @@ var classCRWCellLandform =
     [ "dGetAccumWaveEnergy", "dc/d4a/classCRWCellLandform.html#a80eb57f3526c1f5922f857803935bd61", null ],
     [ "dGetCliffNotchBaseElev", "dc/d4a/classCRWCellLandform.html#a9449e37adff5a6643b9c9addac60f30d", null ],
     [ "dGetCliffNotchDepth", "dc/d4a/classCRWCellLandform.html#a60866ad9fb29fa6ab20988a4729aa91d", null ],
-    [ "dGetCliffRemaining", "dc/d4a/classCRWCellLandform.html#a403cffc810566b8fe058b10275a04e32", null ],
     [ "nGetCoast", "dc/d4a/classCRWCellLandform.html#a3af2d90dce26c560c88945e5e6641062", null ],
     [ "nGetLFCategory", "dc/d4a/classCRWCellLandform.html#a5350a7ac48d1eef3a78bef9bcf041b45", null ],
     [ "nGetLFSubCategory", "dc/d4a/classCRWCellLandform.html#a97cc978043b02b47d7bdd7c10bb270f8", null ],

@@ -137,10 +137,10 @@ void CRWCellLandform::SetCliffRemaining(double const dLenIn)
    m_uLFData.m_sCliffData.m_dRemaining = dLenIn;
 }
 
-//! Get the cliff depth remaining on this cell
-double CRWCellLandform::dGetCliffRemaining(void) const
-{
-   return m_uLFData.m_sCliffData.m_dRemaining;
-}
+// //! Get the cliff depth remaining on this cell
+// double CRWCellLandform::dGetCliffRemaining(void) const
+// {
+//    return m_uLFData.m_sCliffData.m_dRemaining;
+// }
 
 
