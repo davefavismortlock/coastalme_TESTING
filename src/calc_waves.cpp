@@ -2,7 +2,7 @@
  *
  * \file calc_waves.cpp
  * \brief Simulates wave propagation
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -56,7 +56,7 @@ using std::sort;
 #include "interpolate.h"
 
 //===============================================================================================================================
-//! Give every coast point a value for deep water wave height and direction TODO This may not be realistic, maybe better to use end-of-profile value instead (how?)
+//! Give every coast point a value for deep water wave height and direction TODO 005 This may not be realistic, maybe better to use end-of-profile value instead (how?)
 //===============================================================================================================================
 int CSimulation::nSetAllCoastpointDeepWaterWaveValues(void)
 {
@@ -212,7 +212,7 @@ int CSimulation::nDoAllPropagateWaves(void)
       }
    }
 
-   // OK, do we have some profiles other than start of coast or end of coast profiles in the all-profile vectors? We need to check this, because GDALGridCreate() in nInterpolateWavePropertiesToWithinPolygonCells() does not work if we give it only a start-of-coast or an end-of-coast profile to work with TODO is this still true?
+   // OK, do we have some profiles other than start of coast or end of coast profiles in the all-profile vectors? We need to check this, because GDALGridCreate() in nInterpolateWavePropertiesToWithinPolygonCells() does not work if we give it only a start-of-coast or an end-of-coast profile to work with TODO 006 Is this still true?
    if (! bSomeNonStartOrEndOfCoastProfiles)
    {
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): waves are on-shore only for start and/or end of coast profiles" << endl;
@@ -574,18 +574,18 @@ int CSimulation::nDoAllPropagateWaves(void)
          double dBreakingWaveHeight = m_VCoast[nCoast].dGetBreakingWaveHeight(nCoastPoint);
          double dCoastPointWavePeriod = m_VCoast[nCoast].dGetCoastDeepWaterWavePeriod(nCoastPoint);
          
-         // DFM NOTE Why do we get -ve dBreakingWaveHeight (but not equal to ) here? Even weirder: if we ignore these and SetBreakingWaveHeight() to zero, then we get crazy output!
-         if (! bFPIsEqual(dBreakingWaveHeight, DBL_NODATA, TOLERANCE))
+         // BUG 001 Why do we get -ve dBreakingWaveHeight here?
+         if (bFPIsEqual(dBreakingWaveHeight, DBL_NODATA, TOLERANCE))
          {
-            double dErosiveWaveForce = pow(dBreakingWaveHeight, WALKDEN_HALL_PARAM_1) * pow(dCoastPointWavePeriod, WALKDEN_HALL_PARAM_2);
-
-            // Calculate total wave energy at each coast point during this timestep
-            double dWaveEnergy = dErosiveWaveForce * m_dTimeStep * 3600;
-            m_VCoast[nCoast].SetWaveEnergyAtBreaking(nCoastPoint, dWaveEnergy);
+            m_VCoast[nCoast].SetBreakingWaveHeight(nCoastPoint, 0);
          }
          else
          {
-            m_VCoast[nCoast].SetBreakingWaveHeight(nCoastPoint, 0);
+            double dErosiveWaveForce = pow(dBreakingWaveHeight, WALKDEN_HALL_PARAM_1) * pow(dCoastPointWavePeriod, WALKDEN_HALL_PARAM_2);
+
+            // Calculate total wave energy at this coast point during this timestep
+            double dWaveEnergy = dErosiveWaveForce * m_dTimeStep * 3600;
+            m_VCoast[nCoast].SetWaveEnergyAtBreaking(nCoastPoint, dWaveEnergy);
          }
       }
    }
@@ -780,23 +780,22 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
        VbWaveIsBreaking(nProfileSize, 0);
    vector<double>
        VdWaveHeight(nProfileSize, 0),
-       VdWaveSetupSurge(nProfileSize, 0),          // TODO What is this for?
-       //  VdStormSurge(nProfileSize, 0),          // TODO What is this for?
+       VdWaveSetupSurge(nProfileSize, 0),          // TODO 007 What is this for?
+       //  VdStormSurge(nProfileSize, 0),          // TODO 007 What is this for?
        VdWaveSetupRunUp(nProfileSize, 0),
        VdWaveDirection(nProfileSize, 0);
 
    if (m_nWavePropagationModel == WAVE_MODEL_CSHORE)
    {
       // We are using CShore to propagate the waves
-      double
-          dCShoreTimeStep = 3600, // In seconds, not important because we are not using CShore to erode the profile, just to get the hydrodynamics
-          dSurgeLevel = CSHORE_SURGE_LEVEL;        // TODO What is this for?
+      double dCShoreTimeStep = 3600;   // In seconds, not important because we are not using CShore to erode the profile, just to get the hydrodynamics
+      double dSurgeLevel = CSHORE_SURGE_LEVEL;
 
       // Set up vectors for the coastline-normal profile elevations. The length of this vector line is given by the number of cells 'under' the profile. Thus each point on the vector relates to a single cell in the grid. This assumes that all points on the profile vector are equally spaced (not quite true, depends on the orientation of the line segments which comprise the profile)
       vector<double>
-          VdProfileZ,              // Initial (pre-erosion) elevation of both consolidated and unconsolidated sediment for cells 'under' the profile, in CShore units
-          VdProfileDistXY,         // Along-profile distance measured from the seaward limit, in CShore units
-          VdProfileFrictionFactor; // Along-profile friction factor from seaward limit
+          VdProfileZ,                  // Initial (pre-erosion) elevation of both consolidated and unconsolidated sediment for cells 'under' the profile, in CShore units
+          VdProfileDistXY,             // Along-profile distance measured from the seaward limit, in CShore units
+          VdProfileFrictionFactor;     // Along-profile friction factor from seaward limit
 
       // The elevation of each of these profile points is the elevation of the centroid of the cell that is 'under' the point. However we cannot always be confident that this is the 'true' elevation of the point on the vector since (unless the profile runs planview N-S or W-E) the vector does not always run exactly through the centroid of the cell
       int nRet = nGetThisProfileElevationVectorsForCShore(nCoast, nProfile, nProfileSize, &VdProfileDistXY, &VdProfileZ, &VdProfileFrictionFactor);
@@ -838,11 +837,11 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
           nITide = 0,  // 0 for no tidal effect on currents, 1 for longshore and cross-shore tidal currents
           nILab = 0,   // 0 for field data set, 1 for laboratory data set
           nNWave = 1,  // Number of waves at x = 0 starting from time = 0
-          nNSurge = 1; // Number of water levels at x = 0 from time = 0    // TODO What is this for?
+          nNSurge = 1; // Number of water levels at x = 0 from time = 0    // TODO 007 What is this for?
       double
           dDX = VdProfileDistXY.back() / (static_cast<double>(VdProfileDistXY.size() - 1)),
           dWaveInitTime = 0,  // CShore wave start time
-          dSurgeInitTime = 0; // CShore surge start time                   // TODO What is this for?
+          dSurgeInitTime = 0; // CShore surge start time                   // TODO 007 What is this for?
 
 #if defined CSHORE_FILE_INOUT || CSHORE_BOTH
       // Move to the CShore folder
@@ -862,7 +861,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 
       // Run CShore for this profile
       CShore(&nRet);
-//      cshore(&nRet, &m_ulIter, &nProfile, &nProfile);
+//      CShore(&nRet, &m_ulIter, &nProfile, &nProfile);
 
       // Check return code for error
       if (nRet != 0)
@@ -912,10 +911,9 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       }
 
       // Fetch the CShore results by reading files written by CShore
-      string
-          strOSETUP = "OSETUP",
-          strOYVELO = "OYVELO",
-          strOPARAM = "OPARAM";
+      string strOSETUP = "OSETUP";
+      string strOYVELO = "OYVELO";
+      string strOPARAM = "OPARAM";
 
       nRet = nReadCShoreOutput(nProfile, &strOSETUP, 4, 4, &VdProfileDistXY, &VdFreeSurfaceStd);
       if (nRet != RTN_OK)
@@ -929,7 +927,11 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       if (nRet != RTN_OK)
          return nRet;
 
-         // Clean up the CShore outputs
+      // TODO 008 Read surge outputs
+      // VdTSurg = {dSurgeInitTime, dCShoreTimeStep},                           // Ditto
+      // VdSWLin = {dSurgeLevel, dSurgeLevel},                                  // Ditto
+
+      // Clean up the CShore outputs
 #ifdef _WIN32
       nRet = system("./clean.bat");
 #else
@@ -976,14 +978,14 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
           VdFPInp = VdProfileFrictionFactor,                                     // Set the value for wave friction at every point of the normal profile
           VdXYDistFromCShoreOut(CSHOREARRAYOUTSIZE, 0),                          // Output from CShore
           VdFreeSurfaceStdOut(CSHOREARRAYOUTSIZE, 0),                            // Ditto
-          VdWaveSetupSurgeOut(CSHOREARRAYOUTSIZE, 0),                            // TODO Info needed from Manuel
-         //  VdStormSurgeOut(CSHOREARRAYOUTSIZE, 0),                             // TODO Info needed from Manuel
-          VdWaveSetupRunUpOut(CSHOREARRAYOUTSIZE, 0),                            // TODO Info needed from Manuel
+          VdWaveSetupSurgeOut(CSHOREARRAYOUTSIZE, 0),                            // TODO 007 Info needed
+         //  VdStormSurgeOut(CSHOREARRAYOUTSIZE, 0),                             // TODO 007 Info needed
+          VdWaveSetupRunUpOut(CSHOREARRAYOUTSIZE, 0),                            // TODO 007 Info needed
           VdSinWaveAngleRadiansOut(CSHOREARRAYOUTSIZE, 0),                       // Ditto
           VdFractionBreakingWavesOut(CSHOREARRAYOUTSIZE, 0);                     // Ditto
 
       // Call CShore using the argument-passing wrapper
-      // long lIter = static_cast<long>(m_ulIter);    // TODO Bodge to get round compiler 'invalid conversion' error
+      // long lIter = static_cast<long>(m_ulIter);    // Bodge to get round compiler 'invalid conversion' error
       // 
       // CShoreWrapper(&lIter, &nCoast, &nProfile, &nILine, &nIProfl, &nIPerm, &nIOver, &nIWCInt, &nIRoll, &nIWind, &nITide, &nILab, &nNWave, &nNSurge, &dDX, &m_dBreakingWaveHeightDepthRatio, &VdInitTime[0], &VdTPIn[0], &VdHrmsIn[0], &VdWangIn[0], &VdTSurg[0], &VdSWLin[0], &nProfileDistXYSize, &VdProfileDistXY[0], &VdProfileZ[0], &VdFPInp[0], &nRet, &nOutSize, &VdXYDistFromCShoreOut[0], &VdFreeSurfaceStdOut[0], &VdWaveSetupOut[0], &VdSinWaveAngleRadiansOut[0], &VdFractionBreakingWavesOut[0]);
           
@@ -1003,7 +1005,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
                     &nITide,                          /* In_ITIDE */
                     &nILab,                           /* In_ILAB */
                     &nNWave,                          /* In_NWAVE */
-                    &nNSurge,                         /* In_NSURG */                   // TODO What is this for? Info needed from Manuel
+                    &nNSurge,                         /* In_NSURG */                   // TODO 007 Info needed
                     &dDX,                             /* In_DX */
                     &m_dBreakingWaveHeightDepthRatio, /* In_GAMMA */
                     &VdInitTime[0],                   /* In_TWAVE */
@@ -1020,15 +1022,14 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
                     &nOutSize,                        /* Out_nOutSize */
                     &VdXYDistFromCShoreOut[0],        /* Out_XYDist */
                     &VdFreeSurfaceStdOut[0],          /* Out_FreeSurfaceStd */
-                    &VdWaveSetupSurgeOut[0],          /* Out_WaveSetupSurge */         // TODO What is this for? Info needed from Manuel
-                                                      /* double[] Out_StormSurge, */   // TODO What is this for? Info needed from Manuel
+                    &VdWaveSetupSurgeOut[0],          /* Out_WaveSetupSurge */         // TODO 007 Info needed
                     &VdSinWaveAngleRadiansOut[0],     /* Out_SinWaveAngleRadians */
                     &VdFractionBreakingWavesOut[0]);  /* Out_FractionBreakingWaves */
       
       // OK, now check for warnings and errors
       if (nOutSize < 2)
       {
-         // CShore sometimes returns only one row of results, which contains data only for the seaward point of the profile. This happens when all other (more coastward) points give an invalid result during CShore's calculations. This is a problem. We don't want to abandon the simulation just because of this, so instead we just put some dummy data into the second row, and carry on with these two rows. The profile will get ignored later, since it is too small to be usrful
+         // CShore sometimes returns only one row of results, which contains data only for the seaward point of the profile. This happens when all other (more coastward) points give an invalid result during CShore's calculations. This is a problem. We don't want to abandon the simulation just because of this, so instead we just put some dummy data into the second row, and carry on with these two rows. The profile will get ignored later, since it is too small to be useful
          if (m_nLogFileDetail >= LOG_FILE_MIDDLE_DETAIL)
             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << WARN << "for coast " << nCoast << " profile " << nProfile << ", only " << nOutSize << " CShore output row" << endl;
 
@@ -1037,8 +1038,8 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          VdFreeSurfaceStdOut[1] = VdFreeSurfaceStdOut[0];
          VdSinWaveAngleRadiansOut[1] = VdSinWaveAngleRadiansOut[0];
          VdFractionBreakingWavesOut[1] = VdFractionBreakingWavesOut[0];
-         VdWaveSetupSurgeOut[1] = VdWaveSetupSurgeOut[0];                              // TODO What is this for? Info needed from Manuel
-         // VdStormSurgeOut[1] = VdStormSurgeOut[0];                                   // TODO What is this for? Info needed from Manuel
+         VdWaveSetupSurgeOut[1] = VdWaveSetupSurgeOut[0];                              // TODO 007 Info needed
+         // VdStormSurgeOut[1] = VdStormSurgeOut[0];                                   // TODO 007 Info needed
          // VdWaveSetupRunUpOut[1] = VdWaveSetupRunUpOut[0];
 
          // And increase the expected number of rows
@@ -1102,12 +1103,12 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 //          
 //          assert(isfinite(VdXYDistFromCShoreOut[nn]));
 //          assert(isfinite(VdFreeSurfaceStdOut[nn]));      
-//          assert(isfinite(VdWaveSetupSurgeOut[nn]));                  // TODO What is this for?
+//          assert(isfinite(VdWaveSetupSurgeOut[nn]));                  // TODO 007 What is this for?
 //          assert(isfinite(VdSinWaveAngleRadiansOut[nn]));
 //          assert(isfinite(VdFractionBreakingWavesOut[nn]));
 //          
 //          assert(isfinite(VdFreeSurfaceStd[nn]));
-//          assert(isfinite(VdWaveSetupSurge[nn]));                     // TODO What is this for?
+//          assert(isfinite(VdWaveSetupSurge[nn]));                     // TODO 007 What is this for?
 //          assert(isfinite(VdSinWaveAngleRadians[nn]));
 //          assert(isfinite(VdFractionBreakingWaves[nn]));
 //       }
@@ -1122,12 +1123,12 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
 //          
 //          assert(isfinite(VdXYDistFromCShoreOut[nn]));
 //          assert(isfinite(VdFreeSurfaceStdOut[nn]));      
-//          assert(isfinite(VdWaveSetupSurgeOut[nn]));                  // TODO What is this for?
+//          assert(isfinite(VdWaveSetupSurgeOut[nn]));                  // TODO 007 What is this for?
 //          assert(isfinite(VdSinWaveAngleRadiansOut[nn]));
 //          assert(isfinite(VdFractionBreakingWavesOut[nn]));
 //          
 //          assert(isfinite(VdFreeSurfaceStd[nn]));
-//          assert(isfinite(VdWaveSetupSurge[nn]));                     // TODO What is this for?
+//          assert(isfinite(VdWaveSetupSurge[nn]));                     // TODO 007 What is this for?
 //          assert(isfinite(VdSinWaveAngleRadians[nn]));
 //          assert(isfinite(VdFractionBreakingWaves[nn]));
 //       }
@@ -1163,13 +1164,13 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
              nX = pProfile->pPtiGetCellInProfile(nProfilePoint)->nGetX(),
              nY = pProfile->pPtiGetCellInProfile(nProfilePoint)->nGetY();
              
-         // Safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         // Safety check: deal with NaN values
          if (! isfinite(VdFreeSurfaceStd[nProfilePoint]))
-            VdFreeSurfaceStd[nProfilePoint] = 0;             
+            VdFreeSurfaceStd[nProfilePoint] = 0;
              
          VdWaveHeight[nProfilePoint] = sqrt(8) * VdFreeSurfaceStd[nProfilePoint];
          
-         // Another safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         // Another safety check: deal with NaN values
          if (! isfinite(VdSinWaveAngleRadians[nProfilePoint]))
          {
             VdSinWaveAngleRadians[nProfilePoint] = 0;
@@ -1188,7 +1189,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
          else
             VdWaveDirection[nProfilePoint] = dKeepWithin360(dAlpha + 270 + dFluxOrientationThis);
          
-         // Yet another safety check: deal with NaN values. TODO really need to do this earlier, does it happen within VdInterp1() ???
+         // Yet another safety check: deal with NaN values
          if (! isfinite(VdFractionBreakingWaves[nProfilePoint]))
          {
             VdFractionBreakingWaves[nProfilePoint] = 0;
@@ -1358,7 +1359,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    }
    nValidPointsWaveHeight -= 1;
 
-   // TODO What is this for?
+   // TODO 007 What is this for?
    for (int nPoint = 0; nPoint < static_cast<int>(VdWaveSetupSurge.size()); nPoint++)
    {
       if (abs(VdWaveSetupSurge[nPoint]) < 1)    // limiting the absolute value of setup + surge if cshore run fails
@@ -1382,7 +1383,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    double dRunUp = 0;
    if (m_nRunUpEquation == 0)
    {
-      // Compute the run-up using NIELSEN & HANSLOW (1991) & DHI (2004)
+      // Compute the run-up using NIELSEN & HANSLOW (1991) & DHI (2004) // TODO 007
       dRunUp = 0.36 * pow(9.81, 0.5) * dtanBeta * pow(dWaveHeight, 0.5) * dDeepWaterWavePeriod;
    }
    else if (m_nRunUpEquation == 1)
@@ -1409,7 +1410,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    }
 
    // Check for DBL_NODATA
-   double dWaveSetupSurge = 0;               // TODO What is this for? Info needed from Manuel
+   double dWaveSetupSurge = 0;               // TODO 007 Info needed
    if (! bFPIsEqual(VdWaveSetupSurge[nValidPointsWaveSetup], DBL_NODATA, TOLERANCE))
    {
       dWaveSetupSurge = VdWaveSetupSurge[nValidPointsWaveSetup];
@@ -1423,7 +1424,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
    // Update wave attributes along the coastline object. Wave height at the coast is always calculated (i.e. whether or not waves are breaking)
    // cout << "Wave Height at the coast is " << VdWaveHeight[nProfileSize - 1] << endl;
    m_VCoast[nCoast].SetCoastWaveHeight(nCoastPoint, dWaveHeight);
-   m_VCoast[nCoast].SetWaveSetupSurge(nCoastPoint, dWaveSetupSurge);       // TODO What is this for? Info needed from Manuel
+   m_VCoast[nCoast].SetWaveSetupSurge(nCoastPoint, dWaveSetupSurge);       // TODO 007 Info needed
    m_VCoast[nCoast].SetRunUp(nCoastPoint, dRunUp);
 
    if (nProfileBreakingDist > 0)
@@ -1575,7 +1576,7 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
          return RTN_ERR_NO_TOP_LAYER;
 
       if (nTopLayer == NO_NONZERO_THICKNESS_LAYERS)
-         // TODO We are down to basement, decide what to do
+         // TODO 009 We are down to basement, decide what to do
          return RTN_OK;
 
       // Get the elevation for both consolidated and unconsolidated sediment on this cell
@@ -1586,7 +1587,7 @@ int CSimulation::nGetThisProfileElevationVectorsForCShore(int const nCoast, int 
       {
          if (VdProfileZ < 0)
          {
-            VdVZ->push_back(0.5);      // DFM what is this?            
+            VdVZ->push_back(0.5);      // TODO 053 Set it to a smal +ve elevation. However there must be a better way of doing this
             
             // Could not create the profile elevation vectors
             LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): landward location is negative. Changing for CShore profile elevation vector " << nProfile << endl;
@@ -1638,7 +1639,7 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
    InStream.open(strCShoreFilename->c_str(), ios::in);
 
    // Did it open OK?
-   if (!InStream.is_open())
+   if (! InStream.is_open())
    {
       // Error: cannot open CShore file for input
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): " << ERR << "for profile " << nProfile << ", cannot open " << *strCShoreFilename << " for input" << endl;
@@ -1647,14 +1648,12 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
    }
 
    // Opened OK, so set up the vectors to hold the CShore output data
-   vector<double>
-       VdXYDistCShore,
-       VdValuesCShore;
+   vector<double> VdXYDistCShore;
+   vector<double> VdValuesCShore;
 
    // And read in the data
-   int
-       n = -1,
-       nExpectedRows = 0;
+   int n = -1;
+   int nExpectedRows = 0;
    string strLineIn;
    while (getline(InStream, strLineIn))
    {
@@ -1734,7 +1733,6 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
 
    // Using a simple linear interpolation approach
    vector<double> VdDistXYCopy(pVdProfileDistXYCME->begin(), pVdProfileDistXYCME->end());
-
    *pVdInterpolatedValues = VdInterp1(&VdXYDistCShoreTmp, &VdValuesCShore, &VdDistXYCopy);
 
    return RTN_OK;
@@ -1775,7 +1773,6 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const* pVdProfileDistXY
    *pVdSinWaveAngleRadiansCME = VdInterp1(&VdXYDistCShoreTmp, pVdSinWaveAngleRadiansCShore, &VdDistXYCopy);
    *pVdFractionBreakingWavesCME = VdInterp1(&VdXYDistCShoreTmp, pVdFractionBreakingWavesCShore, &VdDistXYCopy);
 }
-
 #endif
 
 //===============================================================================================================================
@@ -1835,13 +1832,13 @@ void CSimulation::ModifyBreakingWavePropertiesWithinShadowZoneToCoastline(int co
       }
    }
 
-   // Update breaking wave properties along coastal line object (Wave height, dir, distance). TODO update the active zone cells
+   // Update breaking wave properties along coastal line object (Wave height, dir, distance). TODO 010 Update the active zone cells
    if (bProfileIsinShadowZone && bModfiedWaveHeightisBreaking) // Modified wave height is still breaking
    {
-      // This coast point is in the active zone, so set breaking wave height, breaking wave angle, and depth of breaking for the coast point TODO Where does the 0.78 come from? Should it be an input variable or a named constant?
+      // This coast point is in the active zone, so set breaking wave height, breaking wave angle, and depth of breaking for the coast point TODO 007 Where does the 0.78 come from? TODO 011 Should it be an input variable or a named constant?
       if (dThisBreakingWaveHeight > dThisBreakingDepth * 0.78)
       {
-         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely CShore output wave height is not adequately reproduced due to input profile and wave properties. TODO Info needed from Manue. Does something need to be changed then?
+         dThisBreakingWaveHeight = dThisBreakingDepth * 0.78; // Likely CShore output wave height is not adequately reproduced due to input profile and wave properties. TODO 007 Info needed. Does something need to be changed then?
       }
 
       // assert(dThisBreakingWaveHeight >= 0);

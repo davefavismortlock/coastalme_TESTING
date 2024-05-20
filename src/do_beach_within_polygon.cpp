@@ -2,7 +2,7 @@
  *
  * \file do_beach_within_polygon.cpp
  * \brief Does within-polygon actual erosion and distribution of transported beach sediment
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -143,7 +143,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
       vector<CGeom2DIPoint> VPtiParProfile;
       for (int m = 0; m < nUpCoastPartProfileLen; m++)
       {
-         // TODO check that each point is within valid grid, do same for other similar places in rest of model
+         // TODO 017 Check that each point is within valid grid, do same for other similar places in rest of model
          CGeom2DIPoint PtiTmp(PtiVUpCoastPartProfileCell[m].nGetX() + nXOffset, PtiVUpCoastPartProfileCell[m].nGetY() + nYOffset);
          VPtiParProfile.push_back(PtiTmp);
       }
@@ -219,7 +219,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
                // It isn't
                //                LogStream << WARN << "reached edge of grid at [" << nXUpCoastThisStart << "][" << nYUpCoastThisStart << "] = {" << dGridCentroidXToExtCRSX(nXUpCoastThisStart) << ", " << dGridCentroidYToExtCRSY(nYUpCoastThisStart) << "} during DOWN-COAST beach erosion for coast " << nCoast << " polygon " << nPoly << ", nCoastPoint = " << nCoastPoint << ", this is [" << nCoastX << "][" << nCoastY << "] = {" << dGridCentroidXToExtCRSX(nCoastX) << ", " <<  dGridCentroidYToExtCRSY(nCoastY) << "}, nInlandOffset = " << nInlandOffset << ")" << endl << endl;
 
-               // TODO Need to improve this: at present we just abandon erosion on this coast point and move to another coast point
+               // TODO 018 Need to improve this: at present we just abandon erosion on this coast point and move to another coast point
                bHitEdge = true;
                break;
             }
@@ -283,7 +283,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
          if (bFPIsEqual(dElevDiff, 0.0, TOLERANCE))
          {
             // Can't have a meaningful Dean profile with a near-zero elevation difference
-            // TODO Need to improve this: at present we just abandon erosion on this coast point and move to another coast point
+            // TODO 019 Need to improve this: at present we just abandon erosion on this coast point and move to another coast point
             // LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): zero gradient on parallel profile, abandoning" << endl;
 
             bZeroGradient = true;
@@ -383,7 +383,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
             break;
          }
 
-         // Save the amount which can be eroded for this offset TODO save other stuff too
+         // Save the amount which can be eroded for this offset
          VdAmountEachOffset.push_back(dParProfTotDiff);
          VnParProfLenEachOffset.push_back(nParProfLen);
          VVPtiParProfileEachOffset.push_back(VPtiParProfile);
@@ -391,7 +391,7 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
       }
 
       // If we hit the edge of the grid, or have a zero gradient on the profile, or this is an end profile, then abandon this profile and do the next parallel profile
-      // TODO Improve this, see above
+      // TODO 019 TODO 018 Improve this, see above
       if (bHitEdge || bEndProfile || bZeroGradient)
          continue;
 
@@ -921,7 +921,7 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
 
          double dInc = dParProfDeanLen / (nParProfLen - nSeawardOffset - 2);
 
-         // The elevation of the coast point in the Dean profile is the same as the elevation of the current coast point TODO is this correct? Should it be dParProfStartElev?
+         // The elevation of the coast point in the Dean profile is the same as the elevation of the current coast point TODO 020 Is this correct? Should it be dParProfStartElev?
          double dCoastElev = m_pRasterGrid->m_Cell[nCoastX][nCoastY].dGetSedimentTopElev();
 
          // For this depositing parallel profile, calculate the Dean equilibrium profile of the unconsolidated sediment h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the profile at a distance y from the landward start of the profile
@@ -1390,7 +1390,7 @@ int CSimulation::nDoUnconsDepositionOnPolygon(int const nCoast, int const nPoly,
 
             double dInc = dParProfDeanLen / (nParProfLen - nSeawardOffset - 2);
 
-            // The elevation of the coast point in the Dean profile is the same as the elevation of the current coast point TODO is this correct? Should it be dParProfStartElev?
+            // The elevation of the coast point in the Dean profile is the same as the elevation of the current coast point TODO 020 Is this correct? Should it be dParProfStartElev?
             double dCoastElev = m_pRasterGrid->m_Cell[nCoastX][nCoastY].dGetSedimentTopElev();
 
             // For this depositing parallel profile, calculate the Dean equilibrium profile of the unconsolidated sediment h(y) = A * y^(2/3) where h(y) is the distance below the highest point in the profile at a distance y from the landward start of the profile

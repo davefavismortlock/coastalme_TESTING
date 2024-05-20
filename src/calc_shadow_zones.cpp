@@ -2,7 +2,7 @@
  *
  * \file calc_shadow_zones.cpp
  * \brief Locates shadow zones, is part of wave propagation calculations
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -487,7 +487,7 @@ int CSimulation::nDoAllShadowZones(void)
                if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
                   LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): coast " << nCoast << ", no coast point under {" << dGridCentroidXToExtCRSX(ILShadowBoundary.Back().nGetX()) << ", " << dGridCentroidYToExtCRSY(ILShadowBoundary.Back().nGetY()) << "}" << endl;
 
-               // TODO Need to fix this, for the moment just abandon this shadow zone and carry on
+               // TODO 004 Need to fix this, for the moment just abandon this shadow zone and carry on
                continue;
                //                return RTN_ERR_NO_CELL_UNDER_COASTLINE;
             }

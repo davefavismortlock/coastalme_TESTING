@@ -1,7 +1,7 @@
 /*!
  * \class CGeomCell
  * \brief Geometry class for the cell objects which comprise the raster grid
- * \details TODO This is a more detailed description of the CGeomCell class.
+ * \details TODO 001 This is a more detailed description of the CGeomCell class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -39,7 +39,7 @@ private:
    //! Switch to indicate if this is a sea cell, contiguous with other sea cells
    bool m_bInContiguousSea;
 
-   //! TODO Do we need this?
+   //! TODO 007 What is this?
    bool m_bInContiguousFlood;
 
    //! Switch to indicate that this cell is in the active zone
@@ -48,16 +48,16 @@ private:
    //! Switch to indicate that this cell is 'under' a coastline
    bool m_bCoastline;
 
-   //! TODO What is this used for? Switch to indicate that this cell is 'under' a flood line
+   //! TODO 007 What is this used for? Switch to indicate that this cell is 'under' a flood line
    bool m_bFloodLine;
 
-   //! TODO What is this used for? Switch to indicate that this cell is 'under' a wave flood line
+   //! TODO 007 What is this used for? Switch to indicate that this cell is 'under' a wave flood line
    bool m_bWaveFlood;
 
-   // //! TODO What is this used for?
+   // //! TODO 007 What is this used for?
    // bool m_bCheckCell;
 
-   //! TODO What is this used for?
+   //! TODO 007 What is this used for?
    bool m_bCheckFloodCell;
 
    //! Switch to show this cell is 'under' a shadow boundaryu
@@ -66,13 +66,13 @@ private:
    //! Switch to show that this cell could be the start of a coastline
    bool m_bPossibleCoastStartCell;
 
-   //! TODO What is this used for?
+   //! TODO 007 What is this used for?
    bool m_bPossibleFloodStartCell;
 
-   //! TODO What is this used for?
+   //! TODO 007 What is this used for?
    bool m_bFloodBySetupSurge;
 
-   //! TODO What is this used for?
+   //! TODO 007 What is this used for?
    bool m_bFloodBySetupSurgeRunup;
 
    //! If this cell is an edge (or bounding box) cell, this specifies the edge
@@ -220,13 +220,13 @@ public:
     void SetInContiguousSea(void);
     bool bIsInContiguousSea(void) const;
 
-    void SetInContiguousFlood(void);               // TODO Do we need this?
-    void UnSetInContiguousFlood(void);             // TODO Do we need this?
-    void SetFloodBySetupSurge(void);               // TODO Do we need this?
-    bool bIsFloodBySetupSurge(void) const;         // TODO Do we need this?
-    void SetFloodBySetupSurgeRunup(void);          // TODO Do we need this?
-    bool bIsFloodBySetupSurgeRunup(void) const;    // TODO Do we need this?
-    bool bIsInContiguousFlood(void) const;         // TODO Do we need this?
+    void SetInContiguousFlood(void);               // TODO 007 Do we need this?
+    void UnSetInContiguousFlood(void);             // TODO 007 Do we need this?
+    void SetFloodBySetupSurge(void);               // TODO 007 Do we need this?
+    bool bIsFloodBySetupSurge(void) const;         // TODO 007 Do we need this?
+    void SetFloodBySetupSurgeRunup(void);          // TODO 007 Do we need this?
+    bool bIsFloodBySetupSurgeRunup(void) const;    // TODO 007 Do we need this?
+    bool bIsInContiguousFlood(void) const;         // TODO 007 Do we need this?
 
     // void SetActualBeachErosionEstimated(void);
     // bool bGetActualBeachErosionEstimated(void) const;

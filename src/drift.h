@@ -2,7 +2,7 @@
  *
  * \class CRWDrift
  * \brief Real-world class used to represent the 'drift' category of coastal landform object
- * \details TODO This is a more detailed description of the CRWDrift class.
+ * \details TODO 001 This is a more detailed description of the CRWDrift class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

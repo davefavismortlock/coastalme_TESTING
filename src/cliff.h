@@ -2,7 +2,7 @@
  *
  * \class CRWCliff
  * \brief Real-world class used to represent the 'cliff' category of coastal landform object
- * \details TODO This is a more detailed description of the CRWCliff class.
+ * \details TODO 001 This is a more detailed description of the CRWCliff class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

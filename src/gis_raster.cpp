@@ -2,7 +2,7 @@
  *
  * \file gis_raster.cpp
  * \brief These functions use GDAL (at least version 2) to read and write raster GIS files in several formats
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -534,7 +534,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       //   if (! strProjection.empty())
       //   {
       //      string strTmp = strToLower(&strProjection);
-      // TODO this is causing problems with the test data
+      // TODO 027 this is causing problems with the test data
       //      if ((strTmp.find("kilometer") != string::npos) || (strTmp.find("meter") == string::npos))
       //      {
       // error: x-y values must be in metres
@@ -602,7 +602,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
       }
 
       // Now get GDAL raster band information
-      GDALRasterBand* pGDALBand = pGDALDataset->GetRasterBand(1); // TODO give a message if there are several bands
+      GDALRasterBand* pGDALBand = pGDALDataset->GetRasterBand(1); // TODO 028 Give a message if there are several bands
       int nBlockXSize = 0, nBlockYSize = 0;
       pGDALBand->GetBlockSize(&nBlockXSize, &nBlockYSize);
       strDataType = GDALGetDataTypeName(pGDALBand->GetRasterDataType());
@@ -747,7 +747,7 @@ int CSimulation::nReadRasterGISFile(int const nDataItem, int const nLayer)
             switch (nDataItem)
             {
                case (LANDFORM_RASTER):
-                  // Initial Landform Class GIS data, is integer TODO Do we also need a landform sub-category input?
+                  // Initial Landform Class GIS data, is integer TODO 030 Do we also need a landform sub-category input?
                   nTmp = static_cast<int>(pdScanline[nX]);
 
                   if (! isfinite(nTmp)) // Deal with any NaN values
@@ -1119,7 +1119,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
          ststrTmp.str("");
          ststrTmp.clear();
 
-         // TODO get working for multiple slices
+         // TODO 031 Get working for multiple slices
          strFilePathName.append(RASTER_SLICE_NAME);
          ststrTmp << "_" << dElev << "_";
          strFilePathName.append(ststrTmp.str());
@@ -1607,7 +1607,7 @@ bool CSimulation::bWriteRasterGISFile(int const nDataItem, string const *strPlot
          if (bScaleOutput)
          {
             if (bFPIsEqual(dTmp, DBL_NODATA, TOLERANCE))
-               dTmp = 0; // TODO Improve this
+               dTmp = 0; // TODO 032 Improve this
             else
                dTmp = dRound(static_cast<double>(m_lGDALMinCanWrite) + (dRangeScale * (dTmp - dDataMin)));
          }

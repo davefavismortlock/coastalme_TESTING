@@ -1,7 +1,7 @@
 /*!
  * \class CGeomCoastPolygon
  * \brief Geometry class used for coast polygon objects
- * \details TODO This is a more detailed description of the CRWCoast class.
+ * \details TODO 001 This is a more detailed description of the CRWCoast class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

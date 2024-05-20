@@ -2,7 +2,7 @@
  *
  * \class CGeomMultiLine
  * \brief Geometry class used to represent co-incident lines (for profiles/polygon-to-polygon boundaries)
- * \details TODO This is a more detailed description of the CGeomMultiLine class.
+ * \details TODO 001 This is a more detailed description of the CGeomMultiLine class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

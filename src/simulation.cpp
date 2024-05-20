@@ -2,7 +2,7 @@
  *
  * \file simulation.cpp
  * \brief The start-of-simulation routine
- * \details TODO A more detailed description of this routine.
+ * \details TODO 001 A more detailed description of this routine.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -49,8 +49,6 @@ CSimulation::CSimulation (void)
    m_bHaveFineSediment =
    m_bHaveSandSediment =
    m_bHaveCoarseSediment =
-   m_bRasterGISSaveAll =
-   m_bVectorGISSaveAll =
    m_bBasementElevSave =
    m_bSedimentTopSurfSave =
    m_bTopSurfSave =
@@ -155,7 +153,7 @@ CSimulation::CSimulation (void)
    m_bSedimentInputEventSave =
    m_bWaveSetupSave =
    m_bStormSurgeSave =
-   m_bDoFlood =
+   m_bDoRiverineFlooding =
    m_bRunUpSave =
    m_bSetupSurgeFloodMaskSave =
    m_bSetupSurgeRunupFloodMaskSave =
@@ -835,11 +833,11 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
 
    // Misc initialization calcs
    m_nCoastMax = COAST_LENGTH_MAX * tMax(m_nXGridMax, m_nYGridMax);           // Arbitrary but probably OK
-   m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                              // Manuel: in some cases the following rule doesn't work TODO Info needed from Manuel
-   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide);           // TODO Info needed from Manuel. Not sure what is going on here
-   m_nCoastCurvatureInterval = tMax(nRound(m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2);   // TODO Info needed from Manuel. Not sure what is going on here
+   m_nCoastMin = tMin(m_nXGridMax, m_nYGridMax);                              // In some cases the following rule doesn't work TODO 007 Info needed
+   // nRound(COAST_LENGTH_MIN_X_PROF_SPACE * m_dCoastNormalAvgSpacing / m_dCellSide);           // TODO 007 Info needed
+   m_nCoastCurvatureInterval = tMax(nRound(m_dCoastNormalAvgSpacing / (m_dCellSide * 2)), 2);   // TODO 007 Info needed
 
-   // For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn) TODO need full reference
+   // For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn) TODO 007 need full reference
    m_dInmersedToBulkVolumetric = 1 / ((m_dBeachSedimentDensity - m_dSeaWaterDensity) * (1 - m_dBeachSedimentPorosity) * m_dG);
 
    m_bConsChangedThisIter.resize(m_nLayers, false);
@@ -909,7 +907,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
       // Tell the user how the simulation is progressing
       AnnounceProgress();
 
-      // Locate estuaries TODO someday...
+      // Locate estuaries TODO 044 someday...
 
       // Sort out hinterland landforms
       nRet = nAssignNonCoastlineLandforms();
@@ -1198,7 +1196,7 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
 
       if (m_bFloodSWLSetupSurgeRunupLine || m_bSetupSurgeRunupFloodMaskSave)
       {
-         // DFM What is this?
+         // TODO 007
          m_nLevel = 1;
          
          nRet = nLocateFloodAndCoasts();

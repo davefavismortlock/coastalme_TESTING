@@ -2,7 +2,7 @@
  *
  * \file locate_coast.cpp
  * \brief Finds the coastline on the raster grid
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -1060,9 +1060,9 @@ int CSimulation::FindAllInundatedCells(void)
    {
       for (int nY = 0; nY < m_nYGridMax; nY++)
       {
-         m_pRasterGrid->m_Cell[nX][nY].UnSetCheckFloodCell();        // TODO Do we need this?
-         m_pRasterGrid->m_Cell[nX][nY].UnSetInContiguousFlood();     // TODO Do we need this?
-         m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(false);        // TODO Do we need this?
+         m_pRasterGrid->m_Cell[nX][nY].UnSetCheckFloodCell();        // TODO 007 Do we need this?
+         m_pRasterGrid->m_Cell[nX][nY].UnSetInContiguousFlood();     // TODO 007 Do we need this?
+         m_pRasterGrid->m_Cell[nX][nY].SetAsFloodLine(false);        // TODO 007 Do we need this?
       }
    }
    // Go along the list of edge cells
@@ -1095,7 +1095,7 @@ int CSimulation::FindAllInundatedCells(void)
 }
 
 //===============================================================================================================================
-//! Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected TODO Not clear why we need this. We already have a flood fill sea routine: every cell that isn't sea is land
+//! Use the sealevel, wave set-up and run-up to evaluate flood hydraulically connected TODO 007 Not clear why we need this. We already have a flood fill sea routine: every cell that isn't sea is land
 //===============================================================================================================================
 void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
 {
@@ -1210,8 +1210,8 @@ void CSimulation::FloodFillLand(int const nXStart, int const nYStart)
             break;
          
          // Flood this cell
-         m_pRasterGrid->m_Cell[nX][nY].SetCheckFloodCell();             // TODO Do we need this?
-         m_pRasterGrid->m_Cell[nX][nY].SetInContiguousFlood();          // TODO Do we need this?
+         m_pRasterGrid->m_Cell[nX][nY].SetCheckFloodCell();             // TODO 007 Do we need this?
+         m_pRasterGrid->m_Cell[nX][nY].SetInContiguousFlood();          // TODO 007 Do we need this?
 
          switch (m_nLevel)
          {
@@ -1280,10 +1280,10 @@ int CSimulation::nTraceAllFloodCoasts(void)
          nXNext = m_VEdgeCell[n + 1].nGetX(),
          nYNext = m_VEdgeCell[n + 1].nGetY();
 
-      // Get "Is it sea?" information for 'this' and 'next' cells TODO Not clear
+      // Get "Is it sea?" information for 'this' and 'next' cells TODO 007 Not clear
       bool
-         bThisCellIsSea = m_pRasterGrid->m_Cell[nXThis][nYThis].bIsInContiguousFlood(),      // TODO Do we need this?
-         bNextCellIsSea = m_pRasterGrid->m_Cell[nXNext][nYNext].bIsInContiguousFlood();      // TODO Do w need this?
+         bThisCellIsSea = m_pRasterGrid->m_Cell[nXThis][nYThis].bIsInContiguousFlood(),      // TODO 007 Do we need this?
+         bNextCellIsSea = m_pRasterGrid->m_Cell[nXNext][nYNext].bIsInContiguousFlood();      // TODO 007 Do we need this?
 
       // Are we at a coast?
       if ((! bThisCellIsSea) && bNextCellIsSea)
@@ -1664,8 +1664,8 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
       // Now do the actual search for this timestep: first try going in the direction of the sea. Is this seaward cell still within the grid?
       if (bIsWithinValidGrid(nXSeaward, nYSeaward))
       {
-         // It is, so check if the cell in the seaward direction is a sea cell TODO Not clear
-         if (m_pRasterGrid->m_Cell[nXSeaward][nYSeaward].bIsInContiguousFlood())    // TODO Do we need this?
+         // It is, so check if the cell in the seaward direction is a sea cell TODO 007 Not clear
+         if (m_pRasterGrid->m_Cell[nXSeaward][nYSeaward].bIsInContiguousFlood())    // TODO 007 Do we need this?
          {
             // There is sea in this seaward direction, so we are on the coast
             bAtCoast = true;
@@ -1703,8 +1703,8 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
       // OK, we couldn't move seaward (but we may have marked the current cell as coast) so next try to move straight on. Is this straight-ahead cell still within the grid?
       if (bIsWithinValidGrid(nXStraightOn, nYStraightOn))
       {
-         // It is, so check if there is sea immediately in front TODO Not clear
-         if (m_pRasterGrid->m_Cell[nXStraightOn][nYStraightOn].bIsInContiguousFlood())    // TODO Do we need this?
+         // It is, so check if there is sea immediately in front TODO 007 Not clear
+         if (m_pRasterGrid->m_Cell[nXStraightOn][nYStraightOn].bIsInContiguousFlood())    // TODO 007 Do we need this?
          {
             // Sea is in front, so we are on the coast
             bAtCoast = true;
@@ -1741,8 +1741,8 @@ int CSimulation::nTraceFloodCoastLine(unsigned int const nTraceFromStartCellInde
       // Couldn't move either seaward or straight on (but we may have marked the current cell as coast) so next try to move in the anti-seaward direction. Is this anti-seaward cell still within the grid?
       if (bIsWithinValidGrid(nXAntiSeaward, nYAntiSeaward))
       {
-         // It is, so check if there is sea in this anti-seaward cell TODO Not clear
-         if (m_pRasterGrid->m_Cell[nXAntiSeaward][nYAntiSeaward].bIsInContiguousFlood())        // TODO Do we need this?
+         // It is, so check if there is sea in this anti-seaward cell TODO 007 Not clear
+         if (m_pRasterGrid->m_Cell[nXAntiSeaward][nYAntiSeaward].bIsInContiguousFlood())        // TODO 007 Do we need this?
          {
             // There is sea on the anti-seaward side, so we are on the coast
             bAtCoast = true;

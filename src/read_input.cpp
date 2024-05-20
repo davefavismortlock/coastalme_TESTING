@@ -2,7 +2,7 @@
  *
  * \file read_input.cpp
  * \brief Reads non-GIS input files
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -533,7 +533,7 @@ bool CSimulation::bReadRunDataFile(void)
                break;
             }
 
-            // TODO rewrite this, similar to reading raster slice elevations
+            // TODO 039 Rewrite this, similar to reading raster slice elevations
             // OK, so find out whether we're dealing with a single seed or more than one: check for a space
             nPos = strRH.find(SPACE);
             if (nPos != string::npos)
@@ -606,17 +606,23 @@ bool CSimulation::bReadRunDataFile(void)
          case 10:
             // Raster GIS files to output
             if (strRH.empty())
-               strErr = "line " + to_string(nLine) + ": must have at least one raster GIS output file";
+               strErr = "line " + to_string(nLine) + ": must contain '" + RASTER_ALL_OUTPUT_CODE +"', or '" + RASTER_USUAL_OUTPUT_CODE + "', or at least one raster GIS output code";
             else
             {
                // Convert to lower case
                strRH = strToLower(&strRH);
 
-               // First look for "all"
                if (strRH.find(RASTER_ALL_OUTPUT_CODE) != string::npos)
                {
-                  // Set switches for all output
-                  m_bRasterGISSaveAll =
+                  // Set switches for all GIS raster output. Some of these (e.g. all relating to fine sediment) are ignored if e.g. no fine sediment layers are read in
+                  m_bSuspSedSave =
+                  m_bAvgSuspSedSave =
+                  m_bFineUnconsSedSave =
+                  m_bFineConsSedSave =
+                  m_bSandUnconsSedSave =
+                  m_bSandConsSedSave =
+                  m_bCoarseUnconsSedSave =
+                  m_bCoarseConsSedSave =
                   m_bSedimentTopSurfSave =
                   m_bTopSurfSave =
                   m_bSeaDepthSave =
@@ -639,14 +645,6 @@ bool CSimulation::bReadRunDataFile(void)
                   m_bAvgWaveAngleSave =
                   m_bBeachProtectionSave =
                   m_bBasementElevSave =
-                  m_bSuspSedSave =
-                  m_bAvgSuspSedSave =
-                  m_bFineUnconsSedSave =
-                  m_bSandUnconsSedSave =
-                  m_bCoarseUnconsSedSave =
-                  m_bFineConsSedSave =
-                  m_bSandConsSedSave =
-                  m_bCoarseConsSedSave =
                   m_bRasterCoastlineSave =
                   m_bRasterNormalSave =
                   m_bActiveZoneSave =
@@ -658,23 +656,58 @@ bool CSimulation::bReadRunDataFile(void)
                   m_bPotentialPlatformErosionMaskSave =
                   m_bSeaMaskSave =
                   m_bBeachMaskSave =
-                  m_bInterventionClassSave =
-                  m_bInterventionHeightSave =
                   m_bShadowZoneCodesSave =
                   m_bDeepWaterWaveAngleSave =
                   m_bDeepWaterWaveHeightSave =
                   m_bDeepWaterWavePeriodSave =
                   m_bPolygonUnconsSedUpOrDownDriftSave =
-                  m_bPolygonUnconsSedGainOrLossSave =
-                  m_bSedimentInputEventSave =
-                  m_bSetupSurgeFloodMaskSave =
-                  m_bSetupSurgeRunupFloodMaskSave =
-                  m_bRasterWaveFloodLineSave =
-                  m_bVectorWaveFloodLineSave = true;
+                  m_bPolygonUnconsSedGainOrLossSave = true;
+               }
+               else if (strRH.find(RASTER_USUAL_OUTPUT_CODE) != string::npos)
+               {
+                  // Set switches for usual GIS raster output. Again, some of these (e.g. all relating to fine sediment) are ignored if they are irrelevant
+                  m_bSuspSedSave =
+                  m_bAvgSuspSedSave =
+                  m_bFineUnconsSedSave =
+                  m_bFineConsSedSave =
+                  m_bSandUnconsSedSave =
+                  m_bSandConsSedSave =
+                  m_bCoarseUnconsSedSave =
+                  m_bCoarseConsSedSave =
+                  m_bSedimentTopSurfSave =
+                  m_bTopSurfSave =
+                  m_bSeaDepthSave =
+                  m_bWaveHeightSave =
+                  m_bWaveAngleSave =
+                  m_bPotentialPlatformErosionSave =
+                  m_bActualPlatformErosionSave =
+                  m_bTotalPotentialPlatformErosionSave =
+                  m_bTotalActualPlatformErosionSave =
+                  m_bPotentialBeachErosionSave =
+                  m_bActualBeachErosionSave =
+                  m_bTotalPotentialBeachErosionSave =
+                  m_bTotalActualBeachErosionSave =
+                  m_bBeachDepositionSave =
+                  m_bTotalBeachDepositionSave =
+                  m_bLandformSave =
+                  m_bLocalSlopeSave =
+                  m_bAvgWaveHeightSave =
+                  m_bAvgWaveAngleSave =
+                  m_bBeachProtectionSave =
+                  m_bBasementElevSave =
+                  m_bActiveZoneSave =
+                  m_bCliffCollapseSave =
+                  m_bTotCliffCollapseSave =
+                  m_bCliffCollapseDepositionSave =
+                  m_bTotCliffCollapseDepositionSave =
+                  m_bRasterPolygonSave =
+                  m_bShadowZoneCodesSave =
+                  m_bPolygonUnconsSedUpOrDownDriftSave =
+                  m_bPolygonUnconsSedGainOrLossSave = true;
                }
                else
                {
-                  // We are not outputting all raster GIS files, so set switches (and remove strings) for those optional files for which the user specified the code
+                  // We are not outputting either the "usual" or the "all" collections of raster GIS files, so set switches (and remove strings) for those optional files for which the user specified the code
                   if (strRH.find(RASTER_SEDIMENT_TOP_CODE) != string::npos)
                   {
                      m_bSedimentTopSurfSave = true;
@@ -1035,7 +1068,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                   // Check to see if all codes have been removed
                   if (! strRH.empty())
-                     strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of raster GIS output files";
+                     strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of codes for raster GIS output";
                }
             }
             break;
@@ -1044,14 +1077,14 @@ bool CSimulation::bReadRunDataFile(void)
             // Raster GIS output format (note must retain original case). Blank means use same format as input DEM file (if possible)
             m_strRasterGISOutFormat = strTrimLeft(&strRH);
                                     
-            // TODO Remove this when GDAL supports raster overwrite for Geopackage. It also is the case that "GeoPackage rasters only support Byte data type" according to https://gdal.org/drivers/raster/gpkg.html
+            // TODO 040 Remove this when GDAL supports raster overwrite for Geopackage. It also is the case that "GeoPackage rasters only support Byte data type" according to https://gdal.org/drivers/raster/gpkg.html
             if (strRH.find("gpkg") != string::npos)
                strErr = "GDAL does not (yet) support overwrite of raster Geopackage files. Please choose another output format.";
 
             break;
 
          case 12:
-            // If needed, scale GIS raster output values?
+            // If needed, scale GIS raster output values
             strRH = strToLower(&strRH);
 
             m_bScaleRasterOutput = false;
@@ -1060,7 +1093,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 13:
-            // If needed, also output GIS raster world file?
+            // If needed, also output GIS raster world file
             strRH = strToLower(&strRH);
 
             m_bWorldFile = false;
@@ -1101,16 +1134,14 @@ bool CSimulation::bReadRunDataFile(void)
          case 15:
             // Vector GIS files to output
             if (strRH.empty())
-               continue;
-            // strErr = "line " + to_string(nLine) + ": must have at least one vector GIS output file";
+               strErr = "line " + to_string(nLine) + ": must contain '" + VECTOR_ALL_OUTPUT_CODE +"', or '" + VECTOR_USUAL_OUTPUT_CODE + "', or at least one vector GIS output code";
             else
             {
                strRH = strToLower(&strRH);
 
-               // First look for "all"
                if (strRH.find(VECTOR_ALL_OUTPUT_CODE) != string::npos)
                {
-                  m_bVectorGISSaveAll =
+                  // Output all vector files
                   m_bCoastSave =
                   m_bWaveAngleAndHeightSave =
                   m_bNormalsSave =
@@ -1131,9 +1162,25 @@ bool CSimulation::bReadRunDataFile(void)
                   m_bRunUpSave =
                   m_bVectorWaveFloodLineSave = true;
                }
+               else if (strRH.find(VECTOR_USUAL_OUTPUT_CODE) != string::npos)
+               {
+                  // Output the "usual" collection of vector output files
+                  m_bCoastSave =
+                  m_bWaveAngleAndHeightSave =
+                  m_bNormalsSave =
+                  m_bAvgWaveAngleAndHeightSave =
+                  m_bWaveEnergySinceCollapseSave =
+                  m_bMeanWaveEnergySave =
+                  m_bBreakingWaveHeightSave =
+                  m_bPolygonBoundarySave =
+                  m_bCliffNotchSave =
+                  m_bShadowBoundarySave =
+                  m_bShadowDowndriftBoundarySave =
+                  m_bDeepWaterWaveAngleAndHeightSave = true;
+               }
                else
                {
-                  // These are only saved if the user specified the code
+                  // Output only those vector files for which the user specified the code
                   if (strRH.find(VECTOR_COAST_CODE) != string::npos)
                   {
                      m_bCoastSave = true;
@@ -1188,16 +1235,16 @@ bool CSimulation::bReadRunDataFile(void)
                      strRH = strRemoveSubstr(&strRH, &VECTOR_BREAKING_WAVE_HEIGHT_CODE);
                   }
 
-                  if (strRH.find(VECTOR_POLYGON_NODE_SAVE_CODE) != string::npos)
+                  if (strRH.find(VECTOR_POLYGON_NODE_CODE) != string::npos)
                   {
                      m_bPolygonNodeSave = true;
-                     strRH = strRemoveSubstr(&strRH, &VECTOR_POLYGON_NODE_SAVE_CODE);
+                     strRH = strRemoveSubstr(&strRH, &VECTOR_POLYGON_NODE_CODE);
                   }
 
-                  if (strRH.find(VECTOR_POLYGON_BOUNDARY_SAVE_CODE) != string::npos)
+                  if (strRH.find(VECTOR_POLYGON_BOUNDARY_CODE) != string::npos)
                   {
                      m_bPolygonBoundarySave = true;
-                     strRH = strRemoveSubstr(&strRH, &VECTOR_POLYGON_BOUNDARY_SAVE_CODE);
+                     strRH = strRemoveSubstr(&strRH, &VECTOR_POLYGON_BOUNDARY_CODE);
                   }
 
                   if (strRH.find(VECTOR_CLIFF_NOTCH_SIZE_CODE) != string::npos)
@@ -1250,7 +1297,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                   // Check to see if all codes have been removed
                   if (! strRH.empty())
-                     strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of vector GIS output files";
+                     strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of vector GIS output codes";
                }
             }
             break;
@@ -1854,6 +1901,10 @@ bool CSimulation::bReadRunDataFile(void)
                   m_strInterventionClassFile = m_strCMEDir;
                   m_strInterventionClassFile.append(strRH);
                }
+
+               // Set the save switches
+               m_bInterventionClassSave = true;
+               m_bInterventionHeightSave = true;
             }
             break;
 
@@ -1924,7 +1975,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 34:
-            // Initial still water level (m), first check that this is a valid double TODO make this a per-timestep SWL file
+            // Initial still water level (m), first check that this is a valid double TODO 041 Make this a per-timestep SWL file
             if (! bIsStringValidDouble(strRH))
             {
                strErr = "line " + to_string(nLine) + ": invalid floating point number for initial SWL '" + strRH + "' in " + m_strDataPathName;
@@ -2107,7 +2158,6 @@ bool CSimulation::bReadRunDataFile(void)
             // Simulate coast platform erosion?
             strRH = strToLower(&strRH);
 
-            // m_bDoShorePlatformErosion = false;
             if (strRH.find("y") != string::npos)
                m_bDoShorePlatformErosion = true;
             break;
@@ -2345,7 +2395,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                m_dKLS = strtod(strRH.c_str(), NULL);
                // However, many sites do not have transport data available to calibrate K, and for design applications without calibration data the CERC formula provides only order-of-magnitude accuracy (Fowler et al., 1995; Wang et al., 1998). The recommended value of K = 0.39 has been commonly used to represent the potential longshore transport rate. However, Miller (1998) found that the CERC formula sometimes over and sometimes under predicted longshore transport rate for measurements during storms, indicating the value of K also can be higher than 0.39
-               // TODO Should this be a user input, or not? The comment above seems inconclusive
+               // TODO 042 Should this be a user input, or not? The comment above seems inconclusive
                // m_dKLS = tMin(m_dKLS, 0.39);
 
                if (m_dKLS <= 0)
@@ -2394,7 +2444,6 @@ bool CSimulation::bReadRunDataFile(void)
             // Simulate cliff collapse?
             strRH = strToLower(&strRH);
 
-            m_bDoCliffCollapse = false;
             if (strRH.find("y") != string::npos)
                m_bDoCliffCollapse = true;
             break;
@@ -2519,17 +2568,21 @@ bool CSimulation::bReadRunDataFile(void)
 
          // -------------------------------------------------- Input events data -----------------------------------------------
          case 66:
-            // Simulate riverine floods?
+            // Simulate riverine flooding?
             strRH = strToLower(&strRH);
 
-            m_bDoFlood = false;
             if (strRH.find("y") != string::npos)
-               m_bDoFlood = true;
+            {
+               m_bDoRiverineFlooding = true;
+               m_bSetupSurgeFloodMaskSave = true;
+               m_bSetupSurgeRunupFloodMaskSave = true;
+               m_bRasterWaveFloodLineSave = true;
+            }
             break;
 
          case 67:
-            // Output flood coastlines
-            if (m_bDoFlood)
+            // Output riverine flooding vector files
+            if (m_bDoRiverineFlooding)
             {
                if (! strRH.empty())
                {
@@ -2537,7 +2590,7 @@ bool CSimulation::bReadRunDataFile(void)
                   strRH = strToLower(&strRH);
 
                   // First look for "all"
-                  if (strRH.find(VECTOR_ALL_FLOOD_OUTPUT_CODE) != string::npos)
+                  if (strRH.find(VECTOR_ALL_RIVER_FLOOD_OUTPUT_CODE) != string::npos)
                   {
                      m_bFloodSWLSetupLine =
                      m_bFloodSWLSetupSurgeLine =
@@ -2566,16 +2619,16 @@ bool CSimulation::bReadRunDataFile(void)
 
                      // Check to see if all codes have been removed
                      if (! strRH.empty())
-                        strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of vector GIS flood coastline files";
+                        strErr = "line " + to_string(nLine) + ": unknown code '" + strRH + "' in list of riverine flooding output codes";
                   }
                }
                else
-                  strErr = "line " + to_string(nLine) + ": vector GIS flood coastline files must not be empty if simulating floods";
+                  strErr = "line " + to_string(nLine) + ": if simulating riverine flooding, must contain '" + VECTOR_ALL_RIVER_FLOOD_OUTPUT_CODE + "' or at least one vector GIS output code for riverine flooding";
             }
             break;
 
          case 68:
-            if (m_bDoFlood)
+            if (m_bDoRiverineFlooding)
             {
                // Run-up equation?
                if (bIsStringValidInt(strRH))
@@ -2588,7 +2641,7 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 69:
-            if (m_bDoFlood && m_bVectorWaveFloodLineSave)
+            if (m_bDoRiverineFlooding && m_bVectorWaveFloodLineSave)
             {
                // Characteristic locations for flood?
                strRH = strToLower(&strRH);
@@ -2602,12 +2655,11 @@ bool CSimulation::bReadRunDataFile(void)
             break;
 
          case 70:
-            if (m_bDoFlood)
+            if (m_bDoRiverineFlooding)
             {
                // Path of location points file
                if (! strRH.empty())
                {
-
 #ifdef _WIN32
                   // For Windows, make sure has backslashes, not Unix-style slashes
                   strRH = pstrChangeToBackslash(&strRH);
@@ -2635,9 +2687,11 @@ bool CSimulation::bReadRunDataFile(void)
             // Simulate sediment input?
             strRH = strToLower(&strRH);
 
-            m_bSedimentInput = false;
             if (strRH.find("y") != string::npos)
+            {
                m_bSedimentInput = true;
+               m_bSedimentInputEventSave = true;
+            }
             break;
 
          case 72:
@@ -2805,7 +2859,7 @@ bool CSimulation::bReadRunDataFile(void)
             if (strRH.find("y") != string::npos)
                m_bOutputProfileData = true;
 
-            // TODO WHAT ABOUT RANDOMNESS OF PROFILE SPACING now that profile location is determined by curvature??
+            // TODO 043 What about randomness of profile spacing, since profile location is determined by curvature?
 
             break;
 
@@ -2980,11 +3034,6 @@ int CSimulation::nReadTideDataFile()
 //===============================================================================================================================
 int CSimulation::nReadShapeFunctionFile()
 {
-   // Hard-coded values added by Manuel. But we may someday need to read different values for the shape function, according to Mike Walkden. It is easiest to do this if we read values from a file
-   // vector<double> VdDepthOverDB{0, 0.09616066, 0.14941888, 0.1997183, 0.24853833, 0.29735836, 0.3994366, 0.50003545, 0.55033487, 0.75301196, 0.80331138, 0.89947205, 0.95420965, 1.00302968, 1.0267};
-   // vector<double> VdErosionPotential{0, -1.171875, -3.125, -7.14285714, -12.5, -11.94196429, -7.421875, -8.53794643, -8.09151786, -5.18973214, -5.63616071, -6.08258929, -6.25, -1.5625, -0.05580357};
-   // vector<double> VdErosionPotentialFirstDeriv{0, -28.27447203, -48.70000067, -110.48218074, -69.8222302, 57.30543556, 11.54251156, -5.20131157, 18.67771968, -6.92498633, -6.056257, -32.72222382, 72.90403858, 85.14160481, 43.38930653};
-
    // Sort out the path and filename
    m_strSCAPEShapeFunctionFile = m_strCMEDir;
    m_strSCAPEShapeFunctionFile.append(SCAPE_DIR);

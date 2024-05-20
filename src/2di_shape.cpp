@@ -2,7 +2,7 @@
  *
  * \file 2di_shape.cpp
  * \brief Abstract class, used as a base class for integer 2D objects (line, area, etc.)
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

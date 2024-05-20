@@ -22,4 +22,4 @@ CoastalME CHANGELOG
 1.1.18  Ditto plus some variable renaming (06 Jan 2024)
 1.1.19  Ditto plus set up for clang-tidy (6 Feb 2024)
 1.1.20  Code tidying, comments re. Manuel info needed (18 Feb 2024)
-
+1.1.21  Organised buglist and todo-list, both are now in cme.h. New 'usual' options to reduce number of raster and vector GIS output files. Other code tidying (20 May 2024)

@@ -2,7 +2,7 @@
  *
  * \class CGeomLine
  * \brief Geometry class used to represent 2D vector line objects
- * \details TODO This is a more detailed description of the CGeomLine class.
+ * \details TODO 001 This is a more detailed description of the CGeomLine class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

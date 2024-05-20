@@ -2,7 +2,7 @@
  *
  * \file init_grid.cpp
  * \brief Initialises the raster grid and calculates sea depth on each cell
- * \details TODO A more detailed description of this routine.
+ * \details TODO 001 A more detailed description of this routine.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -172,7 +172,7 @@ int CSimulation::nInitGridAndCalcStillWaterLevel(void)
             // OK, this timestep we are doing the calculation
             if (m_VlDeepWaterWaveValuesAtTimestep[n] > 1)
             {
-               // For every timestep after the first, read in new values before doing the interpolation  TODO
+               // TODO 036 For every timestep after the first, read in new values before doing the interpolation
             }
 
             // Interpolate values each cell's values for deep water height and orientation from user-supplied values

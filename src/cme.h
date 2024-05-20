@@ -34,6 +34,77 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
 \brief This file contains global definitions for CoastalME
 */
 
+/*
+   BUGLIST ************************************************************************************************************
+   BUG 001 Do we get -ve breaking wave heights here?
+   BUG 002 Useless outout e.g. clay layers even if no clay input
+
+   TODOLIST ***********************************************************************************************************
+   TODO 008 Read CShore surge outputs for Manuel's stuff and CSHORE_FILE_INOUT
+
+   DOCUMENTATION
+   TODO 001 Add more information about all classes
+   TODO 007 Need more info from Manuel
+
+   USER INPUT
+   TODO 003 Make coastline smoothing window size a user input
+   TODO 011 Should this constant be a user input?
+   TODO 036 Read in changed deep water wave values
+   TODO 030 Do we also need to be able to input landform sub-categories?
+   TODO 027 Sort out GDAL problem with raster reference units
+   TODO 022 Get intervention update working
+   TODO 041 Read in SWL per-timestep
+   TODO 042 Should we have a smallest valid input for KLS in the CERC equation?
+   TODO 045 Method of getting depth of closure value needs to be a user input
+   TODO 047 Where is the GDAL description for the deep water wave stations vector file?
+   TODO 048 Where is the GDAL description for the flood input locations point or vector file?
+   TODO 049 Handle other command line parameters e.g. path to .ini file, path to datafile
+   TODO 035 Also handle other EPSG for vector spatial reference systems
+   TODO 054 Choose more files to omit from "usual" raster output
+
+   ERROR HANDLING
+   TODO 004 Improve error handling of situation where we have a valid shadow zone but cannot find a neighbouring cell which is 'under' the coastline
+   TODO 006 Check GDALGridCreate() with only start-of-coast or an end-of-coast profiles
+   TODO 009 Decide what to do when we have eroded down to basement
+   TODO 015 Improve situation where profile hits another profile which belongs to a different coast object (will certainly need this for estuaries)
+   TODO 017 Extra safety check needed, make sure that each point is within valid grid
+   TODO 018 Improve situation where new landwards point on parallel profile is not within the raster grid
+   TODO 019 Improve situation where Dean profile has a near-zero elevation difference
+   TODO 020 Check calculation of elevation of coast point of Dean parallel profile
+   TODO 021 Improve situation where all layers have zero thickness
+   TODO 025 Improve situation where this point has only zero thickness layers
+   TODO 026 Check situation where cell in parallel profile is not in a polygon
+   TODO 028 Give a warning if raster input layer has several bands
+   TODO 038 Do better error handling if insufficient memory
+   TODO 053 Improve handling of situation where landward elevation of profile is -ve
+
+   THEORY/EFFICIENCY
+   TODO 002 Do we really need D50 for drift landform class? What do we need for drift?
+   TODO 005 Maybe give every coast point a value for end-of-profile wave height and direction instead of for deep water wave height and direction
+   TODO 010 Do we also need to update the active zone cells?
+   TODO 012 Change finding of adjacent polygons, and calculation of the length of shared normals, when we make polygon seaward length determined by depth of closure
+   TODO 013 Change calculation (need user input?) of coastline smoothing convexity threshold
+   TODO 014 Profile spacing, vould try gradually increasing the profile spacing with increasing concavity, and decreasing the profile spacing with increasing convexity
+   TODO 016 Check mass balance for recirculating unconsolidated sediment option
+   TODO 023 Only calculate shore platform erosion if cell is in a polygon
+   TODO 024 Should we calculate platform erosion on a profile that has hit dry land?
+   TODO 037 Need more info on nNearestNeighbourIndex()
+   TODO 039 Rewrite reading of multiple random number seeds
+   TODO 040 Remove this when GDAL supports raster overwrite for Geopackage
+   TODO 044 Estuaries :-)
+   TODO 046 Why is cliff collapse eroded during deposition (three size classes) no longer calculated?
+   TODO 050 Update for recent versions of Windows
+   TODO 051 Implement other ways of calculating depth of closure, see TODO 045
+
+   OUTPUT
+   TODO 031 Get raster slice output working with multiple slices
+   TODO 032 Improve output scaling for DBL_NODATA situation
+   TODO 033 Also consider other vector output file formats
+   TODO 034 Also consider other raster output file formats
+   TODO 043 When outputting profiles, how do we deal with randomness of profile spacing (since profile location is determined by curvature)?
+   TODO 052 Improve saving of profiles and parallel profiles
+*/
+
 #ifndef CME_H
 #define CME_H
 /*===============================================================================================================================
@@ -169,7 +240,7 @@ bool const USE_DEEP_WATER_FOR_SHADOW_LINE = true;              // Use deep water
 bool const CREATE_SHADOW_ZONE_IF_HITS_GRID_EDGE = true;        // If shadow line tracing hits grid edge, create shadow zone?
 bool const SAVE_CSHORE_OUTPUT = true;                          // #ifdef CSHORE_FILE_INOUT || CSHORE_BOTH, append all CShore output files to a whole-run master
 
-// TODO Make this a user input
+// TODO 011 Make this a user input
 bool const ACCEPT_SHORT_PROFILES = true;
 
 int const BUF_SIZE = 2048;                                     // Max length (inc. terminating NULL) of any C-type string
@@ -194,7 +265,7 @@ int const LOG_FILE_LOW_DETAIL = 1;
 int const LOG_FILE_MIDDLE_DETAIL = 2;
 int const LOG_FILE_HIGH_DETAIL = 3;
 
-// TODO Make this a user input
+// TODO 011 Make this a user input
 int const NUMBER_OF_INTERVENTION_CAPES = 4;
 
 int const INT_NODATA = -9999;
@@ -252,7 +323,7 @@ int const LF_SUBCAT_CLIFF_INLAND = 7;
 int const LF_SUBCAT_DRIFT_MIXED = 8;
 int const LF_SUBCAT_DRIFT_TALUS = 9;
 int const LF_SUBCAT_DRIFT_BEACH = 10;
-// TODO
+// TODO Not yet implemented
 int const LF_SUBCAT_DRIFT_DUNES = 11;
 
 // Landform sub-category codes for cells, for LF_CAT_INTERVENTION. See also "Intervention input and output codes"
@@ -497,9 +568,9 @@ double const DEPTH_OVER_DB_INCREMENT = 0.001;         // Depth over DB increment
 double const INVERSE_DEPTH_OVER_DB_INCREMENT = 1000;  // Inverse of the above
 double const DEAN_POWER = 2.0 / 3.0;                  // Dean profile exponent
 
-// TODO Let the user define these CShore input parameters
+// TODO 011 Let the user define these CShore input parameters
 double const CSHORE_FRICTION_FACTOR = 0.015;          // Friction factor for CShore model
-double const CSHORE_SURGE_LEVEL = 0.0;                // Not used, but in the future we might include surge in the calculations
+double const CSHORE_SURGE_LEVEL = 0.0;                // TODO 007
 
 double const TOLERANCE = 1e-7;                        // For bFPIsEqual, if too small (e.g. 1e-10), get spurious "rounding" errors
 double const SEDIMENT_ELEV_TOLERANCE = 1e-10;         // For bFPIsEqual, used to compare depth-equivalent sediment amounts
@@ -512,7 +583,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.20 (18 Feb 2024)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.21 (20 May 2024)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 
@@ -618,6 +689,7 @@ string const SEDIMENT_INPUT_EVENT_LOCATION_ID = "id";
 string const FLOOD_LOCATION_ID = "id";
 
 // GIS raster output user codes
+string const RASTER_USUAL_OUTPUT_CODE = "usual";
 string const RASTER_ALL_OUTPUT_CODE = "all";
 string const RASTER_SEDIMENT_TOP_CODE = "sediment_top_elevation";
 string const RASTER_SEDIMENT_TOP_NAME = "sediment_top_elevation";
@@ -737,12 +809,12 @@ string const RASTER_POLYGON_GAIN_OR_LOSS_CODE = "polygon_gain_or_loss";
 string const RASTER_POLYGON_GAIN_OR_LOSS_NAME = "polygon_gain_or_loss";
 string const RASTER_SEDIMENT_INPUT_EVENT_CODE = "sediment_input_total";
 string const RASTER_SEDIMENT_INPUT_EVENT_NAME = "sediment_input_total";
-string const RASTER_SETUP_SURGE_FLOOD_MASK_CODE = "flood_ss_mask";
-string const RASTER_SETUP_SURGE_FLOOD_MASK_NAME = "flood_ss_mask";
-string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_CODE = "flood_ssr_mask";
-string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_NAME = "flood_ssr_mask";
-string const RASTER_WAVE_FLOOD_LINE_CODE = "rflood";
-string const RASTER_WAVE_FLOOD_LINE_NAME = "rflood";
+string const RASTER_SETUP_SURGE_FLOOD_MASK_CODE = "flood_setup_surge_mask";
+string const RASTER_SETUP_SURGE_FLOOD_MASK_NAME = "flood_setup_surge_mask";
+string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_CODE = "flood_setup_surge_runup_mask";
+string const RASTER_SETUP_SURGE_RUNUP_FLOOD_MASK_NAME = "flood_setup_surge_runup_mask";
+string const RASTER_WAVE_FLOOD_LINE_CODE = "raster_wave_flood_line_code";
+string const RASTER_WAVE_FLOOD_LINE_NAME = "raster_wave_flood_line_code";
 
 // GIS raster output titles
 string const RASTER_PLOT_ACTIVE_ZONE_TITLE = "Active zone";
@@ -809,15 +881,14 @@ string const RASTER_PLOT_WAVE_FLOOD_LINE_TITLE = "Wave flood line";
 
 // GIS vector output user codes
 string const VECTOR_ALL_OUTPUT_CODE = "all";
-string const VECTOR_ALL_FLOOD_OUTPUT_CODE = "all";
+string const VECTOR_USUAL_OUTPUT_CODE = "usual";
+string const VECTOR_ALL_RIVER_FLOOD_OUTPUT_CODE = "all";
 string const VECTOR_COAST_CODE = "coast";
 string const VECTOR_COAST_NAME = "coast";
 string const VECTOR_NORMALS_CODE = "normals";
 string const VECTOR_NORMALS_NAME = "normals";
 string const VECTOR_INVALID_NORMALS_CODE = "invalid_normals";
 string const VECTOR_INVALID_NORMALS_NAME = "invalid_normals";
-// string const   VECTOR_COLLAPSE_NORMALS_CODE                             = "collapse_normals";
-// string const   VECTOR_COLLAPSE_NORMALS_NAME                             = "collapse_normals";
 string const VECTOR_COAST_CURVATURE_CODE = "coast_curvature";
 string const VECTOR_COAST_CURVATURE_NAME = "coast_curvature";
 string const VECTOR_WAVE_ANGLE_AND_HEIGHT_CODE = "wave_angle";
@@ -830,9 +901,9 @@ string const VECTOR_MEAN_WAVE_ENERGY_CODE = "mean_wave_energy";
 string const VECTOR_MEAN_WAVE_ENERGY_NAME = "mean_wave_energy";
 string const VECTOR_BREAKING_WAVE_HEIGHT_CODE = "breaking_wave_height";
 string const VECTOR_BREAKING_WAVE_HEIGHT_NAME = "breaking_wave_height";
-string const VECTOR_POLYGON_NODE_SAVE_CODE = "node";
-string const VECTOR_POLYGON_NODES_NAME = "node";
-string const VECTOR_POLYGON_BOUNDARY_SAVE_CODE = "polygon";
+string const VECTOR_POLYGON_NODE_CODE = "polygon_node";
+string const VECTOR_POLYGON_NODE_NAME = "polygon_node";
+string const VECTOR_POLYGON_BOUNDARY_CODE = "polygon";
 string const VECTOR_POLYGON_BOUNDARY_NAME = "polygon";
 string const VECTOR_CLIFF_NOTCH_SIZE_CODE = "cliff_notch";
 string const VECTOR_CLIFF_NOTCH_SIZE_NAME = "cliff_notch";

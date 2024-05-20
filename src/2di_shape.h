@@ -2,7 +2,7 @@
  *
  * \class CA2DIShape
  * \brief Abstract class, used as a base class for integer 2D objects (line, area, etc.)
- * \details TODO This is a more detailed description of the C2IDShape abstract class.
+ * \details TODO 001 This is a more detailed description of the C2IDShape abstract class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

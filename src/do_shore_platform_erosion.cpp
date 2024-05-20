@@ -2,7 +2,7 @@
  *
  * \file do_shore_platform_erosion.cpp
  * \brief Erodes the consolidated sediment of the shore platform, extrapolating from erosion calculated on coastline-normal profiles. Eroded sediment from the shore platform becomes unconsolidated sediment stored in coastal polygons
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -48,7 +48,7 @@ int CSimulation::nDoAllShorePlatFormErosion(void)
    if (m_nLogFileDetail >= LOG_FILE_HIGH_DETAIL)
       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): Calculating shore platform erosion" << endl;
    
-   // TODO Only do potential erosion if cell is in a polygon
+   // TODO 023 Only do potential erosion if cell is in a polygon
 
    // Set direction
    static bool bForward = true;
@@ -121,7 +121,7 @@ int CSimulation::nCalcPotentialPlatformErosionOnProfile(int const nCoast, int co
 {
    CGeomProfile *const pProfile = m_VCoast[nCoast].pGetProfile(nProfile);
 
-   // Only work on this profile if it is problem-free TODO ANDRES Or if it has just hit dry land?
+   // Only work on this profile if it is problem-free TODO 024 Or if it has just hit dry land?
    if (!pProfile->bOKIncStartAndEndOfCoast()) //  || (pProfile->nGetProblemCode() == PROFILE_DRYLAND))
       return RTN_OK;
 
@@ -192,7 +192,7 @@ int CSimulation::nCalcPotentialPlatformErosionOnProfile(int const nCoast, int co
          return RTN_ERR_NO_TOP_LAYER;
 
       if (nTopLayer == NO_NONZERO_THICKNESS_LAYERS)
-         // TODO we are down to basement, check with Andres what to do
+         // TODO 025 We are down to basement
          return RTN_OK;
 
       // Get the elevation for consolidated sediment only on this cell
@@ -497,7 +497,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
          int nPolyID = m_pRasterGrid->m_Cell[nXPar][nYPar].nGetPolygonID();
          if (nPolyID == INT_NODATA)
          {
-            // It isn't. This can happen at the seaward end of polygons TODO Is it a problem?
+            // It isn't. This can happen at the seaward end of polygons TODO 026 Is it a problem?
             //             LogStream << m_ulIter << " : [" << nXPar << "][" << nYPar << "] = {" << dGridCentroidXToExtCRSX(nXPar) << ", " << dGridCentroidYToExtCRSY(nYPar) << "} is not in a polygon" << endl;
             continue;
          }
@@ -510,7 +510,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
             return RTN_ERR_NO_TOP_LAYER;
 
          if (nTopLayer == NO_NONZERO_THICKNESS_LAYERS)
-            // TODO we are down to basement, check with Andres what to do
+            // TODO 025 We are down to basement
             return RTN_OK;
 
          // Get the elevation for consolidated sediment only on this cell

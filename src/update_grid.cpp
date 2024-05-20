@@ -2,7 +2,7 @@
  *
  * \file update_grid.cpp
  * \brief Updates the raster grid
- * \details TODO A more detailed description of this routine.
+ * \details TODO 001 A more detailed description of this routine.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

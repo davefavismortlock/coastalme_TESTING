@@ -33,12 +33,12 @@ Random number seed(s)                                                           
 
 Max save digits for GIS output file names                                               [> 1]: 3
 Save digits for GIS output sequential or iteration number?    [s = sequential, i = iteration]: s
-GIS raster files to output                                                    [see codes.txt]: all
+GIS raster files to output                                ["usual", "all", or from codes.txt]: usual
 GIS raster output format                                            [blank=same as DEM input]: gtiff                    ; gdal-config --formats for others
    If needed, also output GIS raster world file?                                        [y/n]: y
    If needed, scale GIS raster output values?                                           [y/n]: y
 GIS raster 'slice' elevation(s) (m)                                                          :
-GIS vector files to output                                                    [see codes.txt]: all
+GIS vector files to output                                ["usual", "all", or from codes.txt]: usual
 GIS vector output format                                                                     : ESRI Shapefile           ; ogrinfo --formats for others
 Time series files to output                                                   [see codes.txt]: all
 

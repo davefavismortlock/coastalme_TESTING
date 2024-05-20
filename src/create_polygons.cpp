@@ -2,7 +2,7 @@
  *
  * \file create_polygons.cpp
  * \brief Creates coast polygons for sediment transport calcs
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -493,7 +493,7 @@ void CSimulation::MarkPolygonCells(void)
 
 
 //===============================================================================================================================
-//! For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons TODO Will need to change this when length of coastline-normal profiles (and so polygon seaward length) is determined by depth of closure
+//! For between-polygon potential sediment routing: find which are the adjacent polygons, and calc the length of the shared normal between this polygon and the adjacent polygons TODO 012 Will need to change this when length of coastline-normal profiles (and so polygon seaward length) is determined by depth of closure
 //===============================================================================================================================
 int CSimulation::nDoPolygonSharedBoundaries(void)
 {

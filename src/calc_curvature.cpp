@@ -2,7 +2,7 @@
  *
  * \file calc_curvature.cpp
  * \brief Calculates curvature of 2D vectors
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -63,7 +63,7 @@ void CSimulation::DoCoastCurvature(int const nCoast, int const nHandedness)
    m_VCoast[nCoast].SetDetailedCurvature(nCoastSize-1, dTemp);
 
    // Now create the smoothed curvature
-   int const WINDOWSIZE = 11;                // TODO make this a user setting, must be odd
+   int const WINDOWSIZE = 11;                // TODO 003 make this a user setting, must be odd
    int const nHalfWindow = WINDOWSIZE / 2;
 
    // Apply a running mean smoothing filter, with a variable window size at both ends of the line

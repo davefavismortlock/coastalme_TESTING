@@ -2,7 +2,7 @@
  *
  * \file create_profiles.cpp
  * \brief Creates profiles which are approximately normal to the coastline, these will become inter-polygon boundaries
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
  * \date 2024
@@ -116,7 +116,7 @@ int CSimulation::nCreateAllProfiles(void)
          CreateNaturalCapeNormalProfiles(nCoast, nProfile, nProfileToNodeSpacing, &bVCoastPointSearched, &prVCurvature);
       }
 
-      // TODO Try just one SD below the mean
+      // TODO 013 Try just one SD below the mean
       // Calculate a convexity threshold, which is two standard deviations below the mean: will not create non-cape profiles on coast points with smoothed convexity which exceeds this (i.e. with smoothed curvature values which are less than this threshold)
       double
           dStdCurvature = m_VCoast[nCoast].dGetSmoothCurvatureSTD(),
@@ -393,7 +393,7 @@ void CSimulation::CreateRestOfNormalProfiles(int const nCoast, int &nProfile, in
          //             nProfileDist = tMax(m_nCoastNormalAvgSpacing, static_cast<int>(nProfileToNodeSpacing * (1 + (dGetRand0Gaussian() * m_dCoastNormalRandSpacingFactor))));
          int nProfileDist = nProfileToNodeSpacing * (1 + static_cast<int>(abs(dGetRand0Gaussian() * m_dCoastNormalRandSpacingFactor)));
 
-         // TODO Assume that the above is the profile spacing on straight bits of coast. Try gradually increasing the profile spacing with increasing concavity, and decreasing the profile spacing with increasing convexity. Could use a Michaelis-Menten S-curve relationship
+         // TODO 014 Assume that the above is the profile spacing on straight bits of coast. Try gradually increasing the profile spacing with increasing concavity, and decreasing the profile spacing with increasing convexity. Could use a Michaelis-Menten S-curve relationship
          //          double fReN = pow(NowCell[nX][nY].dGetReynolds(m_dNu), m_dDepN);
          //          double fC1 = m_dC1Laminar - ((m_dC1Diff * fReN) / (fReN + m_dReMidN));
 
@@ -1350,7 +1350,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
    int
        nSeg = 0,
        nSegments = pProfile->nGetNumLineSegments(),
-       nProfiles = m_VCoast[nCoast].nGetNumProfiles(); // TODO this is a bodge, needed if we hit a profile which belongs to a different coast object
+       nProfiles = m_VCoast[nCoast].nGetNumProfiles(); // TODO 015 This is a bodge, needed if we hit a profile which belongs to a different coast object
 
    // This contains a list of 'other' profiles which intersect this profile, but which are OK (i.e. they are coincident profiles of this profile). Added for efficiency
    vector<int> VnOtherProfileOK;
@@ -1477,7 +1477,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
                   //                   LogStream << "VVVV Profile " << nProfile << " touches profile " << nHitProfile << endl;
                   VnOtherProfileOK.push_back(nHitProfile);
 
-                  // TODO Bodge in case we hit a profile which belongs to a different coast
+                  // TODO 015 Bodge in case we hit a profile which belongs to a different coast
                   if (nHitProfile > nProfiles - 1)
                   {
                      bHitAnotherProfile = true;
@@ -1536,7 +1536,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
                   //                   LogStream << "VVVV Profile " << nProfile << " touches profile " << nHitProfile << " diagonally" << endl;
                   VnOtherProfileOK.push_back(nHitProfile);
 
-                  // TODO Bodge in case we hit a profile which belongs to a different coast
+                  // TODO 015 Bodge in case we hit a profile which belongs to a different coast
                   if (nHitProfile > nProfiles - 1)
                   {
                      bHitAnotherProfile = true;

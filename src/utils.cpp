@@ -2,7 +2,7 @@
  *
  * \file utils.cpp
  * \brief Utility routines
- * \details TODO A more detailed description of this routine.
+ * \details TODO 001 A more detailed description of this routine.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -26,7 +26,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 #ifdef _WIN32
 #include <windows.h>       // Needed for CalcProcessStats()
-#include <psapi.h>         // TODO Not available sometimes?
+#include <psapi.h>
 #include <io.h>            // For isatty()
 #elif defined __GNUG__
 #include <sys/resource.h>  // Needed for CalcProcessStats()
@@ -122,7 +122,7 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
          return (RTN_HELPONLY);
       }
 
-      // TODO handle other command line parameters e.g. path to .ini file, path to datafile
+      // TODO 049 Handle other command line parameters e.g. path to .ini file, path to datafile
 
       else
       {
@@ -620,13 +620,6 @@ string CSimulation::strListRasterFiles(void) const
 {
    string strTmp;
 
-   if (m_bRasterGISSaveAll)
-   {
-      strTmp.append("all raster GIS files");
-      return strTmp;
-   }
-
-   // Not saving all raster GIS files
    if (m_bBasementElevSave)
    {
       strTmp.append(RASTER_BASEMENT_ELEVATION_CODE);
@@ -880,13 +873,6 @@ string CSimulation::strListVectorFiles(void) const
 {
    string strTmp;
 
-   if (m_bVectorGISSaveAll)
-   {
-      strTmp.append("all vector GIS files");
-      return strTmp;
-   }
-
-   // Not saving all vector GIS files
    if (m_bCoastSave)
    {
       strTmp.append(VECTOR_COAST_CODE);
@@ -943,13 +929,13 @@ string CSimulation::strListVectorFiles(void) const
 
    if (m_bPolygonNodeSave)
    {
-      strTmp.append(VECTOR_POLYGON_NODE_SAVE_CODE);
+      strTmp.append(VECTOR_POLYGON_NODE_CODE);
       strTmp.append(", ");
    }
 
    if (m_bPolygonBoundarySave)
    {
-      strTmp.append(VECTOR_POLYGON_BOUNDARY_SAVE_CODE);
+      strTmp.append(VECTOR_POLYGON_BOUNDARY_CODE);
       strTmp.append(", ");
    }
 
@@ -2062,14 +2048,14 @@ void CSimulation::CalcProcessStats(void)
       else if (10 == osvi.dwMajorVersion && 0 == osvi.dwMinorVersion)
          OutStream << "Windows 10 ";
       else
-         OutStream << "unknown Windows version ";
+         OutStream << "unknown Windows version ";     // TODO Update for recent versions of Windows
 
       // Display version, service pack (if any), and build number
       if (osvi.dwMajorVersion <= 4)
-         // TODO does this still work on 64-bit platforms?
+         // TODO Update for recent versions of Windows
          OutStream << "version " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << " " << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
       else
-         // TODO does this still work on 64-bit platforms?
+         // TODO Update for recent versions of Windows
          OutStream << osvi.szCSDVersion << " (Build " << (osvi.dwBuildNumber & 0xFFFF) << ")" << endl;
       break;
 
@@ -2823,7 +2809,7 @@ void CSimulation::CalcDepthOfClosure(void)
       dDeepWaterPeriod = m_dMaxUserInputWavePeriod;
    }
 
-   // TODO Calculate depth of closure using 'average of the maximum values observed during a typical year'
+   // TODO 051 Calculate depth of closure using 'average of the maximum values observed during a typical year'
    //    dL = 2.28 * Hsx − (68.5 * Hsx^2 / (g * Tsx^2))
    // where:
    //    Hsx is the nearshore storm wave height that is exceeded only 12 hours each year
@@ -2833,7 +2819,7 @@ void CSimulation::CalcDepthOfClosure(void)
    // For the time being, and since we assume wave height and period constant just use the actual wave height and period to calculate the depth of closure
    // m_dDepthOfClosure = (2.28 * dDeepWaterWaveHeight) - (68.5 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 
-   // An alternative (which produces smaller depth of closure estimates) is Birkemeier (1985) TODO Full reference needed
+   // An alternative (which produces smaller depth of closure estimates) is Birkemeier (1985) TODO 007 Full reference needed
    // dL = 1.75 * Hsx - (57.9 * Hsx^2/ (g * Tsx^2))
    m_dDepthOfClosure = (1.75 * dDeepWaterWaveHeight) - (57.9 * dDeepWaterWaveHeight * dDeepWaterWaveHeight / (m_dG * dDeepWaterPeriod * dDeepWaterPeriod));
 }

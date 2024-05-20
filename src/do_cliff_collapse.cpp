@@ -2,7 +2,7 @@
  *
  * \file do_cliff_collapse.cpp
  * \brief Collapses cliffs if a critical notch depth is exceeded. Then distributes both consolidated and unconsolidated sediment from the collapse onto the shore polygons as unconsolidated talus
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -734,7 +734,7 @@ int CSimulation::nDoCliffCollapseDeposition(int const nCoast, CRWCliff const* pC
 
             if (nTopLayer == NO_NONZERO_THICKNESS_LAYERS)
             {
-               // TODO improve this
+               // TODO 021 Improve this
                cerr << "All layers have zero thickness" << endl;
                return RTN_ERR_CLIFFDEPOSIT;
             }

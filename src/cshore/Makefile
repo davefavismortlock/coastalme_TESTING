@@ -16,8 +16,8 @@ BUILD_VERSION := DEBUG
 # input and output via arguments to/from calling program, also file output for checking purposes (ARGINBOTHOUT)
 # input and output via ASCII files read by CShore executable or by calling program (FILEINOUT)
 #INPUT_AND_OUTPUT := ARGINOUT
-INPUT_AND_OUTPUT := ARGINBOTHOUT
-#INPUT_AND_OUTPUT := FILEINOUT
+#INPUT_AND_OUTPUT := ARGINBOTHOUT
+INPUT_AND_OUTPUT := FILEINOUT
 #======================================================================================================================
 
 # Fortran directives

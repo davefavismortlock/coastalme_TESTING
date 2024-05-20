@@ -2,7 +2,7 @@
  *
  * \class CGeomILine
  * \brief Geometry class used to represent 2D vector integer line objects
- * \details TODO This is a more detailed description of the CCGeomLine class.
+ * \details TODO 001 This is a more detailed description of the CCGeomLine class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

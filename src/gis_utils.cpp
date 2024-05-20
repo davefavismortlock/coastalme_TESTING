@@ -2,7 +2,7 @@
  *
  * \file gis_utils.cpp
  * \brief Various GIS-related functions, requires GDAL
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
 
  Note re. co-ordinate systems used
 
@@ -875,7 +875,7 @@ bool CSimulation::bCheckVectorGISOutputFormat(void)
    {
       m_strOGRVectorOutputExtension = ".gpkg";
    }
-   // TODO Others
+   // TODO 033 Others
 
    return true;
 }
@@ -918,49 +918,58 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
       if (! bWriteRasterGISFile(RASTER_PLOT_WAVE_ORIENTATION, &RASTER_PLOT_WAVE_ORIENTATION_TITLE))
          return false;
 
-   if (m_bBeachProtectionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_BEACH_PROTECTION, &RASTER_PLOT_BEACH_PROTECTION_TITLE))
-         return false;
 
-   if (m_bPotentialPlatformErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_PLATFORM_EROSION, &RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_TITLE))
-         return false;
+   // Don't write platform erosion files if there is no platform erosion
+   if (m_bDoShorePlatformErosion)
+   {
+      if (m_bPotentialPlatformErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_PLATFORM_EROSION, &RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_TITLE))
+            return false;
 
-   if (m_bActualPlatformErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_ACTUAL_PLATFORM_EROSION, &RASTER_PLOT_ACTUAL_PLATFORM_EROSION_TITLE))
-         return false;
+      if (m_bActualPlatformErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_ACTUAL_PLATFORM_EROSION, &RASTER_PLOT_ACTUAL_PLATFORM_EROSION_TITLE))
+            return false;
 
-   if (m_bTotalPotentialPlatformErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION, &RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION_TITLE))
-         return false;
+      if (m_bTotalPotentialPlatformErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION, &RASTER_PLOT_TOTAL_POTENTIAL_PLATFORM_EROSION_TITLE))
+            return false;
 
-   if (m_bTotalActualPlatformErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION, &RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION_TITLE))
-         return false;
+      if (m_bTotalActualPlatformErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION, &RASTER_PLOT_TOTAL_ACTUAL_PLATFORM_EROSION_TITLE))
+            return false;
 
-   if (m_bPotentialBeachErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_BEACH_EROSION, &RASTER_PLOT_POTENTIAL_BEACH_EROSION_TITLE))
-         return false;
+      if (m_bPotentialPlatformErosionMaskSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK, &RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK_TITLE))
+            return false;
 
-   if (m_bActualBeachErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_ACTUAL_BEACH_EROSION, &RASTER_PLOT_ACTUAL_BEACH_EROSION_TITLE))
-         return false;
+      if (m_bBeachProtectionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_BEACH_PROTECTION, &RASTER_PLOT_BEACH_PROTECTION_TITLE))
+            return false;
 
-   if (m_bTotalPotentialBeachErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION, &RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION_TITLE))
-         return false;
+      if (m_bPotentialBeachErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_BEACH_EROSION, &RASTER_PLOT_POTENTIAL_BEACH_EROSION_TITLE))
+            return false;
 
-   if (m_bTotalActualBeachErosionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION, &RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION_TITLE))
-         return false;
+      if (m_bActualBeachErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_ACTUAL_BEACH_EROSION, &RASTER_PLOT_ACTUAL_BEACH_EROSION_TITLE))
+            return false;
 
-   if (m_bBeachDepositionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_BEACH_DEPOSITION, &RASTER_PLOT_BEACH_DEPOSITION_TITLE))
-         return false;
+      if (m_bTotalPotentialBeachErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION, &RASTER_PLOT_TOTAL_POTENTIAL_BEACH_EROSION_TITLE))
+            return false;
 
-   if (m_bTotalBeachDepositionSave)
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_BEACH_DEPOSITION, &RASTER_PLOT_TOTAL_BEACH_DEPOSITION_TITLE))
-         return false;
+      if (m_bTotalActualBeachErosionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION, &RASTER_PLOT_TOTAL_ACTUAL_BEACH_EROSION_TITLE))
+            return false;
+
+      if (m_bBeachDepositionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_BEACH_DEPOSITION, &RASTER_PLOT_BEACH_DEPOSITION_TITLE))
+            return false;
+
+      if (m_bTotalBeachDepositionSave)
+         if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_BEACH_DEPOSITION, &RASTER_PLOT_TOTAL_BEACH_DEPOSITION_TITLE))
+            return false;
+   }
 
    if (m_bLandformSave)
       if (! bWriteRasterGISFile(RASTER_PLOT_LANDFORM, &RASTER_PLOT_LANDFORM_TITLE))
@@ -1064,46 +1073,80 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
          return false;
    }
 
-   if (m_bCliffCollapseSave)
+   // Don't write cliff collapse files if we aren't considering cliff collapse
+   if (m_bDoCliffCollapse)
    {
-      if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE_TITLE))
-         return false;
-   }
+      if (m_bCliffCollapseSave)
+      {
+         if (m_bHaveFineSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_FINE_TITLE))
+               return false;
+         }
 
-   if (m_bTotCliffCollapseSave)
-   {
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_TITLE))
-         return false;
-   }
+         if (m_bHaveSandSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_SAND_TITLE))
+               return false;
+         }
 
-   if (m_bCliffCollapseDepositionSave)
-   {
-      if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND, &RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE, &RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE))
-         return false;
-   }
+         if (m_bHaveCoarseSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE, &RASTER_PLOT_CLIFF_COLLAPSE_EROSION_COARSE_TITLE))
+               return false;
+         }
+      }
 
-   if (m_bTotCliffCollapseDepositionSave)
-   {
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE))
-         return false;
-      
-      if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE))
-         return false;
+      if (m_bTotCliffCollapseSave)
+      {
+         if (m_bHaveFineSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_FINE_TITLE))
+               return false;
+         }
+
+         if (m_bHaveSandSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_SAND_TITLE))
+               return false;
+         }
+
+         if (m_bHaveCoarseSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_EROSION_COARSE_TITLE))
+               return false;
+         }
+      }
+
+      if (m_bCliffCollapseDepositionSave)
+      {
+         if (m_bHaveSandSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND, &RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE))
+               return false;
+         }
+
+         if (m_bHaveCoarseSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE, &RASTER_PLOT_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE))
+               return false;
+         }
+      }
+
+      if (m_bTotCliffCollapseDepositionSave)
+      {
+         if (m_bHaveSandSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_SAND_TITLE))
+               return false;
+         }
+
+         if (m_bHaveCoarseSediment)
+         {
+            if (! bWriteRasterGISFile(RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE, &RASTER_PLOT_TOTAL_CLIFF_COLLAPSE_DEPOSIT_COARSE_TITLE))
+               return false;
+         }
+      }
    }
 
    if (m_bRasterPolygonSave)
@@ -1112,11 +1155,6 @@ bool CSimulation::bSaveAllRasterGISFiles(void)
          return false;
    }
 
-   if (m_bPotentialPlatformErosionMaskSave)
-   {
-      if (! bWriteRasterGISFile(RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK, &RASTER_PLOT_POTENTIAL_PLATFORM_EROSION_MASK_TITLE))
-         return false;
-   }
 
    if (m_bSeaMaskSave)
    {
@@ -1307,7 +1345,7 @@ bool CSimulation::bSaveAllVectorGISFiles(void)
          return false;
    }
 
-   if (m_bVectorWaveFloodLineSave)
+   if (m_bDoRiverineFlooding && m_bVectorWaveFloodLineSave)
    {
       if (! bWriteVectorGISFile(VECTOR_PLOT_FLOOD_LINE, &VECTOR_PLOT_FLOOD_SWL_SETUP_LINE_TITLE))
          return false;
@@ -1587,7 +1625,7 @@ void CSimulation::SetRasterFileCreationDefaults(void)
        strDriver = strToLower(&m_strRasterGISOutFormat),
        strComment = "Created by " + PROGRAM_NAME + " for " + PLATFORM + " " + strGetBuild() + " running on " + strGetComputerName();
 
-   // TODO Do these for all commonly-used file types
+   // TODO 034 Do these for all commonly-used file types
    if (strDriver == "aaigrid")
    {
    }

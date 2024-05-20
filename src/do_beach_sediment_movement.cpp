@@ -2,7 +2,7 @@
  *
  * \file do_beach_sediment_movement.cpp
  * \brief Does between-polygon actual (supply-limited) redistribution of transported beach sediment
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -461,7 +461,7 @@ int CSimulation::nDoAllActualBeachErosionAndDeposition(void)
 
                            else if (m_nUnconsSedimentHandlingAtGridEdges == GRID_EDGE_RECIRCULATE)
                            {
-                              // Re-circulating grid edges, so adjust the sediment exported to the polygon at the up-coast end of this coastline TODO Check whether this causes mass balance problems, depending on the sequence of polygon processing
+                              // Re-circulating grid edges, so adjust the sediment exported to the polygon at the up-coast end of this coastline TODO 016 Check whether this causes mass balance problems, depending on the sequence of polygon processing
                               int nOtherEndPoly = 0;
                               CGeomCoastPolygon* pOtherEndPoly = m_VCoast[nCoast].pGetPolygon(nOtherEndPoly);
 

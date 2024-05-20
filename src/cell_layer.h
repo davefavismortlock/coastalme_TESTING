@@ -2,7 +2,7 @@
  *
  * \class CRWCellLayer
  * \brief Real-world class used to represent the sediment layers associated with a cell object
- * \details TODO This is a more detailed description of the CCRWCellLayer class.
+ * \details TODO 001 This is a more detailed description of the CCRWCellLayer class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

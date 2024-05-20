@@ -2,7 +2,7 @@
  *
  * \file write_output.cpp
  * \brief Writes non-GIS output files
- * \details TODO A more detailed description of this routine.
+ * \details TODO 001 A more detailed description of this routine.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -482,9 +482,10 @@ void CSimulation::WriteStartRunDetails(void)
    OutStream << " Planview width of cliff deposition talus                  \t: " << resetiosflags(ios::floatfield) << std::fixed << m_dCliffDepositionPlanviewWidth << " m" << endl;
    OutStream << " Planview length of cliff deposition talus                 \t: " << m_dCliffTalusMinDepositionLength << " m" << endl;
    OutStream << " Min height of land-end talus (fraction of cliff elevation)\t: " << m_dMinCliffTalusHeightFrac << endl;
-   OutStream << " Do riverine flooding?                                     \t: " << (m_bDoFlood ? "Y" : "N") << endl;
-   if (m_bDoFlood)
+   OutStream << " Do riverine flooding?                                     \t: " << (m_bDoRiverineFlooding ? "Y" : "N") << endl;
+   if (m_bDoRiverineFlooding)
    {
+      // BUG 002 Need more info on this
       OutStream << " FloodSWLSetupLine                                         \t: " << (m_bFloodSWLSetupLine ? "Y" : "N") << endl;
       OutStream << " FloodSWLSetupSurgeLine                                    \t: " << (m_bFloodSWLSetupSurgeLine ? "Y" : "N") << endl;
       OutStream << " m_bFloodSWLSetupSurgeRunupLine                            \t: " << (m_bFloodSWLSetupSurgeRunupLine ? "Y" : "N") << endl;
@@ -943,7 +944,7 @@ void CSimulation::WriteLookUpData(void) const
 //===============================================================================================================================
 int CSimulation::nSaveProfile(int const nProfile, int const nCoast, int const nProfSize, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
-   // TODO make this more efficient, also give warnings if no profiles will be output
+   // TODO 052 Make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
    {
       for (unsigned int j = 0; j < m_VnProfileToSave.size(); j++)
@@ -1007,7 +1008,7 @@ bool CSimulation::bWriteProfileData(int const nCoast, int const nProfile, int co
 //===============================================================================================================================
 int CSimulation::nSaveParProfile(int const nProfile, int const nCoast, int const nParProfSize, int const nDirection, int const nDistFromProfile, vector<double> const* pdVDistXY, vector<double> const* pdVZ, vector<double> const* pdVDepthOverDB, vector<double> const* pdVErosionPotentialFunc, vector<double> const* pdVSlope, vector<double> const* pdVRecessionXY, vector<double> const* pdVChangeElevZ, vector<CGeom2DIPoint> *const pPtVGridProfile, vector<double> const* pdVScapeXY) const
 {
-   // TODO make this more efficient, also give warnings if no profiles will be output
+   // TODO 052 Make this more efficient, also give warnings if no profiles will be output
    for (unsigned int i = 0; i < m_VulProfileTimestep.size(); i++)
    {
       for (unsigned int j = 0; j < m_VnProfileToSave.size(); j++)

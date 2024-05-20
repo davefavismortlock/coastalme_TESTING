@@ -2,7 +2,7 @@
  *
  * \file assign_landforms.cpp
  * \brief Assigns landform categories to coastlines and coastal cells, and to all other dryland cells
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -343,7 +343,7 @@ int CSimulation::nLandformToGrid(int const nCoast, int const nPoint)
    
    else if (nCategory == LF_CAT_DRIFT)
    {
-      // It's drift, so calculate D50 TODO Why do we need this?
+      // It's drift, so calculate D50 TODO 002 Why do we need this?
 
    }
 

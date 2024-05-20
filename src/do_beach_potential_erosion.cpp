@@ -2,7 +2,7 @@
  *
  * \file do_beach_potential_erosion.cpp
  * \brief Calculates potential (i.e. not constrained by the availability of unconsolidated sediment) beach erosion of unconsolidated sediment on coastal polygons
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

@@ -2,7 +2,7 @@
  *
  * \file gis_vector.cpp
  * \brief These functions use GDAL to read and write vector GIS files in several formats. This version will build with GDAL version 2
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -389,7 +389,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
          break;
 
       case (VECTOR_PLOT_POLYGON_NODES):
-         strFilePathName.append(VECTOR_POLYGON_NODES_NAME);
+         strFilePathName.append(VECTOR_POLYGON_NODE_NAME);
          break;
 
       case (VECTOR_PLOT_POLYGON_BOUNDARY):
@@ -490,7 +490,7 @@ bool CSimulation::bWriteVectorGISFile(int const nDataItem, string const *strPlot
    }
    else
    {
-      OGRSpatialRef.importFromEPSG(25830); // TODO: Change for any EPSG
+      OGRSpatialRef.importFromEPSG(25830); // TODO 035 Change for any EPSG
    }
 
    OGRwkbGeometryType eGType = wkbUnknown;

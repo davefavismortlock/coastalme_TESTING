@@ -2,7 +2,7 @@
  *
  * \class CSimulation
  * \brief This class runs CoastalME simulations
- * \details TODO This is a more detailed description of the CSimulation class
+ * \details TODO 001 This is a more detailed description of the CSimulation class
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -51,9 +51,8 @@ using std::stack;
 
 #include "inc/cshore.h"
 
-int const
-   NRNG = 2,
-   SAVEMAX = 100000;
+int const NRNG = 2;
+int const SAVEMAX = 100000;
 
 class CGeomRasterGrid; // Forward declarations
 class CRWCoast;
@@ -73,12 +72,6 @@ private:
 
    //! Does this simulation consider coarse-sized sediment?
    bool m_bHaveCoarseSediment;
-
-   //! Save all raster GIS files?
-   bool m_bRasterGISSaveAll;
-
-   //! Save all vector GIS files?
-   bool m_bVectorGISSaveAll;
 
    //! Save basement raster DEMs?
    bool m_bBasementElevSave;
@@ -308,10 +301,10 @@ private:
    //! Save the suspended sediment time series file?
    bool m_bSuspSedTSSave;
 
-   //! Save the flood setup surge time series file? TODO Does this work correctly?
+   //! Save the flood setup surge time series file? TODO 007 Does this work correctly?
    bool m_bFloodSetupSurgeTSSave;
 
-   //! Save the flood setup surge runup time series file? TODO Does this work correctly?
+   //! Save the flood setup surge runup time series file? TODO 007 Does this work correctly?
    bool m_bFloodSetupSurgeRunupTSSave;
 
    //! Save GIS files this iteration?
@@ -389,40 +382,40 @@ private:
    //! Do we have a sediment input event this iteration?
    bool m_bSedimentInputThisIter;
 
-   //! Are we doing flooding? TODO This isn't clear
-   bool m_bDoFlood;
+   //! Are we doing flooding? TODO 007
+   bool m_bDoRiverineFlooding;
 
-   //! Are we saving the wave setup? TODO This isn't clear
+   //! Are we saving the wave setup? TODO 007
    bool m_bWaveSetupSave;
 
-   //! Are we saving the storm surge? TODO This isn't clear
+   //! Are we saving the storm surge? TODO 007
    bool m_bStormSurgeSave;
 
-   //! Are we saving runup? TODO This isn't clear
+   //! Are we saving runup? TODO 007
    bool m_bRunUpSave;
 
-   //! Are we saving the setup surge flood mask? TODO This isn't clear
+   //! Are we saving the setup surge flood mask? TODO 007
    bool m_bSetupSurgeFloodMaskSave;
 
-   //! Are we saving the setup surge runup flood mask? TODO This isn't clear
+   //! Are we saving the setup surge runup flood mask? TODO 007
    bool m_bSetupSurgeRunupFloodMaskSave;
 
-   //! Are we saving the raster wave flood line? TODO This isn't clear
+   //! Are we saving the raster wave flood line? TODO 007
    bool m_bRasterWaveFloodLineSave;
 
-   //! Are we saving the vector wave flood line? TODO This isn't clear
+   //! Are we saving the vector wave flood line? TODO 007
    bool m_bVectorWaveFloodLineSave;
 
-   //! Are we saving the flood location? TODO This isn't clear
+   //! Are we saving the flood location? TODO 007
    bool m_bFloodLocation;
 
-   //! Are we saving the flood still water level setup line? TODO This isn't clear
+   //! Are we saving the flood still water level setup line? TODO 007
    bool m_bFloodSWLSetupLine;
 
-   //! Are we saving the flood still water level setup surge line? TODO This isn't clear
+   //! Are we saving the flood still water level setup surge line? TODO 007
    bool m_bFloodSWLSetupSurgeLine;
 
-   //! Are we saving the flood still water level setup surge runup line? TODO This isn't clear
+   //! Are we saving the flood still water level setup surge runup line? TODO 007
    bool m_bFloodSWLSetupSurgeRunupLine;
 
    //! Are the GIS save digits (which are part of each GIS file name) sequential, or are they the iteration number?
@@ -533,16 +526,16 @@ private:
    //! Start date of the simulation (year)
    int m_nSimStartYear;
 
-   //! The duration of data for deep water waves, expresed as a number of time steps
+   //! The duration of data for deep water waves, expressed as a number of time steps
    int m_nDeepWaterWaveDataNumTimeSteps;
 
    //! The level of detail in the log file output. Can be LOG_FILE_LOW_DETAIL, LOG_FILE_MIDDLE_DETAIL, or LOG_FILE_HIGH_DETAIL
    int m_nLogFileDetail;
 
-   //! The run-up equation used. TODO Why is this just numeric values? I.e. no symbolic constants?
+   //! The run-up equation used TODO 007
    int m_nRunUpEquation;
 
-   //! TODO Used in WAVESETUP + SURGE + RUNUP, what is this?
+   //! TODO 007 Used in WAVESETUP + SURGE + RUNUP
    int m_nLevel;
 
    //! The data type used by GDAL for integer operations, can be GDT_Byte, GDT_Int16, GDT_UInt16, GDT_Int32, or GDT_UInt32
@@ -683,16 +676,16 @@ private:
    //! Maximum still water level
    double m_dMaxSWL;
 
-   //! TODO What is this?
+   //! TODO 007
    double m_dThisIterDiffTotWaterLevel;
 
-   //! TODO What is this?
+   //! TODO 007
    double m_dThisIterDiffWaveSetupWaterLevel;
 
-   //! TODO What is this?
+   //! TODO 007
    double m_dThisIterDiffWaveSetupSurgeWaterLevel;
 
-   //! TODO What is this?
+   //! TODO 007
    double m_dThisIterDiffWaveSetupSurgeRunupWaterLevel;
 
    //! The height of breaking waves (m)
@@ -740,7 +733,7 @@ private:
    //! The density of unconsolidated beach sediment (kg/m**3)
    double m_dBeachSedimentDensity;
 
-   //! The porosity of unconsolidated beach sediment (0 - 1) TODO check this
+   //! The porosity of unconsolidated beach sediment (0 - 1)
    double m_dBeachSedimentPorosity;
 
    //! The relative erodibility (0- 1) of fine unconsolidated beach sediment
@@ -770,10 +763,10 @@ private:
    //! Gravitational acceleration (m**2/sec)
    double m_dG;
 
-   //! For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn) TODO Need date of reference. And is this description OK?
+   //! For beach erosion/deposition, conversion from immersed weight to bulk volumetric (sand and voids) transport rate (Leo Van Rijn) TODO 007 Need date of reference
    double m_dInmersedToBulkVolumetric;
 
-   //! Depth of closure (TODO in m?). Can be calculated using Hallermeier, R.J. (1978) or Birkemeier (1985) TODO This needs to be a user decision
+   //! Depth of closure (in m) TODO 007 can be calculated using Hallermeier, R.J. (1978) or Birkemeier (1985) TODO 045 This needs to be a user decision
    double m_dDepthOfClosure;
 
    //! Average spacing of the cost-normal profiles, in m
@@ -830,13 +823,13 @@ private:
    //! Total coarse unconsolidated sediment lost from the grid this iteration (depth in m)
    double m_dThisIterLeftGridUnconsCoarse;
 
-   //! Total fine sediment eroded during deposition following cliff collapse (depth in m) TODO No longer calculated, discuss with Andres
+   //! Total fine sediment eroded during deposition following cliff collapse (depth in m) TODO 046 Why is this no longer calculated?
    double m_dThisIterCliffCollapseFineErodedDuringDeposition;
 
-   //! Total sand sediment eroded during deposition following cliff collapse (depth in m) TODO No longer calculated, discuss with Andres
+   //! Total sand sediment eroded during deposition following cliff collapse (depth in m) TODO 046 Why is this no longer calculated?
    double m_dThisIterCliffCollapseSandErodedDuringDeposition;
 
-   //! Total coarse sediment eroded during deposition following cliff collapse (depth in m) TODO No longer calculated, discuss with Andres
+   //! Total coarse sediment eroded during deposition following cliff collapse (depth in m) TODO 046 Why is this no longer calculated?
    double m_dThisIterCliffCollapseCoarseErodedDuringDeposition;
 
    //! Error term: if we are unable to deposit enough unconslidated sand on polygon(s), this is held over to be deposited the next iteration
@@ -1173,7 +1166,7 @@ private:
    //! GDAL code for the deep water wave stations vector file
    string m_strOGRDWWVDriverCode;
 
-   // TODO Where is the GDAL description for the deep water wave stations vector file?
+   // TODO 047 Where is the GDAL description for the deep water wave stations vector file?
 
    //! GDAL geometry for the deep water wave stations vector file
    string m_strOGRDWWVGeometry;
@@ -1195,7 +1188,7 @@ private:
    //! GDAL code for the flood input locations point or vector file
    string m_strOGRFloodDriverCode;
 
-   // TODO Where is the GDAL description for the flood input locations point or vector file?
+   // TODO 048 Where is the GDAL description for the flood input locations point or vector file?
 
    //! GDAL geometry for the flood input locations point or vector file
    string m_strOGRFloodGeometry;
@@ -1461,10 +1454,10 @@ private:
    //! The coastline objects
    vector<CRWCoast> m_VCoast;
 
-   //! TODO What exactly is this? Info needed from Manuel
+   //! TODO 007
    vector<CRWCoast> m_VFloodWaveSetupSurge;
 
-   //! TODO What exactly is this? Info needed from Manuel
+   //! TODO 007
    vector<CRWCoast> m_VFloodWaveSetupSurgeRunup;
 
    //! Pointers to coast polygon objects
@@ -1706,9 +1699,9 @@ private:
    CGeomLine LSmoothCoastSavitzkyGolay(CGeomLine*, int const, int const) const;
    CGeomLine LSmoothCoastRunningMean(CGeomLine*) const;
    vector<double> dVSmoothProfileSlope(vector<double>*) const;
-   // vector<double> dVCalCGeomProfileSlope(vector<CGeom2DPoint>*, vector<double>*);         // TODO Why was this removed?
-   // vector<double> dVSmoothProfileSavitzkyGolay(vector<double>*, vector<double>*);         // TODO Why was this removed?
-   // vector<double> dVSmoothProfileRunningMean(vector<double>*);                            // TODO Why was this removed?
+   // vector<double> dVCalCGeomProfileSlope(vector<CGeom2DPoint>*, vector<double>*);         // TODO 007 Why was this removed?
+   // vector<double> dVSmoothProfileSavitzkyGolay(vector<double>*, vector<double>*);         // TODO 007 was this removed?
+   // vector<double> dVSmoothProfileRunningMean(vector<double>*);                            // TODO 007 was this removed?
    static void CalcSavitzkyGolay(double[], int const, int const, int const, int const, int const);
    static string pstrChangeToBackslash(string const*);
    static string pstrChangeToForwardSlash(string const*);

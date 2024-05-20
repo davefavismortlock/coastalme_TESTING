@@ -2,7 +2,7 @@
  *
  * \file raster_grid.cpp
  * \brief CGeomRasterGrid routines
- * \details TODO A more detailed description of these routines.
+ * \details TODO 001 A more detailed description of these routines.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
@@ -68,7 +68,7 @@ int CGeomRasterGrid::nCreateGrid(void)
       nXMax = m_pSim->nGetGridXMax(),
       nYMax = m_pSim->nGetGridYMax();
 
-   // TODO Check if we don't have enough memory, if so return RTN_ERR_MEMALLOC
+   // TODO 038 Check if we don't have enough memory, if so return RTN_ERR_MEMALLOC
    m_Cell = new CGeomCell * [nXMax];
    for (int nX = 0; nX < nXMax; nX++)
       m_Cell[nX] = new CGeomCell[nYMax];

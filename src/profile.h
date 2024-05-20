@@ -2,7 +2,7 @@
  *
  * \class CGeomProfile
  * \brief Geometry class used to represent coast profile objects
- * \details TODO This is a more detailed description of the CGeomProfile class.
+ * \details TODO 001 This is a more detailed description of the CGeomProfile class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

@@ -1,7 +1,7 @@
 /*!
  *
  * \brief Definitions of some routines from the linear interp library
- * \details TODO This is a more detailed description of the linear interp routines.
+ * \details TODO 001 This is a more detailed description of the linear interp routines.
  * \author Modified by Andres Payo and David Favis-Mortlock
  * \date 2024
  * \copyright GNU Lesser General Public License
@@ -25,9 +25,9 @@ You should have received a copy of the GNU General Public License along with thi
 #include "linearinterp.h"
 
 //===============================================================================================================================
-//! TODO DFM What does this do? What is it here for? Need a description
+//! TODO 007 What does this do? What is it here for? Need a description
 //===============================================================================================================================
-int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
+int nNearestNeighbourIndex(vector<double> const* pVdX, double const dValue)
 {
    double dDist = DBL_MAX;
    int nIdx = 0;
@@ -47,7 +47,7 @@ int nNearestNeighbourIndex (vector<double> const* pVdX, double const dValue)
 }
 
 //===============================================================================================================================
-//! TODO DFM What does this do? What is it here for? Need a description. NOTE this crashes (divide by zero) if there are identical consecutive values in pVdX
+//! Used in linear interpolation of CShore output
 //===============================================================================================================================
 vector<double> VdInterp1(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdX_new)
 {
@@ -90,6 +90,10 @@ vector<double> VdInterp1(vector<double> const* pVdX, vector<double> const* pVdY,
          }
       }
       
+      // Safety check: this crashes (divide by zero) if there are identical consecutive values in pVdX, and thus if dX becomes 0. To prevent this, if dX is near zero, set to a small non-zero number
+      if (bFPIsEqual(dX, 0.0, TOLERANCE))
+         dX = 1e-10;
+
       double dM = dY / dX;
       double dB = pVdY->at(idx) - pVdX->at(idx) * dM;
 

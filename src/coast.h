@@ -1,7 +1,7 @@
 /*!
  * \class CRWCoast
  * \brief Real-world class used to represent coastline objects
- * \details TODO This is a more detailed description of the CRWCoast class.
+ * \details TODO 001 This is a more detailed description of the CRWCoast class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 

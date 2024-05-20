@@ -2,7 +2,7 @@
  *
  * \class CGeomRasterGrid
  * \brief Geometry cass used to represent the raster grid of cell objects
- * \details TODO This is a more detailed description of the CGeomRasterGrid class.
+ * \details TODO 001 This is a more detailed description of the CGeomRasterGrid class.
  * \author David Favis-Mortlock
  * \author Andres Payo
 
