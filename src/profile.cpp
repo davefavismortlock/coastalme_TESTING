@@ -198,7 +198,7 @@ void CGeomProfile::SetAllPointsInProfile(vector<CGeom2DPoint> const *VNewPoints)
 //! Sets a single point in the profile
 void CGeomProfile::SetPointInProfile(int const nPoint, double const dNewX, double const dNewY)
 {
-   // NOTE No check to see if nPoint < m_VPoints,size()
+   // TODO 055 No check to see if nPoint < m_VPoints,size()
    m_VPoints[nPoint] = CGeom2DPoint(dNewX, dNewY);
 }
 
@@ -358,31 +358,31 @@ bool CGeomProfile::bIsPointInProfile(double const dX, double const dY, int &nPoi
 
 // bool CGeomProfile::bPointShared(int const n) const
 // {
-//    // NOTE No check to see if n < size()
+//    // TODO 055 No check to see if n < size()
 //    return m_bVShared[n];
 // }
 
 // void CGeomProfile::SetCoastPolyToLeft(int const n, int const nPoly)
 // {
-//    // NOTE No check to see if n < size()
+//    // TODO 055 No check to see if n < size()
 //    m_VnCoastPolyToLeft[n] = nPoly;
 // }
 
 // int CGeomProfile::nGetCoastPolyToleft(int const n)
 // {
-//    // NOTE No check to see if n < size()
+//    // TODO 055 No check to see if n < size()
 //    return m_VnCoastPolyToLeft[n];
 // }
 
 // void CGeomProfile::SetCoastPolyToRight(int const n, int const nPoly)
 // {
-//    // NOTE No check to see if n < size()
+//    // TODO 055 No check to see if n < size()
 //    m_VnCoastPolyToRight[n] = nPoly;
 // }
 
 // int CGeomProfile::nGetCoastPolyToRight(int const n)
 // {
-//    // NOTE No check to see if n < size()
+//    // TODO 055 No check to see if n < size()
 //    return m_VnCoastPolyToRight[n];
 // }
 
@@ -416,7 +416,7 @@ vector<CGeom2DIPoint> *CGeomProfile::pPtiVGetCellsInProfile(void)
 //! Returns a single cell in the profile
 CGeom2DIPoint *CGeomProfile::pPtiGetCellInProfile(int const n)
 {
-   // In grid CRS NOTE No check to see if n < size()
+   // In grid CRS TODO 055 No check to see if n < size()
    return &m_VCellInProfile[n];
 }
 

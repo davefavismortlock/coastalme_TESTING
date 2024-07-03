@@ -519,7 +519,7 @@ double CGeomCell::dGetConsSedTopForLayerAboveBasement(int const nLayer) const
 //! Return a reference to the Nth sediment layer (layer 0 being just above basement)
 CRWCellLayer *CGeomCell::pGetLayerAboveBasement(int const nLayer)
 {
-   // NOTE no check that nLayer < size()
+   // TODO 055 No check that nLayer < size()
    return &m_VLayerAboveBasement[nLayer];
 }
 
@@ -724,10 +724,9 @@ void CGeomCell::CalcAllLayerElevsAndD50(void)
       {
          // This is a layer with non-zero thickness of unconsolidated sediment
          CRWCellSediment const* pUnconsSedLayer = m_VLayerAboveBasement[n].pGetUnconsolidatedSediment();
-         double
-             dFineProp = pUnconsSedLayer->dGetFineDepth() / dUnconsThick,
-             dSandProp = pUnconsSedLayer->dGetSandDepth() / dUnconsThick,
-             dCoarseProp = pUnconsSedLayer->dGetCoarseDepth() / dUnconsThick;
+         double dFineProp = pUnconsSedLayer->dGetFineDepth() / dUnconsThick;
+         double dSandProp = pUnconsSedLayer->dGetSandDepth() / dUnconsThick;
+         double dCoarseProp = pUnconsSedLayer->dGetCoarseDepth() / dUnconsThick;
 
          // Calculate d50 for the unconsolidated sediment
          m_dUnconsD50 = (dFineProp * m_pGrid->pGetSim()->dGetD50Fine()) + (dSandProp * m_pGrid->pGetSim()->dGetD50Sand()) + (dCoarseProp * m_pGrid->pGetSim()->dGetD50Coarse());

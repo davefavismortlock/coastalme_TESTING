@@ -110,7 +110,7 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
 
             cout << strTmp << endl;
          }
-         return (RTN_HELPONLY);
+         return (RTN_HELP_ONLY);
       }
 
       else if (strArg.find("--about") != string::npos)
@@ -119,7 +119,7 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
          cout << ABOUT << endl;
          cout << THANKS << endl;
 
-         return (RTN_HELPONLY);
+         return (RTN_HELP_ONLY);
       }
 
       // TODO 049 Handle other command line parameters e.g. path to .ini file, path to datafile
@@ -134,7 +134,7 @@ int CSimulation::nHandleCommandLineParams(int nArg, char const* pcArgv[])
          cout << USAGE4 << endl;
          cout << USAGE5 << endl;
 
-         return (RTN_HELPONLY);
+         return (RTN_HELP_ONLY);
       }
    }
 
@@ -2185,7 +2185,7 @@ string CSimulation::strGetErrorText(int const nErr)
 
    switch (nErr)
    {
-   case RTN_USERABORT:
+   case RTN_USER_ABORT:
       strErr = "aborted by user";
       break;
    case RTN_ERR_BADPARAM:
@@ -2254,7 +2254,7 @@ string CSimulation::strGetErrorText(int const nErr)
    case RTN_ERR_GRIDTOLINE:
       strErr = "error when searching grid for linear feature";
       break;
-   case RTN_ERR_TRACECOAST:
+   case RTN_ERR_TRACING_COAST:
       strErr = "error tracing coastline on grid";
       break;
    case RTN_ERR_NOCOAST:
@@ -2290,7 +2290,7 @@ string CSimulation::strGetErrorText(int const nErr)
    case RTN_ERR_NO_PROFILES_2:
       strErr = "no coastline-normal profiles created during rasterization";
       break;
-   case RTN_ERR_EDGEOFGRID:
+   case RTN_ERR_EDGE_OF_GRID:
       strErr = "hit grid edge when eroding beach";
       break;
    case RTN_ERR_NO_SEAWARD_END_OF_PROFILE_1:
@@ -2398,8 +2398,8 @@ void CSimulation::DoSimulationEnd(int const nRtn)
       cout << RUN_END_NOTICE << put_time(localtime(&m_tSysEndTime), "%T %A %d %B %Y") << endl;
       break;
 
-   case (RTN_HELPONLY):
-   case (RTN_CHECKONLY):
+   case (RTN_HELP_ONLY):
+   case (RTN_CHECK_ONLY):
       return;
 
    default:
@@ -2753,7 +2753,7 @@ double CSimulation::dSubtractProfiles(vector<double> const* pdVFirstProfile, vec
 {
    double dTotElevDiff = 0;
 
-   // NOTE this assumes that all three vectors are of equal length
+   // TODO 058 this assumes that all three vectors are of equal length
    for (int n = 0; n < static_cast<int>(pdVFirstProfile->size()); n++)
    {
       if (pbVIsValid->at(n))

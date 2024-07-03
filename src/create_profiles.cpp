@@ -536,7 +536,7 @@ int CSimulation::nCreateProfile(int const nCoast, int const nProfileStartPoint, 
    // OK, we have flagged the start point of this new coastline-normal profile, so create it. Make the start of the profile the centroid of the actual cell that is marked as coast (not the cell under the smoothed vector coast, they may well be different)
    int nCoastSize = m_VCoast[nCoast].nGetCoastlineSize();
 
-   CGeom2DPoint PtStart; // PtStart has coordinates in external CRS
+   CGeom2DPoint PtStart; // In external CRS
    PtStart.SetX(dGridCentroidXToExtCRSX(m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nProfileStartPoint)->nGetX()));
    PtStart.SetY(dGridCentroidYToExtCRSY(m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nProfileStartPoint)->nGetY()));
 
@@ -1420,7 +1420,7 @@ void CSimulation::RasterizeProfile(int const nCoast, int const nProfile, vector<
             }
 
             // If this is the first line segment of the profile, then once we are clear of the coastline (say, when m > 1), check if this profile hits land at this interpolated point
-            // NOTE Get problems here since if the coastline vector has been heavily smoothed, this can result is 'false positives' profiles marked as invalid which are not actually invalid, because the profile hits land when m = 0 or m = 1. This results in some cells being flagged as profile cells which are actually inland
+            // TODO 058 Get problems here since if the coastline vector has been heavily smoothed, this can result is 'false positives' profiles marked as invalid which are not actually invalid, because the profile hits land when m = 0 or m = 1. This results in some cells being flagged as profile cells which are actually inland
             if (((nSeg == 0) && (m > 1)) || (nSeg > 0))
             {
                if (m_pRasterGrid->m_Cell[nX][nY].bIsCoastline())
@@ -1699,7 +1699,7 @@ void CSimulation::MergeProfilesAtFinalLineSegments(int const nCoast, int const n
       CGeomProfile* pThisProfile = m_VCoast[nCoast].pGetProfile(nThisProfile);
       int nProfileLength = pThisProfile->nGetProfileSize();
 
-      // NOTE this is the final line segment of the first 'main' profile. We are assuming that it is also the final line segment of all co-incident profiles. This is fine, altho' each profile may well have a different number of line segments landwards i.e. the number of the line segment may be different for each co-incident profile
+      // TODO 058 this is the final line segment of the first 'main' profile. We are assuming that it is also the final line segment of all co-incident profiles. This is fine, altho' each profile may well have a different number of line segments landwards i.e. the number of the line segment may be different for each co-incident profile
       pThisProfile->SetPointInProfile(nProfileLength - 1, dIntersectX, dIntersectY);
    }
 
@@ -1710,7 +1710,7 @@ void CSimulation::MergeProfilesAtFinalLineSegments(int const nCoast, int const n
       CGeomProfile* pThisProfile = m_VCoast[nCoast].pGetProfile(nThisProfile);
       int nProfileLength = pThisProfile->nGetProfileSize();
 
-      // NOTE this is the final line segment of the second 'main' profile. We are assuming that it is also the final line segment of all co-incident profiles. This is fine, altho' each profile may well have a different number of line segments landwards i.e. the number of the line segment may be different for each co-incident profile
+      // TODO 058 this is the final line segment of the second 'main' profile. We are assuming that it is also the final line segment of all co-incident profiles. This is fine, altho' each profile may well have a different number of line segments landwards i.e. the number of the line segment may be different for each co-incident profile
       pThisProfile->SetPointInProfile(nProfileLength - 1, dIntersectX, dIntersectY);
    }
 

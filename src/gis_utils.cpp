@@ -833,7 +833,7 @@ bool CSimulation::bCheckRasterGISOutputFormat(void)
 //===============================================================================================================================
 bool CSimulation::bCheckVectorGISOutputFormat(void)
 {
-   // Load the vector GDAL driver (NOTE this assumes that GDALAllRegister() has already been called)
+   // Load the vector GDAL driver (this assumes that GDALAllRegister() has already been called)
    GDALDriver* pDriver = GetGDALDriverManager()->GetDriverByName(m_strVectorGISOutFormat.c_str());
    if (NULL == pDriver)
    {
@@ -1679,7 +1679,7 @@ void CSimulation::SetRasterFileCreationDefaults(void)
 
    else if (m_strVectorGISOutFormat == "gpkg")
    {
-      // NOTE This only applies to vector files, GDAL does not (yet) support overwriting raster files, see https://gis.stackexchange.com/questions/377450/overwrite-existing-raster-layer-using-pyqgis
+      // TODO 058 This only applies to vector files, GDAL does not (yet) support overwriting raster files, see https://gis.stackexchange.com/questions/377450/overwrite-existing-raster-layer-using-pyqgis
 //      m_papszGDALRasterOptions = CSLSetNameValue(m_papszGDALRasterOptions, "OVERWRITE", "YES");
    }
 }

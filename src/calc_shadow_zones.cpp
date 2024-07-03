@@ -1241,7 +1241,7 @@ void CSimulation::ProcessDownDriftCell(int const nX, int const nY, int const nTr
    // OK, we are downdrift of the shadow zone area and have not yet processed this cell for this zone, so mark it
    m_pRasterGrid->m_Cell[nX][nY].SetDownDriftZoneNumber(nZone + 1);
 
-   // Equation 14 from Hurst et al. NOTE could not get this to work (typo in paper?), so used the equation below instead
+   // Equation 14 from Hurst et al. TODO 056 Check this! Could not get this to work (typo in paper?), so used the equation below instead
    // double dKp = 0.5 * (1.0 - sin((PI * 90.0 * nSweep) / (180.0 * nSweepLength)));
    double dKp = 0.5 + (0.5 * sin((PI * nTraversed) / (2.0 * dTotalToTraverse)));
 

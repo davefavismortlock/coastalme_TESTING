@@ -538,6 +538,8 @@ private:
    //! TODO 007 Used in WAVESETUP + SURGE + RUNUP
    int m_nLevel;
 
+   int m_nCoastCurvatureMovingWindowSize;
+
    //! The data type used by GDAL for integer operations, can be GDT_Byte, GDT_Int16, GDT_UInt16, GDT_Int32, or GDT_UInt32
    GDALDataType m_GDALWriteIntDataType;
 

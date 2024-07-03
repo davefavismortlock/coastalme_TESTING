@@ -156,5 +156,6 @@ Timesteps to save profile(s)                                                    
 Save parallel profiles?                                                                      : n
 Output erosion potential look-up values                                                      : y
 Erode coast in alternate direction each timestep?                                            : n
+Size of moving window for calculating coastline curvature (must be odd)                      : 11
 ; END OF FILE ----------------------------------------------------------------------------------------------------------
 

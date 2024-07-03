@@ -35,6 +35,9 @@ using std::setprecision;
 
 #include <cfloat>
 
+#include <string>
+using std::to_string;
+
 #include "cme.h"
 #include "simulation.h"
 #include "raster_grid.h"
@@ -201,9 +204,10 @@ CSimulation::CSimulation (void)
    m_nDeepWaterWaveDataNumTimeSteps =
    m_nLogFileDetail =
    m_nRunUpEquation = 
-   m_nLevel = 0;
+   m_nLevel =
+   m_nCoastCurvatureMovingWindowSize = 0;
 
-   // NOTE May wish to make this a user-supplied value
+   // TODO 011 May wish to make this a user-supplied value
    m_nMissingValue = INT_NODATA;
 
    m_nXMinBoundingBox = INT_MAX;
@@ -357,7 +361,7 @@ CSimulation::CSimulation (void)
    for (int i = 0; i < 6; i++)
       m_dGeoTransform[i] = 0;
 
-   // NOTE May wish to make this a user-supplied value
+   // TODO 058 May wish to make this a user-supplied value
    m_dMissingValue = DBL_NODATA;
 
    m_ldGTotPotentialPlatformErosion =
@@ -625,12 +629,25 @@ int CSimulation::nDoSimulation(int nArg, char const* pcArgv[])
    // Create the raster grid object
    m_pRasterGrid = new CGeomRasterGrid (this);
 
-   // Read in the basement layer (NOTE MUST HAVE THIS FILE), create the raster grid, then read in the basement DEM data to the array
+   // Read in the basement layer (must have this file), create the raster grid, then read in the basement DEM data to the array
    AnnounceReadBasementDEM();
    nRet = nReadRasterBasementDEM();
    if (nRet != RTN_OK)
       return nRet;
 
+   // Now that we have a value for m_dCellSide, we can check some more input paramters
+   // Talus must be more than one cell wide, and since the number of cells must be odd, three cells is the minimum width
+   int nTmp = nConvertMetresToNumCells(m_dCliffDepositionPlanviewWidth);
+   if (nTmp < 3)
+   {
+      string strErr = ERR + "cliff deposition must have a planview width of at least three cells. The current setting of " + to_string(m_dCliffDepositionPlanviewWidth) + " m gives a planview width of " + to_string(nTmp) + " cells. Please edit " + m_strDataPathName;
+      cerr << strErr << endl;
+      LogStream << strErr << endl;
+      OutStream << strErr << endl;
+      return RTN_ERR_RUNDATA;
+   }
+
+   // Do some more initialisation
    m_ulNumCells = m_nXGridMax * m_nYGridMax;
 
    // Mark edge cells, as defined by the basement layer

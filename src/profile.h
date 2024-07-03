@@ -69,7 +69,7 @@ private:
    //! The wave period at the end of the profile
    double m_dDeepWaterWavePeriod;
 
-   //! In the grid CRS, the integer coordinates of the cells 'under' this profile. NOTE Point zero is the same as 'cell marked as coastline' in coast object
+   //! In the grid CRS, the integer coordinates of the cells 'under' this profile, point zero is the same as 'cell marked as coastline' in coast object
    vector<CGeom2DIPoint> m_VCellInProfile;
 
    // The following have the same length as m_VCellInProfile

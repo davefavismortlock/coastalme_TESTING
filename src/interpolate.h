@@ -1,9 +1,8 @@
 /*!
  *
  * \file interpolate.h
- * \brief Definitions of Linear interpolation routines
+ * \brief Definitions of routines which return interpolated value at x from parallel arrays
  * \details TODO 001 A more detailed description of these routines.
- * \author http://www.cplusplus.com/forum/general/216928/
  * \author Modified by David Favis-Mortlock and Andres Payo
  * \date 2024
  * \copyright GNU Lesser General Public License
@@ -23,6 +22,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
-double dInterpolate(vector<double> const*, vector<double> const*, double, bool);
-double dInterpolate(vector<int> const*, vector<double> const*, int, bool);
+double dGetInterpolatedValue(vector<double> const*, vector<double> const*, double, bool);
+double dGetInterpolatedValue(vector<int> const*, vector<double> const*, int, bool);
+int nFindIndex(vector<double> const*, double const);
+vector<double> VdInterpolateCShoreProfileOutput(vector<double> const*, vector<double> const*, vector<double> const*);
 #endif // INTERPOLATE_H

@@ -39,7 +39,7 @@ CA2DIShape::~CA2DIShape(void)
 //! Returns one integer point from the vector which represents this 2D shape
 CGeom2DIPoint& CA2DIShape::operator[] (int const n)
 {
-   // NOTE No safety check
+   // TODO 055 Maybe add a safety check?
    return m_VPoints[n];
 }
 

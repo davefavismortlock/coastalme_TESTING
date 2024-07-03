@@ -52,7 +52,6 @@ using std::sort;
 #include "coast.h"
 #include "simulation.h"
 
-#include "linearinterp.h"
 #include "interpolate.h"
 
 //===============================================================================================================================
@@ -967,7 +966,6 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       // Set the error flag: this will be changed within CShore if there is a problem
       nRet = 0;
 
-      int const CSHOREARRAYOUTSIZE = 500;
       vector<double>
           VdInitTime = {dWaveInitTime, dCShoreTimeStep},                         // Size is nNwave+1, value 1 is for the start of the CShore run, value 2 for end of CShore run
           VdTPIn = {dDeepWaterWavePeriod, dDeepWaterWavePeriod},                 // Ditto
@@ -1380,6 +1378,7 @@ int CSimulation::nCalcWavePropertiesOnProfile(int const nCoast, int const nCoast
       dWaveHeight = VdWaveHeight[nValidPointsWaveHeight];
    }
 
+   // TODO 060 Remove these 'magic numbers'
    double dRunUp = 0;
    if (m_nRunUpEquation == 0)
    {
@@ -1733,7 +1732,9 @@ int CSimulation::nReadCShoreOutput(int const nProfile, string const *strCShoreFi
 
    // Using a simple linear interpolation approach
    vector<double> VdDistXYCopy(pVdProfileDistXYCME->begin(), pVdProfileDistXYCME->end());
-   *pVdInterpolatedValues = VdInterp1(&VdXYDistCShoreTmp, &VdValuesCShore, &VdDistXYCopy);
+
+   // assertVdXYDistCShoreTmp.size() == VdValuesCShore.size());
+   *pVdInterpolatedValues = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, &VdValuesCShore, &VdDistXYCopy);
 
    return RTN_OK;
 }
@@ -1751,7 +1752,7 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const* pVdProfileDistXY
       VdXYDistCShoreTmp[i] = pVdXYDistFromCShoreOut->at(nOutSize - 1) - pVdXYDistFromCShoreOut->at(i);
 
    vector<double> VdFreeSurfaceStdCShoreTmp(pVdFreeSurfaceStdCShore->begin(), pVdFreeSurfaceStdCShore->begin() + nOutSize);
-   vector<double> VdWaveSetupSurgeCShoreTmp(pVdWaveSetupSurgeCShore->begin(), pVdWaveSetupSurgeCShore->begin() + nOutSize);   // NOTE sometimes have -ve values here, is this OK?
+   vector<double> VdWaveSetupSurgeCShoreTmp(pVdWaveSetupSurgeCShore->begin(), pVdWaveSetupSurgeCShore->begin() + nOutSize);   // TODO 057 Sometimes get -ve values here, is this OK?
    vector<double> VdSinWaveAngleRadiansCShoreTmp(pVdSinWaveAngleRadiansCShore->begin(), pVdSinWaveAngleRadiansCShore->begin() + nOutSize);
    vector<double> VdFractionBreakingWavesCShoreTmp(pVdFractionBreakingWavesCShore->begin(), pVdFractionBreakingWavesCShore->begin() + nOutSize);
    
@@ -1766,12 +1767,12 @@ void CSimulation::InterpolateCShoreOutput(vector<double> const* pVdProfileDistXY
    // Using the simple linear approach
    vector<double> VdDistXYCopy(pVdProfileDistXYCME->begin(), pVdProfileDistXYCME->end());
 
-   *pVdFreeSurfaceStdCME = VdInterp1(&VdXYDistCShoreTmp, pVdFreeSurfaceStdCShore, &VdDistXYCopy);
-   *pVdWaveSetupSurgeCME = VdInterp1(&VdXYDistCShoreTmp, pVdWaveSetupSurgeCShore, &VdDistXYCopy);
-   // *pVdStormSurgeCME = VdInterp1(&VdXYDistCShoreTmp, pVdStormSurgeCShore, &VdDistXYCopy);
-   // *pVdWaveSetupRunUpCME = VdInterp1(&VdXYDistCShoreTmp, pVdWaveSetupRunUpCShore, &VdDistXYCopy);
-   *pVdSinWaveAngleRadiansCME = VdInterp1(&VdXYDistCShoreTmp, pVdSinWaveAngleRadiansCShore, &VdDistXYCopy);
-   *pVdFractionBreakingWavesCME = VdInterp1(&VdXYDistCShoreTmp, pVdFractionBreakingWavesCShore, &VdDistXYCopy);
+   *pVdFreeSurfaceStdCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdFreeSurfaceStdCShore, &VdDistXYCopy);
+   *pVdWaveSetupSurgeCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdWaveSetupSurgeCShore, &VdDistXYCopy);
+   // *pVdStormSurgeCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdStormSurgeCShore, &VdDistXYCopy);
+   // *pVdWaveSetupRunUpCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdWaveSetupRunUpCShore, &VdDistXYCopy);
+   *pVdSinWaveAngleRadiansCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdSinWaveAngleRadiansCShore, &VdDistXYCopy);
+   *pVdFractionBreakingWavesCME = VdInterpolateCShoreProfileOutput(&VdXYDistCShoreTmp, pVdFractionBreakingWavesCShore, &VdDistXYCopy);
 }
 #endif
 
@@ -1955,7 +1956,7 @@ void CSimulation::InterpolateWavePropertiesBetweenProfiles(int const nCoast, int
       // The next profile must be in the active zone, so use values from the next profile
       for (int n = nThisCoastPoint; n < nNextCoastPoint; n++)
       {
-         // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point NOTE ANDRES this assert sometimes fails: why?
+         // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point TODO 056 This assert sometimes fails: why?
          // assert(dNextBreakingWaveHeight >= 0);
          m_VCoast[nCoast].SetBreakingWaveHeight(n, dNextBreakingWaveHeight);
          m_VCoast[nCoast].SetBreakingWaveAngle(n, dNextBreakingWaveAngle);
@@ -1970,7 +1971,7 @@ void CSimulation::InterpolateWavePropertiesBetweenProfiles(int const nCoast, int
       // This profile must be in the active zone, so use values from this profile
       for (int n = nThisCoastPoint + 1; n <= nNextCoastPoint; n++)
       {
-         // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point NOTE ANDRES this assert sometimes fails: why?
+         // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point TODO 056 This assert sometimes fails: why?
          // assert(dThisBreakingWaveHeight >= 0);
          m_VCoast[nCoast].SetBreakingWaveHeight(n, dThisBreakingWaveHeight);
          m_VCoast[nCoast].SetBreakingWaveAngle(n, dThisBreakingWaveAngle);
@@ -2018,7 +2019,7 @@ void CSimulation::InterpolateWavePropertiesBetweenProfiles(int const nCoast, int
          dBreakingDist = nThisBreakingDist;
       }
 
-      // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point NOTE ANDRES this assert sometimes fails: why?
+      // Set the breaking wave height, breaking wave angle, and depth of breaking for this coast point TODO 056 This assert sometimes fails: why?
       // assert(dBreakingWaveHeight >= 0);
       m_VCoast[nCoast].SetBreakingWaveHeight(n, dBreakingWaveHeight);
       m_VCoast[nCoast].SetBreakingWaveAngle(n, dBreakingWaveAngle);
@@ -2055,7 +2056,7 @@ void CSimulation::InterpolateWaveHeightToCoastPoints(int const nCoast)
    {
       for (int n = 0; n < nCoastPoints; n++)
       {
-         double dInterpCoastWaveHeight = dInterpolate(&nVCoastWaveHeightX, &dVCoastWaveHeightY, n, false);
+         double dInterpCoastWaveHeight = dGetInterpolatedValue(&nVCoastWaveHeightX, &dVCoastWaveHeightY, n, false);
          m_VCoast[nCoast].SetCoastWaveHeight(n, dInterpCoastWaveHeight);
       }
    }

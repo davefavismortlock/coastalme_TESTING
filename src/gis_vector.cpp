@@ -140,7 +140,7 @@ int CSimulation::nReadVectorGISFile(int const nDataItem)
                break;
 
             default:
-               // NOTE may need wkbMultiLineString or similar for channel network
+               // TODO 058 may need wkbMultiLineString or similar for channel network
                nThisGeometry = VEC_GEOMETRY_OTHER;
                strGeometry = "other";
                break;

@@ -23,3 +23,5 @@ CoastalME CHANGELOG
 1.1.19  Ditto plus set up for clang-tidy (6 Feb 2024)
 1.1.20  Code tidying, comments re. Manuel info needed (18 Feb 2024)
 1.1.21  Organised buglist and todo-list, both are now in cme.h. New 'usual' options to reduce number of raster and vector GIS output files. Other code tidying (20 May 2024)
+1.1.22  Changed CMakeLists.txt to no longer use deprecated exec_program(). Began use of gcc -fsanitize options to show any runtime problems: as a result, made several changes especially to cliff collapse deposition routines. STILL TODO: fine sediment mass balance errors (especially on Manuel's test data)
+

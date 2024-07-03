@@ -219,9 +219,8 @@ bool CSimulation::bReadRunDataFile(void)
       return false;
    }
 
-   int
-       nLine = 0,
-       i = 0;
+   int nLine = 0;
+   int i = 0;
    size_t nPos;
    string strRec, strErr;
 
@@ -2527,6 +2526,7 @@ bool CSimulation::bReadRunDataFile(void)
 
                if (m_dCliffDepositionPlanviewWidth <= 0)
                   strErr = "line " + to_string(nLine) + ": planview width of cliff deposition must be > 0";
+
             }
             break;
 
@@ -2936,6 +2936,21 @@ bool CSimulation::bReadRunDataFile(void)
             m_bErodeShorePlatformAlternateDirection = false;
             if (strRH.find("y") != string::npos)
                m_bErodeShorePlatformAlternateDirection = true;
+            break;
+
+         case 87:
+            // Size of moving window for coastline curvature calculation (must be odd)
+            if (! bIsStringValidInt(strRH))
+            {
+               strErr = "line " + to_string(nLine) + ": invalid integer for size of moving window for coastline curvature calculation '" + strRH + "' in " + m_strDataPathName;
+               break;
+            }
+
+            m_nCoastCurvatureMovingWindowSize = stoi(strRH);
+
+            if ((m_nCoastCurvatureMovingWindowSize <= 0) || ! (m_nCoastCurvatureMovingWindowSize % 2))
+               strErr = "line " + to_string(nLine) + ": size of moving window for coastline curvature calculation (must be > 0 and odd)";
+
             break;
          }
 

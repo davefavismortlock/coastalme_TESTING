@@ -522,6 +522,7 @@ void CSimulation::WriteStartRunDetails(void)
       OutStream << " (see " << m_strOutPath << EROSION_POTENTIAL_LOOKUP_FILE << ")";
    OutStream << endl;
    OutStream << " Erode coast in alternate directions?                      \t: " << (m_bErodeShorePlatformAlternateDirection ? "Y" : "N") << endl;
+   OutStream << " Size of moving window for calculating coastline curvature \t: " << m_nCoastCurvatureMovingWindowSize << endl;
 
    OutStream << endl
              << endl;
@@ -928,7 +929,7 @@ void CSimulation::WriteLookUpData(void) const
       double dDepthOverDB = 0.0;
       while (dDepthOverDB <= m_dDepthOverDBMax)
       {
-         double dErosionPotential = dInterpolate(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
+         double dErosionPotential = dGetInterpolatedValue(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
          LookUpOutStream << dDepthOverDB << ",\t" << dErosionPotential << endl;
          dDepthOverDB += DEPTH_OVER_DB_INCREMENT;
       }

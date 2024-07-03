@@ -1,9 +1,8 @@
 /*!
  *
  * \file interpolate.cpp
- * \brief Linear interpolation routines
+ * \brief Returns interpolated value at x from parallel arrays
  * \details TODO 001 A more detailed description of these routines.
- * \author http://www.cplusplus.com/forum/general/216928/
  * \author Modified by David Favis-Mortlock and Andres Payo
  * \date 2024
  * \copyright GNU Lesser General Public License
@@ -21,6 +20,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ===============================================================================================================================*/
+#include <cfloat>
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -29,9 +29,10 @@ using namespace std;
 #include "cme.h"
 
 //===============================================================================================================================
+//! From https://cplusplus.com/forum/general/216928/
 //! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, both lots of data are doubles
 //===============================================================================================================================
-double dInterpolate(vector<double> const* pVdXdata, vector<double> const* pVdYdata, double dX, bool bExtrapolate)
+double dGetInterpolatedValue(vector<double> const* pVdXdata, vector<double> const* pVdYdata, double dX, bool bExtrapolate)
 {
    int size = static_cast<int>(pVdXdata->size());
 
@@ -63,9 +64,10 @@ double dInterpolate(vector<double> const* pVdXdata, vector<double> const* pVdYda
 }
 
 //===============================================================================================================================
+//! From https://cplusplus.com/forum/general/216928/
 //! Returns interpolated value at x from parallel arrays (VdXdata, VdYdata). Assumes that VdXdata has at least two elements, is sorted and is strictly monotonically increasing. The boolean argument extrapolate determines behaviour beyond ends of array (if needed). For this version, one lot of data is integer and the other is double
 //===============================================================================================================================
-double dInterpolate(vector<int> const* pVnXdata, vector<double> const* pVdYdata, int nX, bool bExtrapolate )
+double dGetInterpolatedValue(vector<int> const* pVnXdata, vector<double> const* pVdYdata, int nX, bool bExtrapolate )
 {
    unsigned int nSize = static_cast<unsigned int>(pVnXdata->size());
 
@@ -98,31 +100,81 @@ double dInterpolate(vector<int> const* pVnXdata, vector<double> const* pVdYdata,
    return dYL + ddYdX * static_cast<double>(nX - nXL);               // Linear interpolation
 }
 
-//======================================================================
-//int main()
-//{
-//   // Original data
-//   vector<double> VdXdata = { 1, 5, 10, 15, 20 };
-//   vector<double> VdYdata = { 0.3, 0.5, 0.8, 0.1, 0.14 };
+//===============================================================================================================================
+//! This is used by VdInterpolateCShoreProfileOutput, it returns the index of the value in pVdX which is less than or equal to the absolute difference between dValueIn and the pVdX value
+//===============================================================================================================================
+int nFindIndex(vector<double> const* pVdX, double const dValueIn)
+{
+   double dLastValue = DBL_MAX;
+   int nIndexFound = 0;
 
-//   // Set up some points for interpolation in xVals
-//   const int NPTS = 20;
-//   vector<double> xVals, yVals;
-//   for ( int i = 1; i <= NPTS; i++ ) xVals.push_back( (double)i );
+   for (unsigned int i = 0; i < pVdX->size(); ++i)
+   {
+      double dThisValue = tAbs(dValueIn - pVdX->at(i));
 
-//   // Interpolate
-//   for ( double x : xVals )
-//   {
-//      double y = dInterpolate( VdXdata, VdYdata, x, true );
-//      yVals.push_back( y );
-//   }
-//
-//   // Output
-//   #define SP << fixed << setw( 15 ) << setprecision( 6 ) <<
-//   #define NL << '\n'
-//   cout << "Original data:\n";
-//   for ( int i = 0; i < VdXdata.size(); i++ ) cout SP VdXdata[i] SP VdYdata[i] NL;
-//   cout << "\nInterpolated data:\n";
-//   for ( int i = 0; i < xVals.size(); i++ ) cout SP xVals[i] SP yVals[i] NL;
-//}
+      if (dThisValue <= dLastValue)
+      {
+         dLastValue = dThisValue;
+         nIndexFound = i;
+      }
+   }
+
+   return nIndexFound;
+}
+
+//===============================================================================================================================
+//! Returns a linarly interpolated vector of doubles, to make CShore profile output compatible with CME. The array pVdY has been output by CShore and so always has length CSHOREARRAYOUTSIZE, whereas all other arrays have sizes which depend on CME at runtime
+//===============================================================================================================================
+vector<double> VdInterpolateCShoreProfileOutput(vector<double> const* pVdX, vector<double> const* pVdY, vector<double> const* pVdXNew)
+{
+   int nXSize = static_cast<int>(pVdX->size());
+   int nXNewSize = static_cast<int>(pVdXNew->size());
+
+   double dX;
+   double dY;
+   vector<double> VdYNew(nXNewSize, 0.0);
+
+   for (int i = 0; i < nXNewSize; ++i)
+   {
+      int idx = nFindIndex(pVdX, pVdXNew->at(i));
+
+      if (pVdX->at(idx) > pVdXNew->at(i))
+      {
+         if (idx > 0)
+         {
+            dX = pVdX->at(idx) - pVdX->at(idx-1);
+            dY = pVdY->at(idx) - pVdY->at(idx-1);
+         }
+         else
+         {
+            dX = pVdX->at(idx+1) - pVdX->at(idx);
+            dY = pVdY->at(idx+1) - pVdY->at(idx);
+         }
+      }
+      else
+      {
+         if (idx < nXSize-1)
+         {
+            dX = pVdX->at(idx+1) - pVdX->at(idx);
+            dY = pVdY->at(idx+1) - pVdY->at(idx);
+         }
+         else
+         {
+            dX = pVdX->at(idx) - pVdX->at(idx-1);
+            dY = pVdY->at(idx) - pVdY->at(idx-1);
+         }
+      }
+
+      // Safety check: this crashes (divide by zero) if there are identical consecutive values in pVdX, and thus if dX becomes 0. To prevent this, if dX is near zero, set to a small non-zero number
+      if (bFPIsEqual(dX, 0.0, TOLERANCE))
+         dX = 1e-10;
+
+      double dM = dY / dX;
+      double dB = pVdY->at(idx) - pVdX->at(idx) * dM;
+
+      VdYNew[i] = (pVdXNew->at(i) * dM) + dB;
+   }
+
+   return VdYNew;
+}
 

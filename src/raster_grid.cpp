@@ -63,7 +63,7 @@ CSimulation* CGeomRasterGrid::pGetSim(void)
 //! Creates the 2D CGeomCell array
 int CGeomRasterGrid::nCreateGrid(void)
 {
-   // Create the 2D CGeomCell array, NOTE this is faster than using 2D STL vectors
+   // Create the 2D CGeomCell array (this is faster than using 2D STL vectors)
    int
       nXMax = m_pSim->nGetGridXMax(),
       nYMax = m_pSim->nGetGridYMax();

@@ -22,7 +22,7 @@
 ;
 ; Run information ---------------------------------------------------------------------------------------------------------------------------------------------
 Main output/log file names                                          [omit path and extension]: C003_0001_sim_0001
-Content of log file                                       [1 = least detail, 3 = most detail]: 2
+Content of log file                                       [1 = least detail, 3 = most detail]: 3
 
 Simulation start date and time                                          [hh-mm-ss dd/mm/yyyy]: 00-00-00 01/01/2020
 Duration of simulation                                           [hours, days, months, years]: 3 days
@@ -118,7 +118,7 @@ Resistance to erosion of cliff (m^(9/4)s^(3/2))                                 
 Notch overhang to initiate collapse (m)                                                      : 0.50
 Notch base below still water level (m)                                                       : 0.3       ; Must be greater than zero
 Scale parameter A for cliff deposition (m^(1/3))                                   [0 = auto]: 0         ; For a 0.2 mm D50, will be 0.1
-Approximate planview width of cliff deposition talus (m)                                     : 5
+Approximate planview width of cliff deposition talus (m)                                     : 30     ; *** WAS 5
 Planview length of cliff deposition talus (m)                                                : 50        ; was 30 15
 Height of landward talus end, as fraction of cliff elevation                                 : 0
 
@@ -152,5 +152,5 @@ Timesteps to save profile(s)                                                    
 Save parallel profiles?                                                                      : n
 Output erosion potential look-up values                                                      : y
 Erode coast in alternate direction each timestep?                                            : n
-
+Size of moving window for calculating coastline curvature (must be odd)                      : 11
 ; END OF FILE -------------------------------------------------------------------------------------------------------------------------------------------------

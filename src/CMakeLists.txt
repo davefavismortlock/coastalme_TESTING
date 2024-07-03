@@ -80,18 +80,12 @@ if (CMAKE_COMPILER_IS_GNUCC)
    if (CMAKE_BUILD_TYPE_LC STREQUAL "debug")
       set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wpointer-arith -Wconversion -Wcast-qual -Wcast-align -Wwrite-strings -Wredundant-decls -Wno-strict-overflow -Wshadow -Wuninitialized -Wnull-dereference -Wformat -Wformat-overflow -Wformat-signedness -Wuseless-cast -Wempty-body -Wfloat-equal")
 
-      if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.8")
-         # Undefined behaviour sanitizer introduced with gcc 4.9, see http://developerblog.redhat.com/2014/10/16/gcc-undefined-behavior-sanitizer-ubsan/
-#         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=shift -fsanitize=integer-divide-by-zero -fsanitize=unreachable -fsanitize=null -fsanitize=return -fsanitize=address")
-      endif ()
-
-      # TODO I think these were introduced in a later gcc version, need to check
-      if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "5.0")
-         # Undefined behaviour sanitizer introduced with gcc 4.9, see http://developerblog.redhat.com/2014/10/16/gcc-undefined-behavior-sanitizer-ubsan/
-#         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=vla-bound -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fsanitize=bounds -fsanitize=alignment -fsanitize=object-size -fsanitize=vptr")
-         # TODO not yet working
-#         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmpx -fcheck-pointer-bounds -fsanitize-blacklist=blacklist.txt")
-      endif ()
+      # # Use these before a release ====================================================================================
+      # if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "5.0")
+      #    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined -fsanitize=shift -fsanitize=integer-divide-by-zero -fsanitize=unreachable -fsanitize=null -fsanitize=return -fsanitize=vla-bound -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fsanitize=bounds -fsanitize=alignment -fsanitize=object-size -fsanitize=vptr")
+      #    #  -fsanitize=address
+      # endif ()
+      # # END Use these before a release ================================================================================
 
 #      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weffc++")
    endif ()
@@ -116,6 +110,7 @@ endif ()
 # Sort out compiler flags for various build types
 if (CMAKE_BUILD_TYPE_LC STREQUAL "debug")
    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS}")
+   set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g")
    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CME_BINARY_DIR}/Debug CACHE PATH "Directory for Debug builds" FORCE)
    # For Debug builds on any platform, add the model's "internal" debug flag (used for extra logging) etc.
    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DEBUG")
@@ -148,51 +143,22 @@ message ("Finding libraries")
 
 #########################################################################################
 # CoastalME cannot be built without GDAL, which is linked dynamically
-find_package (GDAL REQUIRED)
-#message (STATUS "GDAL_LIBRARIES=${GDAL_LIBRARIES}")
-#message (STATUS "GDAL_INCLUDE_DIRS=${GDAL_INCLUDE_DIRS}")
-set (LIBS ${LIBS} ${GDAL_LIBRARIES})
-set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${GDAL_INCLUDE_DIRS})
-#message (STATUS "LIBS=${LIBS}")
-#message (STATUS "CMAKE_INCLUDE_PATH=${CMAKE_INCLUDE_PATH}")
-
-# OK, we found GDAL, but what versuion is it? This is stolen from https://github.com/qgis/QGIS/blob/master/cmake/FindGDAL.cmake
-set (GDAL_CONFIG_PREFER_PATH "$ENV{GDAL_HOME}/bin" CACHE STRING "preferred path to GDAL (gdal_config)")
-set (GDAL_CONFIG_PREFER_FWTOOLS_PATH "$ENV{FWTOOLS_HOME}/bin_safe" CACHE STRING "preferred path to GDAL (gdal_config) from FWTools")
-find_program (GDAL_CONFIG gdal-config
-   ${GDAL_CONFIG_PREFER_PATH}
-   ${GDAL_CONFIG_PREFER_FWTOOLS_PATH}
-   /usr/local/bin/
-   /usr/bin/
-)
-#message ("GDAL_CONFIG=${GDAL_CONFIG}")
-
-if (GDAL_CONFIG)
-   # Extract the GDAL version
-   exec_program (${GDAL_CONFIG}
-      ARGS --version
-      OUTPUT_VARIABLE GDAL_VERSION
-   )
-#    string (REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1" GDAL_VERSION_MAJOR "${GDAL_VERSION}")
-#    string (REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2" GDAL_VERSION_MINOR "${GDAL_VERSION}")
-#
-#    message (STATUS "GDAL is version ${GDAL_VERSION}")
-#    message ("GDAL_VERSION_MAJOR=${GDAL_VERSION_MAJOR}")
-#    message ("GDAL_VERSION_MINOR=${GDAL_VERSION_MINOR}")
+find_package(GDAL REQUIRED)
+if (GDAL_FOUND)
+   # OK, we found GDAL
+   message (STATUS "GDAL_INCLUDE_DIRS=${GDAL_INCLUDE_DIRS}")
+   message (STATUS "GDAL_LIBRARIES=${GDAL_LIBRARIES}")
+   message (STATUS "GDAL_VERSION=${GDAL_VERSION}")
 
    # Now check the GDAL version: CoastalME can only be built with GDAL 2.1 or above
    if (GDAL_VERSION VERSION_LESS "2.1")
       message (FATAL_ERROR "CoastalME requires GDAL 2.1 or later. You have version ${GDAL_VERSION}. Please upgrade")
    endif ()
 
-#    if (GDAL_VERSION_MAJOR GREATER 2)
-#       if (GDAL_VERSION_MINOR LESS 1)
-#          message (FATAL_ERROR "CoastalME requires GDAL 2.1 or later. You have version ${GDAL_VERSION}. Please upgrade")
-#       endif ()
-#    endif ()
-
-else ()
-   message (FATAL_ERROR "${GDAL_CONFIG} not found, cannot determine GDAL version. Check your GDAL installation")
+   set (LIBS ${LIBS} ${GDAL_LIBRARIES})
+   set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${GDAL_INCLUDE_DIRS})
+   message (STATUS "LIBS=${LIBS}")
+   message (STATUS "CMAKE_INCLUDE_PATH=${CMAKE_INCLUDE_PATH}")
 endif ()
 
 #########################################################################################

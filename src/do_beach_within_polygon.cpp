@@ -258,10 +258,10 @@ int CSimulation::nDoUnconsErosionOnPolygon(int const nCoast, int const nPoly, in
 
          nParProfLen = static_cast<int>(VPtiParProfile.size());
 
-         if (nParProfLen < MIN_PAR_PROFILE_SIZE)
+         if (nParProfLen < MIN_PARALLEL_PROFILE_SIZE)
          {
             // Can't have a meaningful parallel profile with very few points
-            // LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): only " << nParProfLen << " points in parallel profile, min is " << MIN_PAR_PROFILE_SIZE << ", abandoning" << endl;
+            // LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): only " << nParProfLen << " points in parallel profile, min is " << MIN_PARALLEL_PROFILE_SIZE << ", abandoning" << endl;
 
             continue;
          }

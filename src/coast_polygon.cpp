@@ -168,7 +168,7 @@ int CGeomCoastPolygon::nGetDownCoastProfile(void) const
 //! Get the co-ordinates (external CRS) of a specified point on the polygon's boundary
 CGeom2DPoint* CGeomCoastPolygon::pPtGetBoundaryPoint(int const nPoint)
 {
-   // NOTE no check to see if nPoint < m_VPoints.size()
+   // TODO 055 No check to see if nPoint < m_VPoints.size()
    return &m_VPoints[nPoint];
 }
 
@@ -357,7 +357,7 @@ void CGeomCoastPolygon::SetUpCoastAdjacentPolygonBoundaryShares(vector<double> c
 //! Gets the boundary shares for all up-coast adjacent polygons
 double CGeomCoastPolygon::dGetUpCoastAdjacentPolygonBoundaryShare(int const nIndex) const
 {
-   // NOTE no check to see if nIndex < m_VdUpCoastAdjacentPolygonBoundaryShare.size()
+   // TODO 055 No check to see if nIndex < m_VdUpCoastAdjacentPolygonBoundaryShare.size()
    return m_VdUpCoastAdjacentPolygonBoundaryShare[nIndex];
 }
 
@@ -370,7 +370,7 @@ void CGeomCoastPolygon::SetDownCoastAdjacentPolygonBoundaryShares(vector<double>
 //! Gets the boundary shares for all down-coast adjacent polygons
 double CGeomCoastPolygon::dGetDownCoastAdjacentPolygonBoundaryShare(int const nIndex) const
 {
-   // NOTE no check to see if nIndex < m_VdDownCoastAdjacentPolygonBoundaryShare.size()
+   // TODO 055 No check to see if nIndex < m_VdDownCoastAdjacentPolygonBoundaryShare.size()
    return m_VdDownCoastAdjacentPolygonBoundaryShare[nIndex];
 }
 

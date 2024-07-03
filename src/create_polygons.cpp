@@ -627,7 +627,19 @@ int CSimulation::nDoPolygonSharedBoundaries(void)
                {
                   int nProf = pProfile->nGetCoincidentProfileForLineSegment(nPoint, nCoinc);
                   CGeomProfile const* pProf = m_VCoast[nCoast].pGetProfile(nProf);
-
+/* SED INPUT/home/dave/coast/CoastalME/src/create_polygons.cpp:631:40: runtime error: member call on address 0x5d6b79344740 which does not point to an object of type 'CGeomProfile'
+0x5d6b79344740: note: object is of type 'OGRPoint'
+ 00 00 00 00  68 57 b2 04 79 7b 00 00  00 00 00 00 00 00 00 00  01 00 00 00 00 00 00 00  00 00 00 00
+              ^~~~~~~~~~~~~~~~~~~~~~~
+              vptr for 'OGRPoint'
+/home/dave/coast/CoastalME/src/profile.cpp:151:11: runtime error: member access within address 0x5d6b79344740 which does not point to an object of type 'CGeomProfile'
+0x5d6b79344740: note: object is of type 'OGRPoint'
+ 00 00 00 00  68 57 b2 04 79 7b 00 00  00 00 00 00 00 00 00 00  01 00 00 00 00 00 00 00  00 00 00 00
+              ^~~~~~~~~~~~~~~~~~~~~~~
+              vptr for 'OGRPoint'
+/home/dave/coast/CoastalME/src/profile.cpp:151:11: runtime error: load of value 97, which is not a valid value for type 'bool'
+Segmentation fault (core dumped)
+ */
                   if (pProf->bProfileOK())
                      nNumValidCoinc++;
                }

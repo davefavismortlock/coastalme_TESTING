@@ -409,7 +409,7 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
 
       //       LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): from profile " << nProfile << ", doing potential platform erosion " << (nDirection == DIRECTION_DOWNCOAST ? "down" : "up") << "-coast, dist from profile = " <<  nDistFromProfile << endl;
 
-      double const dDepthOfBreaking = m_VCoast[nCoast].dGetDepthOfBreaking(nThisPointOnCoast);
+      double dDepthOfBreaking = m_VCoast[nCoast].dGetDepthOfBreaking(nThisPointOnCoast);
       if (bFPIsEqual(dDepthOfBreaking, DBL_NODATA, TOLERANCE))
       {
          // This parallel profile is not in the active zone, so no platform erosion here. Move on to the next point along the coastline in this direction
@@ -422,9 +422,8 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
 //      LogStream << "Timestep " << m_ulIter << " (" << strDispSimTime(m_dSimElapsed) << "): BETWEEN PROFILES " << (nDirection == DIRECTION_DOWNCOAST ? "down" : "up") << "-coast from profile " << nProfile << " nThisPointOnCoast = " << nThisPointOnCoast << " dDepthOfBreaking = " << dDepthOfBreaking << " nParProfSize = " << nParProfSize << endl;
 
       // All is OK, so get the grid co-ordinates of this point, which is the coastline start point for the parallel profile
-      int const
-          nParCoastX = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPointOnCoast)->nGetX(),
-          nParCoastY = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPointOnCoast)->nGetY();
+      int const nParCoastX = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPointOnCoast)->nGetX();
+      int const nParCoastY = m_VCoast[nCoast].pPtiGetCellMarkedAsCoastline(nThisPointOnCoast)->nGetY();
 
       if ((nParCoastX == nParCoastXLast) && (nParCoastY == nParCoastYLast))
       {
@@ -447,10 +446,8 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
       double const dBreakingWaveHeight = m_VCoast[nCoast].dGetBreakingWaveHeight(nThisPointOnCoast);
 
       // OK, now construct a parallel profile
-      vector<CGeom2DIPoint>
-          PtiVGridParProfile; // Integer coords (grid CRS) of cells under the parallel profile
-      vector<CGeom2DPoint>
-          PtVExtCRSParProfile; // Co-ordinates (external CRS) of cells under the parallel profile
+      vector<CGeom2DIPoint> PtiVGridParProfile; // Integer coords (grid CRS) of cells under the parallel profile
+      vector<CGeom2DPoint> PtVExtCRSParProfile; // Co-ordinates (external CRS) of cells under the parallel profile
 
       ConstructParallelProfile(nProfileStartX, nProfileStartY, nParCoastX, nParCoastY, nProfSize, pProfile->pPtiVGetCellsInProfile(), &PtiVGridParProfile, &PtVExtCRSParProfile);
 
@@ -472,18 +469,16 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
       double const dParSpacingXY = dParProfileLenXY / (nParProfSize - 1);
       //      LogStream << "dParSpacingXY = " << dParSpacingXY << endl;
 
-      vector<double>
-          dVParProfileZ(nParProfSize, 0),      // Initial (pre-erosion) elevation of both consolidated and unconsolidated sediment for cells 'under' the parallel profile
-          dVParProfileDistXY(nParProfSize, 0), // Along-profile distance measured from the coast, in external CRS units
-          dVParConsProfileZ(nParProfSize, 0),  // Initial (pre-erosion) elevation of consolidated sediment only for cells 'under' the parallel profile
-          dVParConsZDiff(nParProfSize, 0),
-          dVParConsSlope(nParProfSize, 0);
+      vector<double> dVParProfileZ(nParProfSize, 0);      // Initial (pre-erosion) elevation of both consolidated and unconsolidated sediment for cells 'under' the parallel profile
+      vector<double> dVParProfileDistXY(nParProfSize, 0); // Along-profile distance measured from the coast, in external CRS units
+      vector<double> dVParConsProfileZ(nParProfSize, 0);  // Initial (pre-erosion) elevation of consolidated sediment only for cells 'under' the parallel profile
+      vector<double> dVParConsZDiff(nParProfSize, 0);
+      vector<double> dVParConsSlope(nParProfSize, 0);
 
       for (int i = 0; i < nParProfSize; i++)
       {
-         int const
-             nXPar = PtiVGridParProfile[i].nGetX(),
-             nYPar = PtiVGridParProfile[i].nGetY();
+         int const nXPar = PtiVGridParProfile[i].nGetX();
+         int const nYPar = PtiVGridParProfile[i].nGetY();
 
          // Is this a sea cell?
          if (! m_pRasterGrid->m_Cell[nXPar][nYPar].bIsInundated())
@@ -542,12 +537,15 @@ int CSimulation::nCalcPotentialPlatformErosionBetweenProfiles(int const nCoast, 
       }
 
       // Initialize the parallel profile vector with depth / m_dWaveBreakingDepth
-      vector<double>
-          dVParProfileDepthOverDB(nParProfSize, 0),      // Depth / wave breaking depth at the parallel profile sample points
-          dVParProfileErosionPotential(nParProfSize, 0); // Erosion potential at the parallel profile sample points
+      vector<double> dVParProfileDepthOverDB(nParProfSize, 0);      // Depth / wave breaking depth at the parallel profile sample points
+      vector<double> dVParProfileErosionPotential(nParProfSize, 0); // Erosion potential at the parallel profile sample points
 
       // Calculate the erosion potential along this profile using the shape function which we read in earlier
       double dTotalErosionPotential = 0;
+
+      // Safety check TODO 061 Is this safety check to depth of breaking a reasonable thing to do?
+      if (dDepthOfBreaking <= 0.0)
+         dDepthOfBreaking = 1e-10;
 
       for (int i = 0; i < nParProfSize; i++)
       {
@@ -1023,7 +1021,7 @@ double CSimulation::dLookUpErosionPotential(double const dDepthOverDB) const
       return 0;
 
    // OK, dDepthOverDB is less than the maximum so look up a corresponding value for erosion potential. The look-up index is dDepthOverDB divided by (the Depth Over DB increment used when creating the look-up vector). But since this look-up index may not be an integer, split the look-up index into integer and fractional parts and deal with each separately
-   double dErosionPotential = dInterpolate(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
+   double dErosionPotential = dGetInterpolatedValue(&m_VdDepthOverDB, &m_VdErosionPotential, dDepthOverDB, false);
 
    return dErosionPotential;
 }

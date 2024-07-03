@@ -35,9 +35,11 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
 */
 
 /*
+   NOTE Before releasing a new version, do a debug build with -fsanitize options enabled (see CMakeLists.txt) then run the test suite BUT NOT UNDER DEBUG (i.e. not using gdb)
+
    BUGLIST ************************************************************************************************************
    BUG 001 Do we get -ve breaking wave heights here?
-   BUG 002 Useless outout e.g. clay layers even if no clay input
+   BUG 002 Useless output e.g. clay layers even if no clay input *** FIXED in 1.1.21
 
    TODOLIST ***********************************************************************************************************
    TODO 008 Read CShore surge outputs for Manuel's stuff and CSHORE_FILE_INOUT
@@ -46,8 +48,14 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
    TODO 001 Add more information about all classes
    TODO 007 Need more info from Manuel
 
+   The variable VdWaveSetupSurge() represents the sea level rise due to wave effects (setup) and storm surge. CSHORE calculates them together and they can’t be separated. That’s what the VdWaveSetupSurge variable is. That’s why you saw my initial efforts to try to separate both variables from CSHORE commented out, which is impossible. What is possible is to get the RunUp from CSHORE, but since it uses an empirical formula for that, I finally decided to calculate it separately.
+
+   To your question about whether you should remove VdStormSurge, the answer is yes. I left it because I still intend at some point to extract the cross-shore transport from CSHORE and balance it in CME with the longshore and cross-shore transports without needing the Dean profile. From my point of view, this would be even more realistic, though at first it will surely drive us crazy.
+
    USER INPUT
-   TODO 003 Make coastline smoothing window size a user input
+   TODO should user input be split in two main files: one for frequently-changed things, one for rarely-changed things? If so, what should go into each file ('testing only' OK, but what else?
+
+   TODO 003 Make coastline curvature moving window size a user input *** FIXED in 1.1.22
    TODO 011 Should this constant be a user input?
    TODO 036 Read in changed deep water wave values
    TODO 030 Do we also need to be able to input landform sub-categories?
@@ -77,6 +85,7 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
    TODO 028 Give a warning if raster input layer has several bands
    TODO 038 Do better error handling if insufficient memory
    TODO 053 Improve handling of situation where landward elevation of profile is -ve
+   TODO 055 Maybe add a safety check?
 
    THEORY/EFFICIENCY
    TODO 002 Do we really need D50 for drift landform class? What do we need for drift?
@@ -88,13 +97,19 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
    TODO 016 Check mass balance for recirculating unconsolidated sediment option
    TODO 023 Only calculate shore platform erosion if cell is in a polygon
    TODO 024 Should we calculate platform erosion on a profile that has hit dry land?
-   TODO 037 Need more info on nNearestNeighbourIndex()
+   TODO 037 Need more info on nFindIndex()
    TODO 039 Rewrite reading of multiple random number seeds
    TODO 040 Remove this when GDAL supports raster overwrite for Geopackage
    TODO 044 Estuaries :-)
    TODO 046 Why is cliff collapse eroded during deposition (three size classes) no longer calculated?
    TODO 050 Update for recent versions of Windows
    TODO 051 Implement other ways of calculating depth of closure, see TODO 045
+   TODO 056 Check this please Andres
+   TODO 057 Check this please Manuel
+   TODO 058 Dave to check this
+   TODO 059 Implement dune landform class
+   TODO 060 Remove 'magic numbers' from code here
+   TODO 061 Is this safety check to depth of breaking a reasonable thing to do?
 
    OUTPUT
    TODO 031 Get raster slice output working with multiple slices
@@ -103,6 +118,8 @@ By Blake Morrison (2018). See <a href="https://www.penguin.co.uk/books/419911/sh
    TODO 034 Also consider other raster output file formats
    TODO 043 When outputting profiles, how do we deal with randomness of profile spacing (since profile location is determined by curvature)?
    TODO 052 Improve saving of profiles and parallel profiles
+
+   061 is max
 */
 
 #ifndef CME_H
@@ -225,39 +242,43 @@ double const CLOCK_T_RANGE = static_cast<double>(ULONG_MAX);
 // #endif
 
 //===================================================== hard-wired constants ====================================================
-char const PATH_SEPARATOR = '/'; // Works for Windows too!
-char const SPACE = ' ';
-char const QUOTE1 = ';';
-char const QUOTE2 = '#';
+char const COLON = ':';
 char const COMMA = ',';
 char const DASH = '-';
-char const COLON = ':';
+char const PATH_SEPARATOR = '/'; // Works for Windows too!
+char const QUOTE1 = ';';
+char const QUOTE2 = '#';
 char const SLASH = '/';
+char const SPACE = ' ';
 char const TILDE = '~';
 
 // TESTING options
-bool const USE_DEEP_WATER_FOR_SHADOW_LINE = true;              // Use deep water wave orientation in determining shadow line orientation?
+bool const ACCEPT_SHORT_PROFILES = true;
 bool const CREATE_SHADOW_ZONE_IF_HITS_GRID_EDGE = true;        // If shadow line tracing hits grid edge, create shadow zone?
 bool const SAVE_CSHORE_OUTPUT = true;                          // #ifdef CSHORE_FILE_INOUT || CSHORE_BOTH, append all CShore output files to a whole-run master
+bool const USE_DEEP_WATER_FOR_SHADOW_LINE = true;              // Use deep water wave orientation in determining shadow line orientation?
 
-// TODO 011 Make this a user input
-bool const ACCEPT_SHORT_PROFILES = true;
-
+// Not likely that user will need to change these
 int const BUF_SIZE = 2048;                                     // Max length (inc. terminating NULL) of any C-type string
-int const CLOCK_CHECK_ITERATION = 5000;
-int const SAVGOL_POLYNOMIAL_MAX_ORDER = 6;                     // Maximum order of Savitsky-Golay smoothing polynomial
-int const COAST_LENGTH_MAX = 10;                               // For safety check when tracing coast
-int const COAST_LENGTH_MIN_X_PROF_SPACE = 20;                  // Modified from 2 to 100. Ignore very short coasts less than this x profile spacing
-int const MAX_NUM_SHADOW_ZONES = 10;                           // Consider at most this number of shadow zones
-int const GRID_MARGIN = 10;                                    // Ignore this many along-coast grid-edge points re. shadow zone calcs
-int const MIN_PROFILE_SPACING = 20;                            // In cells: profile creation does not work well if profiles are too closely spaced
 int const CAPE_POINT_MIN_SPACING = 10;                         // In cells: for shadow zone stuff, cape points must not be closer than this
+int const CLOCK_CHECK_ITERATION = 5000;                        // If have done this many timesteps then reset the CPU time running total
+int const COAST_LENGTH_MAX = 10;                               // For safety check when tracing coast
+int const COAST_LENGTH_MIN_X_PROF_SPACE = 20;                  // Ignore very short coasts less than this x profile spacing
+int const CSHOREARRAYOUTSIZE = 500;                            // The size of the arrays output by CShore, this must be the same as the value set when CShore is compiled
 int const FLOOD_FILL_START_OFFSET = 2;                         // In cells: flood fill starts this distance inside polygon
-int const SHADOW_LINE_MIN_SINCE_HIT_SEA = 5;
+int const GRID_MARGIN = 10;                                    // Ignore this many along-coast grid-edge points re. shadow zone calcs
+int const INT_NODATA = -9999;                                  // CME's internal NODATA value for ints
+int const MAX_CLIFF_TALUS_LENGTH = 100;                        // In cells: maximum length of the Dean profile for cliff collapse talus
 int const MAX_LEN_SHADOW_LINE_TO_IGNORE = 200;                 // In cells: if can't find flood fill start point, continue if short shadow line
-int const MIN_PAR_PROFILE_SIZE = 3;                            // In cells: min size for uncons sed parallel profile
 int const MAX_NUM_PREV_ORIENTATION_VALUES = 10;                // Max length of deque used in tracing shadow boundary
+int const MAX_NUM_SHADOW_ZONES = 10;                           // Consider at most this number of shadow zones
+int const MAX_SEAWARD_OFFSET_FOR_CLIFF_TALUS = 20;             // In cells: maximum distance that the Dean profile for cliff collapse talus can be offset from the coast
 int const MIN_INLAND_OFFSET_FOR_BEACH_EROSION_ESTIMATION = 5;  // Used in estimation of beach erosion
+int const MIN_PARALLEL_PROFILE_SIZE = 3;                       // In cells: min size for valid unconsolidated sediment parallel profile
+int const MIN_PROFILE_SIZE = 3;                                // In cells: min size for valid unconsolidated sediment profile
+int const MIN_PROFILE_SPACING = 20;                            // In cells: profile creation does not work well if profiles are too closely spaced
+int const NUMBER_OF_INTERVENTION_CAPES = 4;                    // Max number of intervention cape profiles
+int const SAVGOL_POLYNOMIAL_MAX_ORDER = 6;                     // Maximum order of Savitsky-Golay smoothing polynomial
 
 // Log file detail level
 int const NO_LOG_FILE = 0;
@@ -265,11 +286,7 @@ int const LOG_FILE_LOW_DETAIL = 1;
 int const LOG_FILE_MIDDLE_DETAIL = 2;
 int const LOG_FILE_HIGH_DETAIL = 3;
 
-// TODO 011 Make this a user input
-int const NUMBER_OF_INTERVENTION_CAPES = 4;
-
-int const INT_NODATA = -9999;
-
+// Direction codes
 int const NO_DIRECTION = 0;
 int const NORTH = 1;
 int const NORTH_EAST = 2;
@@ -280,8 +297,8 @@ int const SOUTH_WEST = 6;
 int const WEST = 7;
 int const NORTH_WEST = 8;
 
-int const DIRECTION_DOWNCOAST = 0; // Down-coast, i.e. along the coast so that the index of coastline points INCREASES
-int const DIRECTION_UPCOAST = 1;   // Up-coast, i.e. along the coast so that the index of coastline points DECREASES
+int const DIRECTION_DOWNCOAST = 0;     // Down-coast, i.e. along the coast so that the index of coastline points INCREASES
+int const DIRECTION_UPCOAST = 1;       // Up-coast, i.e. along the coast so that the index of coastline points DECREASES
 
 // Handedness codes, these show which side the sea is on when travelling down-coast (i.e. in the direction in which coastline point numbers INCREASE)
 int const NULL_HANDED = -1;
@@ -323,7 +340,7 @@ int const LF_SUBCAT_CLIFF_INLAND = 7;
 int const LF_SUBCAT_DRIFT_MIXED = 8;
 int const LF_SUBCAT_DRIFT_TALUS = 9;
 int const LF_SUBCAT_DRIFT_BEACH = 10;
-// TODO Not yet implemented
+// TODO 059 Implement dune landform class
 int const LF_SUBCAT_DRIFT_DUNES = 11;
 
 // Landform sub-category codes for cells, for LF_CAT_INTERVENTION. See also "Intervention input and output codes"
@@ -456,9 +473,9 @@ int const VECTOR_PLOT_FLOOD_LINE = 19;
 
 // Return codes
 int const RTN_OK = 0;
-int const RTN_HELPONLY = 1;
-int const RTN_CHECKONLY = 2;
-int const RTN_USERABORT = 3;
+int const RTN_HELP_ONLY = 1;
+int const RTN_CHECK_ONLY = 2;
+int const RTN_USER_ABORT = 3;
 int const RTN_ERR_BADPARAM = 4;
 int const RTN_ERR_INI = 5;
 int const RTN_ERR_CMEDIR = 6;
@@ -488,14 +505,14 @@ int const RTN_ERR_NO_PROFILES_1 = 29;
 int const RTN_ERR_NO_PROFILES_2 = 30;
 int const RTN_ERR_NOSEACELLS = 31;
 int const RTN_ERR_GRIDTOLINE = 32;
-int const RTN_ERR_TRACECOAST = 33;
+int const RTN_ERR_TRACING_COAST = 33;
 int const RTN_ERR_NOCOAST = 34;
 int const RTN_ERR_PROFILEWRITE = 35;
 int const RTN_ERR_TIMEUNITS = 36;
 int const RTN_ERR_CLIFFNOTCH = 37;
 int const RTN_ERR_CLIFFDEPOSIT = 38;
 int const RTN_ERR_BAD_INDEX = 39;
-int const RTN_ERR_EDGEOFGRID = 40;
+int const RTN_ERR_EDGE_OF_GRID = 40;
 int const RTN_ERR_NO_SEAWARD_END_OF_PROFILE_1 = 41;
 int const RTN_ERR_NO_SEAWARD_END_OF_PROFILE_2 = 42;
 int const RTN_ERR_NO_SEAWARD_END_OF_PROFILE_3 = 43;
@@ -583,7 +600,7 @@ double const CLIFF_COLLAPSE_HEIGHT_INCREMENT = 0.1;   // Increment the fractiona
 
 double const DBL_NODATA = -9999;
 
-string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.21 (20 May 2024)";
+string const PROGRAM_NAME = "Coastal Modelling Environment (CoastalME) version 1.1.22 (03 Jul 2024)";
 string const PROGRAM_NAME_SHORT = "CME";
 string const CME_INI = "cme.ini";
 

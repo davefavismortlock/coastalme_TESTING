@@ -34,7 +34,7 @@ CA2DShape::~CA2DShape(void)
 //! Operator to return one point of this 2D shape
 CGeom2DPoint& CA2DShape::operator[] (int const n)
 {
-   // NOTE No safety check
+   // TODO 055 Maybe add a safety check?
    return m_VPoints[n];
 }
 
